@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from random import *
-from rich.progress import Progress
+from rich.progress import *
 import os
 import time
 
@@ -45,7 +45,12 @@ def zf(text, cl):
     return input()
 
 def jdt(hp, t_hp, js):
-    with Progress() as p:
+    column = [
+        TextColumn("{task.description}"),
+        BarColumn(),
+        TaskProgressColumn(text_format="[#79cdcd]{task.percentage:.3f}%"),
+    ]
+    with Progress(*column) as p:
         if js == "dr":
             if hp >= (t_hp * 0.9):
                 task = p.add_task(f"[#8b1a1a]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
@@ -173,8 +178,8 @@ def gongji(atk, crit):
             damage1 *= (1 + crit)
         else:
             zf(f"这一次打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "blue")
-        enemyatk = int(zf("请输入敌人攻击力 （int）: ", "reset"))
-        enemydef = int(zf("请输入敌人防御 （int）: ", "reset"))
+        enemyatk = int(zf(f"请输入敌人攻击力 （int）： ", "reset"))
+        enemydef = int(zf(f"请输入敌人防御 （int， JC：{jc}。）： ", "reset"))
         check = jc - enemydef
         try:
             damage3 = (enemyatk - defense) + (critical / check)
