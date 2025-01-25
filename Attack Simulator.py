@@ -44,28 +44,50 @@ def zf(text, cl):
         time.sleep(0.03)
     return input()
 
-def jdt(hp, t_hp):
+def jdt(hp, t_hp, js):
     with Progress() as p:
-        if hp >= (t_hp * 0.9):
-            task = p.add_task(f"[#ffffff]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
-        elif hp >= (t_hp * 0.8) and hp < (t_hp * 0.9):
-            task = p.add_task(f"[#8b0000]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
-        elif hp >= (t_hp * 0.7) and hp < (t_hp * 0.8):
-            task = p.add_task(f"[#8b008b]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
-        elif hp >= (t_hp * 0.6) and hp < (t_hp * 0.7):
-            task = p.add_task(f"[#ee1289]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
-        elif hp >= (t_hp * 0.5) and hp < (t_hp * 0.6):
-            task = p.add_task(f"[#473c8b]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
-        elif hp >= (t_hp * 0.4) and hp < (t_hp * 0.5):
-            task = p.add_task(f"[#4169e1]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
-        elif hp >= (t_hp * 0.3) and hp < (t_hp * 0.4):
-            task = p.add_task(f"[#87ceeb]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
-        elif hp >= (t_hp * 0.2) and hp < (t_hp * 0.3):
-            task = p.add_task(f"[#ffd700]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
-        elif hp >= (t_hp * 0.1) and hp < (t_hp * 0.2):
-            task = p.add_task(f"[#66cdaa]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
-        elif hp > 0 and hp < (t_hp * 0.1):
-            task = p.add_task(f"[#20b2aa]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+        if js == "dr":
+            if hp >= (t_hp * 0.9):
+                task = p.add_task(f"[#8b1a1a]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.8) and hp < (t_hp * 0.9):
+                task = p.add_task(f"[#8b0000]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.7) and hp < (t_hp * 0.8):
+                task = p.add_task(f"[#8b008b]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.6) and hp < (t_hp * 0.7):
+                task = p.add_task(f"[#ee1289]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.5) and hp < (t_hp * 0.6):
+                task = p.add_task(f"[#473c8b]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.4) and hp < (t_hp * 0.5):
+                task = p.add_task(f"[#4169e1]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.3) and hp < (t_hp * 0.4):
+                task = p.add_task(f"[#87ceeb]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.2) and hp < (t_hp * 0.3):
+                task = p.add_task(f"[#ffd700]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.1) and hp < (t_hp * 0.2):
+                task = p.add_task(f"[#66cdaa]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp > 0 and hp < (t_hp * 0.1):
+                task = p.add_task(f"[#20b2aa]敌人 HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+        else:
+            if hp >= (t_hp * 0.9):
+                task = p.add_task(f"[#20b2aa]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.8) and hp < (t_hp * 0.9):
+                task = p.add_task(f"[#66cdaa]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.7) and hp < (t_hp * 0.8):
+                task = p.add_task(f"[#ffd700]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.6) and hp < (t_hp * 0.7):
+                task = p.add_task(f"[#87ceeb]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.5) and hp < (t_hp * 0.6):
+                task = p.add_task(f"[#4169e1]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.4) and hp < (t_hp * 0.5):
+                task = p.add_task(f"[#473c8b]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.3) and hp < (t_hp * 0.4):
+                task = p.add_task(f"[#ee1289]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.2) and hp < (t_hp * 0.3):
+                task = p.add_task(f"[#8b008b]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp >= (t_hp * 0.1) and hp < (t_hp * 0.2):
+                task = p.add_task(f"[#8b0000]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
+            elif hp > 0 and hp < (t_hp * 0.1):
+                task = p.add_task(f"[#8b1a1a]{js} HP： {hp:.3f} / {t_hp:.3f}。", total=t_hp)
         p.update(task, completed=hp)
         p.console.print("")
 
@@ -104,6 +126,17 @@ while True:
     except:
         hp = zf("无效输入。请重新输入正确数字。", "red")
 
+z_hp = zf("请输入角色 HP ：", "white")
+while True:
+    try:
+        z_hp = float(z_hp)
+        zt_hp = z_hp
+        if hp <= 0:
+            raise ValueError
+        break
+    except:
+        z_hp = zf("无效输入。请重新输入正确数字。", "red")
+
 if (ans != 5):
     ml = zf("请输入角色 ML （0 到 15）： ", "white")
     while True:
@@ -127,18 +160,26 @@ os.system("cls")
 
 def gongji(atk, crit):
     try:
+        global hp
+        global z_hp
         critical = randint(1, 10)
         if ans == 5:
             critical = 5
         weapon = int(zf("请输入武器攻击力 （int）： ", "reset"))
+        defense = int(zf("请输入你的防御力 （int）： ", "reset"))
         damage1 = ba + (atk + weapon)
         if 4 <= critical <= 6:
             zf(f"太幸运了！直中中心。本次攻击所造成的伤害将增加至原先的 {100 + 100 * crit}% 。", "cyan")
             damage1 *= (1 + crit)
         else:
             zf(f"这一次打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "blue")
+        enemyatk = int(zf("请输入敌人攻击力 （int）: ", "reset"))
         enemydef = int(zf("请输入敌人防御 （int）: ", "reset"))
         check = jc - enemydef
+        try:
+            damage3 = (enemyatk - defense) + (critical / check)
+        except:
+            damage3 = enemyatk - defense
         if check <= 0:
             print()
             zf("这次攻击造成了 0 HP 伤害。", "red")
@@ -146,12 +187,19 @@ def gongji(atk, crit):
         else:
             damage2 = damage1 * (check / 10)
             zf(f"你造成了 {damage2:.3f} HP 伤害。", "yellow")
-        global hp
-        hp -= damage2
+            hp -= damage2
+        if damage3 <= 0:
+            zf("你没有受到任何伤害。", "cyan")
+        else:
+            zf(f"你受到了 {damage3:.3f} HP 伤害。", "yellow")
+            z_hp -= damage3
         if hp <= 0:
             zf("敌人死亡。", "cyan")
+        elif z_hp <= 0:
+            zf("你死了。", "darkred")
         else:
-            jdt(hp, t_hp)
+            jdt(hp, t_hp, "dr")
+            jdt(z_hp, zt_hp, "你的")
             print()
     except KeyboardInterrupt:
         zf("此次运行被键盘中断。跳过本次攻击。", "red")
@@ -159,15 +207,15 @@ def gongji(atk, crit):
     except ValueError:
         zf("无效输入，请输入正确数字。跳过本次攻击。", "red")
         print()
-    except:
-        zf("发生未知错误，跳过本次攻击。", "red")
+    except Exception as e:
+        zf(f"发生未知错误： {e} 。跳过本次攻击。", "red")
         print()
 
 count = 0
 
 match ans: # 角色选择。
     case 1: # Feng_Noti。
-        while hp > 0:
+        while (hp > 0) and (z_hp > 0):
             count += 1
             print(f"第 {count} 次攻击。")
             print()
@@ -205,7 +253,7 @@ match ans: # 角色选择。
                 case 15:
                     gongji(18, 0.55)
     case 2: # With_Kout。
-        while hp > 0:
+        while (hp > 0) and (z_hp > 0):
             count += 1
             print(f"第 {count} 次攻击。")
             print()
@@ -243,7 +291,7 @@ match ans: # 角色选择。
                 case 15:
                     gongji(11, 0.3)
     case 3: # Tsian_Ca。
-        while hp > 0:
+        while (hp > 0) and (z_hp > 0):
             count += 1
             print(f"第 {count} 次攻击。")
             print()
@@ -281,7 +329,7 @@ match ans: # 角色选择。
                 case 15:
                     gongji(23, 0.7)
     case 4: # Zyxa。
-        while hp > 0:
+        while (hp > 0) and (z_hp > 0):
             count += 1
             print(f"第 {count} 次攻击。")
             print()
