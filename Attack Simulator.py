@@ -96,12 +96,11 @@ def jdt(hp, t_hp, js):
         p.update(task, completed=hp)
         p.console.print("")
 
+os.system("cls")
 zf(r"""
     你好！欢迎来到 Feng_Noti 的模拟战斗系统。
     我是开发者 Modificationer 。
 """, "green")
-
-os.system("cls")
 zf(r"""
     角色列表:
     1 - Feng_Noti
@@ -162,42 +161,56 @@ while True:
         jc = zf("无效输入。请重新输入正确数字。", "red")
 
 os.system("cls")
-
-def gongji(atk, crit):
+def gongji(atk, crit, j):
     try:
         global hp
         global z_hp
         critical = randint(1, 10)
+        c = randint(1, 10)
         if ans == 5:
             critical = 5
+        
         weapon = int(zf("请输入武器攻击力 （int）： ", "reset"))
         defense = int(zf("请输入你的防御力 （int）： ", "reset"))
-        damage1 = ba + (atk + weapon)
-        if 4 <= critical <= 6:
-            zf(f"太幸运了！直中中心。本次攻击所造成的伤害将增加至原先的 {100 + 100 * crit}% 。", "cyan")
-            damage1 *= (1 + crit)
-        else:
-            zf(f"这一次打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "blue")
         enemyatk = int(zf(f"请输入敌人攻击力 （int）： ", "reset"))
         enemydef = int(zf(f"请输入敌人防御 （int， JC：{jc}。）： ", "reset"))
-        check = jc - enemydef
-        try:
-            damage3 = (enemyatk - defense) + (critical / check)
-        except:
-            damage3 = enemyatk - defense
+
+        damage1 = ba + (atk + weapon)
+        damage2 = ba + enemyatk
+
+        if (4 <= critical <= 6):
+            zf(f"太幸运了！直中中心。本次攻击所造成的伤害将增加至原先的 {100 + 100 * crit}% 。", "cyan")
+            if (crit >= critical / 10):
+                damage1 *= (1 + crit)
+            else:
+                damage1 *= (1 + critical / 10)
+        if (4 <= c <= 6):
+            zf(f"糟糕！敌人这次的攻击会更加猛烈：增加至 {100 + 10 * c}% 。", "darkred")
+            damage2 *= (1 + c / 10)
+        if (critical > 6) or (critical < 4):
+            zf(f"这一次你打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "blue")
+        if (c > 6) or (c < 4):
+            zf(f"这一次敌人打偏了，打到了你旁边 {abs(5 - c)} 米处 。", "darkgreen")
+
+        check = (jc * 2.657) - enemydef # 敌人 JC - 敌人防御。
+        ch = (j * 2.657) - defense # 角色 JC - 角色防御。
+
         if check <= 0:
-            print()
-            zf("这次攻击造成了 0 HP 伤害。", "red")
-            damage2 = 0
+            damage1 = 0
+            zf("这次攻击没有造成任何伤害。", "red")
         else:
-            damage2 = damage1 * (check / 10)
-            zf(f"你造成了 {damage2:.3f} HP 伤害。", "yellow")
-            hp -= damage2
-        if damage3 <= 0:
+            damage1 *= (check / 10) * 1.1
+            zf(f"你造成了 {max(damage1, 0):.3f} HP 伤害。", "yellow")
+            hp -= damage1
+
+        if ch <= 0:
+            damage2 = 0
             zf("你没有受到任何伤害。", "cyan")
         else:
-            zf(f"你受到了 {damage3:.3f} HP 伤害。", "yellow")
-            z_hp -= damage3
+            damage2 *= (ch / 10) * 1.1
+            zf(f"你受到了 {max(damage2, 0):.3f} HP 伤害。", "yellow")
+            z_hp -= damage2
+
         if hp <= 0:
             zf("敌人死亡。", "cyan")
         elif z_hp <= 0:
@@ -206,6 +219,7 @@ def gongji(atk, crit):
             jdt(hp, t_hp, "dr")
             jdt(z_hp, zt_hp, "你的")
             print()
+    
     except KeyboardInterrupt:
         zf("此次运行被键盘中断。跳过本次攻击。", "red")
         print()
@@ -215,6 +229,7 @@ def gongji(atk, crit):
     except Exception as e:
         zf(f"发生未知错误： {e} 。跳过本次攻击。", "red")
         print()
+
 
 count = 0
 
@@ -226,37 +241,37 @@ match ans: # 角色选择。
             print()
             match ml: # ML 选择。
                 case 0:
-                    gongji(3, 0.2)
+                    gongji(3, 0.2, 14)
                 case 1:
-                    gongji(4, 0.21)
+                    gongji(4, 0.21, 14)
                 case 2:
-                    gongji(5, 0.24)
+                    gongji(5, 0.24, 13)
                 case 3:
-                    gongji(7, 0.27)
+                    gongji(7, 0.27, 12)
                 case 4:
-                    gongji(7, 0.3)
+                    gongji(7, 0.3, 12)
                 case 5:
-                    gongji(8, 0.33)
+                    gongji(8, 0.33, 11)
                 case 6:
-                    gongji(7, 0.37)
+                    gongji(7, 0.37, 11)
                 case 7:
-                    gongji(8, 0.4)
+                    gongji(8, 0.4, 10)
                 case 8:
-                    gongji(9, 0.4)
+                    gongji(9, 0.4, 9)
                 case 9:
-                    gongji(10, 0.42)
+                    gongji(10, 0.42, 9)
                 case 10:
-                    gongji(10, 0.43)
+                    gongji(10, 0.43, 8)
                 case 11:
-                    gongji(11, 0.45)
+                    gongji(11, 0.45, 8)
                 case 12:
-                    gongji(13, 0.5)
+                    gongji(13, 0.5, 8)
                 case 13:
-                    gongji(15, 0.5)
+                    gongji(15, 0.5, 8)
                 case 14:
-                    gongji(18, 0.55)
+                    gongji(18, 0.55, 8)
                 case 15:
-                    gongji(18, 0.55)
+                    gongji(18, 0.55, 8)
     case 2: # With_Kout。
         while (hp > 0) and (z_hp > 0):
             count += 1
@@ -264,37 +279,37 @@ match ans: # 角色选择。
             print()
             match ml: # ML 选择。
                 case 0:
-                    gongji(2, 0.15)
+                    gongji(2, 0.15, 13)
                 case 1:
-                    gongji(2, 0.15)
+                    gongji(2, 0.15, 12)
                 case 2:
-                    gongji(3, 0.16)
+                    gongji(3, 0.16, 12)
                 case 3:
-                    gongji(5, 0.19)
+                    gongji(5, 0.19, 11)
                 case 4:
-                    gongji(5, 0.2)
+                    gongji(5, 0.2, 10)
                 case 5:
-                    gongji(5, 0.22)
+                    gongji(5, 0.22, 10)
                 case 6:
-                    gongji(5, 0.24)
+                    gongji(5, 0.24, 10)
                 case 7:
-                    gongji(6, 0.25)
+                    gongji(6, 0.25, 9)
                 case 8:
-                    gongji(7, 0.25)
+                    gongji(7, 0.25, 9)
                 case 9:
-                    gongji(7, 0.27)
+                    gongji(7, 0.27, 8)
                 case 10:
-                    gongji(7, 0.28)
+                    gongji(7, 0.28, 7)
                 case 11:
-                    gongji(8, 0.28)
+                    gongji(8, 0.28, 7)
                 case 12:
-                    gongji(9, 0.3)
+                    gongji(9, 0.3, 7)
                 case 13:
-                    gongji(11, 0.3)
+                    gongji(11, 0.3, 7)
                 case 14:
-                    gongji(11, 0.3)
+                    gongji(11, 0.3, 6)
                 case 15:
-                    gongji(11, 0.3)
+                    gongji(11, 0.3, 6)
     case 3: # Tsian_Ca。
         while (hp > 0) and (z_hp > 0):
             count += 1
@@ -302,37 +317,37 @@ match ans: # 角色选择。
             print()
             match ml: # ML 选择。
                 case 0:
-                    gongji(5, 0.5)
+                    gongji(5, 0.5, 16)
                 case 1:
-                    gongji(7, 0.52)
+                    gongji(7, 0.52, 15)
                 case 2:
-                    gongji(7, 0.53)
+                    gongji(7, 0.53, 14)
                 case 3:
-                    gongji(8, 0.54)
+                    gongji(8, 0.54, 13)
                 case 4:
-                    gongji(8, 0.55)
+                    gongji(8, 0.55, 13)
                 case 5:
-                    gongji(9, 0.58)
+                    gongji(9, 0.58, 12)
                 case 6:
-                    gongji(9, 0.6)
+                    gongji(9, 0.6, 12)
                 case 7:
-                    gongji(9, 0.6)
+                    gongji(9, 0.6, 12)
                 case 8:
-                    gongji(11, 0.62)
+                    gongji(11, 0.62, 10)
                 case 9:
-                    gongji(13, 0.65)
+                    gongji(13, 0.65, 10)
                 case 10:
-                    gongji(14, 0.65)
+                    gongji(14, 0.65, 10)
                 case 11:
-                    gongji(15, 0.65)
+                    gongji(15, 0.65, 10)
                 case 12:
-                    gongji(17, 0.65)
+                    gongji(17, 0.65, 10)
                 case 13:
-                    gongji(17, 0.65)
+                    gongji(17, 0.65, 10)
                 case 14:
-                    gongji(18, 0.67)
+                    gongji(18, 0.67, 10)
                 case 15:
-                    gongji(23, 0.7)
+                    gongji(23, 0.7, 10)
     case 4: # Zyxa。
         while (hp > 0) and (z_hp > 0):
             count += 1
@@ -340,40 +355,40 @@ match ans: # 角色选择。
             print()
             match ml: # ML 选择。
                 case 0:
-                    gongji(4, 0.26)
+                    gongji(4, 0.26, 15)
                 case 1:
-                    gongji(3, 0.27)
+                    gongji(3, 0.27, 15)
                 case 2:
-                    gongji(5, 0.27)
+                    gongji(5, 0.27, 13)
                 case 3:
-                    gongji(6, 0.3)
+                    gongji(6, 0.3, 12)
                 case 4:
-                    gongji(5, 0.27)
+                    gongji(5, 0.27, 12)
                 case 5:
-                    gongji(7, 0.33)
+                    gongji(7, 0.33, 11)
                 case 6:
-                    gongji(5, 0.27)
+                    gongji(5, 0.27, 11)
                 case 7:
-                    gongji(8, 0.4)
+                    gongji(8, 0.4, 11)
                 case 8:
-                    gongji(9, 0.4)
+                    gongji(9, 0.4, 9)
                 case 9:
-                    gongji(10, 0.4)
+                    gongji(10, 0.4, 9)
                 case 10:
-                    gongji(10, 0.4)
+                    gongji(10, 0.4, 9)
                 case 11:
-                    gongji(11, 0.4)
+                    gongji(11, 0.4, 9)
                 case 12:
-                    gongji(12, 0.42)
+                    gongji(12, 0.42, 9)
                 case 13:
-                    gongji(13, 0.44)
+                    gongji(13, 0.44, 9)
                 case 14:
-                    gongji(16, 0.5)
+                    gongji(16, 0.5, 9)
                 case 15:
-                    gongji(13, 0.4)
+                    gongji(13, 0.4, 9)
     case 5: # Modificationer。
         while (hp > 0):
             count += 1
             print(f"第 {count} 次攻击。")
             print()
-            gongji(999, 0.99)
+            gongji(999, 0.99, 4)
