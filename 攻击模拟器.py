@@ -48,7 +48,7 @@ def jdt(hp, t_hp, js):
     column = [
         TextColumn("{task.description}"),
         BarColumn(),
-        TaskProgressColumn(text_format="[#79cdcd]{task.percentage:.3f}%"),
+        TaskProgressColumn(text_format="[#ffffff]{task.percentage:.3f}%"),
     ]
     with Progress(*column) as p:
         if js == "dr":
@@ -161,75 +161,133 @@ while True:
         jc = zf("无效输入。请重新输入正确数字。", "red")
 
 os.system("cls")
+w = zf("我们可以提供可用的武器列表，是否查看？（是 / 否）", "white")
+if w == "是":
+    zf("以下可供参考。", "yellow")
+    zf("""
+武器列表
+    - 手（攻击力 + 1）；
+    - 笔（攻击力 + 1）；
+    - 木棍（攻击力 + 2）；
+    - 鞋（攻击力 + 2）；
+    - 笔袋（攻击力 + 2）；
+    - 树枝（攻击力 + 3）；
+    - 长绳（攻击力 + 3）；
+    - 球（攻击力 + 3）；
+    - 垃圾（攻击力 + 3）；
+    - 斧头（攻击力 + 4）；
+    - 铁制易拉罐（攻击力 + 4）；
+    - 玩具刀（攻击力 + 4）；
+    - 挂钩（攻击力 + 4）；
+    - 硬帽（攻击力 + 5）；
+    - 卷尺（攻击力 + 5）；
+    - 戒尺（攻击力 + 6）；
+    - 手套（攻击力 + 6）；
+    - 玩具枪（攻击力 + 7）；
+    / - 重笔记本（攻击力 + 7）；
+    / - 围巾（攻击力 + 7）；
+    / - 茶壶（攻击力 + 7）；
+    - 纸板（攻击力 + 7）；
+    - 水枪（攻击力 + 8）；
+    - 金球（攻击力 + 8）；
+    - 电线（攻击力 + 9）；
+    - 平底锅（攻击力 + 9）；
+    - 电磁枪（攻击力 + 10）；
+    - 电动木棍（攻击力 + 11）；
+    - 刀（攻击力 + 12）；
+    - 扳手（攻击力 + 13）；
+    - 水果刀（攻击力 + 16）；
+    * - 枪（攻击力 + 18）；
+    * - 锯子（攻击力 + 20）；
+    ! - 智能设备（攻击力 + 99）；
+    ! - 状态遥控器（攻击力 + 99）；
+    ! - 终端（攻击力 + 99）。
+""", "reset")
+
+os.system("cls")
 def gongji(atk, crit, j):
     try:
-        global hp
-        global z_hp
-        critical = randint(1, 10)
-        c = randint(1, 10)
-        if ans == 5:
-            critical = 5
-        
-        weapon = int(zf("请输入武器攻击力 （int）： ", "reset"))
-        defense = int(zf("请输入你的防御力 （int）： ", "reset"))
-        enemyatk = int(zf(f"请输入敌人攻击力 （int）： ", "reset"))
-        enemydef = int(zf(f"请输入敌人防御 （int， JC：{jc}。）： ", "reset"))
-
-        damage1 = ba + (atk + weapon)
-        damage2 = ba + enemyatk
-
-        if (4 <= critical <= 6):
-            zf(f"太幸运了！直中中心。本次攻击所造成的伤害将增加至原先的 {100 + 100 * crit}% 。", "cyan")
-            if (crit >= critical / 10):
-                damage1 *= (1 + crit)
+        act = zf("饶恕还是攻击？（R / G）", "darkred")
+        if act == "R":
+            r = randint(1, 10)
+            d = randint(1, 10)
+            m = randint(1, 3)
+            zf(f"你选择饶恕。（{r}）", "lightgreen")
+            if (r != d) and (r > d) and (r - d >= m):
+                zf(f"敌人接受了你的饶恕。（{d}，{m}）", "cyan")
+                sys.exit(0)
             else:
-                damage1 *= (1 + critical / 10)
-        if (4 <= c <= 6):
-            zf(f"糟糕！敌人这次的攻击会更加猛烈：增加至 {100 + 10 * c}% 。", "darkred")
-            damage2 *= (1 + c / 10)
-        if (critical > 6) or (critical < 4):
-            zf(f"这一次你打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "blue")
-        if (c > 6) or (c < 4):
-            zf(f"这一次敌人打偏了，打到了你旁边 {abs(5 - c)} 米处 。", "darkgreen")
+                zf(f"敌人不为所动。（{d}, {m}）", "lightred")
+                print()
+        elif act == "G":
+            global hp
+            global z_hp
+            critical = randint(1, 10)
+            c = randint(1, 10)
+            if ans == 5:
+                critical = 5
+        
+            weapon = int(zf("请输入武器攻击力 （int）： ", "reset"))
+            defense = int(zf(f"请输入你的防御力 （int， JC：{j}。）： ", "reset"))
+            enemyatk = int(zf("请输入敌人攻击力 （int）： ", "reset"))
+            enemydef = int(zf(f"请输入敌人防御 （int， JC：{jc}。）： ", "reset"))
 
-        check = (jc * 2.657) - enemydef # 敌人 JC - 敌人防御。
-        ch = (j * 2.657) - defense # 角色 JC - 角色防御。
+            damage1 = ba + (atk + weapon)
+            damage2 = ba + enemyatk
 
-        if check <= 0:
-            damage1 = 0
-            zf("这次攻击没有造成任何伤害。", "red")
+            if (4 <= critical <= 6):
+                zf(f"太幸运了！直中中心。本次攻击所造成的伤害将增加至原先的 {100 + 100 * crit}% 。", "cyan")
+                if (crit >= critical / 10):
+                    damage1 *= (1 + crit)
+                else:
+                    damage1 *= (1 + critical / 10)
+            if (4 <= c <= 6):
+                zf(f"糟糕！敌人这次的攻击会更加猛烈：增加至 {100 + 10 * c}% 。", "darkred")
+                damage2 *= (1 + c / 10)
+            if (critical > 6) or (critical < 4):
+                zf(f"这一次你打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "blue")
+            if (c > 6) or (c < 4):
+                zf(f"这一次敌人打偏了，打到了你旁边 {abs(5 - c)} 米处 。", "darkgreen")
+
+            check = (jc * 2.657) - enemydef # 敌人 JC - 敌人防御。
+            ch = (j * 2.657) - defense # 角色 JC - 角色防御。
+
+            if check <= 0:
+                damage1 = 0
+                zf("这次攻击没有造成任何伤害。", "red")
+            else:
+                damage1 *= (check / 10) * 1.1
+                zf(f"你造成了 {max(damage1, 0):.3f} HP 伤害。", "yellow")
+                hp -= damage1
+
+            if ch <= 0:
+                damage2 = 0
+                zf("你没有受到任何伤害。", "cyan")
+            else:
+                damage2 *= (ch / 10) * 1.1
+                zf(f"你受到了 {max(damage2, 0):.3f} HP 伤害。", "yellow")
+                z_hp -= damage2
+
+            if hp <= 0:
+                zf("敌人死亡。", "cyan")
+            elif z_hp <= 0:
+                zf("你死了。", "darkred")
+            else:
+                jdt(hp, t_hp, "dr")
+                jdt(z_hp, zt_hp, "你的")
+                print()
         else:
-            damage1 *= (check / 10) * 1.1
-            zf(f"你造成了 {max(damage1, 0):.3f} HP 伤害。", "yellow")
-            hp -= damage1
+            raise ValueError
 
-        if ch <= 0:
-            damage2 = 0
-            zf("你没有受到任何伤害。", "cyan")
-        else:
-            damage2 *= (ch / 10) * 1.1
-            zf(f"你受到了 {max(damage2, 0):.3f} HP 伤害。", "yellow")
-            z_hp -= damage2
-
-        if hp <= 0:
-            zf("敌人死亡。", "cyan")
-        elif z_hp <= 0:
-            zf("你死了。", "darkred")
-        else:
-            jdt(hp, t_hp, "dr")
-            jdt(z_hp, zt_hp, "你的")
-            print()
-    
     except KeyboardInterrupt:
         zf("此次运行被键盘中断。跳过本次攻击。", "red")
         print()
     except ValueError:
-        zf("无效输入，请输入正确数字。跳过本次攻击。", "red")
+        zf("无效输入。跳过本次攻击。", "red")
         print()
     except Exception as e:
-        zf(f"发生未知错误： {e} 。跳过本次攻击。", "red")
+        zf(f"发生错误： {e} 。跳过本次攻击。", "red")
         print()
-
 
 count = 0
 
@@ -237,7 +295,7 @@ match ans: # 角色选择。
     case 1: # Feng_Noti。
         while (hp > 0) and (z_hp > 0):
             count += 1
-            print(f"第 {count} 次攻击。")
+            print(f"第 {count} 回合。")
             print()
             match ml: # ML 选择。
                 case 0:
@@ -275,7 +333,7 @@ match ans: # 角色选择。
     case 2: # With_Kout。
         while (hp > 0) and (z_hp > 0):
             count += 1
-            print(f"第 {count} 次攻击。")
+            print(f"第 {count} 回合。")
             print()
             match ml: # ML 选择。
                 case 0:
@@ -313,7 +371,7 @@ match ans: # 角色选择。
     case 3: # Tsian_Ca。
         while (hp > 0) and (z_hp > 0):
             count += 1
-            print(f"第 {count} 次攻击。")
+            print(f"第 {count} 回合。")
             print()
             match ml: # ML 选择。
                 case 0:
@@ -351,7 +409,7 @@ match ans: # 角色选择。
     case 4: # Zyxa。
         while (hp > 0) and (z_hp > 0):
             count += 1
-            print(f"第 {count} 次攻击。")
+            print(f"第 {count} 回合。")
             print()
             match ml: # ML 选择。
                 case 0:
@@ -389,6 +447,6 @@ match ans: # 角色选择。
     case 5: # Modificationer。
         while (hp > 0):
             count += 1
-            print(f"第 {count} 次攻击。")
+            print(f"第 {count} 回合。")
             print()
             gongji(999, 0.99, 4)
