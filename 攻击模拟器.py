@@ -16,10 +16,10 @@ t_hp = [64, 70, 73, 81, 88, 93, 100, 104, 110, 114, 122, 128, 135, 143, 150, 161
 z_hp = [59, 62, 65, 68, 72, 76, 80, 84, 88, 93, 98, 102, 108, 113, 116, 120]
 m_hp = 429
 
-f_atk = [3, 4, 5, 7, 7, 8, 7, 8, 9, 10, 10, 11, 13, 15, 18, 18]
-f_fy = [2, 3, 4, 5, 6, 7, 8, 8, 8, 8, 9, 10, 12, 13, 15, 17]
-f_crit = [0.2, 0.21, 0.24, 0.27, 0.3, 0.33, 0.37, 0.4, 0.42, 0.43, 0.45, 0.5, 0.5, 0.55, 0.55, 0.55]
-f_jc = [14, 14, 13, 12, 12, 11, 11, 10, 9, 8, 8, 8, 8, 8, 8, 8]
+f_atk = [3, 4, 5, 7, 7, 8, 7, 8, 9, 10, 10, 11, 13, 15, 18, 18] # 攻击力。
+f_fy = [2, 3, 4, 5, 6, 7, 8, 8, 8, 8, 9, 10, 12, 13, 15, 17] # 防御力。
+f_crit = [0.2, 0.21, 0.24, 0.27, 0.3, 0.33, 0.37, 0.4, 0.42, 0.43, 0.45, 0.5, 0.5, 0.55, 0.55, 0.55] # 暴击率。
+f_jc = [14, 14, 13, 12, 12, 11, 11, 10, 9, 8, 8, 8, 8, 8, 8, 8] # JC。
 
 w_atk = [2, 2, 3, 5, 5, 5, 5, 6, 7, 7, 8, 9, 9, 9, 11, 11]
 w_fy = [3, 4, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 17, 19, 22]
@@ -131,7 +131,7 @@ def jdt(current_hp, total_hp, js):
                 t_color = "perfect"
             else:
                 t_color = "error"
-        elif js == "自身":
+        elif js == char:
             if current_hp >= 0.95 * total_hp:
                 t_color = "perfect"
             elif 0.9 * total_hp <= current_hp < 0.95 * total_hp:
@@ -175,6 +175,19 @@ def jdt(current_hp, total_hp, js):
             else:
                 t_color = "error"
 
+        if js != name:
+            match char:
+                case 1:
+                    js: str = "Feng_Noti"
+                case 2:
+                    js: str = "With_Kout"
+                case 3:
+                    js: str = "Tsian_Ca"
+                case 4:
+                    js: str = "Zyxa"
+                case 5:
+                    js: str = "Modificationer"
+
         column.append(TextColumn(f"[{color[t_color]}]{js} HP： {current_hp:.3f} / {total_hp:.3f}。"))
         task = progress.add_task("", total=total_hp)
         progress.update(task, completed=current_hp)
@@ -215,10 +228,10 @@ def z_gj(atk, crit, j):
             r, d, m = randint(1, 10), randint(1, 10), randint(1, 3)
             zf(f"你选择饶恕。（{r}）", "mild")
             if (r != d) and (r > d) and (r - d >= m):
-                zf(f"敌人接受了你的饶恕。（{d}，{m}）", "excellent")
+                zf(f"{name} 接受了你的饶恕。（{d}，{m}）", "excellent")
                 sys.exit(0)
             else:
-                zf(f"敌人不为所动。（{d}, {m}）", "horrible")
+                zf(f"{name} 不为所动。（{d}, {m}）", "horrible")
                 print()
         elif act == "G" or act == "g":
             if (char != 5):
@@ -229,8 +242,8 @@ def z_gj(atk, crit, j):
 
             weapon = int(zf("请输入武器攻击力 （int）： ", "choice"))
             defense = int(zf(f"请输入你的防御力 （int， JC：{j}。）： ", "choice"))
-            enemyatk = int(zf("请输入敌人攻击力 （int）： ", "choice"))
-            enemydef = int(zf(f"请输入敌人防御 （int， JC：{jc}。）： ", "choice"))
+            enemyatk = int(zf(f"请输入 {name} 攻击力 （int）： ", "choice"))
+            enemydef = int(zf(f"请输入 {name} 防御 （int， JC：{jc}。）： ", "choice"))
 
             damage1 = ba + (atk + weapon)
             damage2 = ba + enemyatk
@@ -239,15 +252,15 @@ def z_gj(atk, crit, j):
                 zf(f"太幸运了！直中中心。本次攻击所造成的伤害将增加至原先的 {100 + 100 * crit}% 。", "perfect")
                 damage1 *= (1 + (crit if crit >= critical / 10 else critical / 10))
             if 4 <= c <= 6:
-                zf(f"糟糕！敌人这次的攻击会更加猛烈：增加至 {100 + 10 * c}% 。", "fatal")
+                zf(f"糟糕！{name} 这次的攻击会更加猛烈：增加至 {100 + 10 * c}% 。", "fatal")
                 damage2 *= (1 + c / 10)
 
             if critical < 4:
-                zf(f"你打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "mild")
+                zf(f"你打偏了，打到了 {name} 旁边 {(abs(5 - critical) / 3):.3f} 米处 。", "mild")
             elif critical > 6:
-                zf(f"这一次你打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "mild")
-            if c < 4:
-                zf(f"敌人打偏了，打到了你旁边 {abs(5 - c)} 米处 。", "average")
+                zf(f"这一次你打偏了，打到了 {name} 旁边 {(abs(5 - critical) / 3):.3f} 米处 。", "mild")
+            if c < 4 or c > 6:
+                zf(f"{name} 打偏了，打到了你旁边 {(abs(5 - c) / 3):.3f} 米处 。", "average")
 
             check = (jc * 2.657) - enemydef  # 敌人 JC - 敌人防御。
             ch = (j * 2.657) - defense  # 角色 JC - 角色防御。
@@ -269,12 +282,14 @@ def z_gj(atk, crit, j):
                 zs_hp -= damage2
 
             if d_hp <= 0:
-                zf("敌人死亡。", "perfect")
+                zf(f"{name} 败下阵来。", "perfect")
             elif zs_hp <= 0:
-                zf("你死了。", "destruction")
+                zf("你被打败了。", "destruction")
             else:
+                print()
+                print(f"第 {count} 回合结束，角色状态。")
                 jdt(d_hp, dt_hp, name)
-                jdt(zs_hp, zt_hp, "自身")
+                jdt(zs_hp, zt_hp, char)
                 print()
         else:
             raise ValueError
@@ -300,10 +315,10 @@ def m_gj(atk, crit, fy):
             r, d, m = randint(1, 10), randint(1, 10), randint(1, 3)
             zf(f"你选择饶恕。（{r}）", "mild")
             if (r != d) and (r > d) and (r - d >= m):
-                zf(f"敌人接受了你的饶恕。（{d}，{m}）", "excellent")
+                zf(f"{name} 接受了你的饶恕。（{d}，{m}）", "excellent")
                 sys.exit(0)
             else:
-                zf(f"敌人不为所动。（{d}, {m}）", "horrible")
+                zf(f"{name} 不为所动。（{d}, {m}）", "horrible")
                 print()
         elif act == "G" or act == "g":
             if (char != 5):
@@ -313,8 +328,8 @@ def m_gj(atk, crit, fy):
             c = randint(1, 10)
 
             defense = fy
-            enemyatk = int(zf("请输入敌人攻击力 （int）： ", "choice"))
-            enemydef = int(zf(f"请输入敌人防御 （int， JC：{jc}。）： ", "choice"))
+            enemyatk = int(zf(f"请输入 {name} 的攻击力 （int）： ", "choice"))
+            enemydef = int(zf(f"请输入 {name} 的防御 （int， JC：{jc}。）： ", "choice"))
 
             damage1 = ba + atk
             damage2 = ba + enemyatk
@@ -323,15 +338,15 @@ def m_gj(atk, crit, fy):
                 zf(f"太幸运了！直中中心。本次攻击所造成的伤害将增加至原先的 {100 + 100 * crit}% 。", "perfect")
                 damage1 *= (1 + (crit if crit >= critical / 10 else critical / 10))
             if 4 <= c <= 6:
-                zf(f"糟糕！敌人这次的攻击会更加猛烈：增加至 {100 + 10 * c}% 。", "fatal")
+                zf(f"糟糕！{name} 这次的攻击会更加猛烈：增加至 {100 + 10 * c}% 。", "fatal")
                 damage2 *= (1 + c / 10)
 
             if critical < 4:
-                zf(f"你打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "mild")
+                zf(f"你打偏了，打到了 {name} 旁边 {(abs(5 - critical) / 3):.3f} 米处 。", "mild")
             elif critical > 6:
-                zf(f"这一次你打偏了，打到了敌人旁边 {abs(5 - critical)} 米处 。", "mild")
-            if c < 4:
-                zf(f"敌人打偏了，打到了你旁边 {abs(5 - c)} 米处 。", "average")
+                zf(f"这一次你打偏了，打到了 {name} 旁边 {(abs(5 - critical) / 3):.3f} 米处 。", "mild")
+            if c < 4 or c > 6:
+                zf(f"{name} 打偏了，打到了你旁边 {(abs(5 - c) / 3):.3f} 米处 。", "average")
 
             check = (jc * 2.657) - enemydef  # 敌人 JC - 敌人防御。
             ch = (z_jc * 2.657) - defense  # 角色 JC - 角色防御。
@@ -353,12 +368,14 @@ def m_gj(atk, crit, fy):
                 zs_hp -= damage2
 
             if d_hp <= 0:
-                zf("敌人死亡。", "perfect")
+                zf(f"{name} 败下阵来。", "perfect")
             elif zs_hp <= 0:
-                zf("你死了。", "destruction")
+                zf("你被打败了。", "destruction")
             else:
+                print()
+                print(f"第 {count} 回合结束，角色状态。")
                 jdt(d_hp, dt_hp, name)
-                jdt(zs_hp, zt_hp, "自身")
+                jdt(zs_hp, zt_hp, char)
                 print()
         else:
             raise ValueError
@@ -461,17 +478,18 @@ zf(r"""
 char = zf("请选择角色：", "choice")
 char = zs(char, 1, 5)
 
-jc = zf("请输入敌人 JC ：", "choice")
-jc = zs(jc, 0, float("inf"))
-
 name = zf("请输入敌人名称：", "choice")
 
-d_hp = zf("请输入敌人 HP ：", "choice")
+jc = zf(f"请输入 {name} 的 JC ：", "choice")
+jc = zs(jc, 0, float("inf"))
+
+d_hp = zf(f"请输入 {name} 的 HP ：", "choice")
 d_hp = fd(d_hp, 0, float("inf"))
 dt_hp = d_hp # 敌人总 HP。
 
-ml = zf("请输入角色 ML ：", "choice")
-ml = zs(ml, 0, 15)
+if (char != 5):
+    ml = zf("请输入角色 ML ：", "choice")
+    ml = zs(ml, 0, 15)
 
 if sz == "m":
     moren()
@@ -479,7 +497,7 @@ else:
     ziding()
 
 os.system("cls")
-string = """武器列表
+wuqi = """武器列表
     0 - 手（攻击力 + 1）；
     1 - 笔（攻击力 + 1）；
     2 - 木棍（攻击力 + 2）；
@@ -517,31 +535,54 @@ string = """武器列表
     34 - 状态遥控器（攻击力 + 99）；
     35 - 终端（攻击力 + 99）。
 """
+hushenfu = """
+    0 - 无（防御力 + 1）；
+    1 - 布衣（防御力 + 2）；
+    2 - 雨衣（防御力 + 3）；
+    3 - 防弹衣（防御力 + 5）；
+    4 - 圣水（防御力 + 7）；
+    5 - 盔甲（防御力 + 8）；
+    6 - 避邪符（防御力 + 9）；
+    7 - JC 服（防御力 + 11）；
+    8 - 蛋形胶囊（防御力 + 14）；
+    9 - 智能设备（防御力 + 99）；
+    10 - 状态遥控器（防御力 + 99）；
+    11 - 终端（防御力 + 99）。
+"""
 wq_z = [1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13, 16, 18, 20, 99, 99, 99]
+hsf_z = [1, 2, 3, 5, 7, 8, 9, 11, 14, 99, 99, 99]
 if sz.upper() == "M":
-    zf(string, "mild")
+    zf(wuqi, "mild")
+    zf(hushenfu, "mild")
     print()
     w = zf("请选择合适的武器。", "choice")
     w = zs(w, 0, 35)
+    h = zf("请选择合适的护身符。", "choice")
+    h = zs(h, 0, 11)
+    if (h == 7):
+        zf("这会使你的 JC 增加 6 点。", "critical")
+        z_jc += 6
     atk += wq_z[w]
+    fy += hsf_z[h]
 else:
-    w = zf("我们可以提供可用的武器列表，是否查看？（是 / 否）", "choice")
+    w = zf("我们可以提供可用的武器列表和护身符列表，是否查看？（是 / 否）", "choice")
     if w.upper() == "是":
         zf("以下可供参考。", "mediocre")
-        zf(string, "mild")
+        zf(wuqi, "mild")
+        zf(hushenfu, "mild")
 
 os.system("cls")
 
-print("初始进度。")
+print("初始状态。")
 print()
 jdt(d_hp, dt_hp, name) # 显示敌人信息。
-jdt(zs_hp, zt_hp, "自身") # 显示角色信息。
+jdt(zs_hp, zt_hp, char) # 显示角色信息。
 print()
 
 count = 0
 while d_hp > 0 and zs_hp > 0:
     count += 1
-    zf(f"第 {count} 次攻击。", "mediocre")
+    zf(f"第 {count} 回合。", "mediocre")
     print()
     if sz == "m":
         m_gj(atk, crit, fy)
