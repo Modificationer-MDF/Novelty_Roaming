@@ -188,6 +188,8 @@ def jdt(current_hp, total_hp, js):
                     js: str = "Zyxa"
                 case 5:
                     js: str = "Modificationer"
+                case _:
+                    js: str = char
 
         column.append(TextColumn(f"[{color[t_color]}]{js} HP： {current_hp:.3f} / {total_hp:.3f}。"))
         task = progress.add_task("", total=total_hp)
@@ -392,12 +394,28 @@ def m_gj(atk, crit, fy):
         print()
 
 def moren(): # 默认设置。
+    global char
     global zs_hp
     global zt_hp
     global atk
     global crit
     global fy
     global z_jc
+
+    zf(r"""
+    角色列表：
+    1 - Feng_Noti；
+    2 - With_Kout；
+    3 - Tsian_Ca；
+    4 - Zyxa；
+    5 - Modificationer。
+""", "default")
+    char = zf("请选择角色：", "inp")
+    char = zs(char, 1, 5)
+
+    if (char != 5):
+        ml = zf("请输入角色 ML ：", "inp")
+        ml = zs(ml, 0, 15)
 
     zf("角色的 HP 、 JC 、 攻击力、防御力等将随 ML 而变化。", "default")
     if char == 1:
@@ -437,12 +455,14 @@ def moren(): # 默认设置。
         z_jc = m_jc
 
 def ziding(): # 自定义设置。
+    global char
     global zs_hp
     global zt_hp
     global atk
     global crit
     global z_jc
 
+    char = zf("请输入角色名称：", "inp")
     zs_hp = zf("请输入角色 HP ：", "inp")
     zs_hp = fd(zs_hp, 0, float("inf"))
     zt_hp = zs_hp
@@ -467,17 +487,6 @@ while True:
         break
 
 os.system("cls")
-zf(r"""
-    角色列表:
-    1 - Feng_Noti
-    2 - With_Kout
-    3 - Tsian_Ca
-    4 - Zyxa
-    5 - Modificationer
-""", "default")
-
-char = zf("请选择角色：", "inp")
-char = zs(char, 1, 5)
 
 name = zf("请输入敌人名称：", "inp")
 
@@ -487,10 +496,6 @@ jc = zs(jc, 0, float("inf"))
 d_hp = zf(f"请输入 {name} 的 HP ：", "inp")
 d_hp = fd(d_hp, 0, float("inf"))
 dt_hp = d_hp # 敌人总 HP。
-
-if (char != 5):
-    ml = zf("请输入角色 ML ：", "inp")
-    ml = zs(ml, 0, 15)
 
 if sz == "m":
     moren()
