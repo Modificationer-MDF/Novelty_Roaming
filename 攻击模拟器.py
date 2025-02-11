@@ -5,6 +5,7 @@ from rich.console import Console
 import os
 import time
 import sys
+import math
 
 cs = Console()
 ba = 7  # 基础攻击力。
@@ -204,7 +205,7 @@ def zs(var, p, q):
             if p <= var <= q:
                 return var
             else:
-                raise ValueError(f"无效输入。请重新输入一个在 {p} 和 {q} 之间的数字。")
+                raise ValueError(f"无效输入。请输入一个在 {p} 和 {q} 之间的数字。")
         except ValueError as e:
             var = zf(f"{e}。请重新输入一个整数：", "error")
 
@@ -212,10 +213,12 @@ def fd(var, p, q):
     while True:
         try:
             var = float(var)
+            if math.isinf(var):
+                raise ValueError("不可以输入无穷大。（Infinity）")
             if p <= var <= q:
                 return var
             else:
-                raise ValueError(f"无效输入。请重新输入一个在 {p} 和 {q} 之间的数字。")
+                raise ValueError(f"无效输入。请输入一个在 {p} 和 {q} 之间的数字。")
         except ValueError as e:
             var = zf(f"{e}。请重新输入一个浮点数：", "error")
 
