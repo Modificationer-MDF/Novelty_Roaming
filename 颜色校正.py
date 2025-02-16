@@ -7,16 +7,16 @@ import os
 cs = rc.Console()
 
 color = {
-    "perfect": "#00ffff",
-    "fabulous": "#40e0d0",
-    "excellent": "#66cdaa",
-    "great": "#98fb98",
-    "good": "#9acd32",
-    "decent": "#8fbc8f",
-    "fair": "#20b2aa",
-    "average": "#008080",
-    "mild": "#008000",
-    "moderate": "#1d80ff",
+    "perfect": "#00ff00",
+    "fabulous": "#9acd32",
+    "excellent": "#98fb98",
+    "great": "#8fbc8f",
+    "good": "#66cdaa",
+    "decent": "#20b2aa",
+    "fair": "#40e0d0",
+    "average": "#00ffff",
+    "mild": "#00bfff",
+    "moderate": "#0080ff",
     "mediocre": "#8470ff",
     "poor": "#a020f0",
     "awful": "#ba55d3",
@@ -46,7 +46,7 @@ def zf(text, cl, e = ""):
         time.sleep(0.007)
     return input()
 
-zf("This is a inp.", "inp")
+zf("This is an inp.", "inp")
 zf("You are in a perfect situation.", "perfect")
 zf("Sounds fabulous.", "fabulous")
 zf("How excellent you are!", "excellent")
