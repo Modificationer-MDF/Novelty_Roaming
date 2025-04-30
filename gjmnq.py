@@ -16,7 +16,7 @@ f_energy = [30, 32, 35, 40, 43, 48, 52, 56, 60, 66, 70, 75, 79, 84, 90, 95] # �
 f_fy = [2, 3, 4, 5, 6, 7, 8, 9, 8, 8, 9, 10, 12, 13, 15, 17] # 防御力。
 f_atk = [3, 3, 5, 7, 7, 8, 9, 10, 9, 10, 9, 10, 10, 11, 13, 15, 18, 22] # 攻击力。
 f_crit = [0.2, 0.21, 0.24, 0.27, 0.3, 0.33, 0.37, 0.4, 0.4, 0.42, 0.43, 0.45, 0.5, 0.5, 0.5, 0.55] # 暴击率。
-f_jc = [14, 14, 13, 12, 12, 11, 10, 9, 9, 8, 8, 8, 8, 8, 8] # JC。
+f_jc = [14, 14, 13, 12, 12, 11, 10, 9, 9, 8, 8, 8, 8, 8, 8, 8] # JC。
 
 w_hp = [57, 59, 62, 65, 69, 72, 75, 79, 83, 87, 90, 94, 97, 100, 103, 107] # With_Kout
 w_energy = [34, 37, 40, 45, 50, 54, 60, 65, 70, 74, 78, 83, 90, 96, 102, 107]
@@ -75,72 +75,84 @@ x_crit = [0.71, 0.74, 0.76, 0.79, 0.81, 0.81, 0.83, 0.85, 0.87, 0.87, 0.9, 0.9, 
 x_jc = [6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 3, 3]
 
 aka_f_hp = [87, 41] # Aka Fū
+aka_f_energy = [47, 19]
 aka_f_fy = [9, 11]
 aka_f_atk = [9, 7]
 aka_f_crit = [0.4, 0.33]
 aka_f_jc = [11, 17]
 
 aka_k_hp = [92, 44] # Aka Ka
+aka_k_energy = [44, 21]
 aka_k_fy = [8, 11]
 aka_k_atk = [14, 10]
 aka_k_crit = [0.6, 0.51]
 aka_k_jc = [13, 18]
 
 aka_y_hp = [95, 48] # Aka Yan
+aka_y_energy = [50, 22]
 aka_y_fy = [9, 12]
 aka_y_atk = [10, 10]
 aka_y_crit = [0.45, 0.38]
 aka_y_jc = [12, 17]
 
 anei_hp = [81, 52] # Anei
+anei_energy = [40, 25]
 anei_fy = [7, 12]
 anei_atk = [7, 10]
 anei_crit = [0.3, 0.42]
 anei_jc = [11, 20]
 
 aoi_sa_hp = [93, 40] # Aoi Sa
+aoi_sa_energy = [48, 19]
 aoi_sa_fy = [9, 11]
 aoi_sa_atk = [12, 10]
 aoi_sa_crit = [0.4, 0.42]
 aoi_sa_jc = [12, 17]
 
 aoi_sh_hp = [94, 49] # Aoi Shui
+aoi_sh_energy = [51, 28]
 aoi_sh_fy = [11, 14]
 aoi_sh_atk = [12, 11]
 aoi_sh_crit = [0.44, 0.5]
 aoi_sh_jc = [10, 13]
 
 aoi_l_hp = [96, 41] # Aoi Lan
+aoi_l_energy = [46, 19]
 aoi_l_fy = [9, 11]
 aoi_l_atk = [10, 10]
 aoi_l_crit = [0.38, 0.41]
 aoi_l_jc = [13, 17]
 
 bei_hp = [89, 50] # Bei Hua
+bei_energy = [38, 28]
 bei_fy = [8, 11]
 bei_atk = [9, 13]
 bei_crit = [0.41, 0.5]
 bei_jc = [13, 15]
 
 era_hp = [94, 44] # Era
+era_energy = [47, 22]
 era_fy = [10, 13]
 era_atk = [11, 11]
 era_crit = [0.42, 0.5]
 era_jc = [13, 17]
 
 ert_hp = [90, 42] # Ert
+ert_energy = [45, 25]
 ert_fy = [8, 10]
 ert_atk = [11, 14]
 ert_crit = [0.41, 0.46]
 ert_jc = [12, 18]
 
 he_hp = [78, 39] # Hello14
+he_energy = [37, 19]
 he_fy = [7, 10]
 he_atk = [7, 9]
 he_crit = [0.28, 0.33]
 he_jc = [10, 15]
 
 ichi_hp = [91, 41] # Ichi Ryū
+ichi_energy = [44, 21]
 ichi_fy = [11, 11]
 ichi_atk = [11, 11]
 ichi_crit = [0.41, 0.41]
@@ -182,12 +194,15 @@ try:
         else:
             text = "\\/ " + text
 
+        if cl == "error":
+            text = "[Error] " + text
+
         for i in text:
             cs.print(i, style=color[cl], end="")
             time.sleep(0.007)
         return input()
 
-    def jdt(current_hp, total_hp, js):
+    def jdt(current, total, js, typ):
         column = [
             TextColumn("{task.description}"),
             BarColumn(),
@@ -195,90 +210,136 @@ try:
         ]
         with Progress(*column) as progress:
             t_color: str = ""
-            if js == name:
-                if current_hp >= 0.95 * total_hp:
-                    t_color = "Di-"
-                elif 0.9 * total_hp <= current_hp < 0.95 * total_hp:
-                    t_color = "N-"
-                elif 0.85 * total_hp <= current_hp < 0.9 * total_hp:
-                    t_color = "N"
-                elif 0.8 * total_hp <= current_hp < 0.85 * total_hp:
-                    t_color = "C-"
-                elif 0.75 * total_hp <= current_hp < 0.8 * total_hp:
-                    t_color = "C"
-                elif 0.7 * total_hp <= current_hp < 0.75 * total_hp:
-                    t_color = "S-"
-                elif 0.65 * total_hp <= current_hp < 0.7 * total_hp:
-                    t_color = "S"
-                elif 0.6 * total_hp <= current_hp < 0.65 * total_hp:
-                    t_color = "P-"
-                elif 0.55 * total_hp <= current_hp < 0.6 * total_hp:
-                    t_color = "P"
-                elif 0.5 * total_hp <= current_hp < 0.55 * total_hp:
-                    t_color = "A-"
-                elif 0.45 * total_hp <= current_hp < 0.5 * total_hp:
-                    t_color = "A"
-                elif 0.4 * total_hp <= current_hp < 0.45 * total_hp:
-                    t_color = "D-"
-                elif 0.35 * total_hp <= current_hp < 0.4 * total_hp:
-                    t_color = "D"
-                elif 0.3 * total_hp <= current_hp < 0.35 * total_hp:
-                    t_color = "G-"
-                elif 0.25 * total_hp <= current_hp < 0.3 * total_hp:
-                    t_color = "G"
-                elif 0.2 * total_hp <= current_hp < 0.25 * total_hp:
-                    t_color = "G+"
-                elif 0.15 * total_hp <= current_hp < 0.2 * total_hp:
-                    t_color = "E-"
-                elif 0.1 * total_hp <= current_hp < 0.15 * total_hp:
-                    t_color = "E"
-                elif 0.05 * total_hp <= current_hp < 0.1 * total_hp:
+            if js == char and typ == "hp":
+                if current >= 0.95 * total:
+                    t_color = "F+"
+                elif 0.9 * total <= current < 0.95 * total:
                     t_color = "E+"
-                elif 0 < current_hp < 0.05 * total_hp:
+                elif 0.85 * total <= current < 0.9 * total:
+                    t_color = "E"
+                elif 0.8 * total <= current < 0.85 * total:
+                    t_color = "E-"
+                elif 0.75 * total <= current < 0.8 * total:
+                    t_color = "G+"
+                elif 0.7 * total <= current < 0.75 * total:
+                    t_color = "G"
+                elif 0.65 * total <= current < 0.7 * total:
+                    t_color = "G-"
+                elif 0.6 * total <= current < 0.65 * total:
+                    t_color = "D"
+                elif 0.55 * total <= current < 0.6 * total:
+                    t_color = "D-"
+                elif 0.5 * total <= current < 0.55 * total:
+                    t_color = "A"
+                elif 0.45 * total <= current < 0.5 * total:
+                    t_color = "A-"
+                elif 0.4 * total <= current < 0.45 * total:
+                    t_color = "P"
+                elif 0.35 * total <= current < 0.4 * total:
+                    t_color = "P-"
+                elif 0.3 * total <= current < 0.35 * total:
+                    t_color = "S"
+                elif 0.25 * total <= current < 0.3 * total:
+                    t_color = "S-"
+                elif 0.2 * total <= current < 0.25 * total:
+                    t_color = "C"
+                elif 0.15 * total <= current < 0.2 * total:
+                    t_color = "C-"
+                elif 0.1 * total <= current < 0.15 * total:
+                    t_color = "N"
+                elif 0.05 * total <= current < 0.1 * total:
+                    t_color = "N-"
+                elif 0 < current < 0.05 * total:
+                    t_color = "Di-"
+                else:
+                    t_color = "error"
+            elif js == char and typ == "energy":
+                if current >= 0.9 * total:
+                    t_color = "A-"
+                elif 0.8 * total <= current < 0.9 * total:
+                    t_color = "P"
+                elif 0.7 * total <= current < 0.8 * total:
+                    t_color = "P-"
+                elif 0.6 * total <= current < 0.7 * total:
+                    t_color = "S"
+                elif 0.5 * total <= current < 0.6 * total:
+                    t_color = "S-"
+                elif 0.4 * total <= current < 0.5 * total:
+                    t_color = "C"
+                elif 0.3 * total <= current < 0.4 * total:
+                    t_color = "C-"
+                elif 0.2 * total <= current < 0.3 * total:
+                    t_color = "N"
+                elif 0.1 * total <= current < 0.2 * total:
+                    t_color = "N-"
+                elif 0 < current < 0.1 * total:
+                    t_color = "Di-"
+                else:
+                    t_color = "error"
+            elif js == name and typ == "hp":
+                if current >= 0.95 * total:
+                    t_color = "Di-"
+                elif 0.9 * total <= current < 0.95 * total:
+                    t_color = "N-"
+                elif 0.85 * total <= current < 0.9 * total:
+                    t_color = "N"
+                elif 0.8 * total <= current < 0.85 * total:
+                    t_color = "C-"
+                elif 0.75 * total <= current < 0.8 * total:
+                    t_color = "C"
+                elif 0.7 * total <= current < 0.75 * total:
+                    t_color = "S-"
+                elif 0.65 * total <= current < 0.7 * total:
+                    t_color = "S"
+                elif 0.6 * total <= current < 0.65 * total:
+                    t_color = "P-"
+                elif 0.55 * total <= current < 0.6 * total:
+                    t_color = "P"
+                elif 0.5 * total <= current < 0.55 * total:
+                    t_color = "A-"
+                elif 0.45 * total <= current < 0.5 * total:
+                    t_color = "A"
+                elif 0.4 * total <= current < 0.45 * total:
+                    t_color = "D-"
+                elif 0.35 * total <= current < 0.4 * total:
+                    t_color = "D"
+                elif 0.3 * total <= current < 0.35 * total:
+                    t_color = "G-"
+                elif 0.25 * total <= current < 0.3 * total:
+                    t_color = "G"
+                elif 0.2 * total <= current < 0.25 * total:
+                    t_color = "G+"
+                elif 0.15 * total <= current < 0.2 * total:
+                    t_color = "E-"
+                elif 0.1 * total <= current < 0.15 * total:
+                    t_color = "E"
+                elif 0.05 * total <= current < 0.1 * total:
+                    t_color = "E+"
+                elif 0 < current < 0.05 * total:
                     t_color = "F+"
                 else:
                     t_color = "error"
-            elif js == char:
-                if current_hp >= 0.95 * total_hp:
-                    t_color = "F+"
-                elif 0.9 * total_hp <= current_hp < 0.95 * total_hp:
-                    t_color = "E+"
-                elif 0.85 * total_hp <= current_hp < 0.9 * total_hp:
-                    t_color = "E"
-                elif 0.8 * total_hp <= current_hp < 0.85 * total_hp:
-                    t_color = "E-"
-                elif 0.75 * total_hp <= current_hp < 0.8 * total_hp:
-                    t_color = "G+"
-                elif 0.7 * total_hp <= current_hp < 0.75 * total_hp:
-                    t_color = "G"
-                elif 0.65 * total_hp <= current_hp < 0.7 * total_hp:
-                    t_color = "G-"
-                elif 0.6 * total_hp <= current_hp < 0.65 * total_hp:
-                    t_color = "D"
-                elif 0.55 * total_hp <= current_hp < 0.6 * total_hp:
-                    t_color = "D-"
-                elif 0.5 * total_hp <= current_hp < 0.55 * total_hp:
-                    t_color = "A"
-                elif 0.45 * total_hp <= current_hp < 0.5 * total_hp:
-                    t_color = "A-"
-                elif 0.4 * total_hp <= current_hp < 0.45 * total_hp:
-                    t_color = "P"
-                elif 0.35 * total_hp <= current_hp < 0.4 * total_hp:
-                    t_color = "P-"
-                elif 0.3 * total_hp <= current_hp < 0.35 * total_hp:
-                    t_color = "S"
-                elif 0.25 * total_hp <= current_hp < 0.3 * total_hp:
-                    t_color = "S-"
-                elif 0.2 * total_hp <= current_hp < 0.25 * total_hp:
-                    t_color = "C"
-                elif 0.15 * total_hp <= current_hp < 0.2 * total_hp:
-                    t_color = "C-"
-                elif 0.1 * total_hp <= current_hp < 0.15 * total_hp:
-                    t_color = "N"
-                elif 0.05 * total_hp <= current_hp < 0.1 * total_hp:
-                    t_color = "N-"
-                elif 0 < current_hp < 0.05 * total_hp:
+            elif js == name and typ == "energy":
+                if current >= 0.9 * total:
                     t_color = "Di-"
+                elif 0.8 * total <= current < 0.9 * total:
+                    t_color = "N-"
+                elif 0.7 * total <= current < 0.8 * total:
+                    t_color = "N"
+                elif 0.6 * total <= current < 0.7 * total:
+                    t_color = "C-"
+                elif 0.5 * total <= current < 0.6 * total:
+                    t_color = "C"
+                elif 0.4 * total <= current < 0.5 * total:
+                    t_color = "S-"
+                elif 0.3 * total <= current < 0.4 * total:
+                    t_color = "S"
+                elif 0.2 * total <= current < 0.3 * total:
+                    t_color = "P-"
+                elif 0.1 * total <= current < 0.2 * total:
+                    t_color = "P"
+                elif 0 < current < 0.1 * total:
+                    t_color = "A-"
                 else:
                     t_color = "error"
 
@@ -305,10 +366,10 @@ try:
                     case _:
                         js: str = char
 
-            column.append(TextColumn(f"[{color[t_color]}]{js} HP： {current_hp:.3f} / {total_hp:.3f}。（{t_color}）"))
-            task = progress.add_task("", total=total_hp)
-            progress.update(task, completed=current_hp)
-            progress.console.print(f"[{color[t_color]}]{js} HP： {current_hp:.3f} / {total_hp:.3f}。（{t_color}）")
+            column.append(TextColumn(f"[{color[t_color]}]{js} {typ.upper()}： {current:.3f} / {total:.3f}。（{t_color}）"))
+            task = progress.add_task("", total=total)
+            progress.update(task, completed=current)
+            progress.console.print(f"[{color[t_color]}]{js} {typ.upper()}： {current:.3f} / {total:.3f}。（{t_color}）")
 
 
     def zs(var, p, q):
@@ -337,9 +398,12 @@ try:
 
     def gj():
         try:
-            global ds_hp
-            global dt_hp
             global zs_hp
+            global zs_energy
+            global ds_hp
+            global ds_energy
+            global dt_hp
+            global dt_energy
             global d_num
             global jd
             global qr1
@@ -400,82 +464,102 @@ try:
 
                 if (ds_hp <= 0) and (jd == 1) and (qr1 == "m") and (10 <= d_num <= 20):
                     zf(f"{name} 没有屈服。（Di-）", "Di-")
-                    ds_hp = 0
-                    dt_hp = 0
                     match d_num:
                         case 10:
-                            ds_hp += aka_f_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = aka_f_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = aka_f_energy[1]
+                            dt_energy = ds_energy
                             d_atk = aka_f_atk[1]
                             d_crit = aka_f_crit[1]
                             d_fy = aka_f_fy[1]
                             d_jc = aka_f_jc[1]
                         case 11:
-                            ds_hp += aka_k_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = aka_k_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = aka_k_energy[1]
+                            dt_energy = ds_energy
                             d_atk = aka_k_atk[1]
                             d_crit = aka_k_crit[1]
                             d_fy = aka_k_fy[1]
                             d_jc = aka_k_jc[1]
                         case 12:
-                            ds_hp += aka_y_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = aka_y_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = aka_y_energy[1]
+                            dt_energy = ds_energy
                             d_atk = aka_y_atk[1]
                             d_crit = aka_y_crit[1]
                             d_fy = aka_y_fy[1]
                             d_jc = aka_y_jc[1]
                         case 13:
-                            ds_hp += aoi_sa_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = aoi_sa_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = aoi_sa_energy[1]
+                            dt_energy = ds_energy
                             d_atk = aoi_sa_atk[1]
                             d_crit = aoi_sa_crit[1]
                             d_fy = aoi_sa_fy[1]
                             d_jc = aoi_sa_jc[1]
                         case 14:
-                            ds_hp += aoi_sh_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = aoi_sh_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = aoi_sh_energy[1]
+                            dt_energy = ds_energy
                             d_atk = aoi_sh_atk[1]
                             d_crit = aoi_sh_crit[1]
                             d_fy = aoi_sh_fy[1]
                             d_jc = aoi_sh_jc[1]
                         case 15:
-                            ds_hp += aoi_l_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = aoi_l_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = aoi_l_energy[1]
+                            dt_energy = ds_energy
                             d_atk = aoi_l_atk[1]
                             d_crit = aoi_l_crit[1]
                             d_fy = aoi_l_fy[1]
                             d_jc = aoi_l_jc[1]
                         case 16:
-                            ds_hp += bei_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = bei_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = bei_energy[1]
+                            dt_energy = ds_energy
                             d_atk = bei_atk[1]
                             d_crit = bei_crit[1]
                             d_fy = bei_fy[1]
                             d_jc = bei_jc[1]
                         case 17:
-                            ds_hp += era_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = era_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = era_energy[1]
+                            dt_energy = ds_energy
                             d_atk = era_atk[1]
                             d_crit = era_crit[1]
                             d_fy = era_fy[1]
                             d_jc = era_jc[1]
                         case 18:
-                            ds_hp += ert_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = ert_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = ert_energy[1]
+                            dt_energy = ds_energy
                             d_atk = ert_atk[1]
                             d_crit = ert_crit[1]
                             d_fy = ert_fy[1]
                             d_jc = ert_jc[1]
                         case 19:
-                            ds_hp += he_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = he_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = he_energy[1]
+                            dt_energy = ds_energy
                             d_atk = he_atk[1]
                             d_crit = he_crit[1]
                             d_fy = he_fy[1]
                             d_jc = he_jc[1]
                         case 20:
-                            ds_hp += ichi_hp[1]
-                            dt_hp += ds_hp
+                            ds_hp = ichi_hp[1]
+                            dt_hp = ds_hp
+                            ds_energy = ichi_energy[1]
+                            dt_energy = ds_energy
                             d_atk = ichi_atk[1]
                             d_crit = ichi_crit[1]
                             d_fy = ichi_fy[1]
@@ -494,8 +578,11 @@ try:
                     if jd != 3:
                         print()
                         print(f"第 {count} 回合结束，角色状态。")
-                        jdt(ds_hp, dt_hp, name)
-                        jdt(zs_hp, zt_hp, char)
+                        jdt(zs_hp, zt_hp, char, "hp")
+                        jdt(zs_energy, zt_energy, char, "energy")
+                        print()
+                        jdt(ds_hp, dt_hp, name, "hp")
+                        jdt(ds_energy, dt_energy, name, "energy")
                         print()
             else:
                 raise ValueError
@@ -514,6 +601,8 @@ try:
         global char # 角色编号。
         global zs_hp # 角色 HP。
         global zt_hp # 角色总 HP。
+        global zs_energy # 角色能量。
+        global zt_energy # 角色总能量。
         global zj_atk # 角色攻击力。
         global zj_crit # 角色暴击率。
         global zj_fy # 角色防御力。
@@ -542,6 +631,8 @@ try:
             case 1:
                 zs_hp = f_hp[z_ml]
                 zt_hp = zs_hp
+                zs_energy = f_energy[z_ml]
+                zt_energy = zs_energy
                 zj_atk = f_atk[z_ml]
                 zj_crit = f_crit[z_ml]
                 zj_fy = f_fy[z_ml]
@@ -549,6 +640,8 @@ try:
             case 2:
                 zs_hp = w_hp[z_ml]
                 zt_hp = zs_hp
+                zs_energy = w_energy[z_ml]
+                zt_energy = zs_energy
                 zj_atk = w_atk[z_ml]
                 zj_crit = w_crit[z_ml]
                 zj_fy = w_fy[z_ml]
@@ -556,6 +649,8 @@ try:
             case 3:
                 zs_hp = t_hp[z_ml]
                 zt_hp = zs_hp
+                zs_energy = t_energy[z_ml]
+                zt_energy = zs_energy
                 zj_atk = t_atk[z_ml]
                 zj_crit = t_crit[z_ml]
                 zj_fy = t_fy[z_ml]
@@ -563,6 +658,8 @@ try:
             case 4:
                 zs_hp = z_hp[z_ml]
                 zt_hp = zs_hp
+                zs_energy = z_energy[z_ml]
+                zt_energy = zs_energy
                 zj_atk = z_atk[z_ml]
                 zj_crit = z_crit[z_ml]
                 zj_fy = z_fy[z_ml]
@@ -570,6 +667,8 @@ try:
             case 5:
                 zs_hp = sk_hp[z_ml]
                 zt_hp = zs_hp
+                zs_energy = sk_energy[z_ml]
+                zt_energy = zs_energy
                 zj_atk = sk_atk[z_ml]
                 zj_crit = sk_crit[z_ml]
                 zj_fy = sk_fy[z_ml]
@@ -577,6 +676,8 @@ try:
             case 6:
                 zs_hp = ir_hp[z_ml]
                 zt_hp = zs_hp
+                zs_energy = ir_energy[z_ml]
+                zt_energy = zs_energy
                 zj_atk = ir_atk[z_ml]
                 zj_crit = ir_crit[z_ml]
                 zj_fy = ir_fy[z_ml]
@@ -584,6 +685,8 @@ try:
             case 7:
                 zs_hp = lin_xi_hp[z_ml]
                 zt_hp = zs_hp
+                zs_energy = lin_xi_energy[z_ml]
+                zt_energy = zs_energy
                 zj_atk = lin_xi_atk[z_ml]
                 zj_crit = lin_xi_crit[z_ml]
                 zj_fy = lin_xi_fy[z_ml]
@@ -591,6 +694,8 @@ try:
             case 8:
                 zs_hp = m_hp[z_ml]
                 zt_hp = zs_hp
+                zs_energy = m_energy[z_ml]
+                zt_energy = zs_energy
                 zj_atk = m_atk[z_ml]
                 zj_crit = m_crit[z_ml]
                 zj_fy = m_fy[z_ml]
@@ -598,6 +703,8 @@ try:
             case 9:
                 zs_hp = x_hp[z_ml]
                 zt_hp = zs_hp
+                zs_energy = x_energy[z_ml]
+                zt_energy = zs_energy
                 zj_atk = x_atk[z_ml]
                 zj_crit = x_crit[z_ml]
                 zj_fy = x_fy[z_ml]
@@ -607,6 +714,8 @@ try:
         global char # 角色编号。
         global zs_hp # 角色 HP。
         global zt_hp # 角色总 HP。
+        global zs_energy # 角色能量。
+        global zt_energy # 角色总能量。
         global zj_fy # 角色防御力。
         global zj_atk # 角色攻击力。
         global zj_crit # 角色暴击率。
@@ -616,6 +725,10 @@ try:
         zs_hp = zf("请输入角色 HP ：", "inp")
         zs_hp = fd(zs_hp, 0, float("inf"))
         zt_hp = zs_hp
+
+        zs_energy = zf("请输入角色能量 ：", "inp")
+        zs_energy = zs(zs_energy, 0, float("inf"))
+        zt_energy = zs_energy
 
         zj_fy = zf("请输入角色防御力 ：", "inp")
         zj_fy = zs(zj_fy, 0, float("inf"))
@@ -690,6 +803,8 @@ try:
                 name = "Feng_Noti"
                 ds_hp = f_hp[d_ml] # 敌人 HP。
                 dt_hp = ds_hp # 敌人总 HP。
+                ds_energy = f_energy[d_ml] # 敌人能量。
+                dt_energy = ds_energy # 敌人总能量。
                 d_atk = f_atk[d_ml] # 敌人攻击力。
                 d_fy = f_fy[d_ml] # 敌人防御力。
                 d_crit = f_crit[d_ml] # 敌人暴击率。
@@ -698,6 +813,8 @@ try:
                 name = "With_Kout"
                 ds_hp = w_hp[d_ml]
                 dt_hp = ds_hp
+                ds_energy = w_energy[d_ml]
+                dt_energy = ds_energy
                 d_atk = w_atk[d_ml]
                 d_fy = w_fy[d_ml]
                 d_crit = w_crit[d_ml]
@@ -706,6 +823,8 @@ try:
                 name = "Tsian_Ca"
                 ds_hp = t_hp[d_ml]
                 dt_hp = ds_hp
+                ds_energy = t_energy[d_ml]
+                dt_energy = ds_energy
                 d_atk = t_atk[d_ml]
                 d_fy = t_fy[d_ml]
                 d_crit = t_crit[d_ml]
@@ -714,6 +833,8 @@ try:
                 name = "Zyxa Wvub"
                 ds_hp = z_hp[d_ml]
                 dt_hp = ds_hp
+                ds_energy = z_energy[d_ml]
+                dt_energy = ds_energy
                 d_atk = z_atk[d_ml]
                 d_fy = z_fy[d_ml]
                 d_crit = z_crit[d_ml]
@@ -722,6 +843,8 @@ try:
                 name = "Sklif"
                 ds_hp = sk_hp[d_ml]
                 dt_hp = ds_hp
+                ds_energy = sk_energy[d_ml]
+                dt_energy = ds_energy
                 d_atk = sk_atk[d_ml]
                 d_fy = sk_fy[d_ml]
                 d_crit = sk_crit[d_ml]
@@ -730,6 +853,8 @@ try:
                 name = "It Rains"
                 ds_hp = ir_hp[d_ml]
                 dt_hp = ds_hp
+                ds_energy = ir_energy[d_ml]
+                dt_energy = ds_energy
                 d_atk = ir_atk[d_ml]
                 d_fy = ir_fy[d_ml]
                 d_crit = ir_crit[d_ml]
@@ -738,6 +863,8 @@ try:
                 name = "Lin Xi"
                 ds_hp = lin_xi_hp[d_ml]
                 dt_hp = ds_hp
+                ds_energy = lin_xi_energy[d_ml]
+                dt_energy = ds_energy
                 d_atk = lin_xi_atk[d_ml]
                 d_fy = lin_xi_fy[d_ml]
                 d_crit = lin_xi_crit[d_ml]
@@ -746,6 +873,8 @@ try:
                 name = "Modificationer"
                 ds_hp = m_hp[d_ml]
                 dt_hp = ds_hp
+                ds_energy = m_energy[d_ml]
+                dt_energy = ds_energy
                 d_atk = m_atk[d_ml]
                 d_fy = m_fy[d_ml]
                 d_crit = m_crit[d_ml]
@@ -754,6 +883,8 @@ try:
                 name = "Xusu Ziye"
                 ds_hp = x_hp[d_ml]
                 dt_hp = ds_hp
+                ds_energy = x_energy[d_ml]
+                dt_energy = ds_energy
                 d_atk = x_atk[d_ml]
                 d_fy = x_fy[d_ml]
                 d_crit = x_crit[d_ml]
@@ -762,6 +893,8 @@ try:
                 name = "Aka Fū"
                 ds_hp = aka_f_hp[0]
                 dt_hp = ds_hp
+                ds_energy = aka_f_energy[0]
+                dt_energy = ds_energy
                 d_atk = aka_f_atk[0]
                 d_fy = aka_f_fy[0]
                 d_crit = aka_f_crit[0]
@@ -770,6 +903,8 @@ try:
                 name = "Aka Ka"
                 ds_hp = aka_k_hp[0]
                 dt_hp = ds_hp
+                ds_energy = aka_k_energy[0]
+                dt_energy = ds_energy
                 d_atk = aka_k_atk[0]
                 d_fy = aka_k_fy[0]
                 d_crit = aka_k_crit[0]
@@ -778,6 +913,8 @@ try:
                 name = "Aka Yan"
                 ds_hp = aka_y_hp[0]
                 dt_hp = ds_hp
+                ds_energy = aka_y_energy[0]
+                dt_energy = ds_energy
                 d_atk = aka_y_atk[0]
                 d_fy = aka_y_fy[0]
                 d_crit = aka_y_crit[0]
@@ -786,6 +923,8 @@ try:
                 name = "Aoi Sa"
                 ds_hp = aoi_sa_hp[0]
                 dt_hp = ds_hp
+                ds_energy = aoi_sa_energy[0]
+                dt_energy = ds_energy
                 d_atk = aoi_sa_atk[0]
                 d_fy = aoi_sa_fy[0]
                 d_crit = aoi_sa_crit[0]
@@ -794,6 +933,8 @@ try:
                 name = "Aoi Shui"
                 ds_hp = aoi_sh_hp[0]
                 dt_hp = ds_hp
+                ds_energy = aoi_sh_energy[0]
+                dt_energy = ds_energy
                 d_atk = aoi_sh_atk[0]
                 d_fy = aoi_sh_fy[0]
                 d_crit = aoi_sh_crit[0]
@@ -802,6 +943,8 @@ try:
                 name = "Aoi Lan"
                 ds_hp = aoi_l_hp[0]
                 dt_hp = ds_hp
+                ds_energy = aoi_l_energy[0]
+                dt_energy = ds_energy
                 d_atk = aoi_l_atk[0]
                 d_fy = aoi_l_fy[0]
                 d_crit = aoi_l_crit[0]
@@ -810,6 +953,8 @@ try:
                 name = "Bei Hua"
                 ds_hp = bei_hp[0]
                 dt_hp = ds_hp
+                ds_energy = bei_energy[0]
+                dt_energy = ds_energy
                 d_atk = bei_atk[0]
                 d_fy = bei_fy[0]
                 d_crit = bei_crit[0]
@@ -818,6 +963,8 @@ try:
                 name = "Era"
                 ds_hp = era_hp[0]
                 dt_hp = ds_hp
+                ds_energy = era_energy[0]
+                dt_energy = ds_energy
                 d_atk = era_atk[0]
                 d_fy = era_fy[0]
                 d_crit = era_crit[0]
@@ -826,6 +973,8 @@ try:
                 name = "Ert"
                 ds_hp = ert_hp[0]
                 dt_hp = ds_hp
+                ds_energy = ert_energy[0]
+                dt_energy = ds_energy
                 d_atk = ert_atk[0]
                 d_fy = ert_fy[0]
                 d_crit = ert_crit[0]
@@ -834,6 +983,8 @@ try:
                 name = "Hello14"
                 ds_hp = he_hp[0]
                 dt_hp = ds_hp
+                ds_energy = he_energy[0]
+                dt_energy = ds_energy
                 d_atk = he_atk[0]
                 d_fy = he_fy[0]
                 d_crit = he_crit[0]
@@ -842,6 +993,8 @@ try:
                 name = "Ichi Ryū"
                 ds_hp = ichi_hp[0]
                 dt_hp = ds_hp
+                ds_energy = ichi_energy[0]
+                dt_energy = ds_energy
                 d_atk = ichi_atk[0]
                 d_fy = ichi_fy[0]
                 d_crit = ichi_crit[0]
@@ -851,7 +1004,7 @@ try:
         name = zf("请输入敌人名称：", "inp")
 
         ds_hp = zf(f"请输入 {name} 的 HP ：", "inp")
-        ds_hp = fd(ds_hp, 0, float("inf"))
+        dt_hp = fd(ds_hp, 0, float("inf"))
         dt_hp = ds_hp
 
         d_fy = zf(f"请输入 {name} 的防御力 ：", "inp")
@@ -952,8 +1105,11 @@ try:
 
     print("初始状态。")
     print()
-    jdt(ds_hp, dt_hp, name) # 显示敌人信息。
-    jdt(zs_hp, zt_hp, char) # 显示角色信息。
+    jdt(zs_hp, zt_hp, char, "hp") # 显示角色 HP 信息。
+    jdt(zs_energy, zt_energy, char, "energy") # 显示角色 ENERGY 信息。
+    print()
+    jdt(ds_hp, dt_hp, name, "hp") # 显示敌人 HP 信息。
+    jdt(ds_energy, dt_energy, name, "energy") # 显示敌人 ENERGY 信息。
     print()
 
     count = 0
