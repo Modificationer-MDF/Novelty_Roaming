@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-from random import randint
+from random import *
 from rich.progress import *
 from rich.console import Console
 import os
@@ -27,7 +27,7 @@ w_jc = [13, 13, 12, 11, 10, 10, 10, 9, 9, 8, 7, 7, 7, 7, 6, 6]
 
 t_hp = [64, 70, 73, 81, 88, 93, 100, 104, 110, 114, 122, 128, 135, 143, 150, 161] # Tsian_Ca
 t_energy = [25, 26, 28, 30, 33, 36, 41, 48, 50, 55, 60, 65, 73, 68, 73, 76]
-t_fy = [2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14]
+t_fy = [2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15]
 t_atk = [5, 7, 7, 8, 8, 9, 9, 10, 11, 12, 12, 13, 14, 15, 18, 25]
 t_crit = [0.5, 0.52, 0.53, 0.54, 0.55, 0.58, 0.6, 0.62, 0.62, 0.65, 0.68, 0.7, 0.75, 0.65, 0.67, 0.7]
 t_jc = [16, 15, 14, 13, 13, 12, 12, 11, 11, 11, 10, 10, 10, 10, 10, 10]
@@ -202,7 +202,7 @@ try:
             time.sleep(0.007)
         return input()
 
-    def jdt(current, total, js, typ):
+    def jdt(current, total, lost, recovered, js, typ):
         column = [
             TextColumn("{task.description}"),
             BarColumn(),
@@ -366,10 +366,10 @@ try:
                     case _:
                         js: str = char
 
-            column.append(TextColumn(f"[{color[t_color]}]{js} {typ.upper()}： {current:.3f} / {total:.3f}。（{t_color}）"))
+            column.append(TextColumn(f"[{color[t_color]}]{js} {typ.upper()}： {current:.3f} / {total:.3f}。 | -{lost:.3f} | +{recovered:.3f}（{t_color}）"))
             task = progress.add_task("", total=total)
             progress.update(task, completed=current)
-            progress.console.print(f"[{color[t_color]}]{js} {typ.upper()}： {current:.3f} / {total:.3f}。（{t_color}）")
+            progress.console.print(f"[{color[t_color]}]{js} {typ.upper()}： {current:.3f} / {total:.3f}。 | -{lost:.3f} | +{recovered:.3f}（{t_color}）")
 
 
     def zs(var, p, q):
@@ -445,8 +445,8 @@ try:
                 if c < 4 or c > 6:
                     zf(f"{name} 打偏了，打到了你旁边 {(abs(5 - c) / 3):.3f} 米处 。（D）", "D")
 
-                d_check = (d_jc * 3.766) - d_fy # 敌人 JC - 敌人防御。
-                z_check = (zj_jc * 3.766) - zj_fy # 角色 JC - 角色防御。
+                d_check = (d_jc * 3.306) - d_fy # 敌人 JC - 敌人防御。
+                z_check = (zj_jc * 3.306) - zj_fy # 角色 JC - 角色防御。
 
                 if d_check <= 0:
                     zf("这次攻击没有造成任何伤害。（S）", "S")
@@ -461,6 +461,30 @@ try:
                     damage2 *= (z_check / 10) * 1.1
                     zf(f"你受到了 {max(damage2, 0):.3f} HP 伤害。", "default")
                     zs_hp -= damage2
+
+                d_recover = uniform(0.07, 0.17) * dt_hp 
+                d_recover = round(d_recover, 3)
+                z_recover = uniform(0.07, 0.17) * zt_hp
+                z_recover = round(z_recover, 3)
+
+                print()
+                zf("几秒过去了……", "default")
+                print()
+                if ds_energy - d_recover >= 0:
+                    ds_hp += d_recover
+                    ds_energy -= d_recover
+                    zf(f"{name} 恢复了 {d_recover} HP。", "Di-")
+                else:
+                    d_recover = 0
+                    zf(f"{name} 没有精力了。", "S-")
+
+                if zs_energy - z_recover >= 0:
+                    zs_hp += z_recover
+                    zs_energy -= z_recover
+                    zf(f"你恢复了 {z_recover} HP。", "F+")
+                else:
+                    z_recover = 0
+                    zf("你没有精力了。", "S-")
 
                 if (ds_hp <= 0) and (jd == 1) and (qr1 == "m") and (10 <= d_num <= 20):
                     zf(f"{name} 没有屈服。（Di-）", "Di-")
@@ -568,6 +592,7 @@ try:
                     jd = 2
                 else:
                     if ds_hp <= 0:
+                        print()
                         zf(f"{name} 败下阵来。（F+）", "F+")
                         jd = 3
                 
@@ -578,11 +603,11 @@ try:
                     if jd != 3:
                         print()
                         print(f"第 {count} 回合结束，角色状态。")
-                        jdt(zs_hp, zt_hp, char, "hp")
-                        jdt(zs_energy, zt_energy, char, "energy")
+                        jdt(zs_hp, zt_hp, damage2, z_recover, char, "hp")
+                        jdt(zs_energy, zt_energy, z_recover, 0, char, "energy")
                         print()
-                        jdt(ds_hp, dt_hp, name, "hp")
-                        jdt(ds_energy, dt_energy, name, "energy")
+                        jdt(ds_hp, dt_hp, damage1, d_recover, name, "hp")
+                        jdt(ds_energy, dt_energy, d_recover, 0, name, "energy")
                         print()
             else:
                 raise ValueError
@@ -1105,11 +1130,11 @@ try:
 
     print("初始状态。")
     print()
-    jdt(zs_hp, zt_hp, char, "hp") # 显示角色 HP 信息。
-    jdt(zs_energy, zt_energy, char, "energy") # 显示角色 ENERGY 信息。
+    jdt(zs_hp, zt_hp, 0, 0, char, "hp") # 显示角色 HP 信息。
+    jdt(zs_energy, zt_energy, 0, 0, char, "energy") # 显示角色 ENERGY 信息。
     print()
-    jdt(ds_hp, dt_hp, name, "hp") # 显示敌人 HP 信息。
-    jdt(ds_energy, dt_energy, name, "energy") # 显示敌人 ENERGY 信息。
+    jdt(ds_hp, dt_hp, 0, 0, name, "hp") # 显示敌人 HP 信息。
+    jdt(ds_energy, dt_energy, 0, 0, name, "energy") # 显示敌人 ENERGY 信息。
     print()
 
     count = 0
