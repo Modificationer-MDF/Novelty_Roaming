@@ -1,2 +1,0 @@
-damage1 = (7 + atk + weapon) * (4 <= critical <= 6 ? 1 + max(crit, critical / 10) : 1) * (jc * 3.766 - enemydef > 0 ? (jc * 3.766 - enemydef) / 10 * 1.1 : 0)
-damage2 = (7 + enemyatk) * (4 <= critical <= 6 ? 1 + c / 10 : 1) * (j * 3.766 - defense > 0 ? (j * 3.766 - defense) / 10 * 1.1 : 0)
