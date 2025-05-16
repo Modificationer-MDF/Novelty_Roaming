@@ -1,26 +1,14 @@
 ﻿# -*- coding: utf-8 -*-
-# Made by Satelliti.
+# Made by Satelliti Modificationer.
+import ctypes as c
 from random import *
 from rich.progress import *
 from rich.console import Console
-from textwrap import dedent
 import os
 import time
 import sys
 import math
 cs = Console()
-
-class characters:
-    def __init__(self, name, hp, t_hp, energy, t_energy, atk, fy, crit, jc):
-        self.name = name
-        self.hp = hp
-        self.t_hp = t_hp
-        self.energy = energy
-        self.t_energy = t_energy
-        self.atk = atk
-        self.fy = fy
-        self.crit = crit
-        self.jc = jc
 
 f_hp = [60, 66, 71, 77, 83, 90, 96, 102, 108, 114, 120, 124, 130, 135, 141, 150] # Feng_Noti
 f_energy = [30, 32, 35, 40, 43, 48, 52, 56, 60, 66, 70, 75, 79, 84, 90, 95] # 精力。
@@ -187,6 +175,18 @@ people_grade = [
     "DI-",
 ]
 
+characters_names = [
+    "Feng_Noti",
+    "With_Kout",
+    "Tsian_Ca",
+    "Zyxa Wvub",
+    "Chala Sklif",
+    "It Rains",
+    "Lin Xi",
+    "Modificationer",
+    "Xusu Ziye",
+]
+
 enemy_names = [
     "Feng_Noti",
     "With_Kout",
@@ -210,9 +210,6 @@ enemy_names = [
     "Ichi Ryū",
 ]
 
-turns = 0
-police_join = False
-
 color = {
     "F+": "#00ff00", # Fabulous +
     "E+": "#9acd32", # Excellent +
@@ -234,10 +231,35 @@ color = {
     "N": "#ff1493", # Nightmare
     "N-": "#b03060", # Nightmare -
     "DI-": "#ff0000", # Disaster -
+    "DOWN": "#8b1a1a", # Down
     "error": "#8b1a1a",
     "inp": "#ffd700",
-    "default": "#ffffff",
+    "text": "#ffffff",
 }
+
+z_name = [] # 角色名称。
+zs_hp = [] # 角色 HP。
+zt_hp = [] # 角色总 HP。
+zs_energy = [] # 角色精力。
+zt_energy = [] # 角色总精力。
+zj_atk = [] # 角色攻击力。
+zj_crit = [] # 角色暴击率。
+zj_fy = [] # 角色防御力。
+zj_jc = [] # 角色 JC。
+
+d_name = [] # 敌人名称。
+d_ml = [] # 敌人 ML。
+ds_hp = [] # 敌人 HP。
+dt_hp = [] # 敌人总 HP。
+ds_energy = [] # 敌人精力。
+dt_energy = [] # 敌人总精力。
+d_atk = [] # 敌人攻击力。
+d_fy = [] # 敌人防御力。
+d_crit = [] # 敌人暴击率。
+d_jc = [] # 敌人 JC。
+
+turns = 0
+police_join = False
 
 try:
     def zf(text, cl):
@@ -307,7 +329,7 @@ try:
                 elif 0 <= current < 0.05 * total:
                     t_color = "DI-"
                 else:
-                    t_color = "error"
+                    t_color = "DOWN"
             elif side == "me" and typ == "energy":
                 if current >= 0.9 * total:
                     t_color = "A-"
@@ -330,7 +352,7 @@ try:
                 elif 0 <= current < 0.1 * total:
                     t_color = "DI-"
                 else:
-                    t_color = "error"
+                    t_color = "DOWN"
             elif side == "enemy" and typ == "hp":
                 if current >= 0.95 * total:
                     t_color = "DI-"
@@ -373,7 +395,7 @@ try:
                 elif 0 <= current < 0.05 * total:
                     t_color = "F+"
                 else:
-                    t_color = "error"
+                    t_color = "DOWN"
             elif side == "enemy" and typ == "energy":
                 if current >= 0.9 * total:
                     t_color = "DI-"
@@ -396,7 +418,7 @@ try:
                 elif 0 <= current < 0.1 * total:
                     t_color = "A-"
                 else:
-                    t_color = "error"
+                    t_color = "DOWN"
 
             column.append(TextColumn(f"[{color[t_color]}][{t_color}] {char} {typ.upper()}： {current:.3f} / {total:.3f}。（+{recovered:.3f} | -{lost:.3f}）"))
             task = progress.add_task("", total=total)
@@ -429,10 +451,24 @@ try:
 
     def gj():
         try:
-            global people_interest, z_amount, zs_hp, zs_energy, zj_fy, zj_atk, zj_crit, zj_jc, z_injure, d_amount, ds_hp, dt_hp, ds_energy, dt_energy, d_fy, d_atk, d_crit, d_jc, d_injure, jd, wuqi_ord, hushenfu_ord
+            global people_interest, police_join, jd, wuqi_ord, hushenfu_ord, z_amount, d_amount, zs_energy, ds_energy, zt_energy, dt_energy, zs_hp, ds_hp
 
             people_interest = False
+            mercy_refuse = False
+            z_xz = []  # 我方选择敌方编号。
+            d_xz = []  # 敌方选择我方编号。
+            z_acc = []  # 我方打击精准度。
+            d_acc = []  # 敌方打击精准度。
+            z_damage = []  # 角色对敌人造成的伤害。
+            d_damage = []  # 被选中的敌人对角色造成的伤害。
+            z_check = []
+            d_check = []
+            z_hfhp = []  # 我方恢复的 HP。
+            d_hfhp = []  # 敌方恢复的 HP。
+            z_hfnl = []  # 我方恢复的能量。
+            d_hfnl = []  # 敌方恢复的能量。
 
+            # 初始随机事件。
             if people_interest:
                 people_rand = randint(2, 5)
             else:
@@ -448,218 +484,177 @@ try:
                 case 5:
                     zf("看来警方已经介入，最好还是快点离开这个地方。", "S")
                     police_join = True
-
             print()
 
+            # 饶恕/攻击选择。
             act = zf("饶恕 / 攻击？（R / G ，默认为 “G”）", "inp")
             act = act.replace(" ", "").lower()
             if act == "r":
                 r, d, m = randint(1, 10), randint(1, 10), randint(1, 3)
-                zf("你选择饶恕。", "default")
+                zf("你选择饶恕。", "text")
                 if (r != d) and (r > d) and (r - d >= m):
                     d_getmercy_ord = randint(0, len(d_name) - 1)
                     zf(f"{d_name[d_getmercy_ord]} 接受了你的饶恕。", "E")
                     del d_name[d_getmercy_ord]
+                    d_amount -= 1
                     if len(d_name) == 0:
                         zf("模拟结束。你成功地饶恕了所有敌人。", "F+")
                         sys.exit(0)
                 else:
                     zf("敌人不为所动。看来你不得不与其战斗……", "N-")
+                    mercy_refuse = True
                     print()
 
-            # 角色选择攻击
-            if act == "g" or act == "":
-                z_select_d = randint(0, d_amount - 1)  # 随机选择一个敌人进行攻击
-                zf(f"你决定攻击 {d_name[z_select_d]}。", "default")
+            if act == "g" or act == "" or mercy_refuse == True:
+                print()
+                zf("我方选择。", "text")
+                for i in range(z_amount):
+                    xz_zt = zf(f"{z_name[i]} 要攻击谁？", "inp")
+                    xz_zt = zs(xz_zt, 0, d_amount - 1)
+                    z_xz.append(xz_zt)
+                    zf(f"其决定攻击 {d_name[z_xz[i]]}。", "text")
 
-                if (z_name != 8 and z_name != 9):
-                    critical = randint(1, 10)
-                else:
-                    critical = 5
-                c = randint(1, 10)
-
-                damage1 = randint(6, 9) + zj_atk # 角色对敌人造成的伤害。
-                damage2 = []
-                damage2[0] = randint(6, 9) + d_atk[z_select_d]  # 被选中的敌人对角色造成的伤害。
-
-                if 4 <= critical <= 6:
-                    zf(f"太幸运了！直中中心。本次攻击所造成的伤害将增加至原先的 {100 + 100 * zj_crit}% 。", "E-")
-                    damage1 *= (1 + max(zj_crit, critical / 10))
-                if 4 <= c <= 6:
-                    zf(f"糟糕！{d_name[z_select_d]} 这次的攻击会更加猛烈：增加至 {100 + 100 * d_crit[z_select_d]}% 。", "C-")
-                    damage2[0] *= (1 + d_crit[z_select_d])
-
-                if critical < 4 or critical > 6:
-                    zf(f"你打偏了，打到了 {d_name[z_select_d]} 旁边 {(abs(5 - critical) / 7):.3f} 米处。", "S-")
-                if c < 4 or c > 6:
-                    zf(f"{d_name[z_select_d]} 打偏了，打到了你旁边 {(abs(5 - c) / 7):.3f} 米处。", "DE")
-
-                d_check = (d_jc[z_select_d] * 3.306) - d_fy[z_select_d]  # 敌人 JC - 敌人防御。
-                z_check = (zj_jc * 3.306) - zj_fy  # 角色 JC - 角色防御。
-
-                if (wuqi_ord == 33 or wuqi_ord == 34 or wuqi_ord == 35):
-                    damage1 = zf("将你对对方的伤害更改为：", "inp")
-                    damage1 = fd(damage1, 0, float("inf"))
-                    ds_hp[z_select_d] -= damage1
-                    if damage1 > 0:
-                        d_injure = True
-                    else:
-                        d_injure = False
-                else:
-                    if d_check <= 0:
-                        damage1 = 0
-                    damage1 *= (d_check / 10) * uniform(0.95, 1.05)
-                    zf(f"你造成了 {max(damage1, 0):.3f} HP 伤害。", "default")
-                    ds_hp[z_select_d] -= damage1
-                    if damage1 > 0:
-                        d_injure = True
-                    else:
-                        d_injure = False
-
-                if (hushenfu_ord == 9 or hushenfu_ord == 10 or hushenfu_ord == 11):
-                    damage2[0] = zf("将对方对你的伤害更改为：", "inp")
-                    damage2[0] = fd(damage2, 0, float("inf"))
-                    zs_hp -= damage2[0]
-                    if damage2[0] > 0:
-                        z_injure = True
-                    else:
-                        z_injure = False
-                else:
-                    if z_check <= 0:
-                        damage2[0] = 0
-                    damage2[0] *= (z_check / 10) * uniform(0.95, 1.05)
-                    zf(f"你受到了 {d_name[z_select_d]} 造成的 {max(damage2[0], 0):.3f} HP 伤害。", "default")
-                    zs_hp -= damage2[0]
-                    if damage2[0] > 0:
-                        z_injure = True
-                    else:
-                        z_injure = False
-
-                # 多个敌人反击。
+                print()
+                zf("敌方选择。", "text")
                 for j in range(d_amount):
-                    if j == z_select_d:
-                        continue  # 被攻击的敌人不反击。
-                    c = randint(1, 10)
-                    if 4 <= c <= 6:
-                        zf(f"糟糕！{d_name[j]} 这次的攻击会更加猛烈：增加至 {100 + 100 * d_crit[j]}% 。", "C-")
-                        damage2[j + 1] = (randint(6, 9) + d_atk[j]) * (1 + d_crit[j])
-                    else:
-                        damage2[j + 1] = randint(6, 9) + d_atk[j]
+                    xz_dt = zf(f"{d_name[j]} 要攻击谁？", "inp")
+                    xz_dt = zs(xz_dt, 0, z_amount - 1)
+                    d_xz.append(xz_dt)
+                    zf(f"其决定攻击 {z_name[d_xz[j]]}。", "text")
 
-                    if c < 4 or c > 6:
-                        zf(f"{d_name[j]} 打偏了，打到了你旁边 {(abs(5 - c) / 7):.3f} 米处 。", "DE")
+                # 计算攻击精准度和伤害。
+                # 生成 z_check 和 d_check 列表，确保其长度与角色和敌人数量一致。
+                z_check = [zj_jc[k] * 3.306 - zj_fy[k] for k in range(z_amount)]
+                d_check = [d_jc[l] * 3.306 - d_fy[l] for l in range(d_amount)]
 
-                    z_check = (zj_jc * 3.306) - zj_fy
-                    if z_check <= 0:
-                        damage2[j + 1] = 0
-                    damage2[j + 1] *= (z_check / 10) * uniform(0.95, 1.05)
-                    zf(f"你受到了 {d_name[j]} 造成的 {max(damage2[j + 1], 0):.3f} HP 伤害。", "default")
-                    zs_hp -= damage2[j + 1]
-                    if damage2[j + 1] > 0:
-                        z_injure = True
-                    else:
-                        z_injure = False
-
-                d_recover = uniform(0.05, 0.11) * dt_hp
-                d_recover = round(d_recover, 3)
-                z_recover = uniform(0.05, 0.11) * zt_hp
-                z_recover = round(z_recover, 3)
+                # 计算攻击伤害。
+                print()
+                for k in range(z_amount):
+                    z_damage.append(randint(6, 9) + zj_atk[k])
+                    z_acc.append(randint(1, 10))
+                    if z_name[k] == "Modificationer" or z_name[k] == "Xusu Ziye":
+                        z_acc[k] = 5
+                        zf(f"{z_name[k]} 打出了精准的一招，这对其来说并不是什么难事。", "F+")
+                        z_damage[k] *= (1 + zj_crit[k] / 10)
+                    elif 4 <= z_acc[k] <= 6:
+                        zf(f"{z_name[k]} 打出了精准的一招。", "E-")
+                        z_damage[k] *= (1 + zj_crit[k] / 10)
 
                 print()
-                zf("……", "default")
+                for l in range(d_amount):
+                    d_damage.append(randint(6, 9) + d_atk[l])
+                    d_acc.append(randint(1, 10))
+                    if d_name[l] == "Modificationer" or d_name[l] == "Xusu Ziye":
+                        d_acc[l] = 5
+                        zf(f"{d_name[l]} 打出了精准的一招，这对其来说并不是什么难事。", "DI-")
+                        d_damage[l] *= (1 + d_crit[l] / 10)
+                    elif 4 <= d_acc[l] <= 6:
+                        zf(f"{d_name[l]} 打出了精准的一招。", "C-")
+                        d_damage[l] *= (1 + d_crit[l] / 10)
+
                 print()
+                # 计算实际造成的伤害。
+                for m in range(z_amount):
+                    if d_check[z_xz[m]] <= 0:
+                        z_damage[m] = 0
+                    z_damage[m] *= (d_check[z_xz[m]] / 10) * uniform(0.95, 1.05)
+                    zf(f"{z_name[m]} 对 {d_name[z_xz[m]]} 造成了 {max(abs(z_damage[m]), 0):.3f} HP 伤害。", "text")
+                    ds_hp[z_xz[m]] -= z_damage[m]
 
-                # 敌人恢复
-                if d_injure == False:
-                    d_heal = uniform(0.03, 0.07) * dt_energy
-                    d_heal = round(d_heal, 3)
-                    ds_energy += d_heal
-                    zf(f"{d_name[z_select_d]} 恢复了 {d_heal} ENERGY。", "DI-")
-                else:
-                    d_heal = 0
+                print()
+                for n in range(d_amount):
+                    if z_check[d_xz[n]] <= 0:
+                        d_damage[n] = 0
+                    d_damage[n] *= (z_check[d_xz[n]] / 10) * uniform(0.95, 1.05)
+                    zf(f"{d_name[n]} 对 {z_name[d_xz[n]]} 造成了 {max(abs(d_damage[n]), 0):.3f} HP 伤害。", "text")
+                    zs_hp[d_xz[n]] -= d_damage[n]
 
-                # 角色恢复
-                if z_injure is False:
-                    z_heal = uniform(0.03, 0.07) * zt_energy
-                    z_heal = round(z_heal, 3)
-                    zs_energy += z_heal
-                    zf(f"你恢复了 {z_heal} ENERGY。", "F+")
-                else:
-                    z_heal = 0
-
-                # 敌人恢复 HP
-                if ds_energy[z_select_d] - d_recover >= 0:
-                    if ds_hp[z_select_d] + d_recover > dt_hp[z_select_d]:
-                        d_recover = dt_hp[z_select_d] - ds_hp[z_select_d]
-                    d_recover = round(d_recover, 3)
-                    ds_hp[z_select_d] += d_recover
-                    ds_energy[z_select_d] -= d_recover
-                    zf(f"{d_name[z_select_d]} 恢复了 {d_recover} HP，并且其还可以再撑下去。", "DI-")
-                else:
-                    if ds_energy[z_select_d] > 0:
-                        d_recover = ds_energy[z_select_d]
-                        ds_hp[z_select_d] = min(ds_hp[z_select_d] + d_recover, dt_hp[z_select_d])
-                        ds_energy[z_select_d] -= d_recover
-                        zf(f"{d_name[z_select_d]} 恢复了 {d_recover} HP，但其感受到没有再多的精力了。", "A")
+                # 恢复阶段。
+                print()
+                for o in range(z_amount):
+                    if d_damage[d_xz[o]] == 0:
+                        z_hfnl.append(round(uniform(0.05, 0.11) * zt_energy[d_xz[o]], 3))
+                        zs_energy[d_xz[o]] += z_hfnl[d_xz[o]]
+                        zf(f"{z_name[d_xz[o]]} 没有受到伤害，恢复了 {z_hfnl[d_xz[o]]:.3f} 能量。", "E+")
                     else:
-                        d_recover = 0
-                        zf(f"{d_name[z_select_d]} 没有精力了。", "P")
-
-                # 角色恢复 HP
-                if zs_energy - z_recover >= 0:
-                    if zs_hp + z_recover > zt_hp:
-                        z_recover = zt_hp - zs_hp
-                    z_recover = round(z_recover, 3)
-                    zs_hp += z_recover
-                    zs_energy -= z_recover
-                    zf(f"你恢复了 {z_recover} HP，并且你还可以再撑下去。", "F+")
-                else:
-                    if zs_energy > 0:
-                        z_recover = zs_energy
-                        zs_hp = min(zs_hp + z_recover, zt_hp)
-                        zs_energy -= z_recover
-                        zf(f"你恢复了 {z_recover} HP，但你感受到你没有再多的精力了。", "A-")
+                        z_hfnl.append(0)
+                    z_hfhp.append(round(uniform(0.05, 0.11) * zt_hp[o], 3))
+                    if zs_hp[o] + z_hfhp[o] > zt_hp[o]:
+                        zs_hp[o] = zt_hp[o]
+                        z_hfhp[o] -= (zt_hp[o] - zs_hp[o])
+                        zf(f"{z_name[o]} 精神饱满，恢复了 {z_hfhp[o]:.3f} HP。", "E")
                     else:
-                        z_recover = 0
-                        zf("你没有精力了。", "S-")
+                        zs_hp[o] += z_hfhp[o]
+                        zf(f"{z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "G")
+                    zs_energy[o] -= z_hfhp[o]
+                    if zs_energy[o] < 0:
+                        zs_energy[o] = 0
+                        zf(f"但是 {z_name[o]} 没有再任何精力了。", "DI-")
 
-                # 敌人状态检查
-                if ds_hp[z_select_d] <= 0:
+                print()
+                for p in range(d_amount):
+                    if z_damage[z_xz[p]] == 0:
+                        d_hfnl.append(round(uniform(0.05, 0.11) * dt_energy[z_xz[p]], 3))
+                        ds_energy[z_xz[p]] += d_hfnl[z_xz[p]]
+                        zf(f"{d_name[z_xz[p]]} 没有受到伤害，恢复了 {d_hfnl[z_xz[p]]:.3f} 能量。", "C+")
+                    else:
+                        d_hfnl.append(0)
+                    d_hfhp.append(round(uniform(0.05, 0.11) * dt_hp[p], 3))
+                    if ds_hp[p] + d_hfhp[p] > dt_hp[p]:
+                        ds_hp[p] = dt_hp[p]
+                        d_hfhp[p] -= (dt_hp[p] - ds_hp[p])
+                        zf(f"{d_name[p]} 精神饱满，恢复了 {d_hfhp[p]:.3f} HP。", "N")
+                    else:
+                        ds_hp[p] += d_hfhp[p]
+                        zf(f"{d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "S")
+                    ds_energy[p] -= d_hfhp[p]
+                    if ds_energy[p] < 0:
+                        ds_energy[p] = 0
+                        zf(f"但是 {d_name[p]} 没有再任何精力了。", "F+")
+
+                # 敌人状态检查。
+                for s in range(len(d_xz) - 1, -1, -1):
+                    if ds_hp[s] <= 0:
+                        print()
+                        zf(f"{d_name[s]} 败下阵来。", "F+")
+                        for lst in [d_name, ds_hp, ds_energy, d_atk, d_crit, d_fy, d_jc]:
+                            lst.append(lst.pop(s))
+                        d_amount -= 1
+                        if d_amount == 0:
+                            zf("模拟结束。你成功地打败了所有敌人。", "F+")
+                            jd = 3
+                            sys.exit(0)
+
+                # 检查角色状态。
+                for t in range(len(z_xz) - 1, -1, -1):
+                    if zs_hp[t] <= 0:
+                        print()
+                        zf(f"{z_name[t]} 败下阵来。", "DI-")
+                        for lst in [z_name, zs_hp, zs_energy, z_atk, z_crit, z_fy, z_jc]:
+                            lst.append(lst.pop(t))
+                        z_amount -= 1
+                        if z_amount == 0:
+                            zf("模拟结束。你被敌人全部击败。", "DI-")
+                            jd = 2
+                            sys.exit(0)
+
+                if jd != 3:
                     print()
-                    zf(f"{d_name[z_select_d]} 败下阵来。", "F+")
-                    del d_name[z_select_d]
-                    del ds_hp[z_select_d]
-                    del ds_energy[z_select_d]
-                    del d_atk[z_select_d]
-                    del d_crit[z_select_d]
-                    del d_fy[z_select_d]
-                    del d_jc[z_select_d]
-                    d_amount -= 1
-                    if len(d_name) == 0:
-                        zf("模拟结束。你成功地打败了所有敌人。", "F+")
-                        jd = 3
-                        sys.exit(0)
-
-                # 角色状态检查
-                if zs_hp <= 0:
-                    zf("你被打败了。", "DI-")
-                    jd = 3
-                else:
-                    if jd != 3:
-                        print()
-                        print(f"第 {turns} 回合结束，角色状态。")
-                        print("我方阵营：")
-                        jdt(zs_hp, zt_hp, z_recover, damage2, z_name, "hp", "me")
-                        jdt(zs_energy, zt_energy, z_heal, z_recover, z_name, "energy", "me")
+                    print(f"第 {turns} 回合结束，角色状态。")
+                    print(f"我方阵营：还剩 {z_amount} 名角色。")
+                    for u in range(z_amount):
+                        jdt(zs_hp[u], zt_hp[u], z_hfhp[u], d_damage[u], f"{u} - {z_name[u]}", "hp", "me")
+                        jdt(zs_energy[u], zt_energy[u], z_hfnl[u], z_hfhp[u], f"{u} - {z_name[u]}", "energy", "me")
                         print()
 
-                        print("敌方阵营：")
-                        for j in range(d_amount):
-                            jdt(ds_hp[j], dt_hp[j], d_recover, damage1[j], f"{l + 1} - {d_name[l]}", "hp", "enemy")
-                            jdt(ds_energy[j], dt_energy[j], d_heal, d_recover, f"{l + 1} - {d_name[l]}", "energy", "enemy")
-                            print()
-                        zs_energy = round(zs_energy, 3)
-                        ds_energy = [round(e, 3) for e in ds_energy]
+                    print(f"敌方阵营：还剩 {d_amount} 名角色。")
+                    for v in range(d_amount):
+                        jdt(ds_hp[v], dt_hp[v], d_hfhp[v], z_damage[v], f"{v} - {d_name[v]}", "hp", "enemy")
+                        jdt(ds_energy[v], dt_energy[v], d_hfnl[v], d_hfhp[v], f"{v} - {d_name[v]}", "energy", "enemy")
+                        print()
+
+                    zs_energy = [round(e, 3) for e in zs_energy]
+                    ds_energy = [round(e, 3) for e in ds_energy]
 
         except KeyboardInterrupt:
             zf("此次运行被键盘中断。跳过本次攻击。", "error")
@@ -667,21 +662,11 @@ try:
         except ValueError:
             zf("无效输入。跳过本次攻击。", "error")
             print()
-        except Exception as e:
-            zf(f"发生错误： {e}。跳过本次攻击。", "error")
-            print()
 
     def moren(): # 默认设置。
-        global z_name # 角色编号。
-        global zs_hp # 角色 HP。
-        global zt_hp # 角色总 HP。
-        global zs_energy # 角色能量。
-        global zt_energy # 角色总能量。
-        global zj_atk # 角色攻击力。
-        global zj_crit # 角色暴击率。
-        global zj_fy # 角色防御力。
-        global zj_jc # 角色 JC。
+        global z_amount
 
+        zf("角色的 HP 、 JC 、 攻击力、防御力等将随 ML 而变化。", "text")
         zf(r"""
     角色列表：
     1 - Feng_Noti；
@@ -693,158 +678,143 @@ try:
     7 - Lin Xi；
     8 - Modificationer；
     9 - Xusu Ziye。
-""", "default")
-        z_name_ord = zf("请选择角色：", "inp")
-        z_name_ord = zs(z_name_ord, 1, 9)
+""", "text")
 
-        match z_name_ord:
-            case 1:
-                z_name = "Feng_Noti"
-            case 2:
-                z_name = "With_Kout"
-            case 3:
-                z_name = "Tsian_Ca"
-            case 4:
-                z_name = "Zyxa Wvub"
-            case 5:
-                z_name = "Chala Sklif"
-            case 6:
-                z_name = "It Rains"
-            case 7:
-                z_name = "Lin Xi"
-            case 8:
-                z_name = "Modificationer"
-            case 9:
-                z_name = "Xusu Ziye"
+        z_amount = zf("请输入角色数量：", "inp")
+        z_amount = zs(z_amount, 1, 9)
+        for i in range(z_amount):
+            z_num = zf(f"请输入第 {i + 1} 个角色的编号：", "inp")
+            z_num = zs(z_num, 1, 9)
+            z_name.append(characters_names[z_num - 1])
 
-        z_ml = zf("请输入角色 ML ：", "inp")
-        z_ml = zs(z_ml, 0, 15)
+            z_ml = zf("请输入角色 ML ：", "inp")
+            z_ml = zs(z_ml, 0, 15)
 
-        zf("角色的 HP 、 JC 、 攻击力、防御力等将随 ML 而变化。", "default")
-        match z_name_ord:
-            case 1:
-                zs_hp = f_hp[z_ml]
-                zt_hp = zs_hp
-                zs_energy = f_energy[z_ml]
-                zt_energy = zs_energy
-                zj_atk = f_atk[z_ml]
-                zj_crit = f_crit[z_ml]
-                zj_fy = f_fy[z_ml]
-                zj_jc = f_jc[z_ml]
-            case 2:
-                zs_hp = w_hp[z_ml]
-                zt_hp = zs_hp
-                zs_energy = w_energy[z_ml]
-                zt_energy = zs_energy
-                zj_atk = w_atk[z_ml]
-                zj_crit = w_crit[z_ml]
-                zj_fy = w_fy[z_ml]
-                zj_jc = w_jc[z_ml]
-            case 3:
-                zs_hp = t_hp[z_ml]
-                zt_hp = zs_hp
-                zs_energy = t_energy[z_ml]
-                zt_energy = zs_energy
-                zj_atk = t_atk[z_ml]
-                zj_crit = t_crit[z_ml]
-                zj_fy = t_fy[z_ml]
-                zj_jc = t_jc[z_ml]
-            case 4:
-                zs_hp = z_hp[z_ml]
-                zt_hp = zs_hp
-                zs_energy = z_energy[z_ml]
-                zt_energy = zs_energy
-                zj_atk = z_atk[z_ml]
-                zj_crit = z_crit[z_ml]
-                zj_fy = z_fy[z_ml]
-                zj_jc = z_jc[z_ml]
-            case 5:
-                zs_hp = sk_hp[z_ml]
-                zt_hp = zs_hp
-                zs_energy = sk_energy[z_ml]
-                zt_energy = zs_energy
-                zj_atk = sk_atk[z_ml]
-                zj_crit = sk_crit[z_ml]
-                zj_fy = sk_fy[z_ml]
-                zj_jc = sk_jc[z_ml]
-            case 6:
-                zs_hp = ir_hp[z_ml]
-                zt_hp = zs_hp
-                zs_energy = ir_energy[z_ml]
-                zt_energy = zs_energy
-                zj_atk = ir_atk[z_ml]
-                zj_crit = ir_crit[z_ml]
-                zj_fy = ir_fy[z_ml]
-                zj_jc = ir_jc[z_ml]
-            case 7:
-                zs_hp = lin_xi_hp[z_ml]
-                zt_hp = zs_hp
-                zs_energy = lin_xi_energy[z_ml]
-                zt_energy = zs_energy
-                zj_atk = lin_xi_atk[z_ml]
-                zj_crit = lin_xi_crit[z_ml]
-                zj_fy = lin_xi_fy[z_ml]
-                zj_jc = lin_xi_jc[z_ml]
-            case 8:
-                zs_hp = m_hp[z_ml]
-                zt_hp = zs_hp
-                zs_energy = m_energy[z_ml]
-                zt_energy = zs_energy
-                zj_atk = m_atk[z_ml]
-                zj_crit = m_crit[z_ml]
-                zj_fy = m_fy[z_ml]
-                zj_jc = m_jc[z_ml]
-            case 9:
-                zs_hp = x_hp[z_ml]
-                zt_hp = zs_hp
-                zs_energy = x_energy[z_ml]
-                zt_energy = zs_energy
-                zj_atk = x_atk[z_ml]
-                zj_crit = x_crit[z_ml]
-                zj_fy = x_fy[z_ml]
-                zj_jc = x_jc[z_ml]
+            match z_num:
+                case 1:
+                    zs_hp.append(f_hp[z_ml])
+                    zt_hp.append(f_hp[z_ml])
+                    zs_energy.append(f_energy[z_ml])
+                    zt_energy.append(f_energy[z_ml])
+                    zj_atk.append(f_atk[z_ml])
+                    zj_crit.append(f_crit[z_ml])
+                    zj_fy.append(f_fy[z_ml])
+                    zj_jc.append(f_jc[z_ml])
+                case 2:
+                    zs_hp.append(w_hp[z_ml])
+                    zt_hp.append(w_hp[z_ml])
+                    zs_energy.append(w_energy[z_ml])
+                    zt_energy.append(w_energy[z_ml])
+                    zj_atk.append(w_atk[z_ml])
+                    zj_crit.append(w_crit[z_ml])
+                    zj_fy.append(w_fy[z_ml])
+                    zj_jc.append(w_jc[z_ml])
+                case 3:
+                    zs_hp.append(t_hp[z_ml])
+                    zt_hp.append(t_hp[z_ml])
+                    zs_energy.append(t_energy[z_ml])
+                    zt_energy.append(t_energy[z_ml])
+                    zj_atk.append(t_atk[z_ml])
+                    zj_crit.append(t_crit[z_ml])
+                    zj_fy.append(t_fy[z_ml])
+                    zj_jc.append(t_jc[z_ml])
+                case 4:
+                    zs_hp.append(z_hp[z_ml])
+                    zt_hp.append(z_hp[z_ml])
+                    zs_energy.append(z_energy[z_ml])
+                    zt_energy.append(z_energy[z_ml])
+                    zj_atk.append(z_atk[z_ml])
+                    zj_crit.append(z_crit[z_ml])
+                    zj_fy.append(z_fy[z_ml])
+                    zj_jc.append(z_jc[z_ml])
+                case 5:
+                    zs_hp.append(sk_hp[z_ml])
+                    zt_hp.append(sk_hp[z_ml])
+                    zs_energy.append(sk_energy[z_ml])
+                    zt_energy.append(sk_energy[z_ml])
+                    zj_atk.append(sk_atk[z_ml])
+                    zj_crit.append(sk_crit[z_ml])
+                    zj_fy.append(sk_fy[z_ml])
+                    zj_jc.append(sk_jc[z_ml])
+                case 6:
+                    zs_hp.append(ir_hp[z_ml])
+                    zt_hp.append(ir_hp[z_ml])
+                    zs_energy.append(ir_energy[z_ml])
+                    zt_energy.append(ir_energy[z_ml])
+                    zj_atk.append(ir_atk[z_ml])
+                    zj_crit.append(ir_crit[z_ml])
+                    zj_fy.append(ir_fy[z_ml])
+                    zj_jc.append(ir_jc[z_ml])
+                case 7:
+                    zs_hp.append(lin_xi_hp[z_ml])
+                    zt_hp.append(lin_xi_hp[z_ml])
+                    zs_energy.append(lin_xi_energy[z_ml])
+                    zt_energy.append(lin_xi_energy[z_ml])
+                    zj_atk.append(lin_xi_atk[z_ml])
+                    zj_crit.append(lin_xi_crit[z_ml])
+                    zj_fy.append(lin_xi_fy[z_ml])
+                    zj_jc.append(lin_xi_jc[z_ml])
+                case 8:
+                    zs_hp.append(m_hp[z_ml])
+                    zt_hp.append(m_hp[z_ml])
+                    zs_energy.append(m_energy[z_ml])
+                    zt_energy.append(m_energy[z_ml])
+                    zj_atk.append(m_atk[z_ml])
+                    zj_crit.append(m_crit[z_ml])
+                    zj_fy.append(m_fy[z_ml])
+                    zj_jc.append(m_jc[z_ml])
+                case 9:
+                    zs_hp.append(x_hp[z_ml])
+                    zt_hp.append(x_hp[z_ml])
+                    zs_energy.append(x_energy[z_ml])
+                    zt_energy.append(x_energy[z_ml])
+                    zj_atk.append(x_atk[z_ml])
+                    zj_crit.append(x_crit[z_ml])
+                    zj_fy.append(x_fy[z_ml])
+                    zj_jc.append(x_jc[z_ml])
 
     def ziding(): # 自定义设置。
-        global z_name # 角色。
-        global zs_hp # 角色 HP。
-        global zt_hp # 角色总 HP。
-        global zs_energy # 角色能量。
-        global zt_energy # 角色总能量。
-        global zj_fy # 角色防御力。
-        global zj_atk # 角色攻击力。
-        global zj_crit # 角色暴击率。
-        global zj_jc # 角色 JC。
+        global z_amount
 
-        while True:
-            z_name = zf("请输入角色名称：", "inp")
-            if z_name == d_name:
-                zf("角色名不能与敌人名相同。", "error")
-            else:
-                break
+        z_amount = zf("请输入角色数量：", "inp")
+        z_amount = zs(z_amount, 1, 9)
+        for i in range(z_amount):
+            while True:
+                z_name = zf(f"请输入第 {i + 1} 个角色的名称：", "inp")
+                if z_name == d_name:
+                    zf("角色名不能与敌人名相同。", "error")
+                else:
+                    break
             
-        zs_hp = zf("请输入角色 HP ：", "inp")
-        zs_hp = fd(zs_hp, 0, float("inf"))
-        zt_hp = zs_hp
+            ls_hp = zf(f"请输入第 {i + 1} 个角色的 HP ：", "inp")
+            ls_hp = fd(ls_hp, 0, float("inf"))
+            zs_hp.append(ls_hp)
+            zt_hp.append(ls_hp)
 
-        zs_energy = zf("请输入角色 ENERGY ：", "inp")
-        zs_energy = fd(zs_energy, 0, float("inf"))
-        zt_energy = zs_energy
+            ls_energy = zf(f"请输入第 {i + 1} 个角色的 ENERGY ：", "inp")
+            ls_energy = fd(ls_energy, 0, float("inf"))
+            zs_energy.append(ls_energy)
+            zt_energy.append(ls_energy)
 
-        zj_fy = zf("请输入角色防御力 ：", "inp")
-        zj_fy = zs(zj_fy, 0, float("inf"))
+            ls_fy = zf(f"请输入第 {i + 1} 个角色的防御力 ：", "inp")
+            ls_fy = zs(ls_fy, 0, float("inf"))
+            zj_fy.append(ls_fy)
 
-        zj_atk = zf("请输入角色攻击力 ：", "inp")
-        zj_atk = zs(zj_atk, 0, float("inf"))
+            ls_atk = zf(f"请输入第 {i + 1} 个角色的攻击力 ：", "inp")
+            ls_atk = zs(ls_atk, 0, float("inf"))
+            zj_atk.append(ls_atk)
 
-        zj_weapon = zf("请输入武器攻击力 ：", "inp")
-        zj_weapon = zs(zj_weapon, 0, float("inf"))
-        zj_atk += zj_weapon
+            ls_weapon = zf(f"请输入第 {i + 1} 个角色的武器的攻击力 ：", "inp")
+            ls_weapon = zs(ls_weapon, 0, float("inf"))
+            zj_atk[i] += ls_weapon
 
-        zj_crit = zf("请输入角色暴击率 ：（0 ~ 1 之间的数字）", "inp")
-        zj_crit = fd(zj_crit, 0, 1)
+            ls_crit = zf(f"请输入第 {i + 1} 个角色的暴击率 ：（0 ~ 1 之间的数字）", "inp")
+            ls_crit = fd(ls_crit, 0, 1)
+            zj_crit.append(ls_crit)
 
-        zj_jc = zf("请输入角色 JC ：", "inp")
-        zj_jc = zs(zj_jc, 0, float("inf"))
+            ls_jc = zf(f"请输入第 {i + 1} 个角色的 JC ：", "inp")
+            ls_jc = zs(ls_jc, 0, float("inf"))
+            zj_jc.append(ls_jc)
 
     # 程序开始。
     os.system("cls")
@@ -867,18 +837,8 @@ try:
         else:
             break
 
+    print()
     if qr1 == "m":
-        d_name = []
-        d_ml = []
-        ds_hp = []
-        dt_hp = []
-        ds_energy = []
-        dt_energy = []
-        d_atk = []
-        d_fy = []
-        d_crit = []
-        d_jc = []
-
         zf("""
     敌人列表：
     1 - Feng_Noti；
@@ -901,10 +861,10 @@ try:
     18 - Ert；
     19 - Hello14；
     20 - Ichi Ryū。
-""", "default")
+""", "text")
 
         d_amount = zf("请输入敌人数量：", "inp")
-        d_amount = zs(d_amount, 1, 10)
+        d_amount = zs(d_amount, 1, 9)
         for i in range(d_amount):
             d_num = zf(f"请选择第 {i + 1} 个敌人：", "inp")
             d_num = zs(d_num, 1, 20)
@@ -922,8 +882,8 @@ try:
                 case 1:
                     ds_hp.append(f_hp[d_ml_val])  # 敌人 HP。
                     dt_hp.append(ds_hp[i])  # 敌人总 HP。
-                    ds_energy.append(f_energy[d_ml_val])  # 敌人能量。
-                    dt_energy.append(ds_energy[i])  # 敌人总能量。
+                    ds_energy.append(f_energy[d_ml_val])  # 敌人精力。
+                    dt_energy.append(ds_energy[i])  # 敌人总精力。
                     d_atk.append(f_atk[d_ml_val])  # 敌人攻击力。
                     d_fy.append(f_fy[d_ml_val])  # 敌人防御力。
                     d_crit.append(f_crit[d_ml_val])  # 敌人暴击率。
@@ -1099,20 +1059,9 @@ try:
                     d_fy.append(ichi_fy[d_ml_val])
                     d_crit.append(ichi_crit[d_ml_val])
                     d_jc.append(ichi_jc[d_ml_val])
-
+        os.system("cls")
 
     elif qr1 == "z":
-        d_name = []
-        d_ml = []
-        ds_hp = []
-        dt_hp = []
-        ds_energy = []
-        dt_energy = []
-        d_atk = []
-        d_fy = []
-        d_crit = []
-        d_jc = []
-
         d_amount = zf("请输入敌人数量：", "inp")
         for j in range(d_amount):
             d_name[j] = zf("请输入敌人名称：", "inp")
@@ -1137,6 +1086,7 @@ try:
             d_jc[j] = zf(f"请输入 {d_name[j]} 的 JC ：", "inp")
             d_jc[j] = zs(d_jc[j], 0, float("inf"))
             print()
+        os.system("cls")
 
     if sz == "m":
         moren()
@@ -1179,9 +1129,9 @@ try:
     30 - 水果刀（攻击力 + 16）；
     31 - 枪（攻击力 + 18）；
     32 - 锯子（攻击力 + 20）；
-    33 - 智能设备（攻击力 + /）；
-    34 - 状态遥控器（攻击力 + /）；
-    35 - 终端（攻击力 + /）。
+    33 - 智能设备（攻击力 + 31）；
+    34 - 状态遥控器（攻击力 + 63）；
+    35 - 终端（攻击力 + 127）。
 """
     hushenfu = """
     护身符列表
@@ -1194,46 +1144,48 @@ try:
     6 - 避邪符（防御力 + 9）；
     7 - JC 服（防御力 + 11）；
     8 - 蛋形胶囊（防御力 + 14）；
-    9 - 智能设备（防御力 + /）；
-    10 - 状态遥控器（防御力 + /）；
-    11 - 终端（防御力 + /）。
+    9 - 智能设备（防御力 + 31）；
+    10 - 状态遥控器（防御力 + 63）；
+    11 - 终端（防御力 + 127）。
 """
-    wq_z = [1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13, 16, 18, 20, 32767, 32767, 32767]
-    hsf_z = [1, 2, 3, 5, 7, 8, 9, 11, 14, 32767, 32767, 32767]
+    wq_z = [1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13, 16, 18, 20, 31, 63, 127]
+    hsf_z = [1, 2, 3, 5, 7, 8, 9, 11, 14, 31, 63, 127]
     if sz.upper() == "M":
-        zf(wuqi, "default")
-        zf(hushenfu, "default")
+        zf(wuqi, "text")
+        zf(hushenfu, "text")
         print()
-        wuqi_ord = zf("请选择合适的武器：", "inp")
-        wuqi_ord = zs(wuqi_ord, 0, 35)
-        hushenfu_ord = zf("请选择合适的护身符：", "inp")
-        hushenfu_ord = zs(hushenfu_ord, 0, 11)
-        if (hushenfu_ord == 7):
-            zf("这会使你的 JC 增加 6 点。", "default")
-            z_jc += 6
-        zj_atk += wq_z[wuqi_ord]
-        zj_fy += hsf_z[hushenfu_ord]
+        for i in range(z_amount):
+            wuqi_ord = zf(f"请为 {z_name[i]} 选择合适的武器：", "inp")
+            wuqi_ord = zs(wuqi_ord, 0, 35)
+            hushenfu_ord = zf("请为其选择合适的护身符：", "inp")
+            hushenfu_ord = zs(hushenfu_ord, 0, 11)
+            if (hushenfu_ord == 7):
+                zf("这会使其 JC 增加 6。", "text")
+                z_jc[i] += 6
+            zj_atk[i] += wq_z[wuqi_ord]
+            zj_fy[i] += hsf_z[hushenfu_ord]
     else:
         w = zf("我们可以提供可用的武器列表和护身符列表，是否查看？（是 / 否）", "inp")
         if w.upper() == "是":
-            zf("以下可供参考。", "default")
-            zf(wuqi, "default")
-            zf(hushenfu, "default")
+            zf("以下可供参考。", "text")
+            print()
+            zf(wuqi, "text")
+            zf(hushenfu, "text")
 
     os.system("cls")
 
     print("初始状态。")
     print()
     print("我方阵营。")
-    for k in range(1):
-        jdt(zs_hp, zt_hp, 0, 0, z_name, "hp", "me") # 显示角色 HP 信息。
-        jdt(zs_energy, zt_energy, 0, 0, z_name, "energy", "me") # 显示角色 ENERGY 信息。
+    for k in range(z_amount):
+        jdt(zs_hp[k], zt_hp[k], 0, 0, f"{k} - {z_name[k]}", "hp", "me") # 显示角色 HP 信息。
+        jdt(zs_energy[k], zt_energy[k], 0, 0, f"{k} - {z_name[k]}", "energy", "me") # 显示角色 ENERGY 信息。
         print()
 
     print("敌方阵营。")
     for l in range(d_amount):
-        jdt(ds_hp[l], dt_hp[l], 0, 0, f"{l + 1} - {d_name[l]}", "hp", "enemy") # 显示敌人 HP 信息。
-        jdt(ds_energy[l], dt_energy[l], 0, 0, f"{l + 1} - {d_name[l]}", "energy", "enemy") # 显示敌人 ENERGY 信息。
+        jdt(ds_hp[l], dt_hp[l], 0, 0, f"{l} - {d_name[l]}", "hp", "enemy") # 显示敌人 HP 信息。
+        jdt(ds_energy[l], dt_energy[l], 0, 0, f"{l} - {d_name[l]}", "energy", "enemy") # 显示敌人 ENERGY 信息。
         print()
 
     jd = 1 # 1：敌人处于 1 阶段；2：敌人处于 2 阶段；3：敌人或者角色被击败。
@@ -1243,13 +1195,13 @@ try:
             os.system("cls")
             zf("“你们不要再打了，最好束手就擒！” Opportunity 带领着警方团队出现，拉起了警戒线，驱散观众离开。", "DI-")
             if ("Modificationer" in d_name) or ("Modificationer" in z_name):
-                zf("Modificationer 拿出终端，敲击了一下，瞬间消失。", "default")
+                zf("Modificationer 拿出终端，敲击了一下，瞬间消失。", "text")
             if ("Xusu Ziye" in d_name) or ("Xusu Ziye" in z_name):
-                zf("Xusu Ziye 见状，慌忙拿出 Figure_Out OS 开发证明。Opportunity 点了点头，放她走了。", "default")
-            zf("模拟结束。", "default")
+                zf("Xusu Ziye 见状，慌忙拿出 Figure_Out OS 开发证明。Opportunity 点了点头，放她走了。", "text")
+            zf("模拟结束。", "text")
             sys.exit(0)
         turns += 1
-        zf(f"第 {turns} 回合。", "default")
+        zf(f"第 {turns} 回合。", "text")
         print()
         gj()
 except EOFError as e:
