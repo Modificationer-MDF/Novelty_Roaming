@@ -221,7 +221,7 @@ ZBCS 的分界值有以下几个。
 | 15 | 14256 | 140 / 140 | 9 | 90 / 90 | 22 | 16 | 45% |
 
 > [!note]
-> 下面是 Modificationer 的属性表。
+> 下面是 Modificationer / Satelliti 的属性表。
 
 | ML | EXP | HP | JC | ENERGY | DEFENSE | ATTACK | CRITICAL ATTACK |
 |----|-----|----------|----|-----------|---------|--------|------------------|
@@ -306,16 +306,16 @@ ZBCS 的分界值有以下几个。
 > 学习成绩仅次于基柯。  
 > 喜欢下雨天独处。  
 
-### Modificationer
+### Modificationer / Satelliti
 > 性别不定，可以随时地切换。
 > 是宗米中学、维卡大学、法纳大学的现任校长兼教导主任。  
 > 具有控制 Chanf 所有数据的权力。  
 > 可以对玩家很友好，也可以拒绝玩家所有请求。
 
 ### Xusu Ziye
-> 跟随于 Modificationer，Figure_Out OS 开发团队中除队长之外唯一的队员。
+> 跟随于 Modificationer / Satelliti，Figure_Out OS 开发团队中除队长之外唯一的队员。
 > 掌管着 Figure_Out OS、Xingu、The Play Games。
-> 具有很强的编程水平，仅次于 Modificationer。
+> 具有很强的编程水平，仅次于 Modificationer / Satelliti。
 
 > [!note]
 > 外貌
@@ -338,7 +338,7 @@ ZBCS 的分界值有以下几个。
 ### Sklif
 > 头浅绿色，刘海比较短。
 
-### Modificationer
+### Modificationer / Satelliti
 > - 头发深青色，刘海很长。
 > - 头发深青色，刘海比较长，
 
@@ -391,7 +391,7 @@ ZBCS 的分界值有以下几个。
 | 列兰洗 | Lie Lanxi | リェ・ランシ | 18 岁 58 月 | 171 厘米 |
 | 林华 | Lin Hua | リン・ホゥア | 19 岁 55 月 | 170 厘米 |
 | 林汐 | Lin Xi | リン・シ | 14 岁 5 月 | 179 厘米 |
-| **末谛** | **Modificationer** | **モディフィケーションナー** | **14 岁 25 月** | **249 厘米** |
+| **末谛 / 纱塔来绨** | **Modificationer / Satelliti** | **モディフィケーションナー　サテライティ** | **14 岁 25 月** | **249 厘米** |
 | 智识 | Nerk Chizuki | ノーク・ちずき | 20 岁 20 月 | 189 厘米 |
 | *通知 · 撤除* | *Notification Withdrawer* | *ノーティフィケーション・ウィズドローア* | *NaN 岁 NaN 月* | *NaN 厘米*  |
 | 机会 | Opportunity | オッポートユニチ | 20 岁 25 月 | 205 厘米 |
