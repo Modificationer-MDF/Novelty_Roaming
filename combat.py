@@ -21,7 +21,7 @@ w_energy = [34, 37, 40, 45, 50, 54, 60, 65, 70, 74, 78, 83, 90, 96, 102, 107]
 w_fy = [3, 4, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 17, 19, 22]
 w_atk = [2, 2, 3, 5, 5, 5, 5, 6, 7, 7, 7, 8, 9, 10, 11, 11]
 w_crit = [0.15, 0.15, 0.16, 0.19, 0.2, 0.22, 0.24, 0.25, 0.25, 0.27, 0.28, 0.28, 0.3, 0.3, 0.3, 0.3]
-w_jc = [13, 13, 12, 11, 10, 10, 10, 9, 9, 8, 7, 7, 7, 7, 6, 6]
+w_jc = [13, 13, 12, 11, 10, 10, 10, 9, 9, 8, 8, 8, 8, 7, 7, 7]
 
 t_hp = [64, 70, 73, 81, 88, 93, 100, 104, 110, 114, 122, 128, 135, 143, 150, 161] # Tsian_Ca
 t_energy = [25, 26, 28, 30, 33, 36, 41, 48, 50, 55, 60, 65, 73, 68, 73, 76]
@@ -72,89 +72,121 @@ x_atk = [20, 28, 39, 50, 62, 71, 79, 88, 98, 107, 119, 132, 145, 159, 174, 190]
 x_crit = [0.71, 0.74, 0.76, 0.79, 0.81, 0.81, 0.83, 0.85, 0.87, 0.87, 0.9, 0.9, 0.92, 0.93, 0.94, 0.95]
 x_jc = [6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 3, 3]
 
-aka_f_hp = [87, 41] # Aka Fū
-aka_f_energy = [47, 19]
-aka_f_fy = [9, 11]
-aka_f_atk = [9, 7]
-aka_f_crit = [0.4, 0.33]
-aka_f_jc = [11, 17]
+aka_f_hp = [108] # Aka Fū
+aka_f_energy = [66]
+aka_f_fy = [12]
+aka_f_atk = [11]
+aka_f_crit = [0.44]
+aka_f_jc = [10]
 
-aka_k_hp = [92, 44] # Aka Ka
-aka_k_energy = [44, 21]
-aka_k_fy = [8, 11]
-aka_k_atk = [14, 10]
-aka_k_crit = [0.6, 0.51]
-aka_k_jc = [13, 18]
+aka_k_hp = [106] # Aka Ka
+aka_k_energy = [65]
+aka_k_fy = [10]
+aka_k_atk = [12]
+aka_k_crit = [0.58]
+aka_k_jc = [12]
 
-aka_y_hp = [95, 48] # Aka Yan
-aka_y_energy = [50, 22]
-aka_y_fy = [9, 12]
-aka_y_atk = [10, 10]
-aka_y_crit = [0.45, 0.38]
-aka_y_jc = [12, 17]
+aka_y_hp = [113] # Aka Yan
+aka_y_energy = [72]
+aka_y_fy = [11]
+aka_y_atk = [10]
+aka_y_crit = [0.48]
+aka_y_jc = [11]
 
-anei_hp = [81, 52] # Anei
-anei_energy = [40, 25]
-anei_fy = [7, 12]
-anei_atk = [7, 10]
-anei_crit = [0.3, 0.42]
-anei_jc = [11, 20]
+anei_hp = [97] # Anei
+anei_energy = [62]
+anei_fy = [9]
+anei_atk = [9]
+anei_crit = [0.39]
+anei_jc = [11]
 
-aoi_sa_hp = [93, 40] # Aoi Sa
-aoi_sa_energy = [48, 19]
-aoi_sa_fy = [9, 11]
-aoi_sa_atk = [12, 10]
-aoi_sa_crit = [0.4, 0.42]
-aoi_sa_jc = [12, 17]
+aoi_sa_hp = [103] # Aoi Sa
+aoi_sa_energy = [67]
+aoi_sa_fy = [11]
+aoi_sa_atk = [12]
+aoi_sa_crit = [0.42]
+aoi_sa_jc = [11]
 
-aoi_sh_hp = [94, 49] # Aoi Shui
-aoi_sh_energy = [51, 28]
-aoi_sh_fy = [11, 14]
-aoi_sh_atk = [12, 11]
-aoi_sh_crit = [0.44, 0.5]
-aoi_sh_jc = [10, 13]
+aoi_sh_hp = [123] # Aoi Shui
+aoi_sh_energy = [81]
+aoi_sh_fy = [14]
+aoi_sh_atk = [13]
+aoi_sh_crit = [0.66]
+aoi_sh_jc = [9]
 
-aoi_l_hp = [96, 41] # Aoi Lan
-aoi_l_energy = [46, 19]
-aoi_l_fy = [9, 11]
-aoi_l_atk = [10, 10]
-aoi_l_crit = [0.38, 0.41]
-aoi_l_jc = [13, 17]
+aoi_l_hp = [107] # Aoi Lan
+aoi_l_energy = [65]
+aoi_l_fy = [11]
+aoi_l_atk = [11]
+aoi_l_crit = [0.48]
+aoi_l_jc = [12]
 
-bei_hp = [89, 50] # Bei Hua
-bei_energy = [38, 28]
-bei_fy = [8, 11]
-bei_atk = [9, 13]
-bei_crit = [0.41, 0.5]
-bei_jc = [13, 15]
+bei_hp = [101] # Bei Hua
+bei_energy = [66]
+bei_fy = [11]
+bei_atk = [13]
+bei_crit = [0.51]
+bei_jc = [12]
 
-era_hp = [94, 44] # Era
-era_energy = [47, 22]
-era_fy = [10, 13]
-era_atk = [11, 11]
-era_crit = [0.42, 0.5]
-era_jc = [13, 17]
+era_hp = [118] # Era
+era_energy = [70]
+era_fy = [13]
+era_atk = [13]
+era_crit = [0.59]
+era_jc = [12]
 
-ert_hp = [90, 42] # Ert
-ert_energy = [45, 25]
-ert_fy = [8, 10]
-ert_atk = [11, 14]
-ert_crit = [0.41, 0.46]
-ert_jc = [12, 18]
+ert_hp = [99] # Ert
+ert_energy = [68]
+ert_fy = [10]
+ert_atk = [11]
+ert_crit = [0.49]
+ert_jc = [12]
 
-he_hp = [78, 39] # Hello14
-he_energy = [37, 19]
-he_fy = [7, 10]
-he_atk = [7, 9]
-he_crit = [0.28, 0.33]
-he_jc = [10, 15]
+he_hp = [94] # Hello14
+he_energy = [56]
+he_fy = [9]
+he_atk = [9]
+he_crit = [0.36]
+he_jc = [10]
 
-ichi_hp = [91, 41] # Ichi Ryū
-ichi_energy = [44, 21]
-ichi_fy = [11, 11]
-ichi_atk = [11, 11]
-ichi_crit = [0.41, 0.41]
-ichi_jc = [11, 16]
+ichi_hp = [105] # Ichi Ryū
+ichi_energy = [65]
+ichi_fy = [11]
+ichi_atk = [11]
+ichi_crit = [0.41]
+ichi_jc = [11]
+
+# Lin Hua
+lin_hua_hp = [104]
+lin_hua_energy = [70]
+lin_hua_fy = [13]
+lin_hua_atk = [10]
+lin_hua_crit = [0.51]
+lin_hua_jc = [12]
+
+# Notification Withdrawer
+n_hp = [404]
+n_energy = [404]
+n_fy = [24]
+n_atk = [40]
+n_crit = [0.80]
+n_jc = [8]
+
+# Opportunity
+o_hp = [139]
+o_energy = [92]
+o_fy = [16]
+o_atk = [18]
+o_crit = [0.76]
+o_jc = [9]
+
+# Ricky Nanmuzhi
+ri_hp = [109]
+ri_energy = [74]
+ri_fy = [13]
+ri_atk = [14]
+ri_crit = [0.54]
+ri_jc = [11]
 
 people_text = [
     "没有人在身边。",
@@ -174,19 +206,7 @@ people_grade = [
     "DI-",
 ]
 
-characters_names = [
-    "Feng_Noti",
-    "With_Kout",
-    "Tsian_Ca",
-    "Zyxa Wvub",
-    "Chala Sklif",
-    "It Rains",
-    "Lin Xi",
-    "Modificationer + Satelliti",
-    "Xusu Ziye",
-]
-
-enemy_names = [
+all_names = [
     "Feng_Noti",
     "With_Kout",
     "Tsian_Ca",
@@ -207,6 +227,10 @@ enemy_names = [
     "Ert",
     "Hello14",
     "Ichi Ryū",
+    "Lin Hua",
+    "Notification Withdrawer",
+    "Opportunity",
+    "Ricky Nanmuzhi",
 ]
 
 color = {
@@ -247,7 +271,6 @@ zj_fy = [] # 角色防御力。
 zj_jc = [] # 角色 JC。
 
 d_name = [] # 敌人名称。
-d_ml = [] # 敌人 ML。
 ds_hp = [] # 敌人 HP。
 dt_hp = [] # 敌人总 HP。
 ds_energy = [] # 敌人精力。
@@ -256,6 +279,10 @@ d_atk = [] # 敌人攻击力。
 d_fy = [] # 敌人防御力。
 d_crit = [] # 敌人暴击率。
 d_jc = [] # 敌人 JC。
+
+police_caught = [] # 被警察押走的角色和敌人。
+pc_string = ""
+
 
 turns = 0
 police_join = False
@@ -277,11 +304,11 @@ try:
             time.sleep(0.003)
         return input()
 
-    def jdt(current, total, recovered, lost, char, typ, side): 
-        # current：当前值；total：总值；recovered：恢复值；lost：损失值；char：角色；typ：属性；side：阵营。
+    def jdt(current, total, char, typ, side): 
+        # current：当前值；total：总值；char：角色；typ：属性；side：阵营。
         column = [
             TextColumn("{task.description}"),
-            BarColumn(),
+            BarColumn(bar_width=100),
             TaskProgressColumn(text_format="{task.percentage:.3f}%"),
         ]
         with Progress(*column) as progress:
@@ -330,7 +357,7 @@ try:
                 else:
                     t_color = "DOWN"
             elif side == "me" and typ == "energy":
-                if current >= total:
+                if current > total:
                     t_color = "A"
                 elif 0.9 * total <= current <= total:
                     t_color = "A-"
@@ -398,9 +425,9 @@ try:
                 else:
                     t_color = "DOWN"
             elif side == "enemy" and typ == "energy":
-                if current >= total:
+                if current > total:
                     t_color = "DI-"
-                if current >= 0.9 * total:
+                elif 0.9 * total <= current <= total:
                     t_color = "N-"
                 elif 0.8 * total <= current < 0.9 * total:
                     t_color = "N"
@@ -423,10 +450,10 @@ try:
                 else:
                     t_color = "DOWN"
 
-            column.append(TextColumn(f"[{color[t_color]}][{t_color}] {char} {typ.upper()}： {current:.3f} / {total:.3f}。（+{recovered:.3f} | -{lost:.3f}）"))
+            column.append(TextColumn(f"[{color[t_color]}][{t_color}] {char} {typ.upper()}： {current:.3f} / {total:.3f}。"))
             task = progress.add_task("", total=total)
             progress.update(task, completed=current)
-            progress.console.print(f"[{color[t_color]}][{t_color}] {char} {typ.upper()}： {current:.3f} / {total:.3f}。（+{recovered:.3f} | -{lost:.3f}）")
+            progress.console.print(f"[{color[t_color]}][{t_color}] {char} {typ.upper()}： {current:.3f} / {total:.3f}。")
 
     def zs(var, p, q):
         while True:
@@ -470,6 +497,8 @@ try:
             d_hfhp = []  # 敌方恢复的 HP。
             z_hfnl = []  # 我方恢复的能量。
             d_hfnl = []  # 敌方恢复的能量。
+            z_skill = []  # 我方使用的技能。
+            d_skill = []  # 敌方使用的技能。
 
             # 初始随机事件。
             if people_interest:
@@ -499,7 +528,7 @@ try:
                     d_getmercy_ord = randint(0, len(d_name) - 1)
                     zf(f"{d_name[d_getmercy_ord]} 接受了你的饶恕。", "E")
                     print()
-                    for lst in [d_name, ds_hp, ds_energy, d_atk, d_crit, d_fy, d_jc]:
+                    for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.append(lst.pop(d_getmercy_ord))
                     d_amount -= 1
                     if d_amount == 0:
@@ -512,7 +541,7 @@ try:
 
             if act == "g" or act == "" or mercy_refuse == True:
                 print()
-                zf("我方选择。", "text")
+                zf("我方选择攻击目标。", "text")
                 for i in range(z_amount):
                     xz_zt = zf(f"{i} - {z_name[i]} 要攻击谁？", "inp")
                     xz_zt = zs(xz_zt, 0, d_amount - 1)
@@ -520,17 +549,15 @@ try:
                     zf(f"其决定攻击 {xz_zt} - {d_name[z_xz[i]]}。", "text")
 
                 print()
-                zf("敌方选择。", "text")
+                zf("敌方选择攻击目标。", "text")
                 for j in range(d_amount):
                     xz_dt = zf(f"{j} - {d_name[j]} 要攻击谁？", "inp")
                     xz_dt = zs(xz_dt, 0, z_amount - 1)
                     d_xz.append(xz_dt)
                     zf(f"其决定攻击 {xz_dt} - {z_name[d_xz[j]]}。", "text")
 
-                # 计算攻击精准度和伤害。
-                # 生成 z_check 和 d_check 列表，确保其长度与角色和敌人数量一致。
-                z_check = [zj_jc[k] * 3.306 - zj_fy[k] for k in range(z_amount)]
-                d_check = [d_jc[l] * 3.306 - d_fy[l] for l in range(d_amount)]
+                z_check = [zj_jc[k1] * 3.306 - zj_fy[k1] for k1 in range(z_amount)]
+                d_check = [d_jc[l1] * 3.306 - d_fy[l1] for l1 in range(d_amount)]
 
                 # 计算攻击伤害。
                 print()
@@ -545,7 +572,7 @@ try:
                         zf(f"{k} - {z_name[k]} 打出了精准的一招。", "E-")
                         z_damage[k] *= (1 + zj_crit[k] / 10)
                     else:
-                        zf(f"{k} - {z_name[k]} 打出了普通的一招。", "A")
+                        zf(f"{k} - {z_name[k]} 未能精准命中。", "A")
 
                 print()
                 for l in range(d_amount):
@@ -559,7 +586,7 @@ try:
                         zf(f"{l} - {d_name[l]} 打出了精准的一招。", "C-")
                         d_damage[l] *= (1 + d_crit[l] / 10)
                     else:
-                        zf(f"{l} - {d_name[l]} 打出了普通的一招。", "P")
+                        zf(f"{l} - {d_name[l]} 未能精准命中。", "A-")
 
                 print()
                 # 计算实际造成的伤害。
@@ -584,18 +611,18 @@ try:
                     d_hfnl.append(0)
 
                 print()
-                for o in range(d_amount):
-                    if d_damage[o] == 0:
-                        if z_hfnl[d_xz[o]] == 0:
-                            z_hfnl[d_xz[o]] = round(uniform(0.05, 0.11) * zt_energy[d_xz[o]], 3)
-                            zs_energy[d_xz[o]] += z_hfnl[d_xz[o]]
-                            zf(f"{o} - {z_name[d_xz[o]]} 没有受到伤害，恢复了 {z_hfnl[d_xz[o]]:.3f} ENERGY。", "E+")
+                for o1 in range(d_amount):
+                    if d_damage[o1] == 0:
+                        if z_hfnl[d_xz[o1]] == 0:
+                            z_hfnl[d_xz[o1]] = round(uniform(0.05, 0.11) * zt_energy[d_xz[o1]], 3)
+                            zs_energy[d_xz[o1]] += z_hfnl[d_xz[o1]]
+                            zf(f"{o1} - {z_name[d_xz[o1]]} 没有受到伤害，恢复了 {z_hfnl[d_xz[o1]]:.3f} ENERGY。", "E+")
 
                 for o in range(z_amount):
                     if zs_energy[o] > 0:
                         z_hfhp.append(round(uniform(0.05, 0.11) * zt_hp[o], 3))
                         if zs_hp[o] == zt_hp[o]:
-                            zf(f"{o} - {z_name[o]} HP 已满，又恢复了 {z_hfhp[o]:.3f} ENERGY。", "E+")
+                            zf(f"{o} - {z_name[o]} HP 已满，恢复了 {z_hfhp[o]:.3f} ENERGY。", "E+")
                             zs_energy[o] += z_hfhp[o]
                             z_hfnl[o] += z_hfhp[o]
                             z_hfhp[o] = 0
@@ -603,6 +630,7 @@ try:
                             if zs_hp[o] + z_hfhp[o] > zt_hp[o] and zs_energy[o] - z_hfhp[o] > 0:
                                 zs_hp[o] = zt_hp[o]
                                 z_hfhp[o] -= (zt_hp[o] - zs_hp[o])
+                                zs_energy[o] -= z_hfhp[o]
                                 zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "E")
                             elif zs_energy[o] - z_hfhp[o] <= 0:
                                 z_hfhp[o] -= abs(zs_energy[o] - z_hfhp[o])
@@ -610,17 +638,18 @@ try:
                                 zf(f"{o} - {z_name[o]} 虽恢复了 {z_hfhp[o]:.3f} HP，但再也没有任何精力了。", "A-")
                             else:
                                 zs_hp[o] += z_hfhp[o]
+                                zs_energy[o] -= z_hfhp[o]
                                 zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "G")
                     else:
                         z_hfhp.append(0)
 
                 print()
-                for p in range(z_amount):
-                    if z_damage[p] == 0:
-                        if d_hfnl[z_xz[p]] == 0:
-                            d_hfnl[z_xz[p]] = round(uniform(0.05, 0.11) * dt_energy[z_xz[p]], 3)
-                            ds_energy[z_xz[p]] += d_hfnl[z_xz[p]]
-                            zf(f"{p} - {d_name[z_xz[p]]} 没有受到伤害，恢复了 {d_hfnl[z_xz[p]]:.3f} ENERGY。", "N-")
+                for p1 in range(z_amount):
+                    if z_damage[p1] == 0:
+                        if d_hfnl[z_xz[p1]] == 0:
+                            d_hfnl[z_xz[p1]] = round(uniform(0.05, 0.11) * dt_energy[z_xz[p1]], 3)
+                            ds_energy[z_xz[p1]] += d_hfnl[z_xz[p1]]
+                            zf(f"{p1} - {d_name[z_xz[p1]]} 没有受到伤害，恢复了 {d_hfnl[z_xz[p1]]:.3f} ENERGY。", "N-")
 
                 for p in range(d_amount):
                     if ds_energy[p] > 0:
@@ -634,6 +663,7 @@ try:
                             if ds_hp[p] + d_hfhp[p] > dt_hp[p] and ds_energy[p] - d_hfhp[p] > 0:
                                 ds_hp[p] = dt_hp[p]
                                 d_hfhp[p] -= (dt_hp[p] - ds_hp[p])
+                                ds_energy[p] -= d_hfhp[p]
                                 zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "S")
                             elif ds_energy[p] - d_hfhp[p] <= 0:
                                 d_hfhp[p] -= abs(ds_energy[p] - d_hfhp[p])
@@ -641,6 +671,7 @@ try:
                                 zf(f"{p} - {d_name[p]} 虽恢复了 {d_hfhp[p]:.3f} HP，但再也没有任何精力了。", "A")
                             else:
                                 ds_hp[p] += d_hfhp[p]
+                                ds_energy[p] -= d_hfhp[p]
                                 zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "C-")
                     else:
                         d_hfhp.append(0)
@@ -650,8 +681,8 @@ try:
                     if ds_hp[s] <= 0:
                         print()
                         zf(f"{s} - {d_name[s]} 败下阵来。", "F+")
-                        for lst in [d_name, ds_hp, ds_energy, d_atk, d_crit, d_fy, d_jc, z_damage]:
-                            lst.append(lst.pop(s))
+                        for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
+                            lst.pop(s)
                         d_amount -= 1
                         if d_amount == 0:
                             zf("模拟结束。你成功地打败了所有敌人。", "F+")
@@ -663,8 +694,8 @@ try:
                     if zs_hp[t] <= 0:
                         print()
                         zf(f"{t} - {z_name[t]} 败下阵来。", "DI-")
-                        for lst in [z_name, zs_hp, zs_energy, z_atk, z_crit, z_fy, z_jc, d_damage]:
-                            lst.append(lst.pop(t))
+                        for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, z_atk, z_crit, z_fy, z_jc]:
+                            lst.pop(t)
                         z_amount -= 1
                         if z_amount == 0:
                             zf("模拟结束。你被敌人全部击败。", "DI-")
@@ -676,14 +707,14 @@ try:
                     print(f"第 {turns} 回合结束，角色状态。")
                     print(f"我方阵营：还剩 {z_amount} 名角色。")
                     for u in range(z_amount):
-                        jdt(zs_hp[u], zt_hp[u], abs(z_hfhp[u]), abs(d_damage[u] if u < len(d_damage) else 0), f"{u} - {z_name[u]}", "hp", "me")
-                        jdt(zs_energy[u], zt_energy[u], abs(z_hfnl[u]), abs(z_hfhp[u]), f"{u} - {z_name[u]}", "energy", "me")
+                        jdt(zs_hp[u], zt_hp[u], f"{u} - {z_name[u]}", "hp", "me")
+                        jdt(zs_energy[u], zt_energy[u], f"{u} - {z_name[u]}", "energy", "me")
                         print()
 
                     print(f"敌方阵营：还剩 {d_amount} 名角色。")
                     for v in range(d_amount):
-                        jdt(ds_hp[v], dt_hp[v], abs(d_hfhp[v]), abs(z_damage[v] if v < len(z_damage) else 0), f"{v} - {d_name[v]}", "hp", "enemy")
-                        jdt(ds_energy[v], dt_energy[v], abs(d_hfnl[v]), abs(d_hfhp[v]), f"{v} - {d_name[v]}", "energy", "enemy")
+                        jdt(ds_hp[v], dt_hp[v], f"{v} - {d_name[v]}", "hp", "enemy")
+                        jdt(ds_energy[v], dt_energy[v], f"{v} - {d_name[v]}", "energy", "enemy")
                         print()
 
                     zs_energy = [round(e, 3) for e in zs_energy]
@@ -696,160 +727,31 @@ try:
             zf("无效输入。跳过本次攻击。", "error")
             print()
 
-    def moren(): # 默认设置。
-        global z_amount
-
-        zf("角色的 HP 、 JC 、 攻击力、防御力等将随 ML 而变化。", "text")
-        zf(r"""
-    角色列表：
-    1 - Feng_Noti；
-    2 - With_Kout；
-    3 - Tsian_Ca；
-    4 - Zyxa Wvub；
-    5 - Chala Sklif；
-    6 - It Rains；
-    7 - Lin Xi；
-    8 - Modificationer + Satelliti；
-    9 - Xusu Ziye。
-""", "text")
-
-        z_amount = zf("请输入角色数量：", "inp")
-        z_amount = zs(z_amount, 1, 9)
-        for i in range(z_amount):
-            z_num = zf(f"请输入第 {i + 1} 个角色的编号：", "inp")
-            z_num = zs(z_num, 1, 9)
-            z_name.append(characters_names[z_num - 1])
-
-            z_ml = zf("请输入角色 ML ：", "inp")
-            z_ml = zs(z_ml, 0, 15)
-
-            match z_num:
-                case 1:
-                    zs_hp.append(f_hp[z_ml])
-                    zt_hp.append(f_hp[z_ml])
-                    zs_energy.append(f_energy[z_ml])
-                    zt_energy.append(f_energy[z_ml])
-                    zj_atk.append(f_atk[z_ml])
-                    zj_crit.append(f_crit[z_ml])
-                    zj_fy.append(f_fy[z_ml])
-                    zj_jc.append(f_jc[z_ml])
-                case 2:
-                    zs_hp.append(w_hp[z_ml])
-                    zt_hp.append(w_hp[z_ml])
-                    zs_energy.append(w_energy[z_ml])
-                    zt_energy.append(w_energy[z_ml])
-                    zj_atk.append(w_atk[z_ml])
-                    zj_crit.append(w_crit[z_ml])
-                    zj_fy.append(w_fy[z_ml])
-                    zj_jc.append(w_jc[z_ml])
-                case 3:
-                    zs_hp.append(t_hp[z_ml])
-                    zt_hp.append(t_hp[z_ml])
-                    zs_energy.append(t_energy[z_ml])
-                    zt_energy.append(t_energy[z_ml])
-                    zj_atk.append(t_atk[z_ml])
-                    zj_crit.append(t_crit[z_ml])
-                    zj_fy.append(t_fy[z_ml])
-                    zj_jc.append(t_jc[z_ml])
-                case 4:
-                    zs_hp.append(z_hp[z_ml])
-                    zt_hp.append(z_hp[z_ml])
-                    zs_energy.append(z_energy[z_ml])
-                    zt_energy.append(z_energy[z_ml])
-                    zj_atk.append(z_atk[z_ml])
-                    zj_crit.append(z_crit[z_ml])
-                    zj_fy.append(z_fy[z_ml])
-                    zj_jc.append(z_jc[z_ml])
-                case 5:
-                    zs_hp.append(sk_hp[z_ml])
-                    zt_hp.append(sk_hp[z_ml])
-                    zs_energy.append(sk_energy[z_ml])
-                    zt_energy.append(sk_energy[z_ml])
-                    zj_atk.append(sk_atk[z_ml])
-                    zj_crit.append(sk_crit[z_ml])
-                    zj_fy.append(sk_fy[z_ml])
-                    zj_jc.append(sk_jc[z_ml])
-                case 6:
-                    zs_hp.append(ir_hp[z_ml])
-                    zt_hp.append(ir_hp[z_ml])
-                    zs_energy.append(ir_energy[z_ml])
-                    zt_energy.append(ir_energy[z_ml])
-                    zj_atk.append(ir_atk[z_ml])
-                    zj_crit.append(ir_crit[z_ml])
-                    zj_fy.append(ir_fy[z_ml])
-                    zj_jc.append(ir_jc[z_ml])
-                case 7:
-                    zs_hp.append(lin_xi_hp[z_ml])
-                    zt_hp.append(lin_xi_hp[z_ml])
-                    zs_energy.append(lin_xi_energy[z_ml])
-                    zt_energy.append(lin_xi_energy[z_ml])
-                    zj_atk.append(lin_xi_atk[z_ml])
-                    zj_crit.append(lin_xi_crit[z_ml])
-                    zj_fy.append(lin_xi_fy[z_ml])
-                    zj_jc.append(lin_xi_jc[z_ml])
-                case 8:
-                    zs_hp.append(m_hp[z_ml])
-                    zt_hp.append(m_hp[z_ml])
-                    zs_energy.append(m_energy[z_ml])
-                    zt_energy.append(m_energy[z_ml])
-                    zj_atk.append(m_atk[z_ml])
-                    zj_crit.append(m_crit[z_ml])
-                    zj_fy.append(m_fy[z_ml])
-                    zj_jc.append(m_jc[z_ml])
-                case 9:
-                    zs_hp.append(x_hp[z_ml])
-                    zt_hp.append(x_hp[z_ml])
-                    zs_energy.append(x_energy[z_ml])
-                    zt_energy.append(x_energy[z_ml])
-                    zj_atk.append(x_atk[z_ml])
-                    zj_crit.append(x_crit[z_ml])
-                    zj_fy.append(x_fy[z_ml])
-                    zj_jc.append(x_jc[z_ml])
-
-    def ziding(): # 自定义设置。
-        global z_amount
-
-        z_amount = zf("请输入角色数量：", "inp")
-        z_amount = zs(z_amount, 1, 9)
-        for i in range(z_amount):
-            while True:
-                z_name = zf(f"请输入第 {i + 1} 个角色的名称：", "inp")
-                if z_name == d_name:
-                    zf("角色名不能与敌人名相同。", "error")
-                else:
-                    break
-            
-            ls_hp = zf(f"请输入第 {i + 1} 个角色的 HP ：", "inp")
-            ls_hp = fd(ls_hp, 1, float("inf"))
-            zs_hp.append(ls_hp)
-            zt_hp.append(ls_hp)
-
-            ls_energy = zf(f"请输入第 {i + 1} 个角色的 ENERGY ：", "inp")
-            ls_energy = fd(ls_energy, 1, float("inf"))
-            zs_energy.append(ls_energy)
-            zt_energy.append(ls_energy)
-
-            ls_fy = zf(f"请输入第 {i + 1} 个角色的防御力 ：", "inp")
-            ls_fy = zs(ls_fy, 1, float("inf"))
-            zj_fy.append(ls_fy)
-
-            ls_atk = zf(f"请输入第 {i + 1} 个角色的攻击力 ：", "inp")
-            ls_atk = zs(ls_atk, 1, float("inf"))
-            zj_atk.append(ls_atk)
-
-            ls_weapon = zf(f"请输入第 {i + 1} 个角色的武器的攻击力 ：", "inp")
-            ls_weapon = zs(ls_weapon, 1, float("inf"))
-            zj_atk[i] += ls_weapon
-
-            ls_crit = zf(f"请输入第 {i + 1} 个角色的暴击率 ：（0 ~ 1 之间的数字）", "inp")
-            ls_crit = fd(ls_crit, 0.01, 1)
-            zj_crit.append(ls_crit)
-
-            ls_jc = zf(f"请输入第 {i + 1} 个角色的 JC ：", "inp")
-            ls_jc = zs(ls_jc, 1, float("inf"))
-            zj_jc.append(ls_jc)
-
     # 程序开始。
+    os.system("cls")
+    try:
+        start = input("""注意！
+
+        在运行本程序前，确保你至少安装了 Python 3.10 和 rich 库。
+        若 Python 版本低于 3.10，请输入 “0”；
+        若没有安装 rich 库，请输入 “1”；
+        若没有需求，请按下 Enter 键继续。
+
+        接下来是本程序的一些说明。
+        以 “\/ [INP]” 开头的文字需要你输入。
+        本程序的所有输入内容均不区分大小写。（输入角色和敌人名称时除外）
+        以 “\/ [ERROR]” 开头的文字表示程序运行时出现错误。
+
+        \/ [INP] 等待操作：""")
+        if start == "0":
+            os.system("python -m pip install --upgrade pip")
+        elif start == "1":
+            os.system("pip install rich")
+    except KeyboardInterrupt:
+        sys.exit(0)
+    except EOFError:
+        sys.exit(0)
+
     os.system("cls")
     while True:
         sz = zf(r"对于角色的信息，使用内置的配置还是自行输入信息？（M / Z）", "inp")
@@ -893,220 +795,258 @@ try:
     17 - Era；
     18 - Ert；
     19 - Hello14；
-    20 - Ichi Ryū。
+    20 - Ichi Ryū；
+    21 - Lin Hua；
+    22 - Notification Withdrawer；
+    23 - Opportunity；
+    24 - Ricky Nanmuzhi。
 """, "text")
 
         d_amount = zf("请输入敌人数量：", "inp")
         d_amount = zs(d_amount, 1, 9)
         for i in range(d_amount):
             d_num = zf(f"请选择第 {i + 1} 个敌人：", "inp")
-            d_num = zs(d_num, 1, 20)
-            d_name.append(enemy_names[d_num - 1])
+            d_num = zs(d_num, 1, 24)
+            d_name.append(all_names[d_num - 1])
     
             if 1 <= d_num <= 9:
-                d_ml_val = zf("你还需要输入敌人的 ML：", "inp")  # 敌人 ML。
-                d_ml_val = zs(d_ml_val, 0, 15)
+                ls_dml = zf("你还需要输入敌人的 ML：", "inp")  # 敌人 ML。
+                ls_dml = zs(ls_dml, 0, 15)
             else:
-                d_ml_val = 0
-    
-            d_ml.append(d_ml_val)
+                ls_dml = 0
     
             match d_num:
                 case 1:
-                    ds_hp.append(f_hp[d_ml_val])  # 敌人 HP。
+                    ds_hp.append(f_hp[ls_dml])  # 敌人 HP。
                     dt_hp.append(ds_hp[i])  # 敌人总 HP。
-                    ds_energy.append(f_energy[d_ml_val])  # 敌人精力。
+                    ds_energy.append(f_energy[ls_dml])  # 敌人精力。
                     dt_energy.append(ds_energy[i])  # 敌人总精力。
-                    d_atk.append(f_atk[d_ml_val])  # 敌人攻击力。
-                    d_fy.append(f_fy[d_ml_val])  # 敌人防御力。
-                    d_crit.append(f_crit[d_ml_val])  # 敌人暴击率。
-                    d_jc.append(f_jc[d_ml_val])  # 敌人 JC。
+                    d_atk.append(f_atk[ls_dml])  # 敌人攻击力。
+                    d_fy.append(f_fy[ls_dml])  # 敌人防御力。
+                    d_crit.append(f_crit[ls_dml])  # 敌人暴击率。
+                    d_jc.append(f_jc[ls_dml])  # 敌人 JC。
                 case 2:
-                    ds_hp.append(w_hp[d_ml_val])
+                    ds_hp.append(w_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(w_energy[d_ml_val])
+                    ds_energy.append(w_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(w_atk[d_ml_val])
-                    d_fy.append(w_fy[d_ml_val])
-                    d_crit.append(w_crit[d_ml_val])
-                    d_jc.append(w_jc[d_ml_val])
+                    d_atk.append(w_atk[ls_dml])
+                    d_fy.append(w_fy[ls_dml])
+                    d_crit.append(w_crit[ls_dml])
+                    d_jc.append(w_jc[ls_dml])
                 case 3:
-                    ds_hp.append(t_hp[d_ml_val])
+                    ds_hp.append(t_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(t_energy[d_ml_val])
+                    ds_energy.append(t_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(t_atk[d_ml_val])
-                    d_fy.append(t_fy[d_ml_val])
-                    d_crit.append(t_crit[d_ml_val])
-                    d_jc.append(t_jc[d_ml_val])
+                    d_atk.append(t_atk[ls_dml])
+                    d_fy.append(t_fy[ls_dml])
+                    d_crit.append(t_crit[ls_dml])
+                    d_jc.append(t_jc[ls_dml])
                 case 4:
-                    ds_hp.append(z_hp[d_ml_val])
+                    ds_hp.append(z_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(z_energy[d_ml_val])
+                    ds_energy.append(z_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(z_atk[d_ml_val])
-                    d_fy.append(z_fy[d_ml_val])
-                    d_crit.append(z_crit[d_ml_val])
-                    d_jc.append(z_jc[d_ml_val])
+                    d_atk.append(z_atk[ls_dml])
+                    d_fy.append(z_fy[ls_dml])
+                    d_crit.append(z_crit[ls_dml])
+                    d_jc.append(z_jc[ls_dml])
                 case 5:
-                    ds_hp.append(sk_hp[d_ml_val])
+                    ds_hp.append(sk_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(sk_energy[d_ml_val])
+                    ds_energy.append(sk_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(sk_atk[d_ml_val])
-                    d_fy.append(sk_fy[d_ml_val])
-                    d_crit.append(sk_crit[d_ml_val])
-                    d_jc.append(sk_jc[d_ml_val])
+                    d_atk.append(sk_atk[ls_dml])
+                    d_fy.append(sk_fy[ls_dml])
+                    d_crit.append(sk_crit[ls_dml])
+                    d_jc.append(sk_jc[ls_dml])
                 case 6:
-                    ds_hp.append(ir_hp[d_ml_val])
+                    ds_hp.append(ir_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(ir_energy[d_ml_val])
+                    ds_energy.append(ir_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(ir_atk[d_ml_val])
-                    d_fy.append(ir_fy[d_ml_val])
-                    d_crit.append(ir_crit[d_ml_val])
-                    d_jc.append(ir_jc[d_ml_val])
+                    d_atk.append(ir_atk[ls_dml])
+                    d_fy.append(ir_fy[ls_dml])
+                    d_crit.append(ir_crit[ls_dml])
+                    d_jc.append(ir_jc[ls_dml])
                 case 7:
-                    ds_hp.append(lin_xi_hp[d_ml_val])
+                    ds_hp.append(lin_xi_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(lin_xi_energy[d_ml_val])
+                    ds_energy.append(lin_xi_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(lin_xi_atk[d_ml_val])
-                    d_fy.append(lin_xi_fy[d_ml_val])
-                    d_crit.append(lin_xi_crit[d_ml_val])
-                    d_jc.append(lin_xi_jc[d_ml_val])
+                    d_atk.append(lin_xi_atk[ls_dml])
+                    d_fy.append(lin_xi_fy[ls_dml])
+                    d_crit.append(lin_xi_crit[ls_dml])
+                    d_jc.append(lin_xi_jc[ls_dml])
                 case 8:
-                    ds_hp.append(m_hp[d_ml_val])
+                    ds_hp.append(m_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(m_energy[d_ml_val])
+                    ds_energy.append(m_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(m_atk[d_ml_val])
-                    d_fy.append(m_fy[d_ml_val])
-                    d_crit.append(m_crit[d_ml_val])
-                    d_jc.append(m_jc[d_ml_val])
+                    d_atk.append(m_atk[ls_dml])
+                    d_fy.append(m_fy[ls_dml])
+                    d_crit.append(m_crit[ls_dml])
+                    d_jc.append(m_jc[ls_dml])
                 case 9:
-                    ds_hp.append(x_hp[d_ml_val])
+                    ds_hp.append(x_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(x_energy[d_ml_val])
+                    ds_energy.append(x_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(x_atk[d_ml_val])
-                    d_fy.append(x_fy[d_ml_val])
-                    d_crit.append(x_crit[d_ml_val])
-                    d_jc.append(x_jc[d_ml_val])
+                    d_atk.append(x_atk[ls_dml])
+                    d_fy.append(x_fy[ls_dml])
+                    d_crit.append(x_crit[ls_dml])
+                    d_jc.append(x_jc[ls_dml])
                 case 10:
-                    ds_hp.append(aka_f_hp[d_ml_val])
+                    ds_hp.append(aka_f_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(aka_f_energy[d_ml_val])
+                    ds_energy.append(aka_f_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(aka_f_atk[d_ml_val])
-                    d_fy.append(aka_f_fy[d_ml_val])
-                    d_crit.append(aka_f_crit[d_ml_val])
-                    d_jc.append(aka_f_jc[d_ml_val])
+                    d_atk.append(aka_f_atk[ls_dml])
+                    d_fy.append(aka_f_fy[ls_dml])
+                    d_crit.append(aka_f_crit[ls_dml])
+                    d_jc.append(aka_f_jc[ls_dml])
                 case 11:
-                    ds_hp.append(aka_k_hp[d_ml_val])
+                    ds_hp.append(aka_k_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(aka_k_energy[d_ml_val])
+                    ds_energy.append(aka_k_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(aka_k_atk[d_ml_val])
-                    d_fy.append(aka_k_fy[d_ml_val])
-                    d_crit.append(aka_k_crit[d_ml_val])
-                    d_jc.append(aka_k_jc[d_ml_val])
+                    d_atk.append(aka_k_atk[ls_dml])
+                    d_fy.append(aka_k_fy[ls_dml])
+                    d_crit.append(aka_k_crit[ls_dml])
+                    d_jc.append(aka_k_jc[ls_dml])
                 case 12:
-                    ds_hp.append(aka_y_hp[d_ml_val])
+                    ds_hp.append(aka_y_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(aka_y_energy[d_ml_val])
+                    ds_energy.append(aka_y_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(aka_y_atk[d_ml_val])
-                    d_fy.append(aka_y_fy[d_ml_val])
-                    d_crit.append(aka_y_crit[d_ml_val])
-                    d_jc.append(aka_y_jc[d_ml_val])
+                    d_atk.append(aka_y_atk[ls_dml])
+                    d_fy.append(aka_y_fy[ls_dml])
+                    d_crit.append(aka_y_crit[ls_dml])
+                    d_jc.append(aka_y_jc[ls_dml])
                 case 13:
-                    ds_hp.append(aoi_sa_hp[d_ml_val])
+                    ds_hp.append(aoi_sa_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(aoi_sa_energy[d_ml_val])
+                    ds_energy.append(aoi_sa_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(aoi_sa_atk[d_ml_val])
-                    d_fy.append(aoi_sa_fy[d_ml_val])
-                    d_crit.append(aoi_sa_crit[d_ml_val])
-                    d_jc.append(aoi_sa_jc[d_ml_val])
+                    d_atk.append(aoi_sa_atk[ls_dml])
+                    d_fy.append(aoi_sa_fy[ls_dml])
+                    d_crit.append(aoi_sa_crit[ls_dml])
+                    d_jc.append(aoi_sa_jc[ls_dml])
                 case 14:
-                    ds_hp.append(aoi_sh_hp[d_ml_val])
+                    ds_hp.append(aoi_sh_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(aoi_sh_energy[d_ml_val])
+                    ds_energy.append(aoi_sh_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(aoi_sh_atk[d_ml_val])
-                    d_fy.append(aoi_sh_fy[d_ml_val])
-                    d_crit.append(aoi_sh_crit[d_ml_val])
-                    d_jc.append(aoi_sh_jc[d_ml_val])
+                    d_atk.append(aoi_sh_atk[ls_dml])
+                    d_fy.append(aoi_sh_fy[ls_dml])
+                    d_crit.append(aoi_sh_crit[ls_dml])
+                    d_jc.append(aoi_sh_jc[ls_dml])
                 case 15:
-                    ds_hp.append(aoi_l_hp[d_ml_val])
+                    ds_hp.append(aoi_l_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(aoi_l_energy[d_ml_val])
+                    ds_energy.append(aoi_l_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(aoi_l_atk[d_ml_val])
-                    d_fy.append(aoi_l_fy[d_ml_val])
-                    d_crit.append(aoi_l_crit[d_ml_val])
-                    d_jc.append(aoi_l_jc[d_ml_val])
+                    d_atk.append(aoi_l_atk[ls_dml])
+                    d_fy.append(aoi_l_fy[ls_dml])
+                    d_crit.append(aoi_l_crit[ls_dml])
+                    d_jc.append(aoi_l_jc[ls_dml])
                 case 16:
-                    ds_hp.append(bei_hp[d_ml_val])
+                    ds_hp.append(bei_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(bei_energy[d_ml_val])
+                    ds_energy.append(bei_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(bei_atk[d_ml_val])
-                    d_fy.append(bei_fy[d_ml_val])
-                    d_crit.append(bei_crit[d_ml_val])
-                    d_jc.append(bei_jc[d_ml_val])
+                    d_atk.append(bei_atk[ls_dml])
+                    d_fy.append(bei_fy[ls_dml])
+                    d_crit.append(bei_crit[ls_dml])
+                    d_jc.append(bei_jc[ls_dml])
                 case 17:
-                    ds_hp.append(era_hp[d_ml_val])
+                    ds_hp.append(era_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(era_energy[d_ml_val])
+                    ds_energy.append(era_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(era_atk[d_ml_val])
-                    d_fy.append(era_fy[d_ml_val])
-                    d_crit.append(era_crit[d_ml_val])
-                    d_jc.append(era_jc[d_ml_val])
+                    d_atk.append(era_atk[ls_dml])
+                    d_fy.append(era_fy[ls_dml])
+                    d_crit.append(era_crit[ls_dml])
+                    d_jc.append(era_jc[ls_dml])
                 case 18:
-                    ds_hp.append(ert_hp[d_ml_val])
+                    ds_hp.append(ert_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(ert_energy[d_ml_val])
+                    ds_energy.append(ert_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(ert_atk[d_ml_val])
-                    d_fy.append(ert_fy[d_ml_val])
-                    d_crit.append(ert_crit[d_ml_val])
-                    d_jc.append(ert_jc[d_ml_val])
+                    d_atk.append(ert_atk[ls_dml])
+                    d_fy.append(ert_fy[ls_dml])
+                    d_crit.append(ert_crit[ls_dml])
+                    d_jc.append(ert_jc[ls_dml])
                 case 19:
-                    ds_hp.append(he_hp[d_ml_val])
+                    ds_hp.append(he_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(he_energy[d_ml_val])
+                    ds_energy.append(he_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(he_atk[d_ml_val])
-                    d_fy.append(he_fy[d_ml_val])
-                    d_crit.append(he_crit[d_ml_val])
-                    d_jc.append(he_jc[d_ml_val])
+                    d_atk.append(he_atk[ls_dml])
+                    d_fy.append(he_fy[ls_dml])
+                    d_crit.append(he_crit[ls_dml])
+                    d_jc.append(he_jc[ls_dml])
                 case 20:
-                    ds_hp.append(ichi_hp[d_ml_val])
+                    ds_hp.append(ichi_hp[ls_dml])
                     dt_hp.append(ds_hp[i])
-                    ds_energy.append(ichi_energy[d_ml_val])
+                    ds_energy.append(ichi_energy[ls_dml])
                     dt_energy.append(ds_energy[i])
-                    d_atk.append(ichi_atk[d_ml_val])
-                    d_fy.append(ichi_fy[d_ml_val])
-                    d_crit.append(ichi_crit[d_ml_val])
-                    d_jc.append(ichi_jc[d_ml_val])
+                    d_atk.append(ichi_atk[ls_dml])
+                    d_fy.append(ichi_fy[ls_dml])
+                    d_crit.append(ichi_crit[ls_dml])
+                    d_jc.append(ichi_jc[ls_dml])
+                case 21:
+                    ds_hp.append(lin_hua_hp[ls_dml])
+                    dt_hp.append(ds_hp[i])
+                    ds_energy.append(lin_hua_energy[ls_dml])
+                    dt_energy.append(ds_energy[i])
+                    d_atk.append(lin_hua_atk[ls_dml])
+                    d_fy.append(lin_hua_fy[ls_dml])
+                    d_crit.append(lin_hua_crit[ls_dml])
+                    d_jc.append(lin_hua_jc[ls_dml])
+                case 22:
+                    ds_hp.append(n_hp[ls_dml])
+                    dt_hp.append(ds_hp[i])
+                    ds_energy.append(n_energy[ls_dml])
+                    dt_energy.append(ds_energy[i])
+                    d_atk.append(n_atk[ls_dml])
+                    d_fy.append(n_fy[ls_dml])
+                    d_crit.append(n_crit[ls_dml])
+                    d_jc.append(n_jc[ls_dml])
+                case 23:
+                    ds_hp.append(o_hp[ls_dml])
+                    dt_hp.append(ds_hp[i])
+                    ds_energy.append(o_energy[ls_dml])
+                    dt_energy.append(ds_energy[i])
+                    d_atk.append(o_atk[ls_dml])
+                    d_fy.append(o_fy[ls_dml])
+                    d_crit.append(o_crit[ls_dml])
+                    d_jc.append(o_jc[ls_dml])
+                case 24:
+                    ds_hp.append(ri_hp[ls_dml])
+                    dt_hp.append(ds_hp[i])
+                    ds_energy.append(ri_energy[ls_dml])
+                    dt_energy.append(ds_energy[i])
+                    d_atk.append(ri_atk[ls_dml])
+                    d_fy.append(ri_fy[ls_dml])
+                    d_crit.append(ri_crit[ls_dml])
+                    d_jc.append(ri_jc[ls_dml])
         os.system("cls")
 
-    elif qr1 == "z":
+    else:
         d_amount = zf("请输入敌人数量：", "inp")
         d_amount = zs(d_amount, 1, 9)
         for j in range(d_amount):
-            d_name[j] = zf("请输入敌人名称：", "inp")
+            d_name.append(zf("请输入敌人名称：", "inp"))
 
             ls_dhp = zf(f"请输入 {d_name[j]} 的 HP ：", "inp")
-            ls_dhp = zs(ls_dhp, 1, float("inf"))
+            ls_dhp = fd(ls_dhp, 1, float("inf"))
             ds_hp.append(ls_dhp)
             dt_hp.append(ls_dhp)
         
             ls_denergy = zf(f"请输入 {d_name[j]} 的 ENERGY：", "inp")
-            ls_denergy = zs(ls_denergy, 1, float("inf"))
+            ls_denergy = fd(ls_denergy, 1, float("inf"))
             ds_energy.append(ls_denergy)
             dt_energy.append(ls_denergy)
 
@@ -1119,7 +1059,7 @@ try:
             d_atk.append(ls_datk)
 
             ls_dcrit = zf(f"请输入 {d_name[j]} 的暴击率 ：", "inp")
-            ls_dcrit = zs(ls_dcrit, 0.01, 1)
+            ls_dcrit = fd(ls_dcrit, 0.01, 1)
             d_crit.append(ls_dcrit)
 
             ls_djc = zf(f"请输入 {d_name[j]} 的 JC ：", "inp")
@@ -1130,9 +1070,308 @@ try:
         os.system("cls")
 
     if sz == "m":
-        moren()
+        zf("角色的 HP 、 JC 、 攻击力、防御力等将随 ML 而变化。", "text")
+        zf(r"""
+    角色列表：
+    1 - Feng_Noti；
+    2 - With_Kout；
+    3 - Tsian_Ca；
+    4 - Zyxa Wvub；
+    5 - Chala Sklif；
+    6 - It Rains；
+    7 - Lin Xi；
+    8 - Modificationer + Satelliti；
+    9 - Xusu Ziye；
+    10 - Aka Fū；
+    11 - Aka Ka；
+    12 - Aka Yan；
+    13 - Aoi Sa；
+    14 - Aoi Shui；
+    15 - Aoi Lan；
+    16 - Bei Hua；
+    17 - Era；
+    18 - Ert；
+    19 - Hello14；
+    20 - Ichi Ryū；
+    21 - Lin Hua；
+    22 - Notification Withdrawer；
+    23 - Opportunity；
+    24 - Ricky Nanmuzhi。
+""", "text")
+
+        z_amount = zf("请输入角色数量：", "inp")
+        z_amount = zs(z_amount, 1, 9)
+        for i in range(z_amount):
+            z_num = zf(f"请输入第 {i + 1} 个角色的编号：", "inp")
+            z_num = zs(z_num, 1, 24)
+            z_name.append(all_names[z_num - 1])
+
+            if 1 <= z_num <= 9:
+                ls_zml = zf("你还需要输入角色的 ML ：", "inp")
+                ls_zml = zs(ls_zml, 0, 15)
+            else:
+                ls_zml = 0
+
+            match z_num:
+                case 1:
+                    zs_hp.append(f_hp[ls_zml])
+                    zt_hp.append(f_hp[ls_zml])
+                    zs_energy.append(f_energy[ls_zml])
+                    zt_energy.append(f_energy[ls_zml])
+                    zj_atk.append(f_atk[ls_zml])
+                    zj_crit.append(f_crit[ls_zml])
+                    zj_fy.append(f_fy[ls_zml])
+                    zj_jc.append(f_jc[ls_zml])
+                case 2:
+                    zs_hp.append(w_hp[ls_zml])
+                    zt_hp.append(w_hp[ls_zml])
+                    zs_energy.append(w_energy[ls_zml])
+                    zt_energy.append(w_energy[ls_zml])
+                    zj_atk.append(w_atk[ls_zml])
+                    zj_crit.append(w_crit[ls_zml])
+                    zj_fy.append(w_fy[ls_zml])
+                    zj_jc.append(w_jc[ls_zml])
+                case 3:
+                    zs_hp.append(t_hp[ls_zml])
+                    zt_hp.append(t_hp[ls_zml])
+                    zs_energy.append(t_energy[ls_zml])
+                    zt_energy.append(t_energy[ls_zml])
+                    zj_atk.append(t_atk[ls_zml])
+                    zj_crit.append(t_crit[ls_zml])
+                    zj_fy.append(t_fy[ls_zml])
+                    zj_jc.append(t_jc[ls_zml])
+                case 4:
+                    zs_hp.append(z_hp[ls_zml])
+                    zt_hp.append(z_hp[ls_zml])
+                    zs_energy.append(z_energy[ls_zml])
+                    zt_energy.append(z_energy[ls_zml])
+                    zj_atk.append(z_atk[ls_zml])
+                    zj_crit.append(z_crit[ls_zml])
+                    zj_fy.append(z_fy[ls_zml])
+                    zj_jc.append(z_jc[ls_zml])
+                case 5:
+                    zs_hp.append(sk_hp[ls_zml])
+                    zt_hp.append(sk_hp[ls_zml])
+                    zs_energy.append(sk_energy[ls_zml])
+                    zt_energy.append(sk_energy[ls_zml])
+                    zj_atk.append(sk_atk[ls_zml])
+                    zj_crit.append(sk_crit[ls_zml])
+                    zj_fy.append(sk_fy[ls_zml])
+                    zj_jc.append(sk_jc[ls_zml])
+                case 6:
+                    zs_hp.append(ir_hp[ls_zml])
+                    zt_hp.append(ir_hp[ls_zml])
+                    zs_energy.append(ir_energy[ls_zml])
+                    zt_energy.append(ir_energy[ls_zml])
+                    zj_atk.append(ir_atk[ls_zml])
+                    zj_crit.append(ir_crit[ls_zml])
+                    zj_fy.append(ir_fy[ls_zml])
+                    zj_jc.append(ir_jc[ls_zml])
+                case 7:
+                    zs_hp.append(lin_xi_hp[ls_zml])
+                    zt_hp.append(lin_xi_hp[ls_zml])
+                    zs_energy.append(lin_xi_energy[ls_zml])
+                    zt_energy.append(lin_xi_energy[ls_zml])
+                    zj_atk.append(lin_xi_atk[ls_zml])
+                    zj_crit.append(lin_xi_crit[ls_zml])
+                    zj_fy.append(lin_xi_fy[ls_zml])
+                    zj_jc.append(lin_xi_jc[ls_zml])
+                case 8:
+                    zs_hp.append(m_hp[ls_zml])
+                    zt_hp.append(m_hp[ls_zml])
+                    zs_energy.append(m_energy[ls_zml])
+                    zt_energy.append(m_energy[ls_zml])
+                    zj_atk.append(m_atk[ls_zml])
+                    zj_crit.append(m_crit[ls_zml])
+                    zj_fy.append(m_fy[ls_zml])
+                    zj_jc.append(m_jc[ls_zml])
+                case 9:
+                    zs_hp.append(x_hp[ls_zml])
+                    zt_hp.append(x_hp[ls_zml])
+                    zs_energy.append(x_energy[ls_zml])
+                    zt_energy.append(x_energy[ls_zml])
+                    zj_atk.append(x_atk[ls_zml])
+                    zj_crit.append(x_crit[ls_zml])
+                    zj_fy.append(x_fy[ls_zml])
+                    zj_jc.append(x_jc[ls_zml])
+                case 10:
+                    zs_hp.append(aka_f_atk[ls_zml])
+                    zt_hp.append(aka_f_atk[ls_zml])
+                    zs_energy.append(aka_f_energy[ls_zml])
+                    zt_energy.append(aka_f_energy[ls_zml])
+                    zj_atk.append(aka_f_atk[ls_zml])
+                    zj_crit.append(aka_f_crit[ls_zml])
+                    zj_fy.append(aka_f_fy[ls_zml])
+                    zj_jc.append(aka_f_jc[ls_zml])
+                case 11:
+                    zs_hp.append(aka_k_hp[ls_zml])
+                    zt_hp.append(aka_k_hp[ls_zml])
+                    zs_energy.append(aka_k_energy[ls_zml])
+                    zt_energy.append(aka_k_energy[ls_zml])
+                    zj_atk.append(aka_k_atk[ls_zml])
+                    zj_crit.append(aka_k_crit[ls_zml])
+                    zj_fy.append(aka_k_fy[ls_zml])
+                    zj_jc.append(aka_k_jc[ls_zml])
+                case 12:
+                    zs_hp.append(aka_y_hp[ls_zml])
+                    zt_hp.append(aka_y_hp[ls_zml])
+                    zs_energy.append(aka_y_energy[ls_zml])
+                    zt_energy.append(aka_y_energy[ls_zml])
+                    zj_atk.append(aka_y_atk[ls_zml])
+                    zj_crit.append(aka_y_crit[ls_zml])
+                    zj_fy.append(aka_y_fy[ls_zml])
+                    zj_jc.append(aka_y_jc[ls_zml])
+                case 13:
+                    zs_hp.append(aoi_sa_hp[ls_zml])
+                    zt_hp.append(aoi_sa_hp[ls_zml])
+                    zs_energy.append(aoi_sa_energy[ls_zml])
+                    zt_energy.append(aoi_sa_energy[ls_zml])
+                    zj_atk.append(aoi_sa_atk[ls_zml])
+                    zj_crit.append(aoi_sa_crit[ls_zml])
+                    zj_fy.append(aoi_sa_fy[ls_zml])
+                    zj_jc.append(aoi_sa_jc[ls_zml])
+                case 14:
+                    zs_hp.append(aoi_sh_hp[ls_zml])
+                    zt_hp.append(aoi_sh_hp[ls_zml])
+                    zs_energy.append(aoi_sh_energy[ls_zml])
+                    zt_energy.append(aoi_sh_energy[ls_zml])
+                    zj_atk.append(aoi_sh_atk[ls_zml])
+                    zj_crit.append(aoi_sh_crit[ls_zml])
+                    zj_fy.append(aoi_sh_fy[ls_zml])
+                    zj_jc.append(aoi_sh_jc[ls_zml])
+                case 15:
+                    zs_hp.append(aoi_l_hp[ls_zml])
+                    zt_hp.append(aoi_l_hp[ls_zml])
+                    zs_energy.append(aoi_l_energy[ls_zml])
+                    zt_energy.append(aoi_l_energy[ls_zml])
+                    zj_atk.append(aoi_l_atk[ls_zml])
+                    zj_crit.append(aoi_l_crit[ls_zml])
+                    zj_fy.append(aoi_l_fy[ls_zml])
+                    zj_jc.append(aoi_l_jc[ls_zml])
+                case 16:
+                    zs_hp.append(bei_hp[ls_zml])
+                    zt_hp.append(bei_hp[ls_zml])
+                    zs_energy.append(bei_energy[ls_zml])
+                    zt_energy.append(bei_energy[ls_zml])
+                    zj_atk.append(bei_atk[ls_zml])
+                    zj_crit.append(bei_crit[ls_zml])
+                    zj_fy.append(bei_fy[ls_zml])
+                    zj_jc.append(bei_jc[ls_zml])
+                case 17:
+                    zs_hp.append(era_hp[ls_zml])
+                    zt_hp.append(era_hp[ls_zml])
+                    zs_energy.append(era_energy[ls_zml])
+                    zt_energy.append(era_energy[ls_zml])
+                    zj_atk.append(era_atk[ls_zml])
+                    zj_crit.append(era_crit[ls_zml])
+                    zj_fy.append(era_fy[ls_zml])
+                    zj_jc.append(era_jc[ls_zml])
+                case 18:
+                    zs_hp.append(ert_hp[ls_zml])
+                    zt_hp.append(ert_hp[ls_zml])
+                    zs_energy.append(ert_energy[ls_zml])
+                    zt_energy.append(ert_energy[ls_zml])
+                    zj_atk.append(ert_atk[ls_zml])
+                    zj_crit.append(ert_crit[ls_zml])
+                    zj_fy.append(ert_fy[ls_zml])
+                    zj_jc.append(ert_jc[ls_zml])
+                case 19:
+                    zs_hp.append(he_hp[ls_zml])
+                    zt_hp.append(he_hp[ls_zml])
+                    zs_energy.append(he_energy[ls_zml])
+                    zt_energy.append(he_energy[ls_zml])
+                    zj_atk.append(he_atk[ls_zml])
+                    zj_crit.append(he_crit[ls_zml])
+                    zj_fy.append(he_fy[ls_zml])
+                    zj_jc.append(he_jc[ls_zml])
+                case 20:
+                    zs_hp.append(ichi_hp[ls_zml])
+                    zt_hp.append(ichi_hp[ls_zml])
+                    zs_energy.append(ichi_energy[ls_zml])
+                    zt_energy.append(ichi_energy[ls_zml])
+                    zj_atk.append(ichi_atk[ls_zml])
+                    zj_crit.append(ichi_crit[ls_zml])
+                    zj_fy.append(ichi_fy[ls_zml])
+                    zj_jc.append(ichi_jc[ls_zml])
+                case 21:
+                    zs_hp.append(lin_hua_hp[ls_zml])
+                    zt_hp.append(lin_hua_hp[ls_zml])
+                    zs_energy.append(lin_hua_energy[ls_zml])
+                    zt_energy.append(lin_hua_energy[ls_zml])
+                    zj_atk.append(lin_hua_atk[ls_zml])
+                    zj_crit.append(lin_hua_crit[ls_zml])
+                    zj_fy.append(lin_hua_fy[ls_zml])
+                    zj_jc.append(lin_hua_jc[ls_zml])
+                case 22:
+                    zs_hp.append(n_hp[ls_zml])
+                    zt_hp.append(n_hp[ls_zml])
+                    zs_energy.append(n_energy[ls_zml])
+                    zt_energy.append(n_energy[ls_zml])
+                    zj_atk.append(n_atk[ls_zml])
+                    zj_crit.append(n_crit[ls_zml])
+                    zj_fy.append(n_fy[ls_zml])
+                    zj_jc.append(n_jc[ls_zml])
+                case 23:
+                    zs_hp.append(o_hp[ls_zml])
+                    zt_hp.append(o_hp[ls_zml])
+                    zs_energy.append(o_energy[ls_zml])
+                    zt_energy.append(o_energy[ls_zml])
+                    zj_atk.append(o_atk[ls_zml])
+                    zj_crit.append(o_crit[ls_zml])
+                    zj_fy.append(o_fy[ls_zml])
+                    zj_jc.append(o_jc[ls_zml])
+                case 24:
+                    zs_hp.append(ri_hp[ls_zml])
+                    zt_hp.append(ri_hp[ls_zml])
+                    zs_energy.append(ri_energy[ls_zml])
+                    zt_energy.append(ri_energy[ls_zml])
+                    zj_atk.append(ri_atk[ls_zml])
+                    zj_crit.append(ri_crit[ls_zml])
+                    zj_fy.append(ri_fy[ls_zml])
+                    zj_jc.append(ri_jc[ls_zml])
+        os.system("cls")
+
     else:
-        ziding()
+        z_amount = zf("请输入角色数量：", "inp")
+        z_amount = zs(z_amount, 1, 9)
+        for i in range(z_amount):
+            z_name.append(zf(f"请输入第 {i + 1} 个角色的名称：", "inp"))
+            
+            ls_hp = zf(f"请输入第 {i + 1} 个角色的 HP ：", "inp")
+            ls_hp = fd(ls_hp, 1, float("inf"))
+            zs_hp.append(ls_hp)
+            zt_hp.append(ls_hp)
+
+            ls_energy = zf(f"请输入第 {i + 1} 个角色的 ENERGY ：", "inp")
+            ls_energy = fd(ls_energy, 1, float("inf"))
+            zs_energy.append(ls_energy)
+            zt_energy.append(ls_energy)
+
+            ls_fy = zf(f"请输入第 {i + 1} 个角色的防御力 ：", "inp")
+            ls_fy = zs(ls_fy, 1, float("inf"))
+            zj_fy.append(ls_fy)
+
+            ls_hsf = zf(f"请输入其护身符防御力 ：", "inp")
+            ls_hsf = zs(ls_hsf, 1, float("inf"))
+            zj_fy[i] += ls_hsf
+
+            ls_atk = zf(f"请输入第 {i + 1} 个角色的攻击力 ：", "inp")
+            ls_atk = zs(ls_atk, 1, float("inf"))
+            zj_atk.append(ls_atk)
+
+            ls_weapon = zf(f"请输入其武器攻击力 ：", "inp")
+            ls_weapon = zs(ls_weapon, 1, float("inf"))
+            zj_atk[i] += ls_weapon
+
+            ls_crit = zf(f"请输入第 {i + 1} 个角色的暴击率 ：", "inp")
+            ls_crit = fd(ls_crit, 0.01, 1)
+            zj_crit.append(ls_crit)
+
+            ls_jc = zf(f"请输入第 {i + 1} 个角色的 JC ：", "inp")
+            ls_jc = zs(ls_jc, 1, float("inf"))
+            zj_jc.append(ls_jc)
+
+            print()
 
     os.system("cls")
     wuqi = """
@@ -1211,18 +1450,26 @@ try:
             hushenfu_ord = zf("请为其选择合适的护身符：", "inp")
             hushenfu_ord = zs(hushenfu_ord, 0, 20)
             if (wuqi_ord == 36):
-                ls_wuqi = randint(1, 127)
+                if z_name[i] == "Modificationer + Satelliti" or z_name[i] == "Xusu Ziye":
+                    ls_wuqi = randint(21, 127)
+                else:
+                    ls_wuqi = randint(1, 20)
                 zf(f"这会使其攻击力增加 {ls_wuqi}。", "text")
                 zj_atk[i] += ls_wuqi
             if (hushenfu_ord == 15):
                 zf("这会使其 JC 增加 5。", "text")
                 z_jc[i] += 5
             elif (hushenfu_ord == 20):
-                ls_hushenfu = randint(1, 127)
+                if z_name[i] == "Modificationer + Satelliti" or z_name[i] == "Xusu Ziye":
+                    ls_hushenfu = randint(21, 127)
+                else:
+                    ls_hushenfu = randint(1, 20)
                 zf(f"这会使其 DEF 增加 {ls_hushenfu}。", "text")
                 zj_fy[i] += ls_hushenfu
             zj_atk[i] += wq_z[wuqi_ord]
             zj_fy[i] += hsf_z[hushenfu_ord]
+
+            print()
     else:
         w = zf("我们可以提供可用的武器列表和护身符列表，是否查看？（是 / 否）", "inp")
         if w.upper() == "是":
@@ -1237,27 +1484,64 @@ try:
     print()
     print("我方阵营。")
     for k in range(z_amount):
-        jdt(zs_hp[k], zt_hp[k], 0, 0, f"{k} - {z_name[k]}", "hp", "me") # 显示角色 HP 信息。
-        jdt(zs_energy[k], zt_energy[k], 0, 0, f"{k} - {z_name[k]}", "energy", "me") # 显示角色 ENERGY 信息。
+        jdt(zs_hp[k], zt_hp[k], f"{k} - {z_name[k]}", "hp", "me") # 显示角色 HP 信息。
+        jdt(zs_energy[k], zt_energy[k], f"{k} - {z_name[k]}", "energy", "me") # 显示角色 ENERGY 信息。
         print()
 
     print("敌方阵营。")
     for l in range(d_amount):
-        jdt(ds_hp[l], dt_hp[l], 0, 0, f"{l} - {d_name[l]}", "hp", "enemy") # 显示敌人 HP 信息。
-        jdt(ds_energy[l], dt_energy[l], 0, 0, f"{l} - {d_name[l]}", "energy", "enemy") # 显示敌人 ENERGY 信息。
+        jdt(ds_hp[l], dt_hp[l], f"{l} - {d_name[l]}", "hp", "enemy") # 显示敌人 HP 信息。
+        jdt(ds_energy[l], dt_energy[l], f"{l} - {d_name[l]}", "energy", "enemy") # 显示敌人 ENERGY 信息。
         print()
 
     jd = 1 # 1：敌人处于 1 阶段；2：敌人处于 2 阶段；3：敌人或者角色被击败。
 
-    while jd != 3:
+    while jd != 3 :
         if (turns >= 5 and police_join == True):
             os.system("cls")
             zf("“你们不要再打了，最好束手就擒！” Opportunity 带领着警方团队出现，拉起了警戒线，驱散观众离开。", "DI-")
-            if ("Modificationer + Satelliti" in d_name) or ("Modificationer + Satelliti" in z_name):
-                zf("Modificationer 和 Satelliti 拿出终端，敲击了一下，瞬间消失。", "text")
-            if ("Xusu Ziye" in d_name) or ("Xusu Ziye" in z_name):
-                zf("Xusu Ziye 见状，慌忙拿出 Figure_Out OS 开发证明。Opportunity 点了点头，放她走了。", "text")
-            zf("模拟结束。", "text")
+            for b in range(z_amount):
+                if z_name[b] == "Modificationer + Satelliti":
+                    zf("Modificationer 和 Satelliti 拿出终端，敲击了一下，瞬间消失。", "text")
+                    for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
+                        lst.pop(b)
+                        z_amount -= 1
+                elif z_name[b] == "Xusu Ziye":
+                    zf("Xusu Ziye 见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。Opportunity 点了点头，放她走了。", "text")
+                    for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
+                        lst.pop(b)
+                        z_amount -= 1
+                elif z_name[b] == "Opportunity":
+                    zf("你看了看四周，发现 Opportunity 不站在身边，而是站在警察前面。", "DI-")
+                    for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
+                        lst.pop(b)
+                        z_amount -= 1
+                else:
+                    police_caught.append(z_name[b])
+            for c in range(d_amount):
+                if d_name[c] == "Modificator + Satelliti":
+                    zf("Modificator 和 Satelliti 拿出终端，敲击了一下，瞬间消失。", "DI-")
+                    for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
+                        lst.pop(c)
+                        d_amount -= 1
+                elif d_name[c] == "Xusu Ziye":
+                    zf("Xusu Ziye 见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。Opportunity 点了点头，放她走了。", "DI-")
+                    for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
+                        lst.pop(c)
+                        d_amount -= 1
+                elif d_name[c] == "Opportunity":
+                    zf("你看了看四周，发现 Opportunity 不站在对面，而是站在警察前面。", "DI-")
+                    for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
+                        lst.pop(c)
+                        d_amount -= 1
+                else:
+                    police_caught.append(d_name[c])
+            
+            pc_string = "、".join(police_caught)
+            zf(f"“{pc_string}，你们被逮捕了！” Opportunity 严肃地通知你们。", "DI-")
+
+            print()
+            zf("模拟结束。未完待续。", "text")
             sys.exit(0)
         turns += 1
         zf(f"第 {turns} 回合。", "text")
