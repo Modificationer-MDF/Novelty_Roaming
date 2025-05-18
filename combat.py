@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-# Made by Satelliti Modificationer.
+# Made by Modificationer Satelliti.
 from random import *
 from rich.progress import *
 from rich.console import Console
@@ -330,7 +330,9 @@ try:
                 else:
                     t_color = "DOWN"
             elif side == "me" and typ == "energy":
-                if current >= 0.9 * total:
+                if current >= total:
+                    t_color = "A"
+                elif 0.9 * total <= current <= total:
                     t_color = "A-"
                 elif 0.8 * total <= current < 0.9 * total:
                     t_color = "P"
@@ -396,26 +398,28 @@ try:
                 else:
                     t_color = "DOWN"
             elif side == "enemy" and typ == "energy":
-                if current >= 0.9 * total:
+                if current >= total:
                     t_color = "DI-"
-                elif 0.8 * total <= current < 0.9 * total:
+                if current >= 0.9 * total:
                     t_color = "N-"
-                elif 0.7 * total <= current < 0.8 * total:
+                elif 0.8 * total <= current < 0.9 * total:
                     t_color = "N"
-                elif 0.6 * total <= current < 0.7 * total:
+                elif 0.7 * total <= current < 0.8 * total:
                     t_color = "C-"
-                elif 0.5 * total <= current < 0.6 * total:
+                elif 0.6 * total <= current < 0.7 * total:
                     t_color = "C"
-                elif 0.4 * total <= current < 0.5 * total:
+                elif 0.5 * total <= current < 0.6 * total:
                     t_color = "S-"
-                elif 0.3 * total <= current < 0.4 * total:
+                elif 0.4 * total <= current < 0.5 * total:
                     t_color = "S"
-                elif 0.2 * total <= current < 0.3 * total:
+                elif 0.3 * total <= current < 0.4 * total:
                     t_color = "P-"
-                elif 0.1 * total <= current < 0.2 * total:
+                elif 0.2 * total <= current < 0.3 * total:
                     t_color = "P"
-                elif 0 <= current < 0.1 * total:
+                elif 0.1 * total <= current < 0.2 * total:
                     t_color = "A-"
+                elif 0 <= current < 0.1 * total:
+                    t_color = "A"
                 else:
                     t_color = "DOWN"
 
@@ -590,19 +594,25 @@ try:
                 for o in range(z_amount):
                     if zs_energy[o] > 0:
                         z_hfhp.append(round(uniform(0.05, 0.11) * zt_hp[o], 3))
+                        if zs_hp[o] == zt_hp[o]:
+                            zf(f"{o} - {z_name[o]} HP 已满，又恢复了 {z_hfhp[o]:.3f} ENERGY。", "E+")
+                            zs_energy[o] += z_hfhp[o]
+                            z_hfnl[o] += z_hfhp[o]
+                            z_hfhp[o] = 0
+                        else:
+                            if zs_hp[o] + z_hfhp[o] > zt_hp[o] and zs_energy[o] - z_hfhp[o] > 0:
+                                zs_hp[o] = zt_hp[o]
+                                z_hfhp[o] -= (zt_hp[o] - zs_hp[o])
+                                zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "E")
+                            elif zs_energy[o] - z_hfhp[o] <= 0:
+                                z_hfhp[o] -= abs(zs_energy[o] - z_hfhp[o])
+                                zs_energy[o] = 0
+                                zf(f"{o} - {z_name[o]} 虽恢复了 {z_hfhp[o]:.3f} HP，但再也没有任何精力了。", "A-")
+                            else:
+                                zs_hp[o] += z_hfhp[o]
+                                zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "G")
                     else:
-                        z_hfhp.append(0)    
-                    if zs_hp[o] + z_hfhp[o] > zt_hp[o]:
-                        zs_hp[o] = zt_hp[o]
-                        z_hfhp[o] -= (zt_hp[o] - zs_hp[o])
-                        zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "E")
-                    else:
-                        zs_hp[o] += z_hfhp[o]
-                        zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "G")
-                    zs_energy[o] -= z_hfhp[o]
-                    if zs_energy[o] < 0:
-                        zs_energy[o] = 0
-                        zf(f"但是 {o} - {z_name[o]} 没有再任何精力了。", "DI-")
+                        z_hfhp.append(0)
 
                 print()
                 for p in range(z_amount):
@@ -610,31 +620,37 @@ try:
                         if d_hfnl[z_xz[p]] == 0:
                             d_hfnl[z_xz[p]] = round(uniform(0.05, 0.11) * dt_energy[z_xz[p]], 3)
                             ds_energy[z_xz[p]] += d_hfnl[z_xz[p]]
-                            zf(f"{p} - {d_name[z_xz[p]]} 没有受到伤害，恢复了 {d_hfnl[z_xz[p]]:.3f} ENERGY。", "C")
+                            zf(f"{p} - {d_name[z_xz[p]]} 没有受到伤害，恢复了 {d_hfnl[z_xz[p]]:.3f} ENERGY。", "N-")
 
                 for p in range(d_amount):
                     if ds_energy[p] > 0:
                         d_hfhp.append(round(uniform(0.05, 0.11) * dt_hp[p], 3))
+                        if ds_hp[p] == dt_hp[p]:
+                            zf(f"{p} - {d_name[p]} HP 已满，又恢复了 {d_hfhp[p]:.3f} ENERGY。", "N-")
+                            ds_energy[p] += d_hfhp[p]
+                            d_hfnl[p] += d_hfhp[p]
+                            d_hfhp[p] = 0
+                        else:
+                            if ds_hp[p] + d_hfhp[p] > dt_hp[p] and ds_energy[p] - d_hfhp[p] > 0:
+                                ds_hp[p] = dt_hp[p]
+                                d_hfhp[p] -= (dt_hp[p] - ds_hp[p])
+                                zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "S")
+                            elif ds_energy[p] - d_hfhp[p] <= 0:
+                                d_hfhp[p] -= abs(ds_energy[p] - d_hfhp[p])
+                                ds_energy[p] = 0
+                                zf(f"{p} - {d_name[p]} 虽恢复了 {d_hfhp[p]:.3f} HP，但再也没有任何精力了。", "A")
+                            else:
+                                ds_hp[p] += d_hfhp[p]
+                                zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "C-")
                     else:
                         d_hfhp.append(0)
-                    if ds_hp[p] + d_hfhp[p] > dt_hp[p]:
-                        ds_hp[p] = dt_hp[p]
-                        d_hfhp[p] -= (dt_hp[p] - ds_hp[p])
-                        zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "N")
-                    else:
-                        ds_hp[p] += d_hfhp[p]
-                        zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "S")
-                    ds_energy[p] -= d_hfhp[p]
-                    if ds_energy[p] < 0:
-                        ds_energy[p] = 0
-                        zf(f"但是 {p} - {d_name[p]} 没有再任何精力了。", "F+")
 
-                # 敌人状态检查。
+                # 检查敌人状态。
                 for s in range(len(d_xz) - 1, -1, -1):
                     if ds_hp[s] <= 0:
                         print()
                         zf(f"{s} - {d_name[s]} 败下阵来。", "F+")
-                        for lst in [d_name, ds_hp, ds_energy, d_atk, d_crit, d_fy, d_jc]:
+                        for lst in [d_name, ds_hp, ds_energy, d_atk, d_crit, d_fy, d_jc, z_damage]:
                             lst.append(lst.pop(s))
                         d_amount -= 1
                         if d_amount == 0:
@@ -647,7 +663,7 @@ try:
                     if zs_hp[t] <= 0:
                         print()
                         zf(f"{t} - {z_name[t]} 败下阵来。", "DI-")
-                        for lst in [z_name, zs_hp, zs_energy, z_atk, z_crit, z_fy, z_jc]:
+                        for lst in [z_name, zs_hp, zs_energy, z_atk, z_crit, z_fy, z_jc, d_damage]:
                             lst.append(lst.pop(t))
                         z_amount -= 1
                         if z_amount == 0:
@@ -804,33 +820,33 @@ try:
                     break
             
             ls_hp = zf(f"请输入第 {i + 1} 个角色的 HP ：", "inp")
-            ls_hp = fd(ls_hp, 0, float("inf"))
+            ls_hp = fd(ls_hp, 1, float("inf"))
             zs_hp.append(ls_hp)
             zt_hp.append(ls_hp)
 
             ls_energy = zf(f"请输入第 {i + 1} 个角色的 ENERGY ：", "inp")
-            ls_energy = fd(ls_energy, 0, float("inf"))
+            ls_energy = fd(ls_energy, 1, float("inf"))
             zs_energy.append(ls_energy)
             zt_energy.append(ls_energy)
 
             ls_fy = zf(f"请输入第 {i + 1} 个角色的防御力 ：", "inp")
-            ls_fy = zs(ls_fy, 0, float("inf"))
+            ls_fy = zs(ls_fy, 1, float("inf"))
             zj_fy.append(ls_fy)
 
             ls_atk = zf(f"请输入第 {i + 1} 个角色的攻击力 ：", "inp")
-            ls_atk = zs(ls_atk, 0, float("inf"))
+            ls_atk = zs(ls_atk, 1, float("inf"))
             zj_atk.append(ls_atk)
 
             ls_weapon = zf(f"请输入第 {i + 1} 个角色的武器的攻击力 ：", "inp")
-            ls_weapon = zs(ls_weapon, 0, float("inf"))
+            ls_weapon = zs(ls_weapon, 1, float("inf"))
             zj_atk[i] += ls_weapon
 
             ls_crit = zf(f"请输入第 {i + 1} 个角色的暴击率 ：（0 ~ 1 之间的数字）", "inp")
-            ls_crit = fd(ls_crit, 0, 1)
+            ls_crit = fd(ls_crit, 0.01, 1)
             zj_crit.append(ls_crit)
 
             ls_jc = zf(f"请输入第 {i + 1} 个角色的 JC ：", "inp")
-            ls_jc = zs(ls_jc, 0, float("inf"))
+            ls_jc = zs(ls_jc, 1, float("inf"))
             zj_jc.append(ls_jc)
 
     # 程序开始。
@@ -1080,28 +1096,36 @@ try:
 
     elif qr1 == "z":
         d_amount = zf("请输入敌人数量：", "inp")
+        d_amount = zs(d_amount, 1, 9)
         for j in range(d_amount):
             d_name[j] = zf("请输入敌人名称：", "inp")
 
-            ds_hp[j] = zf(f"请输入 {d_name[j]} 的 HP ：", "inp")
-            ds_hp[j] = fd(ds_hp[j], 0, float("inf"))
-            dt_hp[j] = ds_hp[j]
+            ls_dhp = zf(f"请输入 {d_name[j]} 的 HP ：", "inp")
+            ls_dhp = zs(ls_dhp, 1, float("inf"))
+            ds_hp.append(ls_dhp)
+            dt_hp.append(ls_dhp)
         
-            ds_energy[j] = zf(f"请输入 {d_name[j]} 的 ENERGY：", "inp")
-            ds_energy[j] = fd(ds_energy[j], 0, float("inf"))
-            dt_energy[j] = ds_energy[j]
+            ls_denergy = zf(f"请输入 {d_name[j]} 的 ENERGY：", "inp")
+            ls_denergy = zs(ls_denergy, 1, float("inf"))
+            ds_energy.append(ls_denergy)
+            dt_energy.append(ls_denergy)
 
-            d_fy[j] = zf(f"请输入 {d_name[j]} 的防御力 ：", "inp")
-            d_fy[j] = zs(d_fy[j], 0, float("inf"))
+            ls_dfy = zf(f"请输入 {d_name[j]} 的防御力 ：", "inp")
+            ls_dfy = zs(ls_dfy, 1, float("inf"))
+            d_fy.append(ls_dfy)
 
-            d_atk[j] = zf(f"请输入 {d_name[j]} 的攻击力 ：", "inp")
-            d_atk[j] = zs(d_atk[j], 0, float("inf"))
+            ls_datk = zf(f"请输入 {d_name[j]} 的攻击力 ：", "inp")
+            ls_datk = zs(ls_datk, 1, float("inf"))
+            d_atk.append(ls_datk)
 
-            d_crit[j] = zf(f"请输入 {d_name[j]} 的暴击率 ：（0 ~ 1 之间的数字）", "inp")
-            d_crit[j] = fd(d_crit[j], 0, 1)
+            ls_dcrit = zf(f"请输入 {d_name[j]} 的暴击率 ：", "inp")
+            ls_dcrit = zs(ls_dcrit, 0.01, 1)
+            d_crit.append(ls_dcrit)
 
-            d_jc[j] = zf(f"请输入 {d_name[j]} 的 JC ：", "inp")
-            d_jc[j] = zs(d_jc[j], 0, float("inf"))
+            ls_djc = zf(f"请输入 {d_name[j]} 的 JC ：", "inp")
+            ls_djc = zs(ls_djc, 1, float("inf"))
+            d_jc.append(ls_djc)
+
             print()
         os.system("cls")
 
@@ -1114,7 +1138,7 @@ try:
     wuqi = """
     武器列表
     0 - 手（攻击力 + 1）；
-    1 - 笔（攻击力 + 1）；
+    1 - 笔（攻击力 + 2）；
     2 - 木棍（攻击力 + 2）；
     3 - 鞋（攻击力 + 2）；
     4 - 笔袋（攻击力 + 2）；
@@ -1175,8 +1199,8 @@ try:
     19 - 终端（防御力 + 127）。
     20 - DEF+++---×××÷÷÷ （防御力 + ？）。
 """
-    wq_z = [1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13, 16, 18, 20, 31, 63, 127, randint(1, 127)]
-    hsf_z = [1, 2, 2, 3, 4, 5, 5, 6, 6, 7, 8, 8, 10, 11, 13, 15, 20, 31, 63, 127, randint(1, 127)]
+    wq_z = [1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13, 16, 18, 20, 31, 63, 127, 0]
+    hsf_z = [1, 2, 2, 3, 4, 5, 5, 6, 6, 7, 8, 8, 10, 11, 13, 15, 20, 31, 63, 127, 0]
     if sz.upper() == "M":
         zf(wuqi, "text")
         zf(hushenfu, "text")
@@ -1187,12 +1211,16 @@ try:
             hushenfu_ord = zf("请为其选择合适的护身符：", "inp")
             hushenfu_ord = zs(hushenfu_ord, 0, 20)
             if (wuqi_ord == 36):
-                zf(f"这会使其攻击力增加 {wq_z[wuqi_ord]}。", "text")
+                ls_wuqi = randint(1, 127)
+                zf(f"这会使其攻击力增加 {ls_wuqi}。", "text")
+                zj_atk[i] += ls_wuqi
             if (hushenfu_ord == 15):
                 zf("这会使其 JC 增加 5。", "text")
                 z_jc[i] += 5
             elif (hushenfu_ord == 20):
-                zf(f"这会使其 DEF 增加 {hsf_z[hushenfu_ord]}。", "text")
+                ls_hushenfu = randint(1, 127)
+                zf(f"这会使其 DEF 增加 {ls_hushenfu}。", "text")
+                zj_fy[i] += ls_hushenfu
             zj_atk[i] += wq_z[wuqi_ord]
             zj_fy[i] += hsf_z[hushenfu_ord]
     else:
