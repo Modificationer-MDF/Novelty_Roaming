@@ -7,6 +7,7 @@ import os
 import time
 import sys
 import math
+import webbrowser as wb
 cs = Console()
 
 f_hp = [60, 66, 71, 77, 83, 90, 96, 102, 108, 114, 120, 124, 130, 135, 141, 150] # Feng_Noti
@@ -745,8 +746,16 @@ try:
         \/ [INP] 等待操作：""")
         if start == "0":
             os.system("python -m pip install --upgrade pip")
+            wb.open("https://www.python.org/downloads/")
+            print()
+            zf("在下载完成后请重新运行本程序。按任意键退出程序。", "text")
+            sys.exit(0)
         elif start == "1":
             os.system("pip install rich")
+            os.system("python -m pip install --upgrade rich")
+            print()
+            zf("接下来请重新运行本程序。按任意键退出程序。", "text")
+            sys.exit(0)
     except KeyboardInterrupt:
         sys.exit(0)
     except EOFError:
