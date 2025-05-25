@@ -8,6 +8,7 @@ import time
 import sys
 import math
 import webbrowser as wb
+import keyboard as kb
 cs = Console()
 
 f_hp = [60, 66, 71, 77, 83, 90, 96, 102, 108, 114, 120, 124, 130, 135, 141, 150] # Feng_Noti
@@ -480,6 +481,38 @@ try:
             except Exception as e:
                 var = zf(f"{e}。请重新输入一个浮点数：", "error")
 
+    def mz():
+        ls_string = list("....................")
+        ls_range = len(ls_string)
+
+        sys.stdout.write("".join(ls_string))
+        sys.stdout.flush()
+
+        l = 0
+
+        for i in range(ls_range):
+            if kb.is_pressed("enter"):
+                break
+
+            if l > 0:
+                ls_string[l - 1] = "."
+            ls_string[l] = "|"
+
+            sys.stdout.write("\r" + "".join(ls_string))
+            sys.stdout.flush()
+
+            l += 1
+            time.sleep(0.15)
+
+        if 0 <= l < 8:
+            return 1
+        elif 8 <= l < 12:
+            return 5
+        elif 12 <= l < 16:
+            return 10
+        else:
+            return 1
+
     def gj():
         try:
             global people_interest, police_join, jd, wuqi_ord, hushenfu_ord, z_amount, d_amount, zs_energy, ds_energy, zt_energy, dt_energy, zs_hp, ds_hp
@@ -560,34 +593,38 @@ try:
                 z_check = [zj_jc[k1] * 3.306 - zj_fy[k1] for k1 in range(z_amount)]
                 d_check = [d_jc[l1] * 3.306 - d_fy[l1] for l1 in range(d_amount)]
 
-                # 计算攻击伤害。
+                # 模拟攻击。
                 print()
                 for k in range(z_amount):
                     z_damage.append(randint(6, 9) + zj_atk[k])
-                    z_acc.append(randint(1, 10))
                     if z_name[k] == "Modificationer + Satelliti" or z_name[k] == "Xusu Ziye":
-                        z_acc[k] = 5
+                        z_acc.append(5)
                         zf(f"{k} - {z_name[k]} 打出了精准的一招，这对其来说并不是什么难事。", "F+")
                         z_damage[k] *= (1 + zj_crit[k] / 10)
-                    elif 4 <= z_acc[k] <= 6:
-                        zf(f"{k} - {z_name[k]} 打出了精准的一招。", "E-")
-                        z_damage[k] *= (1 + zj_crit[k] / 10)
                     else:
-                        zf(f"{k} - {z_name[k]} 未能精准命中。", "A")
+                        ls_zacc = mz()
+                        if 4 <= ls_zacc <= 6:
+                            zf(f"{k} - {z_name[k]} 打出了精准的一招。", "E-")
+                            z_damage[k] *= (1 + zj_crit[k] / 10)
+                        else:
+                            zf(f"{k} - {z_name[k]} 未能精准命中。", "A")
+                        z_acc.append(ls_zacc)
 
                 print()
                 for l in range(d_amount):
                     d_damage.append(randint(6, 9) + d_atk[l])
-                    d_acc.append(randint(1, 10))
                     if d_name[l] == "Modificationer + Satelliti" or d_name[l] == "Xusu Ziye":
-                        d_acc[l] = 5
+                        d_acc.append(5)
                         zf(f"{l} - {d_name[l]} 打出了精准的一招，这对其来说并不是什么难事。", "DI-")
                         d_damage[l] *= (1 + d_crit[l] / 10)
-                    elif 4 <= d_acc[l] <= 6:
-                        zf(f"{l} - {d_name[l]} 打出了精准的一招。", "C-")
-                        d_damage[l] *= (1 + d_crit[l] / 10)
                     else:
-                        zf(f"{l} - {d_name[l]} 未能精准命中。", "A-")
+                        ls_dacc = mz()
+                        if 4 <= ls_dacc <= 6:
+                            zf(f"{l} - {d_name[l]} 打出了精准的一招。", "C-")
+                            d_damage[l] *= (1 + d_crit[l] / 10)
+                        else:
+                            zf(f"{l} - {d_name[l]} 未能精准命中。", "A-")
+                        d_acc.append(ls_dacc)
 
                 print()
                 # 计算实际造成的伤害。
@@ -735,7 +772,7 @@ try:
 
         在运行本程序前，确保你至少安装了 Python 3.10 和 rich 库。
         若 Python 版本低于 3.10，请输入 “0”；
-        若没有安装 rich 库，请输入 “1”；
+        若没有安装 rich 库或 keyboard 库，请输入 “1”；
         若没有需求，请按下 Enter 键继续。
 
         接下来是本程序的一些说明。
@@ -753,6 +790,8 @@ try:
         elif start == "1":
             os.system("pip install rich")
             os.system("python -m pip install --upgrade rich")
+            os.system("pip install keyboard")
+            os.system("python -m pip install --upgrade keyboard")
             print()
             zf("接下来请重新运行本程序。按任意键退出程序。", "text")
             sys.exit(0)
