@@ -466,7 +466,7 @@ try:
                 else:
                     raise ValueError(f"无效输入。请输入一个在 {p} 和 {q} 之间的数字")
             except Exception as e:
-                var = zf(f"{e}。请重新输入一个整数：", "error")
+                var = zf("请重新输入一个整数：", "error")
 
     def fd(var, p, q):
         while True:
@@ -479,7 +479,7 @@ try:
                 else:
                     raise ValueError(f"无效输入。请输入一个在 {p} 和 {q} 之间的数字")
             except Exception as e:
-                var = zf(f"{e}。请重新输入一个浮点数：", "error")
+                var = zf("请重新输入一个浮点数：", "error")
 
     def mz():
         ls_string = list("....................")
@@ -491,9 +491,6 @@ try:
         l = 0
 
         for i in range(ls_range):
-            if kb.is_pressed("enter"):
-                break
-
             if l > 0:
                 ls_string[l - 1] = "."
             ls_string[l] = "|"
@@ -501,17 +498,13 @@ try:
             sys.stdout.write("\r" + "".join(ls_string))
             sys.stdout.flush()
 
-            l += 1
-            time.sleep(0.15)
+            l = (l + 1) % ls_range
+            time.sleep(0.05)
 
-        if 0 <= l < 8:
-            return 1
-        elif 8 <= l < 12:
-            return 5
-        elif 12 <= l < 16:
-            return 10
-        else:
-            return 1
+            if kb.is_pressed("z"):
+                break
+
+        return ceil(l / 2)
 
     def gj():
         try:
@@ -571,7 +564,6 @@ try:
                 else:
                     zf("敌人不为所动。看来你不得不与其战斗……", "N-")
                     mercy_refuse = True
-                    print()
 
             if act == "g" or act == "" or mercy_refuse == True:
                 print()
@@ -693,7 +685,7 @@ try:
                     if ds_energy[p] > 0:
                         d_hfhp.append(round(uniform(0.05, 0.11) * dt_hp[p], 3))
                         if ds_hp[p] == dt_hp[p]:
-                            zf(f"{p} - {d_name[p]} HP 已满，又恢复了 {d_hfhp[p]:.3f} ENERGY。", "N-")
+                            zf(f"{p} - {d_name[p]} HP 已满，恢复了 {d_hfhp[p]:.3f} ENERGY。", "N-")
                             ds_energy[p] += d_hfhp[p]
                             d_hfnl[p] += d_hfhp[p]
                             d_hfhp[p] = 0
@@ -1243,8 +1235,8 @@ try:
                     zj_fy.append(x_fy[ls_zml])
                     zj_jc.append(x_jc[ls_zml])
                 case 10:
-                    zs_hp.append(aka_f_atk[ls_zml])
-                    zt_hp.append(aka_f_atk[ls_zml])
+                    zs_hp.append(aka_f_hp[ls_zml])
+                    zt_hp.append(aka_f_hp[ls_zml])
                     zs_energy.append(aka_f_energy[ls_zml])
                     zt_energy.append(aka_f_energy[ls_zml])
                     zj_atk.append(aka_f_atk[ls_zml])
