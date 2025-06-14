@@ -11,21 +11,21 @@ import webbrowser as wb
 import keyboard as kb
 cs = Console()
 
-f_hp = [60, 66, 71, 77, 83, 90, 96, 102, 108, 114, 120, 124, 130, 135, 141, 150] # Feng_Noti
+f_hp = [60, 66, 71, 77, 83, 90, 96, 102, 108, 114, 120, 124, 130, 135, 141, 150] # Feng Noti
 f_energy = [30, 32, 35, 40, 43, 48, 52, 56, 60, 66, 70, 75, 79, 84, 90, 95] # 精力。
 f_fy = [2, 3, 4, 5, 6, 7, 8, 9, 8, 8, 9, 10, 12, 13, 15, 17] # 防御力。
 f_atk = [3, 3, 5, 7, 7, 8, 9, 10, 9, 10, 9, 10, 10, 11, 13, 15, 18, 22] # 攻击力。
 f_crit = [0.2, 0.21, 0.24, 0.27, 0.3, 0.33, 0.37, 0.4, 0.4, 0.42, 0.43, 0.45, 0.5, 0.5, 0.5, 0.55] # 暴击率。
 f_jc = [14, 14, 13, 12, 12, 11, 10, 9, 9, 8, 8, 8, 8, 8, 8, 8] # JC。
 
-w_hp = [57, 59, 62, 65, 69, 72, 75, 79, 83, 87, 90, 94, 97, 100, 103, 107] # With_Kout
+w_hp = [57, 59, 62, 65, 69, 72, 75, 79, 83, 87, 90, 94, 97, 100, 103, 107] # Weiz Kaxuan
 w_energy = [34, 37, 40, 45, 50, 54, 60, 65, 70, 74, 78, 83, 90, 96, 102, 107]
 w_fy = [3, 4, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 17, 19, 22]
 w_atk = [2, 2, 3, 5, 5, 5, 5, 6, 7, 7, 7, 8, 9, 10, 11, 11]
 w_crit = [0.15, 0.15, 0.16, 0.19, 0.2, 0.22, 0.24, 0.25, 0.25, 0.27, 0.28, 0.28, 0.3, 0.3, 0.3, 0.3]
 w_jc = [13, 13, 12, 11, 10, 10, 10, 9, 9, 8, 8, 8, 8, 7, 7, 7]
 
-t_hp = [64, 70, 73, 81, 88, 93, 100, 104, 110, 114, 122, 128, 135, 143, 150, 161] # Tsian_Ca
+t_hp = [64, 70, 73, 81, 88, 93, 100, 104, 110, 114, 122, 128, 135, 143, 150, 161] # Tsian Cha
 t_energy = [25, 26, 28, 30, 33, 36, 41, 48, 50, 55, 60, 65, 73, 68, 73, 76]
 t_fy = [2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15]
 t_atk = [5, 7, 7, 8, 8, 9, 9, 10, 11, 12, 12, 13, 14, 15, 18, 25]
@@ -74,49 +74,42 @@ x_atk = [20, 28, 39, 50, 62, 71, 79, 88, 98, 107, 119, 132, 145, 159, 174, 190]
 x_crit = [0.71, 0.74, 0.76, 0.79, 0.81, 0.81, 0.83, 0.85, 0.87, 0.87, 0.9, 0.9, 0.92, 0.93, 0.94, 0.95]
 x_jc = [6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 3, 3]
 
-aka_f_hp = [108] # Aka Fū
+aka_f_hp = [108] # Chi Feng
 aka_f_energy = [66]
 aka_f_fy = [12]
 aka_f_atk = [11]
 aka_f_crit = [0.44]
 aka_f_jc = [10]
 
-aka_k_hp = [106] # Aka Ka
+aka_k_hp = [106] # Chi Huo
 aka_k_energy = [65]
 aka_k_fy = [10]
 aka_k_atk = [12]
 aka_k_crit = [0.58]
 aka_k_jc = [12]
 
-aka_y_hp = [113] # Aka Yan
+aka_y_hp = [113] # Chi Yan
 aka_y_energy = [72]
 aka_y_fy = [11]
 aka_y_atk = [10]
 aka_y_crit = [0.48]
 aka_y_jc = [11]
 
-anei_hp = [97] # Anei
-anei_energy = [62]
-anei_fy = [9]
-anei_atk = [9]
-anei_crit = [0.39]
-anei_jc = [11]
-
-aoi_sa_hp = [103] # Aoi Sa
+aoi_sa_hp = [103] # Qing Sa
 aoi_sa_energy = [67]
 aoi_sa_fy = [11]
 aoi_sa_atk = [12]
 aoi_sa_crit = [0.42]
 aoi_sa_jc = [11]
 
-aoi_sh_hp = [123] # Aoi Shui
+aoi_sh_hp = [123] # Qing Shui
 aoi_sh_energy = [81]
 aoi_sh_fy = [14]
 aoi_sh_atk = [13]
 aoi_sh_crit = [0.66]
 aoi_sh_jc = [9]
 
-aoi_l_hp = [107] # Aoi Lan
+aoi_l_hp = [107] # Qing Lan
 aoi_l_energy = [65]
 aoi_l_fy = [11]
 aoi_l_atk = [11]
@@ -209,21 +202,21 @@ people_grade = [
 ]
 
 all_names = [
-    "Feng_Noti",
-    "With_Kout",
-    "Tsian_Ca",
+    "Feng Noti",
+    "Weiz Kaxuan",
+    "Tsian Cha",
     "Zyxa Wvub",
     "Chala Sklif",
     "It Rains",
     "Lin Xi",
     "Modificationer + Satelliti",
     "Xusu Ziye",
-    "Aka Fū",
-    "Aka Ka",
-    "Aka Yan",
-    "Aoi Sa",
-    "Aoi Shui",
-    "Aoi Lan",
+    "Chi Feng",
+    "Chi Huo",
+    "Chi Yan",
+    "Qing Sa",
+    "Qing Shui",
+    "Qing Lan",
     "Bei Hua",
     "Era",
     "Ert",
@@ -816,21 +809,21 @@ try:
     if qr1 == "m":
         zf("""
     敌人列表：
-    1 - Feng_Noti；
-    2 - With_Kout；
-    3 - Tsian_Ca；
+    1 - Feng Noti；
+    2 - Weiz Kaxuan；
+    3 - Tsian Cha；
     4 - Zyxa Wvub；
     5 - Chala Sklif；
     6 - It Rains；
     7 - Lin Xi；
     8 - Modificationer + Satelliti；
     9 - Xusu Ziye；
-    10 - Aka Fū；
-    11 - Aka Ka；
-    12 - Aka Yan；
-    13 - Aoi Sa；
-    14 - Aoi Shui；
-    15 - Aoi Lan；
+    10 - Chi Feng；
+    11 - Chi Huo；
+    12 - Chi Yan；
+    13 - Qing Sa；
+    14 - Qing Shui；
+    15 - Qing Lan；
     16 - Bei Hua；
     17 - Era；
     18 - Ert；
@@ -1113,21 +1106,21 @@ try:
         zf("角色的 HP 、 JC 、 攻击力、防御力等将随 ML 而变化。", "text")
         zf(r"""
     角色列表：
-    1 - Feng_Noti；
-    2 - With_Kout；
-    3 - Tsian_Ca；
+    1 - Feng Noti；
+    2 - Weiz Kaxuan；
+    3 - Tsian Cha；
     4 - Zyxa Wvub；
     5 - Chala Sklif；
     6 - It Rains；
     7 - Lin Xi；
     8 - Modificationer + Satelliti；
     9 - Xusu Ziye；
-    10 - Aka Fū；
-    11 - Aka Ka；
-    12 - Aka Yan；
-    13 - Aoi Sa；
-    14 - Aoi Shui；
-    15 - Aoi Lan；
+    10 - Chi Feng；
+    11 - Chi Huo；
+    12 - Chi Yan；
+    13 - Qing Sa；
+    14 - Qing Shui；
+    15 - Qing Lan；
     16 - Bei Hua；
     17 - Era；
     18 - Ert；
