@@ -501,7 +501,7 @@ try:
 
     def gj():
         try:
-            global people_interest, police_join, jd, wuqi_ord, hushenfu_ord, z_amount, d_amount, zs_energy, ds_energy, zt_energy, dt_energy, zs_hp, ds_hp
+            global people_interest, police_join, jd, ls_zord, hushenfu_ord, z_amount, d_amount, zs_energy, ds_energy, zt_energy, dt_energy, zs_hp, ds_hp
 
             people_interest = False
             mercy_refuse = False
@@ -835,7 +835,7 @@ try:
     24 - Ricky Nanmuzhi。
 """, "text")
 
-        d_amount = zf("请输入敌人数量：", "inp")
+        d_amount = zf("请输入敌人数量：（该数值上限为 9）", "inp")
         d_amount = zs(d_amount, 1, 9)
         for i in range(d_amount):
             d_num = zf(f"请选择第 {i + 1} 个敌人：", "inp")
@@ -1068,7 +1068,7 @@ try:
         os.system("cls")
 
     else:
-        d_amount = zf("请输入敌人数量：", "inp")
+        d_amount = zf("请输入敌人数量：（该数值上限为 9）", "inp")
         d_amount = zs(d_amount, 1, 9)
         for j in range(d_amount):
             d_name.append(zf("请输入敌人名称：", "inp"))
@@ -1132,7 +1132,7 @@ try:
     24 - Ricky Nanmuzhi。
 """, "text")
 
-        z_amount = zf("请输入角色数量：", "inp")
+        z_amount = zf("请输入角色数量：（该数值上限为 9）", "inp")
         z_amount = zs(z_amount, 1, 9)
         for i in range(z_amount):
             z_num = zf(f"请输入第 {i + 1} 个角色的编号：", "inp")
@@ -1365,7 +1365,7 @@ try:
         os.system("cls")
 
     else:
-        z_amount = zf("请输入角色数量：", "inp")
+        z_amount = zf("请输入角色数量：（该数值上限为 9）", "inp")
         z_amount = zs(z_amount, 1, 9)
         for i in range(z_amount):
             z_name.append(zf(f"请输入第 {i + 1} 个角色的名称：", "inp"))
@@ -1407,82 +1407,19 @@ try:
             print()
 
     os.system("cls")
-    wuqi = """
-    武器列表
-    0 - 手（攻击力 + 1）；
-    1 - 笔（攻击力 + 2）；
-    2 - 木棍（攻击力 + 2）；
-    3 - 鞋（攻击力 + 2）；
-    4 - 笔袋（攻击力 + 2）；
-    5 - 树枝（攻击力 + 3）；
-    6 - 长绳（攻击力 + 3）；
-    7 - 球（攻击力 + 3）；
-    8 - 垃圾（攻击力 + 3）；
-    9 - 斧头（攻击力 + 4）；
-    10 - 铁制易拉罐（攻击力 + 4）；
-    11 - 玩具刀（攻击力 + 4）；
-    12 - 挂钩（攻击力 + 4）；
-    13 - 硬帽（攻击力 + 5）；
-    14 - 卷尺（攻击力 + 5）；
-    15 - 戒尺（攻击力 + 6）；
-    16 - 手套（攻击力 + 6）；
-    17 - 玩具枪（攻击力 + 7）；
-    18 - 重笔记本（攻击力 + 7）；
-    19 - 围巾（攻击力 + 7）；
-    20 - 茶壶（攻击力 + 7）；
-    21 - 纸板（攻击力 + 7）；
-    22 - 水枪（攻击力 + 8）；
-    23 - 金球（攻击力 + 8）；
-    24 - 电线（攻击力 + 9）；
-    25 - 平底锅（攻击力 + 9）；
-    26 - 电磁枪（攻击力 + 10）；
-    27 - 电动木棍（攻击力 + 11）；
-    28 - 刀（攻击力 + 12）；
-    29 - 扳手（攻击力 + 13）；
-    30 - 锯子（攻击力 + 16）；
-    31 - 水果刀（攻击力 + 18）；
-    32 - 枪（攻击力 + 20）；
-    33 - 智能设备（攻击力 + 31）；
-    34 - 状态遥控器（攻击力 + 63）；
-    35 - 终端（攻击力 + 127）；
-    36 - ATK+++---×××÷÷÷ （攻击力 + ？）。
-"""
-    hushenfu = """
-    护身符列表
-    0 - 无（防御力 + 1）；
-    1 - 布衣（防御力 + 2）；
-    2 - 雨衣（防御力 + 2）；
-    3 - 防弹衣（防御力 + 3）；
-    4 - 贴片（防御力 + 4）；
-    5 - 面罩（防御力 + 5）；
-    6 - 围巾（防御力 + 5）；
-    7 - 皮帽（防御力 + 6）；
-    8 - 手套（防御力 + 6）；
-    9 - 革履（防御力 + 7）；
-    10 - 木制盾牌（防御力 + 8）；
-    11 - 盔甲（防御力 + 8）；
-    12 - 铜制盾牌（防御力 + 10）；
-    13 - 避邪符（防御力 + 11）；
-    14 - 圣水（防御力 + 13）；
-    15 - JC 服（防御力 + 15）；
-    16 - 蛋形胶囊（防御力 + 20）；
-    17 - 智能设备（防御力 + 31）；
-    18 - 状态遥控器（防御力 + 63）；
-    19 - 终端（防御力 + 127）。
-    20 - DEF+++---×××÷÷÷ （防御力 + ？）。
-"""
+    os.system(r'start notepad.exe "%cd%\武器和护身符.txt"')
     wq_z = [1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13, 16, 18, 20, 31, 63, 127, 0]
     hsf_z = [1, 2, 2, 3, 4, 5, 5, 6, 6, 7, 8, 8, 10, 11, 13, 15, 20, 31, 63, 127, 0]
     if sz.upper() == "M":
-        zf(wuqi, "text")
-        zf(hushenfu, "text")
+        zf("刚才打开了武器和护身符的文本文件，请查看。", "text")
         print()
+        zf("现在为我方角色选择武器和护身符，接下来请输入相应的序号。", "text")
         for i in range(z_amount):
-            wuqi_ord = zf(f"请为 {z_name[i]} 选择合适的武器：", "inp")
-            wuqi_ord = zs(wuqi_ord, 0, 36)
+            ls_zord = zf(f"请为 {z_name[i]} 选择合适的武器：", "inp")
+            ls_zord = zs(ls_zord, 0, 36)
             hushenfu_ord = zf("请为其选择合适的护身符：", "inp")
             hushenfu_ord = zs(hushenfu_ord, 0, 20)
-            if (wuqi_ord == 36):
+            if (ls_zord == 36):
                 if z_name[i] == "Modificationer + Satelliti" or z_name[i] == "Xusu Ziye":
                     ls_wuqi = randint(21, 127)
                 else:
@@ -1499,17 +1436,42 @@ try:
                     ls_hushenfu = randint(1, 20)
                 zf(f"这会使其 DEF 增加 {ls_hushenfu}。", "text")
                 zj_fy[i] += ls_hushenfu
-            zj_atk[i] += wq_z[wuqi_ord]
+            zj_atk[i] += wq_z[ls_zord]
             zj_fy[i] += hsf_z[hushenfu_ord]
+            print()
 
+        print()
+        zf("现在为敌方角色选择武器和护身符，接下来请输入相应的序号。", "text")
+        for j in range(d_amount):
+            ls_dord = zf(f"请为 {d_name[j]} 选择合适的武器：", "inp")
+            ls_dord = zs(ls_dord, 0, 36)
+            hushenfu_ord = zf("请为其选择合适的护身符：", "inp")
+            hushenfu_ord = zs(hushenfu_ord, 0, 20)
+            if (ls_dord == 36):
+                if d_name[j] == "Modificationer + Satelliti" or d_name[j] == "Xusu Ziye":
+                    ls_wuqi = randint(21, 127)
+                else:
+                    ls_wuqi = randint(1, 20)
+                zf(f"这会使其攻击力增加 {ls_wuqi}。", "text")
+                d_atk[j] += ls_wuqi
+            if (hushenfu_ord == 15):
+                zf("这会使其 JC 增加 5。", "text")
+                d_jc[j] += 5
+            elif (hushenfu_ord == 20):
+                if d_name[j] == "Modificationer + Satelliti" or d_name[j] == "Xusu Ziye":
+                    ls_hushenfu = randint(21, 127)
+                else:
+                    ls_hushenfu = randint(1, 20)
+                zf(f"这会使其 DEF 增加 {ls_hushenfu}。", "text")
+                d_fy[j] += ls_hushenfu
+            d_atk[j] += wq_z[ls_dord]
+            d_fy[j] += hsf_z[hushenfu_ord]
             print()
     else:
         w = zf("我们可以提供可用的武器列表和护身符列表，是否查看？（是 / 否）", "inp")
         if w.upper() == "是":
-            zf("以下可供参考。", "text")
-            print()
-            zf(wuqi, "text")
-            zf(hushenfu, "text")
+            zf("刚才打开了武器和护身符的文本文件，请查看。", "text")
+            os.system('start notepad.exe "%cd%\武器和护身符.txt"')
 
     os.system("cls")
 
