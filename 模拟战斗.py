@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-# Made by 末谛菥开玄那Satelliti.
+# Made by 末谛菥开玄那和纱溚来绨.
 from random import *
 from rich.progress import *
 from rich.console import Console
@@ -486,7 +486,24 @@ try:
         else:
             return "其"
 
-    def mz():
+    def mz(me, enemy):
+        os.system("cls")
+        print("按下 Z 键攻击。")
+        print(fr"""
+      攻方                                防方
+      {me}                            {enemy}
+      -----                                   -----            
+    --      --                              --      --
+      -----                                   -----
+     // || \\                                // || \\
+    //  ||  \\   |￣￣￣￣￣￣￣￣￣￣|     //  ||  \\ 
+    \\  ||   ————|                    |————//   ||  //
+        ||                                      ||
+     // || \\                                // || \\
+    //  ||  \\                              //  ||  \\
+   //   ||   \\                            //   ||   \\
+        """)
+
         ls_string = list("....................")
         ls_range = len(ls_string)
 
@@ -619,13 +636,14 @@ try:
                         zf(f"{k} - {z_name[k]} 打出了精准的一招，这对{pronoun(z_name[k])}来说并不是什么难事。", "F+")
                         z_damage[k] *= (1 + zj_crit[k] / 10)
                     else:
-                        ls_zacc = mz()
+                        ls_zacc = mz(z_name[k], d_name[z_xz[k]])
                         if 4 <= ls_zacc <= 6:
                             zf(f"{k} - {z_name[k]} 打出了精准的一招。", "E-")
                             z_damage[k] *= (1 + zj_crit[k] / 10)
                         else:
                             zf(f"{k} - {z_name[k]} 未能精准命中。", "A")
                         z_acc.append(ls_zacc)
+                        os.system("cls")
 
                 print()
                 for l in range(d_amount):
@@ -635,13 +653,14 @@ try:
                         zf(f"{l} - {d_name[l]} 打出了精准的一招，这对{pronoun(d_name[l])}来说并不是什么难事。", "DI-")
                         d_damage[l] *= (1 + d_crit[l] / 10)
                     else:
-                        ls_dacc = mz()
+                        ls_dacc = mz(d_name[l], z_name[d_xz[l]])
                         if 4 <= ls_dacc <= 6:
                             zf(f"{l} - {d_name[l]} 打出了精准的一招。", "C-")
                             d_damage[l] *= (1 + d_crit[l] / 10)
                         else:
                             zf(f"{l} - {d_name[l]} 未能精准命中。", "A-")
                         d_acc.append(ls_dacc)
+                        os.system("cls")
 
                 print()
                 # 计算实际造成的伤害。
