@@ -491,7 +491,7 @@ try:
         print("按下 Z 键攻击。")
         print(fr"""
       攻方                                防方
-      {me}                            {enemy}
+      {me}                               {enemy}
       -----                                   -----            
     --      --                              --      --
       -----                                   -----
@@ -1519,10 +1519,8 @@ try:
             d_fy[j] += hsf_z[hushenfu_ord]
             print()
     else:
-        w = zf("我们可以提供可用的武器列表和护身符列表，是否查看？（是 / 否）", "inp")
-        if w.upper() == "是":
-            zf("刚才打开了武器和护身符的文本文件，请查看。", "text")
-            os.system('start notepad.exe "%cd%\武器和护身符.txt"')
+        zf("刚才打开了武器和护身符的文本文件，请查看。", "text")
+        os.system('start notepad.exe "%cd%\武器和护身符.txt"')
 
     os.system("cls")
 
