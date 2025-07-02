@@ -795,7 +795,6 @@ try:
                     ds_energy = [round(e, 3) for e in ds_energy]
 
             else:
-                zf("无效输入，本次攻击无效。", "text")
                 print()
         except KeyboardInterrupt:
             zf("此次运行被键盘中断。跳过本次攻击。", "error")
