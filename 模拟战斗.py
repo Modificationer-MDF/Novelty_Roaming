@@ -708,6 +708,7 @@ try:
                                 zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "E")
                             elif zs_energy[o] - z_hfhp[o] <= 0:
                                 z_hfhp[o] -= abs(zs_energy[o] - z_hfhp[o])
+                                zs_hp[o] += z_hfhp[o]
                                 zs_energy[o] = 0
                                 zf(f"{o} - {z_name[o]} 虽恢复了 {z_hfhp[o]:.3f} HP，但{pronoun(z_name[o])}再也没有任何精力了。", "A-")
                             else:
@@ -741,6 +742,7 @@ try:
                                 zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "S")
                             elif ds_energy[p] - d_hfhp[p] <= 0:
                                 d_hfhp[p] -= abs(ds_energy[p] - d_hfhp[p])
+                                ds_hp[p] += d_hfhp[p]
                                 ds_energy[p] = 0
                                 zf(f"{p} - {d_name[p]} 虽恢复了 {d_hfhp[p]:.3f} HP，但{pronoun(d_name[p])}再也没有任何精力了。", "A")
                             else:
@@ -857,35 +859,35 @@ try:
             ls_path = zf("请输入角色配置文件的路径（注意后缀名为 .pz）：", "inp")
             try:
                 with open(ls_path, "r", encoding="utf-8") as f:
-                    z_amount = zs(f.readline().strip(), 1, 9)
+                    z_amount = zs(f.readline().strip().replace(" ", ""), 1, 9)
                     z_name = f.readline().strip().replace(" ", "").split(",")
-                    zs_hp = [fd(hp, 1, float("inf")) for hp in f.readline().strip().split(",")]
+                    zs_hp = [fd(hp, 1, float("inf")) for hp in f.readline().strip().replace(" ", "").split(",")]
                     zt_hp = zs_hp[:]
-                    zs_energy = [fd(energy, 1, float("inf")) for energy in f.readline().strip().split(",")]
+                    zs_energy = [fd(energy, 1, float("inf")) for energy in f.readline().strip().replace(" ", "").split(",")]
                     zt_energy = zs_energy[:]
-                    ls_zjatk1 = [zs(atk, 1, float("inf")) for atk in f.readline().strip().split(",")] # 角色自身的攻击力。
-                    ls_zjatk2 = [zs(atk, 1, float("inf")) for atk in f.readline().strip().split(",")] # 角色所选武器的攻击力。
+                    ls_zjatk1 = [zs(atk, 1, float("inf")) for atk in f.readline().strip().replace(" ", "").split(",")] # 角色自身的攻击力。
+                    ls_zjatk2 = [zs(atk, 1, float("inf")) for atk in f.readline().strip().replace(" ", "").split(",")] # 角色所选武器的攻击力。
                     zj_atk = [ls_zjatk1[i] + ls_zjatk2[i] for i in range(z_amount)] # 角色攻击力。
-                    ls_zjfy1 = [zs(defense, 1, float("inf")) for defense in f.readline().strip().split(",")] # 角色自身的防御力。
-                    ls_zjfy2 = [zs(defense, 1, float("inf")) for defense in f.readline().strip().split(",")] # 角色所选护身符的防御力。
+                    ls_zjfy1 = [zs(defense, 1, float("inf")) for defense in f.readline().strip().replace(" ", "").split(",")] # 角色自身的防御力。
+                    ls_zjfy2 = [zs(defense, 1, float("inf")) for defense in f.readline().strip().replace(" ", "").split(",")] # 角色所选护身符的防御力。
                     zj_fy = [ls_zjfy1[i] + ls_zjfy2[i] for i in range(z_amount)] # 角色防御力。
-                    zj_crit = [fd(crit, 0, 1) for crit in f.readline().strip().split(",")]
-                    zj_jc = [fd(jc, 1, 99) for jc in f.readline().strip().split(",")]
+                    zj_crit = [fd(crit, 0, 1) for crit in f.readline().strip().replace(" ", "").split(",")]
+                    zj_jc = [fd(jc, 1, 99) for jc in f.readline().strip().replace(" ", "").split(",")]
             
-                    d_amount = zs(f.readline().strip(), 1, 9)
-                    d_name = f.readline().strip().replace(" ", "").split(",")
-                    ds_hp = [fd(hp, 1, float("inf")) for hp in f.readline().strip().split(",")]
+                    d_amount = zs(f.readline().strip().replace(" ", ""), 1, 9)
+                    d_name = f.readline().strip().replace(" ", "").replace(" ", "").split(",")
+                    ds_hp = [fd(hp, 1, float("inf")) for hp in f.readline().strip().replace(" ", "").split(",")]
                     dt_hp = ds_hp[:]
-                    ds_energy = [fd(energy, 1, float("inf")) for energy in f.readline().strip().split(",")]
+                    ds_energy = [fd(energy, 1, float("inf")) for energy in f.readline().strip().replace(" ", "").split(",")]
                     dt_energy = ds_energy[:]
-                    ls_datk1 = [zs(atk, 1, float("inf")) for atk in f.readline().strip().split(",")] # 敌人自身的攻击力。
-                    ls_datk2 = [zs(atk, 1, float("inf")) for atk in f.readline().strip().split(",")] # 敌人所选武器的攻击力。
+                    ls_datk1 = [zs(atk, 1, float("inf")) for atk in f.readline().strip().replace(" ", "").split(",")] # 敌人自身的攻击力。
+                    ls_datk2 = [zs(atk, 1, float("inf")) for atk in f.readline().strip().replace(" ", "").split(",")] # 敌人所选武器的攻击力。
                     d_atk = [ls_datk1[i] + ls_datk2[i] for i in range(d_amount)] # 敌人攻击力。
-                    ls_dfy1 = [zs(defense, 1, float("inf")) for defense in f.readline().strip().split(",")] # 敌人自身的防御力。
-                    ls_dfy2 = [zs(defense, 1, float("inf")) for defense in f.readline().strip().split(",")] # 敌人所选护身符的防御力。
+                    ls_dfy1 = [zs(defense, 1, float("inf")) for defense in f.readline().strip().replace(" ", "").split(",")] # 敌人自身的防御力。
+                    ls_dfy2 = [zs(defense, 1, float("inf")) for defense in f.readline().strip().replace(" ", "").split(",")] # 敌人所选护身符的防御力。
                     d_fy = [ls_dfy1[i] + ls_dfy2[i] for i in range(d_amount)] # 敌人防御力。
-                    d_crit = [fd(crit, 0, 1) for crit in f.readline().strip().split(",")]
-                    d_jc = [fd(jc, 1, 99) for jc in f.readline().strip().split(",")]
+                    d_crit = [fd(crit, 0, 1) for crit in f.readline().strip().replace(" ", "").split(",")]
+                    d_jc = [fd(jc, 1, 99) for jc in f.readline().strip().replace(" ", "").split(",")]
 
                     if len(z_name) != z_amount or len(zs_hp) != z_amount or len(zs_energy) != z_amount or len(zj_atk) != z_amount or len(zj_fy) != z_amount or len(zj_crit) != z_amount or len(zj_jc) != z_amount or len(d_name) != d_amount or len(ds_hp) != d_amount or len(ds_energy) != d_amount or len(d_atk) != d_amount or len(d_fy) != d_amount or len(d_crit) != d_amount or len(d_jc) != d_amount:
                         raise Exception("角色或敌人数量与所给信息长度不匹配。请调整后再重试。")
