@@ -856,7 +856,7 @@ try:
             try:
                 with open(ls_path, "r", encoding="utf-8") as f:
                     z_amount = zs(f.readline().strip(), 1, 9)
-                    z_name = f.readline().strip().split(",")
+                    z_name = f.readline().strip().replace(" ", "").split(",")
                     zs_hp = [fd(hp, 1, float("inf")) for hp in f.readline().strip().split(",")]
                     zt_hp = zs_hp[:]
                     zs_energy = [fd(energy, 1, float("inf")) for energy in f.readline().strip().split(",")]
@@ -871,7 +871,7 @@ try:
                     zj_jc = [fd(jc, 1, 99) for jc in f.readline().strip().split(",")]
             
                     d_amount = zs(f.readline().strip(), 1, 9)
-                    d_name = f.readline().strip().split(",")
+                    d_name = f.readline().strip().replace(" ", "").split(",")
                     ds_hp = [fd(hp, 1, float("inf")) for hp in f.readline().strip().split(",")]
                     dt_hp = ds_hp[:]
                     ds_energy = [fd(energy, 1, float("inf")) for energy in f.readline().strip().split(",")]
@@ -884,6 +884,9 @@ try:
                     d_fy = [ls_dfy1[i] + ls_dfy2[i] for i in range(d_amount)] # 敌人防御力。
                     d_crit = [fd(crit, 0, 1) for crit in f.readline().strip().split(",")]
                     d_jc = [fd(jc, 1, 99) for jc in f.readline().strip().split(",")]
+
+                    if len(z_name) != z_amount or len(zs_hp) != z_amount or len(zs_energy) != z_amount or len(zj_atk) != z_amount or len(zj_fy) != z_amount or len(zj_crit) != z_amount or len(zj_jc) != z_amount or len(d_name) != d_amount or len(ds_hp) != d_amount or len(ds_energy) != d_amount or len(d_atk) != d_amount or len(d_fy) != d_amount or len(d_crit) != d_amount or len(d_jc) != d_amount:
+                        raise Exception("角色或敌人数量与所给信息长度不匹配。请调整后再重试。")
             
                     break
             except FileNotFoundError:
@@ -892,8 +895,11 @@ try:
             except ValueError as e:
                 zf(f"配置文件格式错误。请调整后再重试。（{e}）", "error")
                 print()
+            except Exception as e:
+                zf(e, "error")
+                print()
 
-    else:
+    elif pz.replace(" ", "").lower() == "z":
 
         while True:
             sz = zf(r"对于角色的信息，使用内置的配置还是自行输入信息？（M / Z）", "inp")
@@ -1583,6 +1589,9 @@ try:
         else:
             zf("刚才打开了武器和护身符的文本文件，请查看。", "text")
             os.system('start notepad.exe "%cd%\武器和护身符.txt"')
+    else:
+        zf("输入错误。", "error")
+        sys.exit(0)
 
     os.system("cls")
 
