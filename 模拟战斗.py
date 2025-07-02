@@ -1643,7 +1643,7 @@ try:
     jd = 1 # 1：敌人处于 1 阶段；2：敌人处于 2 阶段；3：敌人或者角色被击败。
 
     while jd != 3 :
-        if (turns >= 5 and police_join == True):
+        if (turns >= 7 and police_join == True):
             os.system("cls")
             zf("“你们不要再打了，最好束手就擒！” 机会 带领着警方团队出现，拉起了警戒线，驱散观众离开。", "DI-")
             for b in range(z_amount):
