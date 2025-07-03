@@ -889,7 +889,9 @@ try:
                     d_crit = [fd(crit, 0, 1) for crit in f.readline().strip().replace(" ", "").split(",")]
                     d_jc = [fd(jc, 1, 99) for jc in f.readline().strip().replace(" ", "").split(",")]
 
-                    if len(z_name) != z_amount or len(zs_hp) != z_amount or len(zs_energy) != z_amount or len(zj_atk) != z_amount or len(zj_fy) != z_amount or len(zj_crit) != z_amount or len(zj_jc) != z_amount or len(d_name) != d_amount or len(ds_hp) != d_amount or len(ds_energy) != d_amount or len(d_atk) != d_amount or len(d_fy) != d_amount or len(d_crit) != d_amount or len(d_jc) != d_amount:
+                    if len(z_name) == z_amount or len(zs_hp) == z_amount or len(zs_energy) == z_amount or len(zj_atk) == z_amount or len(zj_fy) == z_amount or len(zj_crit) == z_amount or len(zj_jc) == z_amount or len(d_name) == d_amount or len(ds_hp) == d_amount or len(ds_energy) == d_amount or len(d_atk) == d_amount or len(d_fy) == d_amount or len(d_crit) == d_amount or len(d_jc) == d_amount:
+                        pass
+                    else:
                         raise Exception("角色或敌人数量与所给信息长度不匹配。请调整后再重试。")
             
                     break
