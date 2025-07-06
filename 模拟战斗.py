@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-# Made by 末谛菥开玄那和纱溚来绨.
+# 由末谛菥开玄那和纱溚来绨编写。
 from random import *
 from rich.progress import *
 from rich.console import Console
@@ -852,7 +852,6 @@ try:
         sys.exit(0)
 
     os.system("cls")
-
     pz = zf("导入角色配置还是自行输入？（D / Z）", "inp")
     if pz.replace(" ", "").lower() == "d":
         while True:
@@ -1699,6 +1698,8 @@ try:
         gj()
 except EOFError as e:
     zf("发生了 EOF 错误。你可能按下了 Ctrl + Z 组合键。", "error")
+    sys.exit(0)
 except KeyboardInterrupt:
     print()
     zf("此次运行被键盘中断。", "error")
+    sys.exit(0)
