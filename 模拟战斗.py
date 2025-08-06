@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-# 由末谛菥开玄那和纱溚来绨编写。
+# Comb Mosha。
 from random import *
 from rich.progress import *
 from rich.console import Console
@@ -1651,7 +1651,7 @@ try:
             zf("“你们不要再打了，最好束手就擒！” 机会 带领着警方团队出现，拉起了警戒线，驱散观众离开。", "DI-")
             for b in range(z_amount):
                 if z_name[b] == "末谛菥开玄那和纱溚来绨":
-                    zf("末谛菥开玄那和 Satelliti 拿出终端，敲击了一下，瞬间消失。", "text")
+                    zf("末谛菥开玄那和 Shatelliti 拿出终端，敲击了一下，瞬间消失。", "text")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
