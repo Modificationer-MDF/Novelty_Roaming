@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-# Comb Mosha。
+# Comb Mosha 2025。
 from random import *
 from rich.progress import *
 from rich.console import Console
@@ -252,6 +252,7 @@ color = {
     "DOWN": "#8b1a1a", # Down
     "error": "#8b1a1a",
     "inp": "#ffd700",
+    "xz": "#00ff7f",
     "text": "#ffffff",
 }
 
@@ -286,18 +287,75 @@ try:
     def zf(text, cl):
         if not isinstance(text, str):
             text = str(text)
-    
-        if "\n" in text:
-            text = "\\/ " + text + "/\\"
-        else:
-            text = "\\/ " + text
             
-        text = f"[{cl.upper()}] " + text
+        fz_cl = cl
+
+        match cl:
+            case "F+":
+                cl = "Fabulous +"
+            case "E+":
+                cl = "Excellent +"
+            case "E":
+                cl = "Excellent"
+            case "E-":
+                cl = "Excellent -"
+            case "G+":
+                cl = "Good +"
+            case "G":
+                cl = "Good"
+            case "G-":
+                cl = "Good -"
+            case "DE":
+                cl = "Decent"
+            case "DE-":
+                cl = "Decent -"
+            case "A":
+                cl = "Average"
+            case "A-":
+                cl = "Average -"
+            case "P":
+                cl = "Poor"
+            case "P-":
+                cl = "Poor -"
+            case "S":
+                cl = "Serious"
+            case "S-":
+                cl = "Serious -"
+            case "C":
+                cl = "Critical"
+            case "C-":
+                cl = "Critical -"
+            case "N":
+                cl = "Nightmare"
+            case "N-":
+                cl = "Nightmare -"
+            case "DI-":
+                cl = "Disaster -"
+            case "DOWN":
+                cl = "Down"
+            case "error":
+                cl = "Error"
+            case "inp":
+                cl = "Input"
+            case "xz":
+                cl = "XZ"
+            case "text":
+                cl = "Text"
+
+        text = f"[{cl}] {text}"
 
         for i in text:
-            cs.print(i, style=color[cl], end="")
+            cs.print(i, style=color[fz_cl], end="")
             time.sleep(0.003)
         return input()
+
+    def xz(text, array):
+        ls_str = ""
+        for i in range(len(array)):
+            ls_str += f"（{i+1}） {array[i]}　"
+        zf(f"""{text}
+        {ls_str}""", "xz")
+        return int(input(r"\/ "))
 
     def jdt(current, total, char, typ, side): 
         # current：当前值；total：总值；char：角色；typ：属性；side：阵营。
@@ -817,11 +875,9 @@ try:
         若没有需求，请按下 Enter 键继续。
 
         接下来是本程序的一些说明。
-        以 “\/ [INP]” 开头的文字需要你输入。
-        以 “\/ [ERROR]” 开头的文字表示程序运行时出现错误。
+        以 “[INP]” 开头的文字需要你输入。
+        以 “[ERROR]” 开头的文字表示程序运行时出现错误。
         本程序的所有输入内容均不区分大小写。（输入角色和敌人名称时除外）
-        所有要求选择的文本遵循以下格式：
-        甲还是乙？（选择前者：J / 选择后者：Y。具体的字母视每一个选项第一个汉字拼音的音序而定）
 
         玩法说明。
         在最开始和每回合结束后，都会显示目前各个角色的状态。
@@ -829,7 +885,7 @@ try:
         在选择敌人时，输入编号即可。
         在瞄准时，按下 Z 键攻击。
 
-        \/ [INP] 等待操作：""")
+        \/ """)
         if start == "0":
             os.system("python -m pip install --upgrade pip")
             wb.open("https://www.python.org/downloads/")
@@ -852,8 +908,9 @@ try:
         sys.exit(0)
 
     os.system("cls")
-    pz = zf("导入角色配置还是自行输入？（D / Z）", "inp")
-    if pz.replace(" ", "").lower() == "d":
+    pz = xz("程序该如何开始？", ["导入配置文件。", "手动输入数据。"])
+    print()
+    if pz == 1:
         while True:
             ls_path = zf("请输入角色配置文件的路径（注意后缀名为 .pz）：", "inp")
             try:
@@ -904,32 +961,42 @@ try:
                 zf(e, "error")
                 print()
 
-    elif pz.replace(" ", "").lower() == "z":
+    elif pz == 2:
+        os.system("cls")
+        ls_mcn = xz("主角的名字是什么？", ["角绎 / Kêrekter。", "我将自行输入。", "使用系统用户名。"])
+        match ls_mcn:
+            case 1:
+                major_character_name = "角绎"
+            case 2:
+                major_character_name = zf("请输入主角的名字：", "inp")
+            case 3:
+                major_character_name = os.getlogin()
+        zf(f"这是你的名字：“{major_character_name}”。", "text")
+        os.system("cls")
 
         while True:
-            sz = zf(r"对于角色的信息，使用内置的配置还是自行输入信息？（M / Z）", "inp")
-            sz = sz.lower().replace(" ", "")
-            if sz != "m" and sz != "z":
-                zf(f"非法字符：“{sz}”。请重新输入。", "error")
+            z_sz = xz("角色信息该如何设置？", ["使用内置的配置。", "自行输入信息。"])
+            if z_sz != 1 and z_sz != 2:
+                zf(f"非法字符：“{z_sz}”。请重新输入。", "error")
                 print()
             else:
                 break
 
         print()
         while True:
-            qr1 = zf("接下来你将输入敌人信息。使用内置的配置还是自行输入敌人信息？（M / Z）", "inp")
-            qr1 = qr1.replace(" ", "").lower()
-            if qr1 != "m" and qr1 != "z":
-                zf(f"非法字符：“{qr1}”。请重新输入。", "error")
+            d_sz = xz("敌人信息该如何设置？", ["使用内置的配置。", "自行输入信息。"])
+            if d_sz != 1 and d_sz != 2:
+                zf(f"非法字符：“{d_sz}”。请重新输入。", "error")
                 print()
             else:
                 break
 
         print()
-        if qr1 == "m":
+        if d_sz == 1:
             zf("""
         敌人列表：
-        1 - 凤灵诺提；
+        （注：使用英文注名的角色的中文名还未决定）
+        1 - Feng_Noti；
         2 - 惟兹卡玹；
         3 - 千茶年又；
         4 - 极柯萨·无布；
@@ -952,7 +1019,7 @@ try:
         21 - 林华；
         22 - 通撤；
         23 - 机会；
-        24 - 瑞奇 · 南木知。
+        24 - Ricky Nanmuzhi。
     """, "text")
 
             d_amount = zf("请输入敌人数量：（该数值上限为 9）", "inp")
@@ -1226,11 +1293,12 @@ try:
                 print()
             os.system("cls")
 
-        if sz == "m":
+        if z_sz == 1:
             zf("角色的 HP 、 JC 、 攻击力、防御力等将随 ML 而变化。", "text")
             zf(r"""
         角色列表：
-        1 - 凤灵诺提；
+        （注：使用英文注名的角色的中文名还未决定）
+        1 - Feng_Noti；
         2 - 惟兹卡玹；
         3 - 千茶年又；
         4 - 极柯萨·无布；
@@ -1253,7 +1321,7 @@ try:
         21 - 林华；
         22 - 通撤；
         23 - 机会；
-        24 - 瑞奇 · 南木知。
+        24 - Ricky Nanmuzhi。
     """, "text")
 
             z_amount = zf("请输入角色数量：（该数值上限为 9）", "inp")
@@ -1534,7 +1602,7 @@ try:
         os.system(r'start notepad.exe "%cd%\武器和护身符.txt"')
         wq_z = [1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13, 16, 18, 20, 31, 63, 127, 0]
         hsf_z = [1, 2, 2, 3, 4, 5, 5, 6, 6, 7, 8, 8, 10, 11, 13, 15, 20, 31, 63, 127, 0]
-        if sz.upper() == "M":
+        if z_sz == 1:
             zf("刚才打开了武器和护身符的文本文件，请查看。", "text")
             print()
             zf("现在为我方角色选择武器和护身符，接下来请输入相应的序号。", "text")
