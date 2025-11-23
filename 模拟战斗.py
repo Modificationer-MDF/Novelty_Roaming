@@ -32,7 +32,7 @@ t_atk = [5, 7, 7, 8, 8, 9, 9, 10, 11, 12, 12, 13, 14, 15, 18, 25]
 t_crit = [0.5, 0.52, 0.53, 0.54, 0.55, 0.58, 0.6, 0.62, 0.62, 0.65, 0.68, 0.7, 0.75, 0.65, 0.67, 0.7]
 t_jc = [16, 15, 14, 13, 13, 12, 12, 11, 11, 11, 10, 10, 10, 10, 10, 10]
 
-z_hp = [59, 62, 65, 68, 72, 76, 80, 84, 88, 93, 98, 102, 108, 113, 116, 120] # 极柯萨·无布
+z_hp = [59, 62, 65, 68, 72, 76, 80, 84, 88, 93, 98, 102, 108, 113, 116, 120] # 梓柯萨·无布
 z_energy = [28, 30, 33, 36, 41, 46, 50, 53, 58, 62, 69, 73, 78, 81, 85, 92]
 z_fy = [4, 5, 6, 6, 6, 7, 7, 8, 9, 10, 11, 11, 12, 13, 14, 17]
 z_atk = [3, 3, 5, 6, 7, 7, 8, 8, 9, 9, 10, 11, 11, 12, 14, 16]
@@ -60,7 +60,7 @@ lin_xi_atk = [1, 3, 5, 6, 7, 8, 9, 10, 11, 11, 12, 13, 13, 14, 15, 16]
 lin_xi_crit = [0.2, 0.21, 0.23, 0.25, 0.27, 0.29, 0.3, 0.32, 0.33, 0.35, 0.37, 0.38, 0.4, 0.42, 0.44, 0.45]
 lin_xi_jc = [14, 14, 14, 13, 13, 13, 12, 12, 11, 11, 11, 11, 10, 10, 9, 9]
 
-m_hp = [429, 768, 1022, 1444, 1888, 2367, 3025, 3778, 4400, 5123, 5907, 6666, 7288, 8311, 9298, 1e4] # 末谛菥开玄那和纱溚来绨
+m_hp = [429, 768, 1022, 1444, 1888, 2367, 3025, 3778, 4400, 5123, 5907, 6666, 7288, 8311, 9298, 1e4] # 末谛菥开玄那和纱檀来绨
 m_energy = [250, 399, 681, 879, 1000, 1555, 1899, 2467, 3478, 4181, 4777, 5123, 5786, 6539, 7311, 8000]
 m_fy = [50, 60, 72, 87, 99, 116, 132, 148, 166, 180, 199, 219, 240, 263, 285, 310]
 m_atk = [39, 47, 58, 69, 80, 94, 106, 124, 139, 156, 173, 190, 210, 230, 252, 270]
@@ -175,13 +175,13 @@ o_atk = [18]
 o_crit = [0.76]
 o_jc = [9]
 
-# 瑞奇 · 南木知
-ri_hp = [109]
-ri_energy = [74]
-ri_fy = [13]
-ri_atk = [14]
-ri_crit = [0.54]
-ri_jc = [11]
+# 角绎
+jy_hp = [109]
+jy_energy = [74]
+jy_fy = [13]
+jy_atk = [14]
+jy_crit = [0.54]
+jy_jc = [11]
 
 people_text = [
     "没有人在身边。",
@@ -205,11 +205,11 @@ all_names = [
     "凤灵诺提",
     "惟兹卡玹",
     "千茶年又",
-    "极柯萨·无布",
+    "梓柯萨·无布",
     "恰拉·肆格莅覆",
     "雨落",
     "林汐",
-    "末谛菥开玄那和纱溚来绨",
+    "末谛菥开玄那和纱檀来绨",
     "絮苏紫叶",
     "赤枫",
     "赤火",
@@ -225,7 +225,7 @@ all_names = [
     "林华",
     "通撤",
     "机会",
-    "瑞奇 · 南木知",
+    "角绎",
 ]
 
 color = {
@@ -533,11 +533,11 @@ try:
                 var = zf("请重新输入一个浮点数：", "error")
 
     def pronoun(char):
-        if char == "惟兹卡玹" or char == "雨落" or char == "赤火" or char == "青飒" or char == "Ert" or char == "Hello14" or char == "林华" or char == "瑞奇 · 南木知":
+        if char == "惟兹卡玹" or char == "雨落" or char == "赤火" or char == "青飒" or char == "Ert" or char == "Hello14" or char == "林华" or char == "角绎":
             return "他"
-        elif char == "凤灵诺提" or char == "千茶年又" or char == "极柯萨·无布" or char == "恰拉·肆格莅覆" or char == "林汐" or char == "絮苏紫叶" or char == "赤枫" or char == "赤艳" or char == "青水" or char == "青兰" or char == "蓓花" or char == "一琉" or char == "机会":
+        elif char == "凤灵诺提" or char == "千茶年又" or char == "梓柯萨·无布" or char == "恰拉·肆格莅覆" or char == "林汐" or char == "絮苏紫叶" or char == "赤枫" or char == "赤艳" or char == "青水" or char == "青兰" or char == "蓓花" or char == "一琉" or char == "机会":
             return "她"
-        elif char == "末谛菥开玄那和纱溚来绨":
+        elif char == "末谛菥开玄那和纱檀来绨":
             return "他们"
         elif char == "时" or char == "通撤":
             return "祂"
@@ -689,7 +689,7 @@ try:
                 print()
                 for k in range(z_amount):
                     z_damage.append(randint(6, 9) + zj_atk[k])
-                    if z_name[k] == "末谛菥开玄那和纱溚来绨" or z_name[k] == "絮苏紫叶":
+                    if z_name[k] == "末谛菥开玄那和纱檀来绨" or z_name[k] == "絮苏紫叶":
                         z_acc.append(5)
                         zf(f"{k} - {z_name[k]} 打出了精准的一招，这对{pronoun(z_name[k])}来说并不是什么难事。", "F+")
                         z_damage[k] *= (1 + zj_crit[k] / 10)
@@ -706,7 +706,7 @@ try:
                 print()
                 for l in range(d_amount):
                     d_damage.append(randint(6, 9) + d_atk[l])
-                    if d_name[l] == "末谛菥开玄那和纱溚来绨" or d_name[l] == "絮苏紫叶":
+                    if d_name[l] == "末谛菥开玄那和纱檀来绨" or d_name[l] == "絮苏紫叶":
                         d_acc.append(5)
                         zf(f"{l} - {d_name[l]} 打出了精准的一招，这对{pronoun(d_name[l])}来说并不是什么难事。", "DI-")
                         d_damage[l] *= (1 + d_crit[l] / 10)
@@ -996,14 +996,14 @@ try:
             zf("""
         敌人列表：
         （注：使用英文注名的角色的中文名还未决定）
-        1 - Feng_Noti；
+        1 - 凤灵诺缔；
         2 - 惟兹卡玹；
         3 - 千茶年又；
-        4 - 极柯萨·无布；
+        4 - 梓柯萨·无布；
         5 - 恰拉·肆格莅覆；
         6 - 雨落；
         7 - 林汐；
-        8 - 末谛菥开玄那和纱溚来绨；
+        8 - 末谛菥开玄那和纱檀来绨；
         9 - 絮苏紫叶；
         10 - 赤枫；
         11 - 赤火；
@@ -1019,7 +1019,7 @@ try:
         21 - 林华；
         22 - 通撤；
         23 - 机会；
-        24 - Ricky Nanmuzhi。
+        24 - 角绎。
     """, "text")
 
             d_amount = zf("请输入敌人数量：（该数值上限为 9）", "inp")
@@ -1244,14 +1244,14 @@ try:
                         d_crit.append(o_crit[ls_dml])
                         d_jc.append(o_jc[ls_dml])
                     case 24:
-                        ds_hp.append(ri_hp[ls_dml])
+                        ds_hp.append(jy_hp[ls_dml])
                         dt_hp.append(ds_hp[i])
-                        ds_energy.append(ri_energy[ls_dml])
+                        ds_energy.append(jy_energy[ls_dml])
                         dt_energy.append(ds_energy[i])
-                        d_atk.append(ri_atk[ls_dml])
-                        d_fy.append(ri_fy[ls_dml])
-                        d_crit.append(ri_crit[ls_dml])
-                        d_jc.append(ri_jc[ls_dml])
+                        d_atk.append(jy_atk[ls_dml])
+                        d_fy.append(jy_fy[ls_dml])
+                        d_crit.append(jy_crit[ls_dml])
+                        d_jc.append(jy_jc[ls_dml])
             os.system("cls")
 
         else:
@@ -1301,11 +1301,11 @@ try:
         1 - Feng_Noti；
         2 - 惟兹卡玹；
         3 - 千茶年又；
-        4 - 极柯萨·无布；
+        4 - 梓柯萨·无布；
         5 - 恰拉·肆格莅覆；
         6 - 雨落；
         7 - 林汐；
-        8 - 末谛菥开玄那和纱溚来绨；
+        8 - 末谛菥开玄那和纱檀来绨；
         9 - 絮苏紫叶；
         10 - 赤枫；
         11 - 赤火；
@@ -1546,14 +1546,14 @@ try:
                         zj_fy.append(o_fy[ls_zml])
                         zj_jc.append(o_jc[ls_zml])
                     case 24:
-                        zs_hp.append(ri_hp[ls_zml])
-                        zt_hp.append(ri_hp[ls_zml])
-                        zs_energy.append(ri_energy[ls_zml])
-                        zt_energy.append(ri_energy[ls_zml])
-                        zj_atk.append(ri_atk[ls_zml])
-                        zj_crit.append(ri_crit[ls_zml])
-                        zj_fy.append(ri_fy[ls_zml])
-                        zj_jc.append(ri_jc[ls_zml])
+                        zs_hp.append(jy_hp[ls_zml])
+                        zt_hp.append(jy_hp[ls_zml])
+                        zs_energy.append(jy_energy[ls_zml])
+                        zt_energy.append(jy_energy[ls_zml])
+                        zj_atk.append(jy_atk[ls_zml])
+                        zj_crit.append(jy_crit[ls_zml])
+                        zj_fy.append(jy_fy[ls_zml])
+                        zj_jc.append(jy_jc[ls_zml])
             os.system("cls")
 
         else:
@@ -1612,7 +1612,7 @@ try:
                 hushenfu_ord = zf(f"请为{pronoun(z_name[i])}选择合适的护身符：", "inp")
                 hushenfu_ord = zs(hushenfu_ord, 0, 20)
                 if (ls_zord == 36):
-                    if z_name[i] == "末谛菥开玄那和纱溚来绨" or z_name[i] == "絮苏紫叶":
+                    if z_name[i] == "末谛菥开玄那和纱檀来绨" or z_name[i] == "絮苏紫叶":
                         ls_wuqi = randint(21, 127)
                     else:
                         ls_wuqi = randint(1, 20)
@@ -1622,7 +1622,7 @@ try:
                     zf(f"这会使{pronoun(z_name[i])}的 JC 增加 5。", "text")
                     z_jc[i] += 5
                 elif (hushenfu_ord == 20):
-                    if z_name[i] == "末谛菥开玄那和纱溚来绨" or z_name[i] == "絮苏紫叶":
+                    if z_name[i] == "末谛菥开玄那和纱檀来绨" or z_name[i] == "絮苏紫叶":
                         ls_hushenfu = randint(21, 127)
                     else:
                         ls_hushenfu = randint(1, 20)
@@ -1640,7 +1640,7 @@ try:
                 hushenfu_ord = zf(f"请为{pronoun(d_name[j])}选择合适的护身符：", "inp")
                 hushenfu_ord = zs(hushenfu_ord, 0, 20)
                 if (ls_dord == 36):
-                    if d_name[j] == "末谛菥开玄那和纱溚来绨" or d_name[j] == "絮苏紫叶":
+                    if d_name[j] == "末谛菥开玄那和纱檀来绨" or d_name[j] == "絮苏紫叶":
                         ls_wuqi = randint(21, 127)
                     else:
                         ls_wuqi = randint(1, 20)
@@ -1650,7 +1650,7 @@ try:
                     zf(f"这会使{pronoun(d_name[j])}的 JC 增加 5。", "text")
                     d_jc[j] += 5
                 elif (hushenfu_ord == 20):
-                    if d_name[j] == "末谛菥开玄那和纱溚来绨" or d_name[j] == "絮苏紫叶":
+                    if d_name[j] == "末谛菥开玄那和纱檀来绨" or d_name[j] == "絮苏紫叶":
                         ls_hushenfu = randint(21, 127)
                     else:
                         ls_hushenfu = randint(1, 20)
@@ -1716,33 +1716,33 @@ try:
     while jd != 3 :
         if (turns >= 7 and police_join == True):
             os.system("cls")
-            zf("“你们不要再打了，最好束手就擒！” 机会 带领着警方团队出现，拉起了警戒线，驱散观众离开。", "DI-")
+            zf("“你们不要再打了，最好束手就擒！” 机会带领着警方团队出现，拉起了警戒线，驱散观众离开。", "DI-")
             for b in range(z_amount):
-                if z_name[b] == "末谛菥开玄那和纱溚来绨":
-                    zf("末谛菥开玄那和 Shatelliti 拿出终端，敲击了一下，瞬间消失。", "text")
+                if z_name[b] == "末谛菥开玄那和纱檀来绨":
+                    zf("末谛菥开玄那和纱檀来绨拿出终端，敲击了一下，瞬间消失。", "text")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
                 elif z_name[b] == "絮苏紫叶":
-                    zf("絮苏紫叶 见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。机会 点了点头，放她走了。", "text")
+                    zf("絮苏紫叶见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。机会点了点头，放她走了。", "text")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
                 elif z_name[b] == "机会":
-                    zf("你看了看四周，发现 机会 不站在身边，而是站在警察前面。", "DI-")
+                    zf("你看了看四周，发现机会不站在身边，而是站在警察前面。", "DI-")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
                 else:
                     police_caught.append(z_name[b])
             for c in range(d_amount):
-                if d_name[c] == "末谛菥开玄那和纱溚来绨":
-                    zf("末谛菥开玄那和纱溚来绨拿出终端，敲击了一下，瞬间消失。", "DI-")
+                if d_name[c] == "末谛菥开玄那和纱檀来绨":
+                    zf("末谛菥开玄那和纱檀来绨拿出终端，敲击了一下，瞬间消失。", "DI-")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
                 elif d_name[c] == "絮苏紫叶":
-                    zf("絮苏紫叶见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。机会 点了点头，放她走了。", "DI-")
+                    zf("絮苏紫叶见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。机会点了点头，放她走了。", "DI-")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
