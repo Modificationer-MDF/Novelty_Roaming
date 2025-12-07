@@ -39,7 +39,7 @@ z_atk = [3, 3, 5, 6, 7, 7, 8, 8, 9, 9, 10, 11, 11, 12, 14, 16]
 z_crit = [0.26, 0.27, 0.27, 0.3, 0.32, 0.33, 0.35, 0.37, 0.4, 0.4, 0.4, 0.4, 0.42, 0.44, 0.47, 0.5]
 z_jc = [15, 15, 13, 12, 12, 11, 11, 9, 9, 9, 9, 9, 9, 9, 9, 9]
 
-sk_hp = [61, 64, 69, 75, 82, 88, 94, 99, 103, 109, 114, 119, 126, 132, 138, 145] # 恰拉·肆格莅覆
+sk_hp = [61, 64, 69, 75, 82, 88, 94, 99, 103, 109, 114, 119, 126, 132, 138, 145] # 肆格莅覆
 sk_energy = [30, 32, 35, 40, 43, 48, 52, 56, 60, 66, 70, 75, 79, 84, 90, 95]
 sk_fy = [3, 5, 5, 6, 7, 8, 9, 10, 11, 11, 13, 14, 15, 16, 17, 18]
 sk_atk = [4, 5, 5, 6, 8, 8, 9, 9, 10, 11, 11, 12, 12, 12, 14, 15]
@@ -60,7 +60,7 @@ lin_xi_atk = [1, 3, 5, 6, 7, 8, 9, 10, 11, 11, 12, 13, 13, 14, 15, 16]
 lin_xi_crit = [0.2, 0.21, 0.23, 0.25, 0.27, 0.29, 0.3, 0.32, 0.33, 0.35, 0.37, 0.38, 0.4, 0.42, 0.44, 0.45]
 lin_xi_jc = [14, 14, 14, 13, 13, 13, 12, 12, 11, 11, 11, 11, 10, 10, 9, 9]
 
-m_hp = [429, 768, 1022, 1444, 1888, 2367, 3025, 3778, 4400, 5123, 5907, 6666, 7288, 8311, 9298, 1e4] # 末谛菥开玄那和纱檀来绨
+m_hp = [429, 768, 1022, 1444, 1888, 2367, 3025, 3778, 4400, 5123, 5907, 6666, 7288, 8311, 9298, 10000] # 末谛菥开玄那和纱檀来绨
 m_energy = [250, 399, 681, 879, 1000, 1555, 1899, 2467, 3478, 4181, 4777, 5123, 5786, 6539, 7311, 8000]
 m_fy = [50, 60, 72, 87, 99, 116, 132, 148, 166, 180, 199, 219, 240, 263, 285, 310]
 m_atk = [39, 47, 58, 69, 80, 94, 106, 124, 139, 156, 173, 190, 210, 230, 252, 270]
@@ -193,12 +193,12 @@ people_text = [
 ]
 
 people_grade = [
-    "E+",
-    "G-",
-    "A",
-    "S-",
-    "N",
-    "DI-",
+    "乙",
+    "丙",
+    "戊",
+    "庚",
+    "壬",
+    "癸",
 ]
 
 all_names = [
@@ -206,7 +206,7 @@ all_names = [
     "惟兹卡玹",
     "千茶年又",
     "梓柯萨·无布",
-    "恰拉·肆格莅覆",
+    "肆格莅覆",
     "雨落",
     "林汐",
     "末谛菥开玄那和纱檀来绨",
@@ -229,26 +229,16 @@ all_names = [
 ]
 
 color = {
-    "F+": "#00ff00", # Fabulous +
-    "E+": "#9acd32", # Excellent +
-    "E": "#98fb98", # Excellent
-    "E-": "#8fbc8f", # Excellent -
-    "G+": "#66cdaa", # Good +
-    "G": "#20b2aa", # Good
-    "G-": "#40e0d0", # Good -
-    "DE": "#00ffff", # Decent
-    "DE-": "#00bfff", # Decent -
-    "A": "#0080ff", # Average
-    "A-": "#8470ff", # Average -
-    "P": "#a020f0", # Poor
-    "P-": "#ba55d3", # Poor -
-    "S": "#da70d6", # Serious
-    "S-": "#dd20dd", # Serious -
-    "C": "#ff00ff", # Critical
-    "C-": "#ff69b4", # Critical -
-    "N": "#ff1493", # Nightmare
-    "N-": "#b03060", # Nightmare -
-    "DI-": "#ff0000", # Disaster -
+    "甲": "#00ff00", # Fabulous +
+    "乙": "#98fb98", # Excellent
+    "丙": "#20b2aa", # Good
+    "丁": "#00ffff", # Decent
+    "戊": "#0080ff", # Average
+    "己": "#ba55d3", # Poor -
+    "庚": "#dd20dd", # Serious -
+    "辛": "#ff00ff", # Critical
+    "壬": "#ff1493", # Nightmare
+    "癸": "#ff0000", # Disaster -
     "DOWN": "#8b1a1a", # Down
     "error": "#8b1a1a",
     "inp": "#ffd700",
@@ -279,7 +269,6 @@ d_jc = [] # 敌人 JC。
 police_caught = [] # 被警察押走的角色和敌人。
 pc_string = ""
 
-
 turns = 0
 police_join = False
 
@@ -291,46 +280,26 @@ try:
         fz_cl = cl
 
         match cl:
-            case "F+":
-                cl = "Fabulous +"
-            case "E+":
-                cl = "Excellent +"
-            case "E":
-                cl = "Excellent"
-            case "E-":
-                cl = "Excellent -"
-            case "G+":
-                cl = "Good +"
-            case "G":
-                cl = "Good"
-            case "G-":
-                cl = "Good -"
-            case "DE":
-                cl = "Decent"
-            case "DE-":
-                cl = "Decent -"
-            case "A":
-                cl = "Average"
-            case "A-":
-                cl = "Average -"
-            case "P":
-                cl = "Poor"
-            case "P-":
-                cl = "Poor -"
-            case "S":
-                cl = "Serious"
-            case "S-":
-                cl = "Serious -"
-            case "C":
-                cl = "Critical"
-            case "C-":
-                cl = "Critical -"
-            case "N":
-                cl = "Nightmare"
-            case "N-":
-                cl = "Nightmare -"
-            case "DI-":
-                cl = "Disaster -"
+            case "甲":
+                cl = "甲"
+            case "乙":
+                cl = "乙"
+            case "丙":
+                cl = "丙"
+            case "丁":
+                cl = "丁"
+            case "戊":
+                cl = "戊"
+            case "己":
+                cl = "己"
+            case "庚":
+                cl = "庚"
+            case "辛":
+                cl = "辛"
+            case "壬":
+                cl = "壬"
+            case "癸":
+                cl = "癸"
             case "DOWN":
                 cl = "Down"
             case "error":
@@ -339,7 +308,7 @@ try:
                 cl = "Input"
             case "xz":
                 cl = "XZ"
-            case "text":
+            case _:
                 cl = "Text"
 
         text = f"[{cl}] {text}"
@@ -355,7 +324,11 @@ try:
             ls_str += f"（{i+1}） {array[i]}　"
         zf(f"""{text}
         {ls_str}""", "xz")
-        return int(input(r"\/ "))
+        try:
+            res = int(input(r"\/ "))
+            return res
+        except:
+            return False
 
     def jdt(current, total, char, typ, side): 
         # current：当前值；total：总值；char：角色；typ：属性；side：阵营。
@@ -367,139 +340,79 @@ try:
         with Progress(*column) as progress:
             t_color: str = ""
             if side == "me" and typ == "hp":
-                if current >= 0.95 * total:
-                    t_color = "F+"
-                elif 0.9 * total <= current < 0.95 * total:
-                    t_color = "E+"
-                elif 0.85 * total <= current < 0.9 * total:
-                    t_color = "E"
-                elif 0.8 * total <= current < 0.85 * total:
-                    t_color = "E-"
-                elif 0.75 * total <= current < 0.8 * total:
-                    t_color = "G+"
-                elif 0.7 * total <= current < 0.75 * total:
-                    t_color = "G"
-                elif 0.65 * total <= current < 0.7 * total:
-                    t_color = "G-"
-                elif 0.6 * total <= current < 0.65 * total:
-                    t_color = "DE"
-                elif 0.55 * total <= current < 0.6 * total:
-                    t_color = "DE-"
-                elif 0.5 * total <= current < 0.55 * total:
-                    t_color = "A"
-                elif 0.45 * total <= current < 0.5 * total:
-                    t_color = "A-"
-                elif 0.4 * total <= current < 0.45 * total:
-                    t_color = "P"
-                elif 0.35 * total <= current < 0.4 * total:
-                    t_color = "P-"
-                elif 0.3 * total <= current < 0.35 * total:
-                    t_color = "S"
-                elif 0.25 * total <= current < 0.3 * total:
-                    t_color = "S-"
-                elif 0.2 * total <= current < 0.25 * total:
-                    t_color = "C"
-                elif 0.15 * total <= current < 0.2 * total:
-                    t_color = "C-"
-                elif 0.1 * total <= current < 0.15 * total:
-                    t_color = "N"
-                elif 0.05 * total <= current < 0.1 * total:
-                    t_color = "N-"
-                elif 0 <= current < 0.05 * total:
-                    t_color = "DI-"
+                if current >= 0.9 * total:
+                    t_color = "甲"
+                elif 0.8 * total <= current < 0.9 * total:
+                    t_color = "乙"
+                elif 0.7 * total <= current < 0.8 * total:
+                    t_color = "丙"
+                elif 0.6 * total <= current < 0.7 * total:
+                    t_color = "丁"
+                elif 0.5 * total <= current < 0.6 * total:
+                    t_color = "戊"
+                elif 0.4 * total <= current < 0.5 * total:
+                    t_color = "己"
+                elif 0.3 * total <= current < 0.4 * total:
+                    t_color = "庚"
+                elif 0.2 * total <= current < 0.3 * total:
+                    t_color = "辛"
+                elif 0.1 * total <= current < 0.2 * total:
+                    t_color = "壬"
+                elif 0 <= current < 0.1 * total:
+                    t_color = "癸"
                 else:
                     t_color = "DOWN"
             elif side == "me" and typ == "energy":
                 if current > total:
-                    t_color = "A"
-                elif 0.9 * total <= current <= total:
-                    t_color = "A-"
-                elif 0.8 * total <= current < 0.9 * total:
-                    t_color = "P"
-                elif 0.7 * total <= current < 0.8 * total:
-                    t_color = "P-"
-                elif 0.6 * total <= current < 0.7 * total:
-                    t_color = "S"
-                elif 0.5 * total <= current < 0.6 * total:
-                    t_color = "S-"
-                elif 0.4 * total <= current < 0.5 * total:
-                    t_color = "C"
-                elif 0.3 * total <= current < 0.4 * total:
-                    t_color = "C-"
-                elif 0.2 * total <= current < 0.3 * total:
-                    t_color = "N"
-                elif 0.1 * total <= current < 0.2 * total:
-                    t_color = "N-"
-                elif 0 <= current < 0.1 * total:
-                    t_color = "DI-"
+                    t_color = "戊"
+                elif 0.8 * total <= current <= total:
+                    t_color = "己"
+                elif 0.6 * total <= current < 0.8 * total:
+                    t_color = "庚"
+                elif 0.4 * total <= current < 0.6 * total:
+                    t_color = "辛"
+                elif 0.2 * total <= current < 0.4 * total:
+                    t_color = "壬"
+                elif 0 <= current < 0.2 * total:
+                    t_color = "癸"
                 else:
                     t_color = "DOWN"
             elif side == "enemy" and typ == "hp":
-                if current >= 0.95 * total:
-                    t_color = "DI-"
-                elif 0.9 * total <= current < 0.95 * total:
-                    t_color = "N-"
-                elif 0.85 * total <= current < 0.9 * total:
-                    t_color = "N"
-                elif 0.8 * total <= current < 0.85 * total:
-                    t_color = "C-"
-                elif 0.75 * total <= current < 0.8 * total:
-                    t_color = "C"
-                elif 0.7 * total <= current < 0.75 * total:
-                    t_color = "S-"
-                elif 0.65 * total <= current < 0.7 * total:
-                    t_color = "S"
-                elif 0.6 * total <= current < 0.65 * total:
-                    t_color = "P-"
-                elif 0.55 * total <= current < 0.6 * total:
-                    t_color = "P"
-                elif 0.5 * total <= current < 0.55 * total:
-                    t_color = "A-"
-                elif 0.45 * total <= current < 0.5 * total:
-                    t_color = "A"
-                elif 0.4 * total <= current < 0.45 * total:
-                    t_color = "DE-"
-                elif 0.35 * total <= current < 0.4 * total:
-                    t_color = "DE"
-                elif 0.3 * total <= current < 0.35 * total:
-                    t_color = "G-"
-                elif 0.25 * total <= current < 0.3 * total:
-                    t_color = "G"
-                elif 0.2 * total <= current < 0.25 * total:
-                    t_color = "G+"
-                elif 0.15 * total <= current < 0.2 * total:
-                    t_color = "E-"
-                elif 0.1 * total <= current < 0.15 * total:
-                    t_color = "E"
-                elif 0.05 * total <= current < 0.1 * total:
-                    t_color = "E+"
-                elif 0 <= current < 0.05 * total:
-                    t_color = "F+"
+                if current >= 0.9 * total:
+                    t_color = "癸"
+                elif 0.8 * total <= current < 0.9 * total:
+                    t_color = "壬"
+                elif 0.7 * total <= current < 0.8 * total:
+                    t_color = "辛"
+                elif 0.6 * total <= current < 0.7 * total:
+                    t_color = "庚"
+                elif 0.5 * total <= current < 0.6 * total:
+                    t_color = "己"
+                elif 0.4 * total <= current < 0.5 * total:
+                    t_color = "戊"
+                elif 0.3 * total <= current < 0.4 * total:
+                    t_color = "丁"
+                elif 0.2 * total <= current < 0.3 * total:
+                    t_color = "丙"
+                elif 0.1 * total <= current < 0.2 * total:
+                    t_color = "乙"
+                elif 0 <= current < 0.1 * total:
+                    t_color = "甲"
                 else:
                     t_color = "DOWN"
             elif side == "enemy" and typ == "energy":
                 if current > total:
-                    t_color = "DI-"
-                elif 0.9 * total <= current <= total:
-                    t_color = "N-"
-                elif 0.8 * total <= current < 0.9 * total:
-                    t_color = "N"
-                elif 0.7 * total <= current < 0.8 * total:
-                    t_color = "C-"
-                elif 0.6 * total <= current < 0.7 * total:
-                    t_color = "C"
-                elif 0.5 * total <= current < 0.6 * total:
-                    t_color = "S-"
-                elif 0.4 * total <= current < 0.5 * total:
-                    t_color = "S"
-                elif 0.3 * total <= current < 0.4 * total:
-                    t_color = "P-"
-                elif 0.2 * total <= current < 0.3 * total:
-                    t_color = "P"
-                elif 0.1 * total <= current < 0.2 * total:
-                    t_color = "A-"
-                elif 0 <= current < 0.1 * total:
-                    t_color = "A"
+                    t_color = "癸"
+                elif 0.8 * total <= current <= total:
+                    t_color = "壬"
+                elif 0.6 * total <= current < 0.8 * total:
+                    t_color = "辛"
+                elif 0.4 * total <= current < 0.6 * total:
+                    t_color = "庚"
+                elif 0.2 * total <= current < 0.4 * total:
+                    t_color = "己"
+                elif 0 <= current < 0.2 * total:
+                    t_color = "戊"
                 else:
                     t_color = "DOWN"
 
@@ -535,7 +448,7 @@ try:
     def pronoun(char):
         if char == "惟兹卡玹" or char == "雨落" or char == "赤火" or char == "青飒" or char == "Ert" or char == "Hello14" or char == "林华" or char == "角绎":
             return "他"
-        elif char == "凤灵诺提" or char == "千茶年又" or char == "梓柯萨·无布" or char == "恰拉·肆格莅覆" or char == "林汐" or char == "絮苏紫叶" or char == "赤枫" or char == "赤艳" or char == "青水" or char == "青兰" or char == "蓓花" or char == "一琉" or char == "机会":
+        elif char == "凤灵诺提" or char == "千茶年又" or char == "梓柯萨·无布" or char == "肆格莅覆" or char == "林汐" or char == "絮苏紫叶" or char == "赤枫" or char == "赤艳" or char == "青水" or char == "青兰" or char == "蓓花" or char == "一琉" or char == "机会":
             return "她"
         elif char == "末谛菥开玄那和纱檀来绨":
             return "他们"
@@ -618,10 +531,10 @@ try:
                 case 3:
                     people_interest = True
                 case 4:
-                    zf("**也许我明天就会成为新闻热搜的对象呢！**", "DI-")
+                    zf("**也许我明天就会成为新闻热搜的对象呢！**", "癸")
                     people_interest = True
                 case 5:
-                    zf("看来警方已经介入，最好还是快点离开这个地方。", "S")
+                    zf("看来警方已经介入，最好还是快点离开这个地方。", "辛")
                     police_join = True
             print()
 
@@ -633,13 +546,13 @@ try:
                 zf("你选择饶恕。", "text")
                 if (r != d) and (r > d) and (r - d >= m):
                     d_getmercy_ord = randint(0, len(d_name) - 1)
-                    zf(f"{d_name[d_getmercy_ord]} 接受了你的饶恕。", "E")
+                    zf(f"{d_name[d_getmercy_ord]} 接受了你的饶恕。", "乙")
                     print()
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.append(lst.pop(d_getmercy_ord))
                     d_amount -= 1
                     if d_amount == 0:
-                        zf("模拟结束。你成功地饶恕了所有敌人。", "F+")
+                        zf("模拟结束。你成功地饶恕了所有敌人。", "甲")
                         sys.exit(0)
                 else:
                     pron = ""
@@ -662,10 +575,10 @@ try:
                         elif all(p == "她" for p in pronouns):
                             pron = "她们"
 
-                    zf(f"敌人不为所动。看来你不得不与{pron}战斗……", "N-")
+                    zf(f"敌人不为所动。看来你不得不与{pron}战斗……", "壬")
                     mercy_refuse = True
 
-            if act == "g" or act == "" or mercy_refuse == True:
+            if act == "丙" or act == "" or mercy_refuse == True:
                 print()
                 zf("我方选择攻击目标。", "text")
                 for i in range(z_amount):
@@ -691,15 +604,15 @@ try:
                     z_damage.append(randint(6, 9) + zj_atk[k])
                     if z_name[k] == "末谛菥开玄那和纱檀来绨" or z_name[k] == "絮苏紫叶":
                         z_acc.append(5)
-                        zf(f"{k} - {z_name[k]} 打出了精准的一招，这对{pronoun(z_name[k])}来说并不是什么难事。", "F+")
+                        zf(f"{k} - {z_name[k]} 打出了精准的一招，这对{pronoun(z_name[k])}来说并不是什么难事。", "甲")
                         z_damage[k] *= (1 + zj_crit[k] / 10)
                     else:
                         ls_zacc = mz(z_name[k], d_name[z_xz[k]])
                         if 4 <= ls_zacc <= 6:
-                            zf(f"{k} - {z_name[k]} 打出了精准的一招。", "E-")
+                            zf(f"{k} - {z_name[k]} 打出了精准的一招。", "乙")
                             z_damage[k] *= (1 + zj_crit[k] / 10)
                         else:
-                            zf(f"{k} - {z_name[k]} 未能精准命中。", "A")
+                            zf(f"{k} - {z_name[k]} 未能精准命中。", "壬")
                         z_acc.append(ls_zacc)
                         os.system("cls")
 
@@ -708,15 +621,15 @@ try:
                     d_damage.append(randint(6, 9) + d_atk[l])
                     if d_name[l] == "末谛菥开玄那和纱檀来绨" or d_name[l] == "絮苏紫叶":
                         d_acc.append(5)
-                        zf(f"{l} - {d_name[l]} 打出了精准的一招，这对{pronoun(d_name[l])}来说并不是什么难事。", "DI-")
+                        zf(f"{l} - {d_name[l]} 打出了精准的一招，这对{pronoun(d_name[l])}来说并不是什么难事。", "癸")
                         d_damage[l] *= (1 + d_crit[l] / 10)
                     else:
                         ls_dacc = mz(d_name[l], z_name[d_xz[l]])
                         if 4 <= ls_dacc <= 6:
-                            zf(f"{l} - {d_name[l]} 打出了精准的一招。", "C-")
+                            zf(f"{l} - {d_name[l]} 打出了精准的一招。", "壬")
                             d_damage[l] *= (1 + d_crit[l] / 10)
                         else:
-                            zf(f"{l} - {d_name[l]} 未能精准命中。", "A-")
+                            zf(f"{l} - {d_name[l]} 未能精准命中。", "乙")
                         d_acc.append(ls_dacc)
                         os.system("cls")
 
@@ -748,13 +661,13 @@ try:
                         if z_hfnl[d_xz[o1]] == 0:
                             z_hfnl[d_xz[o1]] = round(uniform(0.05, 0.11) * zt_energy[d_xz[o1]], 3)
                             zs_energy[d_xz[o1]] += z_hfnl[d_xz[o1]]
-                            zf(f"{o1} - {z_name[d_xz[o1]]} 没有受到伤害，{pronoun(z_name[d_xz[o1]])}恢复了 {z_hfnl[d_xz[o1]]:.3f} ENERGY。", "E+")
+                            zf(f"{o1} - {z_name[d_xz[o1]]} 没有受到伤害，{pronoun(z_name[d_xz[o1]])}恢复了 {z_hfnl[d_xz[o1]]:.3f} ENERGY。", "丙")
 
                 for o in range(z_amount):
                     if zs_energy[o] > 0:
                         z_hfhp.append(round(uniform(0.05, 0.11) * zt_hp[o], 3))
                         if zs_hp[o] == zt_hp[o]:
-                            zf(f"{o} - {z_name[o]} HP 已满，{pronoun(z_name[o])}恢复了 {z_hfhp[o]:.3f} ENERGY。", "E+")
+                            zf(f"{o} - {z_name[o]} HP 已满，{pronoun(z_name[o])}恢复了 {z_hfhp[o]:.3f} ENERGY。", "乙")
                             zs_energy[o] += z_hfhp[o]
                             z_hfnl[o] += z_hfhp[o]
                             z_hfhp[o] = 0
@@ -763,16 +676,16 @@ try:
                                 zs_hp[o] = zt_hp[o]
                                 z_hfhp[o] -= (zt_hp[o] - zs_hp[o])
                                 zs_energy[o] -= z_hfhp[o]
-                                zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "E")
+                                zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "丁")
                             elif zs_energy[o] - z_hfhp[o] <= 0:
                                 z_hfhp[o] -= abs(zs_energy[o] - z_hfhp[o])
                                 zs_hp[o] += z_hfhp[o]
                                 zs_energy[o] = 0
-                                zf(f"{o} - {z_name[o]} 虽恢复了 {z_hfhp[o]:.3f} HP，但{pronoun(z_name[o])}再也没有任何精力了。", "A-")
+                                zf(f"{o} - {z_name[o]} 虽恢复了 {z_hfhp[o]:.3f} HP，但{pronoun(z_name[o])}再也没有任何精力了。", "辛")
                             else:
                                 zs_hp[o] += z_hfhp[o]
                                 zs_energy[o] -= z_hfhp[o]
-                                zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "G")
+                                zf(f"{o} - {z_name[o]} 恢复了 {z_hfhp[o]:.3f} HP。", "丁")
                     else:
                         z_hfhp.append(0)
 
@@ -782,13 +695,13 @@ try:
                         if d_hfnl[z_xz[p1]] == 0:
                             d_hfnl[z_xz[p1]] = round(uniform(0.05, 0.11) * dt_energy[z_xz[p1]], 3)
                             ds_energy[z_xz[p1]] += d_hfnl[z_xz[p1]]
-                            zf(f"{p1} - {d_name[z_xz[p1]]} 没有受到伤害，{pronoun(d_name[z_xz[p1]])}恢复了 {d_hfnl[z_xz[p1]]:.3f} ENERGY。", "N-")
+                            zf(f"{p1} - {d_name[z_xz[p1]]} 没有受到伤害，{pronoun(d_name[z_xz[p1]])}恢复了 {d_hfnl[z_xz[p1]]:.3f} ENERGY。", "辛")
 
                 for p in range(d_amount):
                     if ds_energy[p] > 0:
                         d_hfhp.append(round(uniform(0.05, 0.11) * dt_hp[p], 3))
                         if ds_hp[p] == dt_hp[p]:
-                            zf(f"{p} - {d_name[p]} HP 已满，恢复了 {d_hfhp[p]:.3f} ENERGY。", "N-")
+                            zf(f"{p} - {d_name[p]} HP 已满，恢复了 {d_hfhp[p]:.3f} ENERGY。", "壬")
                             ds_energy[p] += d_hfhp[p]
                             d_hfnl[p] += d_hfhp[p]
                             d_hfhp[p] = 0
@@ -797,16 +710,16 @@ try:
                                 ds_hp[p] = dt_hp[p]
                                 d_hfhp[p] -= (dt_hp[p] - ds_hp[p])
                                 ds_energy[p] -= d_hfhp[p]
-                                zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "S")
+                                zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "己")
                             elif ds_energy[p] - d_hfhp[p] <= 0:
                                 d_hfhp[p] -= abs(ds_energy[p] - d_hfhp[p])
                                 ds_hp[p] += d_hfhp[p]
                                 ds_energy[p] = 0
-                                zf(f"{p} - {d_name[p]} 虽恢复了 {d_hfhp[p]:.3f} HP，但{pronoun(d_name[p])}再也没有任何精力了。", "A")
+                                zf(f"{p} - {d_name[p]} 虽恢复了 {d_hfhp[p]:.3f} HP，但{pronoun(d_name[p])}再也没有任何精力了。", "丙")
                             else:
                                 ds_hp[p] += d_hfhp[p]
                                 ds_energy[p] -= d_hfhp[p]
-                                zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "C-")
+                                zf(f"{p} - {d_name[p]} 恢复了 {d_hfhp[p]:.3f} HP。", "己")
                     else:
                         d_hfhp.append(0)
 
@@ -814,12 +727,12 @@ try:
                 for s in range(len(d_xz) - 1, -1, -1):
                     if ds_hp[s] <= 0:
                         print()
-                        zf(f"{s} - {d_name[s]} 败下阵来。", "F+")
+                        zf(f"{s} - {d_name[s]} 败下阵来。", "甲")
                         for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                             lst.pop(s)
                         d_amount -= 1
                         if d_amount == 0:
-                            zf("模拟结束。你成功地打败了所有敌人。", "F+")
+                            zf("模拟结束。你成功地打败了所有敌人。", "甲")
                             jd = 3
                             sys.exit(0)
 
@@ -827,12 +740,12 @@ try:
                 for t in range(len(z_xz) - 1, -1, -1):
                     if zs_hp[t] <= 0:
                         print()
-                        zf(f"{t} - {z_name[t]} 败下阵来。", "DI-")
+                        zf(f"{t} - {z_name[t]} 败下阵来。", "癸")
                         for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, z_atk, z_crit, z_fy, z_jc]:
                             lst.pop(t)
                         z_amount -= 1
                         if z_amount == 0:
-                            zf("模拟结束。你被敌人全部击败。", "DI-")
+                            zf("模拟结束。你被敌人全部击败。", "癸")
                             jd = 2
                             sys.exit(0)
 
@@ -1000,7 +913,7 @@ try:
         2 - 惟兹卡玹；
         3 - 千茶年又；
         4 - 梓柯萨·无布；
-        5 - 恰拉·肆格莅覆；
+        5 - 肆格莅覆；
         6 - 雨落；
         7 - 林汐；
         8 - 末谛菥开玄那和纱檀来绨；
@@ -1302,7 +1215,7 @@ try:
         2 - 惟兹卡玹；
         3 - 千茶年又；
         4 - 梓柯萨·无布；
-        5 - 恰拉·肆格莅覆；
+        5 - 肆格莅覆；
         6 - 雨落；
         7 - 林汐；
         8 - 末谛菥开玄那和纱檀来绨；
@@ -1716,7 +1629,7 @@ try:
     while jd != 3 :
         if (turns >= 7 and police_join == True):
             os.system("cls")
-            zf("“你们不要再打了，最好束手就擒！” 机会带领着警方团队出现，拉起了警戒线，驱散观众离开。", "DI-")
+            zf("“你们不要再打了，最好束手就擒！” 机会带领着警方团队出现，拉起了警戒线，驱散观众离开。", "癸")
             for b in range(z_amount):
                 if z_name[b] == "末谛菥开玄那和纱檀来绨":
                     zf("末谛菥开玄那和纱檀来绨拿出终端，敲击了一下，瞬间消失。", "text")
@@ -1729,7 +1642,7 @@ try:
                         lst.pop(b)
                         z_amount -= 1
                 elif z_name[b] == "机会":
-                    zf("你看了看四周，发现机会不站在身边，而是站在警察前面。", "DI-")
+                    zf("你看了看四周，发现机会不站在身边，而是站在警察前面。", "癸")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
@@ -1737,17 +1650,17 @@ try:
                     police_caught.append(z_name[b])
             for c in range(d_amount):
                 if d_name[c] == "末谛菥开玄那和纱檀来绨":
-                    zf("末谛菥开玄那和纱檀来绨拿出终端，敲击了一下，瞬间消失。", "DI-")
+                    zf("末谛菥开玄那和纱檀来绨拿出终端，敲击了一下，瞬间消失。", "癸")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
                 elif d_name[c] == "絮苏紫叶":
-                    zf("絮苏紫叶见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。机会点了点头，放她走了。", "DI-")
+                    zf("絮苏紫叶见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。机会点了点头，放她走了。", "癸")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
                 elif d_name[c] == "机会":
-                    zf("你看了看四周，发现机会不站在对面，而是站在警察前面。", "DI-")
+                    zf("你看了看四周，发现机会不站在对面，而是站在警察前面。", "癸")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
@@ -1755,7 +1668,7 @@ try:
                     police_caught.append(d_name[c])
             
             pc_string = "、".join(police_caught)
-            zf(f"“{pc_string}，你们被逮捕了！” 机会严肃地通知你们。", "DI-")
+            zf(f"“{pc_string}，你们被逮捕了！” 机会严肃地通知你们。", "癸")
 
             print()
             zf("模拟结束。未完待续。", "text")
