@@ -510,23 +510,27 @@ except KeyboardInterrupt:
 os.system("cls")
 
 zf("…………", "text")
-limit_steps = zs(zf("一共多少？", "inp"), 1, float("inf"))
+limit_steps = zs(zf("最大步数？", "inp"), 1, float("inf"))
 
 print()
 zf("…………", "text")
-z_amount = zs(zf("几？", "inp"), 1, 9)
+z_amount = zs(zf("我方数量？", "inp"), 1, 9)
 
 print()
 zf("…………", "text")
-d_amount = zs(zf("几？", "inp"), 1, 9)
+d_amount = zs(zf("看守者数量？", "inp"), 1, 9)
 
 print()
 zf("…………", "text")
 z_x = []
 z_y = []
 for i in range(z_amount):
-    z_x.append(zs(zf("哪？（X 从 0 开始）", "inp"), 0, 9))
-    z_y.append(zs(zf("哪？（Y 从 0 开始）", "inp"), 0, 9))
+    if z_amount == 1:
+        z_x.append(zs(zf("起始纵坐标？（X 从 0 开始）", "inp"), 0, 9))
+        z_y.append(zs(zf("起始横坐标？（Y 从 0 开始）", "inp"), 0, 9))
+    else:
+        z_x.append(zs(zf(f"第 {i + 1} 位的起始纵坐标？（X 从 0 开始）", "inp"), 0, 9))
+        z_y.append(zs(zf(f"第 {i + 1} 位的起始横坐标？（Y 从 0 开始）", "inp"), 0, 9))
 
 os.system("cls")
 
@@ -566,7 +570,8 @@ def z_move(num):
 
     os.system("cls")
     player_step += 1
-    print("| Z | 表示你的位置，| D | 表示监视者的位置。")
+    print("""| Z | 表示你的位置，| D | 表示监视者的位置。
+使用方向键控制角色，按 ESC 暂停，按 F1 跳过本回合。""")
     print(f"第 {player_step} 步。已有 {player_caught} 人被捕。")
     print()
     for i in range(10):
@@ -581,7 +586,7 @@ def z_move(num):
         if kb.is_pressed("up"):
             if 0 <= z_x[num] - 1 <= 9:
                 if "D" in maze[z_x[num] - 1][z_y[num]]:
-                    zf(f"Z - {num} 被 D 捕获。", "癸")
+                    zf(f"Z - {num} 被{maze[z_x[num] - 1][z_y[num]].replace('|', '')}捕获。", "癸")
                     player_caught += 1
                     maze[z_x[num]][z_y[num]] = "| . |"
                     player_exist[num] = False
@@ -596,7 +601,7 @@ def z_move(num):
         elif kb.is_pressed("down"):
             if 0 <= z_x[num] + 1 <= 9:
                 if "D" in maze[z_x[num] + 1][z_y[num]]:
-                    zf(f"Z - {num} 被 D 捕获。", "癸")
+                    zf(f"Z - {num} 被{maze[z_x[num] + 1][z_y[num]].replace('|', '')}捕获。", "癸")
                     player_caught += 1
                     maze[z_x[num]][z_y[num]] = "| . |"
                     player_exist[num] = False
@@ -611,7 +616,7 @@ def z_move(num):
         elif kb.is_pressed("left"):
             if 0 <= z_y[num] - 1 <= 9:
                 if "D" in maze[z_x[num]][z_y[num] - 1]:
-                    zf(f"Z - {num} 被 D 捕获。", "癸")
+                    zf(f"Z - {num} 被{maze[z_x[num]][z_y[num] - 1].replace('|', '')}捕获。", "癸")
                     player_caught += 1
                     maze[z_x[num]][z_y[num]] = "| . |"
                     player_exist[num] = False
@@ -626,7 +631,7 @@ def z_move(num):
         elif kb.is_pressed("right"):
             if 0 <= z_y[num] + 1 <= 9:
                 if "D" in maze[z_x[num]][z_y[num] + 1]:
-                    zf(f"Z - {num} 被 D 捕获。", "癸")
+                    zf(f"Z - {num} 被{maze[z_x[num]][z_y[num] + 1].replace('|', '')}捕获。", "癸")
                     player_caught += 1
                     maze[z_x[num]][z_y[num]] = "| . |"
                     player_exist[num] = False
@@ -638,22 +643,51 @@ def z_move(num):
                     break
             else:
                 zf("向右走不通。", "error")
+        elif kb.is_pressed("esc"):
+            ls_res = xz("是否退出？", ["是。", "否。"])
+            if ls_res == 1:
+                sys.exit(0)
+            else:
+                zf("继续游戏，本回合跳过。", "text")
+                break
+        elif kb.is_pressed("f1"):
+            zf("本回合跳过。", "text")
+            break
 
 def d_move(num):
     global player_caught
-    for i in range(d_amount):
-        while True:
-            ls_cx = randint(-1, 1)
-            ls_cy = randint(-1, 1)
-            if 0 <= ls_cx + d_x[num] <= 9 and 0 <= ls_cy + d_y[num] <= 9:
-                if "Z" in maze[d_x[num] + ls_cx][d_y[num] + ls_cy]:
-                    zf(f"D - {num} 将 Z 捕获。", "癸")
-                    player_caught += 1
-                maze[d_x[num]][d_y[num]] = "| . |"
-                d_x[num] += ls_cx
-                d_y[num] += ls_cy
-                maze[d_x[num]][d_y[num]] = f"| D - {num} |"
-                break
+    x_change = True
+
+    while True:
+        ls_cx = randint(-1, 1)
+        ls_cy = randint(-1, 1)
+        if 0 <= ls_cx + d_x[num] <= 9 and 0 <= ls_cy + d_y[num] <= 9:
+            if ls_cx == 0:
+                inf_x = "没有纵向移动"
+                x_change = False
+            elif ls_cx > 0:
+                inf_x = f"向下移动了 {abs(ls_cx)} 格"
+            else:
+                inf_x = f"向上移动了 {abs(ls_cx)} 格"
+
+            if ls_cy == 0:
+                inf_y = f"{'却' if x_change else '也'}没有横向移动"
+            elif ls_cy > 0:
+                inf_y = f"{'也' if x_change else '却'}向右移动了 {abs(ls_cy)} 格"
+            else:
+                inf_y = f"{'也' if x_change else '却'}向左移动了 {abs(ls_cy)} 格"
+            print(f"D - {num} {inf_x}，{inf_y}。")
+            
+            if "Z" in maze[d_x[num] + ls_cx][d_y[num] + ls_cy]:
+                d_caught_z = maze[d_x[num] + ls_cx][d_y[num] + ls_cy].replace("|", "").replace(" ", "").replace("Z-", "")
+                zf(f"D - {num} 将 Z - {d_caught_z} 捕获。", "癸")
+                player_caught += 1
+                player_exist[int(d_caught_z)] = False
+            maze[d_x[num]][d_y[num]] = "| . |"
+            d_x[num] += ls_cx
+            d_y[num] += ls_cy
+            maze[d_x[num]][d_y[num]] = f"| D - {num} |"
+            break
 
 while player_caught < z_amount:
     for a in range(z_amount):
@@ -661,6 +695,8 @@ while player_caught < z_amount:
             z_move(a)
     for b in range(d_amount):
         d_move(b)
+    print()
+    os.system("pause")
     if player_step == limit_steps:
         zf("你赢了！", "甲")
         sys.exit(0)
