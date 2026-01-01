@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 # Comb Mosha 2025。
+from calendar import c
 from random import *
+from re import M, S
+from secrets import randbelow
+from turtle import st
 from rich.progress import *
 from rich.console import Console
 import os
@@ -8,6 +12,7 @@ import time
 import sys
 import math
 import keyboard as kb
+import queue
 cs = Console()
 
 color = {
@@ -21,12 +26,36 @@ color = {
     "辛": "#ff00ff", # Critical
     "壬": "#ff1493", # Nightmare
     "癸": "#ff0000", # Disaster -
-    "DOWN": "#8b1a1a", # Down
+    "倒下": "#8b1a1a", # Down
     "error": "#8b1a1a",
     "inp": "#ffd700",
     "xz": "#00ff7f",
     "text": "#ffffff",
+    "green": "#108010", 
+    "blue": "#0000ff",
+    "red": "#ff0000",
+    "yellow": "#ffff00",
+    "gold": "#ffd700",
+    "orange": "#ffa500",
+    "watergreen": "#7fffd4",
+    "aqua": "#00bfff",
+    "purple": "#800080",
+    "darkred": "#8b0000",
+    "darkgreen": "#006400",
+    "lightblue": "#add8e6",
+    "skyblue": "#87ceeb",
+    "gray": "#808080",
+    "lightgray": "#d3d3d3",
+    "pink": "#ffc0cb",
+    "hotpink": "#ff69b4",
+    "brown": "#a52a2a",
+    "tea": "#d2b48c",
+    "lavender": "#e6e6fa",
+    "navy": "#000080",
+    "olive": "#808000",
+    "lime": "#30ff30",
 }
+
 
 z_x = []
 z_y = []
@@ -58,22 +87,13 @@ class D: # 敌人属性。
         self.exist = exist # 敌人是否存活。
         self.zdz = zdz # 敌人在与谁战斗？
 
-z_sx = [
-    Z(0, 0, f"Z - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, -1)
-    for i in range(10)
-]
-
-d_sx = [
-    D(0, 0, f"D - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, -1)
-    for i in range(10)
-]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
 try:
-    def zf(text, cl):
+    def output_structure(text, cl, bl):
         if not isinstance(text, str):
             text = str(text)
-            
-        fz_cl = cl
 
         match cl:
             case "甲":
@@ -96,7 +116,7 @@ try:
                 cl = "壬"
             case "癸":
                 cl = "癸"
-            case "DOWN":
+            case "倒下":
                 cl = "倒下"
             case "error":
                 cl = "错误"
@@ -107,10 +127,17 @@ try:
             case _:
                 cl = "文字"
 
-        text = f"[{cl}] {text}"
+        return (f"[{cl}] {text}" if bl else text)
+
+    def cl_print(text, cl, e):
+        text = output_structure(text, cl, False)
+        cs.print(text, style=color[cl], end=e)
+    
+    def zf(text, cl):
+        text = output_structure(text, cl, True)
 
         for i in text:
-            cs.print(i, style=color[fz_cl], end="")
+            cs.print(i, style=color[cl], end="")
             time.sleep(0.003)
         return input()
 
@@ -118,11 +145,10 @@ try:
         ls_str = ""
         for i in range(len(array)):
             ls_str += f"（{i+1}） {array[i]}　"
-        zf(f"""{text}
-        {ls_str}""", "xz")
         try:
-            res = int(input(r"\/ "))
-            return res
+            return zf(fr"""{text}
+{ls_str}
+\/ """, "xz")
         except:
             return False
 
@@ -157,7 +183,7 @@ try:
                 elif 0 <= current < 0.1 * total:
                     t_color = "癸"
                 else:
-                    t_color = "DOWN"
+                    t_color = "倒下"
             elif side == "me" and typ == "energy":
                 if current > total:
                     t_color = "戊"
@@ -172,7 +198,7 @@ try:
                 elif 0 <= current < 0.2 * total:
                     t_color = "癸"
                 else:
-                    t_color = "DOWN"
+                    t_color = "倒下"
             elif side == "enemy" and typ == "hp":
                 if current >= 0.9 * total:
                     t_color = "癸"
@@ -195,7 +221,7 @@ try:
                 elif 0 <= current < 0.1 * total:
                     t_color = "甲"
                 else:
-                    t_color = "DOWN"
+                    t_color = "倒下"
             elif side == "enemy" and typ == "energy":
                 if current > total:
                     t_color = "癸"
@@ -210,7 +236,7 @@ try:
                 elif 0 <= current < 0.2 * total:
                     t_color = "戊"
                 else:
-                    t_color = "DOWN"
+                    t_color = "倒下"
 
             column.append(TextColumn(f"[{color[t_color]}][{t_color}] {char} {typ.upper()}： {current:.3f} / {total:.3f}。"))
             task = progress.add_task("", total=total)
@@ -218,7 +244,31 @@ try:
             progress.console.print(f"[{color[t_color]}][{t_color}] {char} {typ.upper()}： {current:.3f} / {total:.3f}。")
 
     def gj(z_ord, d_ord): # z_ord：被抓角色，d_ord：抓角色的看守者。
-        global player_caught, monitor_killed
+        def simul_check():
+            global player_caught, monitor_killed
+            # 检查敌人状态。
+            if d_sx[d_ord].hp <= 0:
+                zf(f"{d_sx[d_ord].name} 败下阵来。", "甲")
+                monitor_killed += 1
+                d_sx[d_ord].exist = False
+                d_sx[d_ord].zdz = -1
+                z_sx[z_ord].zdz = -1
+                maze[d_x[d_ord]][d_y[d_ord]] = f"| . |"
+                maze[z_x[z_ord]][z_y[z_ord]] = f"| Z - {z_ord} |"
+                return False
+
+            # 检查角色状态。
+            if z_sx[z_ord].hp <= 0:
+                zf(f"{z_sx[z_ord].name} 败下阵来。", "癸")
+                player_caught += 1
+                z_sx[z_ord].exist = False
+                d_sx[d_ord].zdz = -1
+                z_sx[z_ord].zdz = -1
+                maze[z_x[z_ord]][z_y[z_ord]] = f"| . |"
+                maze[d_x[d_ord]][d_y[d_ord]] = f"| D - {d_ord} |"
+                return False
+
+            return True
 
         z_acc = 0  # 我方打击精准度。
         d_acc = 0  # 敌方打击精准度。
@@ -238,70 +288,65 @@ try:
         z_damage = randint(6, 9) + z_sx[z_ord].atk
         z_acc = mz(z_sx[z_ord].name, d_sx[d_ord].name)
         print()
-        if 24 <= z_acc <= 25:
-            zf(f"{z_sx[z_ord].name} 打出了精准的一招。", "乙")
-            z_damage *= (1 + (z_sx[z_ord].crit - abs(5 - z_acc) / 45) / 10)
-        elif z_acc == 0:
-            zf(f"{z_sx[z_ord].name} 落空了。", "癸")
-            z_damage = 0
-        else:
-            zf(f"{z_sx[z_ord].name} 未能精准命中。", "壬")
-            z_damage *= (1 - abs(5 - z_acc) / 25)
+        if ls_string[z_acc] == "*":
+            zf(f"{z_sx[z_ord].name} 打出了暴击！", "乙")
+            z_damage *= (1 + (z_sx[z_ord].crit - abs(5 - z_acc) / 50) / 10)
+        elif ls_string[z_acc] == "^":
+            zf(f"{z_sx[z_ord].name} 打出了精准的一招。", "丙")
+            z_damage *= (1 + (z_sx[z_ord].atk - abs(5 - z_acc) / 40) / 10)
+        elif ls_string[z_acc] == ".":
+            if z_acc == 0:
+                zf(f"{z_sx[z_ord].name} 落空了。", "癸")
+                z_damage = 0
+            else:
+                zf(f"{z_sx[z_ord].name} 未能精准命中。", "壬")
+                z_damage *= (1 - abs(5 - z_acc) / 30)
         print()
         if d_check <= 0:
             z_damage = 0
         z_damage *= (d_check / 10) * uniform(0.95, 1.05)
         zf(f"{z_sx[z_ord].name} 对 {d_sx[d_ord].name} 造成了 {max(abs(z_damage), 0):.3f} HP 伤害。", "text")
         d_sx[d_ord].hp -= z_damage
+        print()
+        jdt(d_sx[d_ord].hp, d_sx[d_ord].thp, f"{d_sx[d_ord].name}", "hp", "enemy")
+        input()
+        if simul_check() == False:
+            return
 
         d_damage = randint(6, 9) + d_sx[d_ord].atk
         d_acc = mz(d_sx[d_ord].name, z_sx[z_ord].name)
         print()
-        if 24 <= d_acc <= 25:
-            zf(f"{d_sx[d_ord].name} 打出了精准的一招。", "壬")
-            d_damage*= (1 + (d_sx[d_ord].atk - abs(5 - d_acc) / 45) / 10)
-        elif d_acc == 0:
-            zf(f"{d_sx[d_ord].name} 落空了。", "甲")
-            d_damage = 0
-        else:
-            zf(f"{d_sx[d_ord].name} 未能精准命中。", "乙")
-            d_damage *= (1 - abs(5 - d_acc) / 25)
+        if ls_string[d_acc] == "*":
+            zf(f"{d_sx[d_ord].name} 打出了暴击！", "壬")
+            d_damage*= (1 + (d_sx[d_ord].atk - abs(5 - d_acc) / 50) / 10)
+        elif ls_string[d_acc] == "^":
+            zf(f"{d_sx[d_ord].name} 打出了精准的一招。", "辛")
+            d_damage *= (1 + (d_sx[d_ord].crit - abs(5 - d_acc) / 40) / 10)
+        elif ls_string[d_acc] == ".":
+            if d_acc == 0:
+                zf(f"{d_sx[d_ord].name} 落空了。", "甲")
+                d_damage = 0
+            else:
+                zf(f"{d_sx[d_ord].name} 未能精准命中。", "乙")
+                d_damage *= (1 - abs(5 - d_acc) / 30)
         print()
         if z_check <= 0:
             d_damage = 0
         d_damage *= (z_check / 10) * uniform(0.95, 1.05)
         zf(f"{d_sx[d_ord].name} 对 {z_sx[z_ord].name} 造成了 {max(abs(d_damage), 0):.3f} HP 伤害。", "text")
         z_sx[z_ord].hp -= d_damage
+        print()
+        jdt(z_sx[z_ord].hp, z_sx[z_ord].thp, f"{z_sx[z_ord].name}", "hp", "me")
+        input()
 
         os.system("cls")
-        print()
-        # 检查敌人状态。
-        if d_sx[d_ord].hp <= 0:
-            zf(f"{d_sx[d_ord].name} 败下阵来。", "甲")
-            monitor_killed += 1
-            d_sx[d_ord].exist = False
-            d_sx[d_ord].zdz = -1
-            z_sx[z_ord].zdz = -1
-            maze[d_x[d_ord]][d_y[d_ord]] = f"| . |"
-            maze[z_x[z_ord]][z_y[z_ord]] = f"| Z - {z_ord} |"
+        if simul_check():
+            print("结束状态。")
+            jdt(z_sx[z_ord].hp, z_sx[z_ord].thp, f"{z_sx[z_ord].name}", "hp", "me")
+            jdt(d_sx[d_ord].hp, d_sx[d_ord].thp, f"{d_sx[d_ord].name}", "hp", "enemy")
+            os.system("pause")
+        else:
             return
-
-        # 检查角色状态。
-        if z_sx[z_ord].hp <= 0:
-            zf(f"{z_sx[z_ord].name} 败下阵来。", "癸")
-            player_caught += 1
-            z_sx[z_ord].exist = False
-            d_sx[d_ord].zdz = -1
-            z_sx[z_ord].zdz = -1
-            maze[z_x[z_ord]][z_y[z_ord]] = f"| . |"
-            maze[d_x[d_ord]][d_y[d_ord]] = f"| D - {d_ord} |"
-            return
-
-        print("结束状态。")
-        jdt(z_sx[z_ord].hp, z_sx[z_ord].thp, f"{z_sx[z_ord].name}", "hp", "me")
-        jdt(d_sx[d_ord].hp, d_sx[d_ord].thp, f"{d_sx[d_ord].name}", "hp", "enemy")
-        os.system("pause")
-        print()
 
     def zs(var, p, q):
         while True:
@@ -328,11 +373,16 @@ try:
                 var = zf("请重新输入一个浮点数：", "error")
 
     def mz(me, enemy):
+        global ls_string, ls_range
+
         os.system("cls")
         print("按下 Z 键攻击。")
         print(fr"""
-      攻方                                防方
+      攻方                                防方""")
+        cl_print(f""" 
       {me}                               {enemy}
+      """, "yellow", "")
+        print(r"""
       -----                                   -----            
     --      --                              --      --
       -----                                   -----
@@ -345,12 +395,11 @@ try:
    //   ||   \\                            //   ||   \\
         """)
 
-        ls_string = list("........................**........................")
+        ls_string = list(".....................^^*****^^.....................")
         ls_range = len(ls_string)
 
         sys.stdout.write("".join(ls_string))
         sys.stdout.flush()
-
 
         if randint(0, 1):
             l = 0
@@ -392,72 +441,109 @@ except KeyboardInterrupt:
     print("此次运行被键盘中断。")
     sys.exit(0)
 
-os.system("cls")
+if __name__ == "__main__":
+    os.system("cls")
 
-zf("…………", "text")
-limit_steps = zs(zf("最大步数？", "inp"), 1, float("inf"))
+    zf("…………", "text")
+    k = zs(zf("矩阵规模？（k × k 的正方形）", "inp"), 5, 20)
+    limit_steps = zs(zf("最大步数？", "inp"), 1, float("inf"))
 
-print()
-zf("…………", "text")
-z_amount = zs(zf("我方数量？", "inp"), 1, 9)
-
-print()
-zf("…………", "text")
-d_amount = zs(zf("看守者数量？", "inp"), 1, 9)
-
-print()
-zf("…………", "text")
-
-for i in range(z_amount):
-    if z_amount == 1:
-        z_x.append(zs(zf("角色起始纵坐标？（X 从 0 开始）", "inp"), 0, 9))
-        z_y.append(zs(zf("角色起始横坐标？（Y 从 0 开始）", "inp"), 0, 9))
-        z_sx[i].thp = zs(zf("角色起始 HP？", "inp"), 1, float("inf"))
-    else:
-        z_x.append(zs(zf(f"第 {i + 1} 位角色的起始纵坐标？（X 从 0 开始）", "inp"), 0, 9))
-        z_y.append(zs(zf(f"第 {i + 1} 位角色的起始横坐标？（Y 从 0 开始）", "inp"), 0, 9))
-        z_sx[i].thp = zs(zf(f"第 {i + 1} 位角色的起始 HP？", "inp"), 1, float("inf"))
-    z_sx[i].hp = z_sx[i].thp        
-
-zf("…………", "text")
-for j in range(d_amount):
-    if d_amount == 1:
-        d_sx[j].thp = zs(zf("看守者起始 HP？", "inp"), 1, float("inf"))
-    else:
-        d_sx[j].thp = zs(zf(f"第 {j + 1} 位看守者的起始 HP？", "inp"), 1, float("inf"))
-    d_sx[j].hp = d_sx[j].thp
-
-os.system("cls")
-
-maze = [
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-    ["| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |", "| . |"],
-]
-
-for i in range(z_amount):
-    maze[z_x[i]][z_y[i]] = f"| Z - {i} |"
-
-for ls_1 in range(d_amount): # 随机分配监视者的位置
     while True:
-        ls_x = randint(0, 9)
-        ls_y = randint(0, 9)
-        if maze[ls_x][ls_y] == "| . |":
-            maze[ls_x][ls_y] = f"| D - {ls_1} |"
-            d_x.append(ls_x)
-            d_y.append(ls_y)
-            break
+        print()
+        zf("…………", "text")
+        z_amount = zs(zf("我方数量？", "inp"), 1, float("inf"))
+
+        print()
+        zf("…………", "text")
+        d_amount = zs(zf("看守者数量？", "inp"), 1, float("inf"))
+
+        if z_amount + d_amount >= k * k:
+            zf("人数过多！重新输入！", "error")
+        else:
+            break       
+
+    z_sx = [
+        Z(0, 0, f"Z - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, -1)
+        for i in range(z_amount)
+    ]
+
+    d_sx = [
+        D(0, 0, f"D - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, -1)
+        for i in range(d_amount)
+    ]
+
+    print()
+    zf("…………", "text")
+
+    sf_zsj = xz("是否使用随机生成的起始位置？", ["是。", "否。"])
+
+    for i in range(z_amount):
+        if z_amount == 1:
+            if sf_zsj != "1":
+                z_x.append(zs(zf("角色起始纵坐标？（X 从 0 开始）", "inp"), 0, k - 1))
+                z_y.append(zs(zf("角色起始横坐标？（Y 从 0 开始）", "inp"), 0, k - 1))
+            z_sx[i].thp = zs(zf("角色起始 HP？", "inp"), 1, float("inf"))
+        else:
+            if sf_zsj != "1":
+                z_x.append(zs(zf(f"第 {i + 1} 位角色的起始纵坐标？（X 从 0 开始）", "inp"), 0, k - 1))
+                z_y.append(zs(zf(f"第 {i + 1} 位角色的起始横坐标？（Y 从 0 开始）", "inp"), 0, k - 1))
+            z_sx[i].thp = zs(zf(f"第 {i + 1} 位角色的起始 HP？", "inp"), 1, float("inf"))
+        z_sx[i].hp = z_sx[i].thp        
+
+    print()
+    zf("…………", "text")
+    for j in range(d_amount):
+        if d_amount == 1:
+            d_sx[j].thp = zs(zf("看守者起始 HP？", "inp"), 1, float("inf"))
+        else:
+            d_sx[j].thp = zs(zf(f"第 {j + 1} 位看守者的起始 HP？", "inp"), 1, float("inf"))
+        d_sx[j].hp = d_sx[j].thp
+
+    os.system("cls")
+
+    maze = [["| . |" for i in range(k)] for j in range(k)]
+
+    if sf_zsj == "1":
+        for ls in range(z_amount): # 随机分配角色的位置。
+            while True:
+                ls_zx = randint(0, k - 1)
+                ls_zy = randint(0, k - 1)
+                if maze[ls_zx][ls_zy] == "| . |":
+                    z_x.append(ls_zx)
+                    z_y.append(ls_zy)
+                    break
+
+    for ls in range(d_amount): # 随机分配监视者的位置。
+        while True:
+            ls_dx = randint(0, k - 1)
+            ls_dy = randint(0, k - 1)
+            if maze[ls_dx][ls_dy] == "| . |":
+                d_x.append(ls_dx)
+                d_y.append(ls_dy)
+                break
         
-player_caught = 0
-monitor_killed = 0
-player_step = 0
+    player_caught = 0
+    monitor_killed = 0
+    player_step = 0
+
+def print_map(side, num):
+    print()
+    for i in range(k):
+        for j in range(k):
+            if side == "z" and i == z_x[num] and j == z_y[num]:
+                cl_print(maze[i][j], "gold", " ")
+            elif side == "d" and i == d_x[num] and j == d_y[num]:
+                cl_print(maze[i][j], "hotpink", " ")
+            elif "Z" in maze[i][j] and "D" not in maze[i][j]:
+                cl_print(maze[i][j], "green", " ")
+            elif "D" in maze[i][j] and "Z" not in maze[i][j]:
+                cl_print(maze[i][j], "blue", " ")
+            elif "Z" in maze[i][j] and "D" in maze[i][j]:
+                cl_print(maze[i][j], "red", " ")
+            else:
+                print(maze[i][j], end=" ")
+        print()
+    print()
 
 def z_move(num):
     global player_caught, player_step
@@ -469,17 +555,13 @@ def z_move(num):
     print(f"""{f'第 {player_step} 步，共 {limit_steps} 步，还有 {limit_steps - player_step} 步要走' if limit_steps > player_step else '这是最后一步'}。
     {f'已有 {player_caught} 名角色被捕' if player_caught > 0 else '无角色被捕'}，{f'已有 {monitor_killed} 名监视者出局' if monitor_killed > 0 else '无看守者出局'}。""")
 
-    for i in range(10):
-        for j in range(10):
-            print(maze[i][j], end=" ")
-        print()
+    print_map("z", num)
 
-    print()
     print(f"现在移动 Z - {num}。")
     while True:
         time.sleep(0.1)
         if kb.is_pressed("up"):
-            if 0 <= z_x[num] - 1 <= 9:
+            if 0 <= z_x[num] - 1 <= k - 1:
                 if "D" in maze[z_x[num] - 1][z_y[num]]:
                     ls_dord = maze[z_x[num] - 1][z_y[num]].replace("|", "").replace(" ", "").replace("D-", "")
                     zf(f"Z - {num} 被 D - {ls_dord} 捕获。", "癸")
@@ -487,14 +569,12 @@ def z_move(num):
                     d_sx[int(ls_dord)].zdz = num
                     return
                 else:
-                    maze[z_x[num]][z_y[num]] = "| . |"
                     z_x[num] -= 1
-                    maze[z_x[num]][z_y[num]] = f"| Z - {num} |"
                     break
             else:
                 zf("向上走不通。", "error")
         elif kb.is_pressed("down"):
-            if 0 <= z_x[num] + 1 <= 9:
+            if 0 <= z_x[num] + 1 <= k - 1:
                 if "D" in maze[z_x[num] + 1][z_y[num]]:
                     ls_dord = maze[z_x[num] + 1][z_y[num]].replace("|", "").replace(" ", "").replace("D-", "")
                     zf(f"Z - {num} 被 D - {ls_dord} 捕获。", "癸")
@@ -502,14 +582,12 @@ def z_move(num):
                     d_sx[int(ls_dord)].zdz = num
                     return
                 else:
-                    maze[z_x[num]][z_y[num]] = "| . |"
                     z_x[num] += 1
-                    maze[z_x[num]][z_y[num]] = f"| Z - {num} |"
                     break
             else:
                 zf("向下走不通。", "error")
         elif kb.is_pressed("left"):
-            if 0 <= z_y[num] - 1 <= 9:
+            if 0 <= z_y[num] - 1 <= k - 1:
                 if "D" in maze[z_x[num]][z_y[num] - 1]:
                     ls_dord = maze[z_x[num]][z_y[num] - 1].replace("|", "").replace(" ", "").replace("D-", "")
                     zf(f"Z - {num} 被 D - {ls_dord} 捕获。", "癸")
@@ -517,14 +595,12 @@ def z_move(num):
                     d_sx[int(ls_dord)].zdz = num
                     return
                 else:
-                    maze[z_x[num]][z_y[num]] = "| . |"
                     z_y[num] -= 1
-                    maze[z_x[num]][z_y[num]] = f"| Z - {num} |"
                     break
             else:
                 zf("向左走不通。", "error")
         elif kb.is_pressed("right"):
-            if 0 <= z_y[num] + 1 <= 9:
+            if 0 <= z_y[num] + 1 <= k - 1:
                 if "D" in maze[z_x[num]][z_y[num] + 1]:
                     ls_dord = maze[z_x[num]][z_y[num] + 1].replace("|", "").replace(" ", "").replace("D-", "")
                     zf(f"Z - {num} 被 D - {ls_dord} 捕获。", "癸")
@@ -532,15 +608,13 @@ def z_move(num):
                     d_sx[int(ls_dord)].zdz = num
                     return
                 else:
-                    maze[z_x[num]][z_y[num]] = "| . |"
                     z_y[num] += 1
-                    maze[z_x[num]][z_y[num]] = f"| Z - {num} |"
                     break
             else:
                 zf("向右走不通。", "error")
         elif kb.is_pressed("esc"):
             ls_res = xz("是否退出？", ["是。", "否。"])
-            if ls_res == 1:
+            if ls_res == "1":
                 sys.exit(0)
             else:
                 zf("继续游戏，本回合跳过。", "text")
@@ -558,7 +632,7 @@ def d_move(num):
     while True:
         ls_cx = randint(-1, 1)
         ls_cy = randint(-1, 1)
-        if 0 <= ls_cx + d_x[num] <= 9 and 0 <= ls_cy + d_y[num] <= 9:
+        if 0 <= ls_cx + d_x[num] <= k - 1 and 0 <= ls_cy + d_y[num] <= k - 1:
             if ls_cx == 0:
                 inf_x = "没有纵向移动"
                 x_change = False
@@ -579,25 +653,39 @@ def d_move(num):
                 ls_caughtzf = f"D - {num} 将 Z - {ls_zord} 捕获。"
                 z_sx[int(ls_zord)].zdz = num
                 d_sx[num].zdz = int(ls_zord)
-            maze[d_x[num]][d_y[num]] = "| . |"
             d_x[num] += ls_cx
             d_y[num] += ls_cy
-            maze[d_x[num]][d_y[num]] = f"| D - {num} |"
             
             print("看守者移动。")
-            print()
-            for i in range(10):
-                for j in range(10):
-                    print(maze[i][j], end=" ")
-                print()
 
-            print()
+            print_map("d", num)
+
             zf(f"D - {num} {inf_x}，{inf_y}。", "text")
             if len(ls_caughtzf) > 0:
                 zf(ls_caughtzf, "癸")
             break
 
 while player_caught < z_amount and monitor_killed < d_amount:
+    maze = [["| . |" for i in range(k)] for j in range(k)]
+
+    for h in range(z_amount):
+        for i in range(k):
+            for j in range(k):
+                if i == z_x[h] and j == z_y[h] and z_sx[h].exist:
+                    if maze[i][j] == "| . |":
+                        maze[i][j] = f"| Z - {h} |"
+                    elif "Z" in maze[i][j] or "D" in maze[i][j]:
+                        maze[i][j] = maze[i][j][:-2] + f", Z - {h} |"
+
+    for l in range(d_amount):
+        for m in range(k):
+            for n in range(k):
+                if m == d_x[l] and n == d_y[l] and d_sx[l].exist:
+                    if maze[m][n] == "| . |":
+                        maze[m][n] = f"| D - {l} |"
+                    elif "D" in maze[m][n] or "Z" in maze[m][n]:
+                        maze[m][n] = maze[m][n][:-2] + f", D - {l} |"
+
     for a in range(z_amount):
         if z_sx[a].exist and z_sx[a].zdz == -1:
             z_move(a)
