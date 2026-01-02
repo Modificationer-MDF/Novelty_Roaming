@@ -56,7 +56,6 @@ color = {
     "lime": "#30ff30",
 }
 
-
 z_x = []
 z_y = []
 
@@ -295,12 +294,11 @@ try:
             zf(f"{z_sx[z_ord].name} 打出了精准的一招。", "丙")
             z_damage *= (1 + (z_sx[z_ord].atk - abs(5 - z_acc) / 40) / 10)
         elif ls_string[z_acc] == ".":
-            if z_acc == 0:
-                zf(f"{z_sx[z_ord].name} 落空了。", "癸")
-                z_damage = 0
-            else:
-                zf(f"{z_sx[z_ord].name} 未能精准命中。", "壬")
-                z_damage *= (1 - abs(5 - z_acc) / 30)
+            zf(f"{z_sx[z_ord].name} 未能精准命中。", "壬")
+            z_damage *= (1 - abs(5 - z_acc) / 30)
+        elif ls_string[z_acc] == "×" or not z_acc:
+            zf(f"{z_sx[z_ord].name} 落空了。", "癸")
+            z_damage = 0
         print()
         if d_check <= 0:
             z_damage = 0
@@ -323,12 +321,11 @@ try:
             zf(f"{d_sx[d_ord].name} 打出了精准的一招。", "辛")
             d_damage *= (1 + (d_sx[d_ord].crit - abs(5 - d_acc) / 40) / 10)
         elif ls_string[d_acc] == ".":
-            if d_acc == 0:
-                zf(f"{d_sx[d_ord].name} 落空了。", "甲")
-                d_damage = 0
-            else:
-                zf(f"{d_sx[d_ord].name} 未能精准命中。", "乙")
-                d_damage *= (1 - abs(5 - d_acc) / 30)
+            zf(f"{d_sx[d_ord].name} 未能精准命中。", "乙")
+            d_damage *= (1 - abs(5 - d_acc) / 30)
+        elif ls_string[d_acc] == "×" or not d_acc:
+            zf(f"{d_sx[d_ord].name} 落空了。", "甲")
+            d_damage = 0
         print()
         if z_check <= 0:
             d_damage = 0
@@ -376,12 +373,8 @@ try:
         global ls_string, ls_range
 
         os.system("cls")
-        print("按下 Z 键攻击。")
-        print(fr"""
-      攻方                                防方""")
-        cl_print(f""" 
-      {me}                               {enemy}
-      """, "yellow", "")
+        print(fr"""      攻方                                防方""")
+        cl_print(f"""      {me}                               {enemy}""", "yellow", "")
         print(r"""
       -----                                   -----            
     --      --                              --      --
@@ -393,15 +386,18 @@ try:
      // || \\                                // || \\
     //  ||  \\                              //  ||  \\
    //   ||   \\                            //   ||   \\
-        """)
-
-        ls_string = list(".....................^^*****^^.....................")
+""")
+        print("按下 Z 键攻击。")
+        ls_string = list("×××..................^^*****^^...............××××××")
         ls_range = len(ls_string)
+        pressed = False
 
         sys.stdout.write("".join(ls_string))
         sys.stdout.flush()
 
-        if randint(0, 1):
+        mz_order = randint(0, 1)
+
+        if mz_order:
             l = 0
             for i in range(ls_range):
                 if l > 0:
@@ -415,8 +411,10 @@ try:
                 time.sleep(0.025)
 
                 if kb.is_pressed("z"):
+                    pressed = True
                     break
         else:
+            ls_string = ls_string[::-1]
             l = ls_range - 1
             for j in range(ls_range - 1, -1, -1):
                 if l < ls_range - 1:
@@ -430,7 +428,11 @@ try:
                 time.sleep(0.025)
 
                 if kb.is_pressed("z"):
+                    pressed = True
                     break
+
+        if not pressed:
+            l = 0
 
         return l
 except EOFError as e:
@@ -444,17 +446,17 @@ except KeyboardInterrupt:
 if __name__ == "__main__":
     os.system("cls")
 
-    zf("…………", "text")
+    zf("…………", "aqua")
     k = zs(zf("矩阵规模？（k × k 的正方形）", "inp"), 5, 20)
     limit_steps = zs(zf("最大步数？", "inp"), 1, float("inf"))
 
     while True:
         print()
-        zf("…………", "text")
+        zf("…………", "aqua")
         z_amount = zs(zf("我方数量？", "inp"), 1, float("inf"))
 
         print()
-        zf("…………", "text")
+        zf("…………", "aqua")
         d_amount = zs(zf("看守者数量？", "inp"), 1, float("inf"))
 
         if z_amount + d_amount >= k * k:
@@ -473,7 +475,7 @@ if __name__ == "__main__":
     ]
 
     print()
-    zf("…………", "text")
+    zf("…………", "aqua")
 
     sf_zsj = xz("是否使用随机生成的起始位置？", ["是。", "否。"])
 
@@ -491,7 +493,7 @@ if __name__ == "__main__":
         z_sx[i].hp = z_sx[i].thp        
 
     print()
-    zf("…………", "text")
+    zf("…………", "aqua")
     for j in range(d_amount):
         if d_amount == 1:
             d_sx[j].thp = zs(zf("看守者起始 HP？", "inp"), 1, float("inf"))
@@ -501,30 +503,55 @@ if __name__ == "__main__":
 
     os.system("cls")
 
-    maze = [["| . |" for i in range(k)] for j in range(k)]
-
     if sf_zsj == "1":
         for ls in range(z_amount): # 随机分配角色的位置。
-            while True:
-                ls_zx = randint(0, k - 1)
-                ls_zy = randint(0, k - 1)
-                if maze[ls_zx][ls_zy] == "| . |":
-                    z_x.append(ls_zx)
-                    z_y.append(ls_zy)
-                    break
+            ls_zx = randint(0, k - 1)
+            ls_zy = randint(0, k - 1)
+            z_x.append(ls_zx)
+            z_y.append(ls_zy)
 
     for ls in range(d_amount): # 随机分配监视者的位置。
-        while True:
-            ls_dx = randint(0, k - 1)
-            ls_dy = randint(0, k - 1)
-            if maze[ls_dx][ls_dy] == "| . |":
-                d_x.append(ls_dx)
-                d_y.append(ls_dy)
-                break
+        ls_dx = randint(0, k - 1)
+        ls_dy = randint(0, k - 1)
+        d_x.append(ls_dx)
+        d_y.append(ls_dy)
         
     player_caught = 0
     monitor_killed = 0
     player_step = 0
+
+    maze = [["| . |" for i in range(k)] for j in range(k)]
+
+    for h in range(z_amount):
+        for i in range(k):
+            for j in range(k):
+                if i == z_x[h] and j == z_y[h] and z_sx[h].exist:
+                    if "Z" in maze[i][j] or "D" in maze[i][j]:
+                        maze[i][j] = maze[i][j][:-2] + f", Z - {h} |"
+                    elif maze[i][j] == "| . |":
+                        maze[i][j] = f"| Z - {h} |"
+
+    for l in range(d_amount):
+        for m in range(k):
+            for n in range(k):
+                if m == d_x[l] and n == d_y[l] and d_sx[l].exist:
+                    if "D" in maze[m][n] or "Z" in maze[m][n]:
+                        maze[m][n] = maze[m][n][:-2] + f", D - {l} |"
+                    elif maze[m][n] == "| . |":
+                        maze[m][n] = f"| D - {l} |"
+
+    o_count = randint(0, math.ceil(math.sqrt(k * k + z_amount + d_amount)))
+    o_x = [] # 障碍物 X 坐标列表。
+    o_y = [] # 障碍物 Y 坐标列表。
+
+    for i in range(o_count):
+        while True:
+            ls_ox = randint(0, k - 1)
+            ls_oy = randint(0, k - 1)
+            if maze[ls_ox][ls_oy] == "| . |":
+                o_x.append(ls_ox)
+                o_y.append(ls_oy)
+                break
 
 def print_map(side, num):
     print()
@@ -540,99 +567,127 @@ def print_map(side, num):
                 cl_print(maze[i][j], "blue", " ")
             elif "Z" in maze[i][j] and "D" in maze[i][j]:
                 cl_print(maze[i][j], "red", " ")
+            elif maze[i][j] == "| ; |":
+                cl_print(maze[i][j], "purple", " ")
             else:
                 print(maze[i][j], end=" ")
         print()
     print()
 
 def z_move(num):
-    global player_caught, player_step
+    global player_step
+    def keyboard_control(bh_x, bh_y):
+        global player_caught, maze
+        if "D" in maze[z_x[num] + bh_x][z_y[num] + bh_y]:
+            ls_zord = maze[z_x[num]][z_y[num]].replace("|", "").replace(" ", "").replace("Z-", "")
+            ls_dord = maze[z_x[num] + bh_x][z_y[num] + bh_y].replace("|", "").replace(" ", "").replace("D-", "")
+            
+            fz_lszord = [i for i in ls_zord.split(",") if "D-" not in i]
+            ls_zord = ("" if len(fz_lszord) == 1 else ", ").join(fz_lszord)
 
-    os.system("cls")
-    player_step += 1
-    print("""| Z | 表示你的位置，| D | 表示看守者的位置。
-    使用方向键控制角色，按 ESC 暂停，按 F1 跳过本回合。""")
-    print(f"""{f'第 {player_step} 步，共 {limit_steps} 步，还有 {limit_steps - player_step} 步要走' if limit_steps > player_step else '这是最后一步'}。
-    {f'已有 {player_caught} 名角色被捕' if player_caught > 0 else '无角色被捕'}，{f'已有 {monitor_killed} 名监视者出局' if monitor_killed > 0 else '无看守者出局'}。""")
+            fz_lsdord = [j for j in ls_dord.split(",") if "Z-" not in j]
+            ls_dord = ("" if len(fz_lsdord) == 1 else ", ").join(fz_lsdord)
+            
+            zf(f"Z - {ls_zord} 被 D - {ls_dord} 捕获。", "癸")
+            if not "," in ls_zord and not "," in ls_dord:
+                z_sx[num].zdz = int(ls_dord)
+                d_sx[int(ls_dord)].zdz = num
+            else:
+                for i in fz_lszord:
+                    z_sx[int(i)].exist = False
+                    player_caught += 1
+        z_x[num] += bh_x
+        z_y[num] += bh_y
 
-    print_map("z", num)
+        maze = [["| . |" for i in range(k)] for j in range(k)]
 
-    print(f"现在移动 Z - {num}。")
-    while True:
-        time.sleep(0.1)
-        if kb.is_pressed("up"):
-            if 0 <= z_x[num] - 1 <= k - 1:
-                if "D" in maze[z_x[num] - 1][z_y[num]]:
-                    ls_dord = maze[z_x[num] - 1][z_y[num]].replace("|", "").replace(" ", "").replace("D-", "")
-                    zf(f"Z - {num} 被 D - {ls_dord} 捕获。", "癸")
-                    z_sx[num].zdz = int(ls_dord)
-                    d_sx[int(ls_dord)].zdz = num
-                    return
-                else:
-                    z_x[num] -= 1
+        for g in range(o_count):
+            maze[o_x[g]][o_y[g]] = "| ; |"
+
+        for h in range(z_amount):
+            for i in range(k):
+                for j in range(k):
+                    if i == z_x[h] and j == z_y[h] and z_sx[h].exist:
+                        if "Z" in maze[i][j] or "D" in maze[i][j]:
+                            maze[i][j] = maze[i][j][:-2] + f", Z - {h} |"
+                        elif maze[i][j] == "| . |":
+                            maze[i][j] = f"| Z - {h} |"
+
+        for l in range(d_amount):
+            for m in range(k):
+                for n in range(k):
+                    if m == d_x[l] and n == d_y[l] and d_sx[l].exist:
+                        if "D" in maze[m][n] or "Z" in maze[m][n]:
+                            maze[m][n] = maze[m][n][:-2] + f", D - {l} |"
+                        elif maze[m][n] == "| . |":
+                            maze[m][n] = f"| D - {l} |"
+
+    for i in range(2):
+        if z_sx[num].exist and z_sx[num].zdz == -1:
+            os.system("cls")
+            print("""| Z | 表示你的位置，| D | 表示看守者的位置，| . | 表示空格子，| Z , D | 表示你和看守者在同一格子内，| ; | 表示障碍物。
+使用方向键控制角色，按 ESC 暂停，按 F1 跳过本次移动，按 F3 跳过本回合。""")
+            cl_print("一回合可以移动两次。", "watergreen", "\n\n")
+            print(f"""{f'已走 {player_step} 步，共 {limit_steps} 步，还有 {limit_steps - player_step} 步要走' if limit_steps > player_step else '这是最后一步'}。
+{f'已有 {player_caught} 名角色被捕' if player_caught > 0 else '无角色被捕'}，{f'已有 {monitor_killed} 名监视者出局' if monitor_killed > 0 else '无看守者出局'}。""")
+    
+            print_map("z", num)
+    
+            print(f"现在移动 Z - {num}。")
+            while True:
+                time.sleep(0.1)
+                if kb.is_pressed("up"):
+                    if 0 <= z_x[num] - 1 <= k - 1 and maze[z_x[num] - 1][z_y[num]] != "| ; |":
+                        keyboard_control(-1, 0)
+                        player_step += 1
+                        break
+                    else:
+                        cl_print("向上走不通。", "error", "\n")
+                elif kb.is_pressed("down"):
+                    if 0 <= z_x[num] + 1 <= k - 1 and maze[z_x[num] + 1][z_y[num]] != "| ; |":
+                        keyboard_control(1, 0)
+                        player_step += 1
+                        break
+                    else:
+                        cl_print("向下走不通。", "error", "\n")
+                elif kb.is_pressed("left"):
+                    if 0 <= z_y[num] - 1 <= k - 1 and maze[z_x[num]][z_y[num] - 1] != "| ; |":
+                        keyboard_control(0, -1)
+                        player_step += 1
+                        break
+                    else:
+                        cl_print("向左走不通。", "error", "\n")
+                elif kb.is_pressed("right"):
+                    if 0 <= z_y[num] + 1 <= k - 1 and maze[z_x[num]][z_y[num] + 1] != "| ; |":
+                        keyboard_control(0, 1)
+                        player_step += 1
+                        break
+                    else:
+                        cl_print("向右走不通。", "error", "\n")
+                elif kb.is_pressed("esc"):
+                    ls_res = xz("是否退出？", ["是。", "否。"])
+                    if ls_res == "1":
+                        sys.exit(0)
+                    else:
+                        zf("继续游戏，本次跳过。", "text")
+                        break
+                elif kb.is_pressed("f1"):
                     break
-            else:
-                zf("向上走不通。", "error")
-        elif kb.is_pressed("down"):
-            if 0 <= z_x[num] + 1 <= k - 1:
-                if "D" in maze[z_x[num] + 1][z_y[num]]:
-                    ls_dord = maze[z_x[num] + 1][z_y[num]].replace("|", "").replace(" ", "").replace("D-", "")
-                    zf(f"Z - {num} 被 D - {ls_dord} 捕获。", "癸")
-                    z_sx[num].zdz = int(ls_dord)
-                    d_sx[int(ls_dord)].zdz = num
+                elif kb.is_pressed("f3"):
                     return
-                else:
-                    z_x[num] += 1
-                    break
-            else:
-                zf("向下走不通。", "error")
-        elif kb.is_pressed("left"):
-            if 0 <= z_y[num] - 1 <= k - 1:
-                if "D" in maze[z_x[num]][z_y[num] - 1]:
-                    ls_dord = maze[z_x[num]][z_y[num] - 1].replace("|", "").replace(" ", "").replace("D-", "")
-                    zf(f"Z - {num} 被 D - {ls_dord} 捕获。", "癸")
-                    z_sx[num].zdz = int(ls_dord)
-                    d_sx[int(ls_dord)].zdz = num
-                    return
-                else:
-                    z_y[num] -= 1
-                    break
-            else:
-                zf("向左走不通。", "error")
-        elif kb.is_pressed("right"):
-            if 0 <= z_y[num] + 1 <= k - 1:
-                if "D" in maze[z_x[num]][z_y[num] + 1]:
-                    ls_dord = maze[z_x[num]][z_y[num] + 1].replace("|", "").replace(" ", "").replace("D-", "")
-                    zf(f"Z - {num} 被 D - {ls_dord} 捕获。", "癸")
-                    z_sx[num].zdz = int(ls_dord)
-                    d_sx[int(ls_dord)].zdz = num
-                    return
-                else:
-                    z_y[num] += 1
-                    break
-            else:
-                zf("向右走不通。", "error")
-        elif kb.is_pressed("esc"):
-            ls_res = xz("是否退出？", ["是。", "否。"])
-            if ls_res == "1":
-                sys.exit(0)
-            else:
-                zf("继续游戏，本回合跳过。", "text")
-                break
-        elif kb.is_pressed("f1"):
-            zf("本回合跳过。", "text")
-            break
+        else:
+            continue
 
 def d_move(num):
     os.system("cls")
-    global player_caught
+    global player_caught, maze
     x_change = True
     ls_caughtzf = ""
 
     while True:
         ls_cx = randint(-1, 1)
         ls_cy = randint(-1, 1)
-        if 0 <= ls_cx + d_x[num] <= k - 1 and 0 <= ls_cy + d_y[num] <= k - 1:
+        if 0 <= ls_cx + d_x[num] <= k - 1 and 0 <= ls_cy + d_y[num] <= k - 1 and maze[ls_cx + d_x[num]][ls_cy + d_y[num]] != "| ; |":
             if ls_cx == 0:
                 inf_x = "没有纵向移动"
                 x_change = False
@@ -650,11 +705,48 @@ def d_move(num):
             
             if "Z" in maze[d_x[num] + ls_cx][d_y[num] + ls_cy]:
                 ls_zord = maze[d_x[num] + ls_cx][d_y[num] + ls_cy].replace("|", "").replace(" ", "").replace("Z-", "")
-                ls_caughtzf = f"D - {num} 将 Z - {ls_zord} 捕获。"
-                z_sx[int(ls_zord)].zdz = num
-                d_sx[num].zdz = int(ls_zord)
+                ls_dord = maze[d_x[num]][d_y[num]].replace("|", "").replace(" ", "").replace("D-", "")
+                
+                fz_lszord = [i for i in ls_zord.split(",") if "D-" not in i]
+                ls_zord = ("" if len(fz_lszord) == 1 else ", ").join(fz_lszord)
+
+                fz_lsdord = [j for j in ls_dord.split(",") if "Z-" not in j]
+                ls_dord = ("" if len(fz_lsdord) == 1 else ", ").join(fz_lsdord)
+                
+                ls_caughtzf = f"D - {ls_dord} 将 Z - {ls_zord} 捕获。"
+                
+                if not "," in ls_zord and not "," in ls_dord:
+                    z_sx[num].zdz = int(ls_dord)
+                    d_sx[int(ls_dord)].zdz = num
+                else:
+                    for i in fz_lszord:
+                        z_sx[int(i)].exist = False
+                        player_caught += 1
             d_x[num] += ls_cx
             d_y[num] += ls_cy
+
+            maze = [["| . |" for i in range(k)] for j in range(k)]
+
+            for g in range(o_count):
+                maze[o_x[g]][o_y[g]] = "| ; |"
+
+            for h in range(z_amount):
+                for i in range(k):
+                    for j in range(k):
+                        if i == z_x[h] and j == z_y[h] and z_sx[h].exist:
+                            if "Z" in maze[i][j] or "D" in maze[i][j]:
+                                maze[i][j] = maze[i][j][:-2] + f", Z - {h} |"
+                            elif maze[i][j] == "| . |":
+                                maze[i][j] = f"| Z - {h} |"
+
+            for l in range(d_amount):
+                for m in range(k):
+                    for n in range(k):
+                        if m == d_x[l] and n == d_y[l] and d_sx[l].exist:
+                            if "D" in maze[m][n] or "Z" in maze[m][n]:
+                                maze[m][n] = maze[m][n][:-2] + f", D - {l} |"
+                            elif maze[i][j] == "| . |":
+                                maze[m][n] = f"| D - {l} |"
             
             print("看守者移动。")
 
@@ -668,23 +760,26 @@ def d_move(num):
 while player_caught < z_amount and monitor_killed < d_amount:
     maze = [["| . |" for i in range(k)] for j in range(k)]
 
+    for g in range(o_count):
+        maze[o_x[g]][o_y[g]] = "| ; |"
+
     for h in range(z_amount):
         for i in range(k):
             for j in range(k):
                 if i == z_x[h] and j == z_y[h] and z_sx[h].exist:
-                    if maze[i][j] == "| . |":
-                        maze[i][j] = f"| Z - {h} |"
-                    elif "Z" in maze[i][j] or "D" in maze[i][j]:
+                    if "Z" in maze[i][j] or "D" in maze[i][j]:
                         maze[i][j] = maze[i][j][:-2] + f", Z - {h} |"
+                    elif maze[i][j] == "| . |":
+                        maze[i][j] = f"| Z - {h} |"
 
     for l in range(d_amount):
         for m in range(k):
             for n in range(k):
                 if m == d_x[l] and n == d_y[l] and d_sx[l].exist:
-                    if maze[m][n] == "| . |":
-                        maze[m][n] = f"| D - {l} |"
-                    elif "D" in maze[m][n] or "Z" in maze[m][n]:
+                    if "D" in maze[m][n] or "Z" in maze[m][n]:
                         maze[m][n] = maze[m][n][:-2] + f", D - {l} |"
+                    elif maze[m][n] == "| . |":
+                        maze[m][n] = f"| D - {l} |"
 
     for a in range(z_amount):
         if z_sx[a].exist and z_sx[a].zdz == -1:
