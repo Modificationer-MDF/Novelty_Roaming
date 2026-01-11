@@ -65,7 +65,7 @@ d_x = []
 d_y = []
 
 class Z: # 角色属性。
-    def __init__(self, hp, thp, name, atk, crit, fy, jc, exist, zdz, jz):
+    def __init__(self, hp, thp, name, atk, crit, fy, jc, exist, zdz, jz, dizzy):
         self.hp = hp # 角色 HP。
         self.thp = thp # 角色总 HP。
         self.name = name # 角色名称。
@@ -76,9 +76,10 @@ class Z: # 角色属性。
         self.exist = exist # 角色是否存活。
         self.zdz = zdz # 角色在与谁战斗？
         self.jz = jz # 角色被停止活动的回合数。
+        self.dizzy = dizzy # 角色是否眩晕。
 
 class D: # 敌人属性。
-    def __init__(self, hp, thp, name, atk, crit, fy, jc, exist, zdz, jz):
+    def __init__(self, hp, thp, name, atk, crit, fy, jc, exist, zdz, jz, dizzy):
         self.hp = hp # 敌人 HP。
         self.thp = thp # 敌人总 HP。
         self.name = name # 敌人名称。
@@ -89,6 +90,7 @@ class D: # 敌人属性。
         self.exist = exist # 敌人是否存活。
         self.zdz = zdz # 敌人在与谁战斗？
         self.jz = jz # 敌人被停止活动的回合数。
+        self.dizzy = dizzy # 敌人是否眩晕。
 
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
@@ -163,7 +165,7 @@ def jdt(current, total, char, typ, side):
     # current：当前值；total：总值；char：角色；typ：属性；side：阵营。
     column = [
         TextColumn("{task.description}"),
-        BarColumn(bar_width=100),
+        BarColumn(bar_width=qj_bw),
         TaskProgressColumn(text_format="{task.percentage:.3f}%"),
     ]
     with Progress(*column) as progress:
@@ -295,16 +297,16 @@ def gj(z_ord, d_ord): # z_ord：被抓角色，d_ord：抓角色的看守者。
     z_damage = randint(6, 9) + z_sx[z_ord].atk
     z_acc = mz(z_sx[z_ord].name, d_sx[d_ord].name)
     print()
-    if ls_string[z_acc] == "*":
+    if fz_lsstring[z_acc] == "*":
         zf(f"{z_sx[z_ord].name} 打出了暴击！", "乙")
         z_damage *= (1 + (z_sx[z_ord].crit - abs(5 - z_acc) / 50) / 10)
-    elif ls_string[z_acc] == "^":
+    elif fz_lsstring[z_acc] == "^":
         zf(f"{z_sx[z_ord].name} 打出了精准的一招。", "丙")
         z_damage *= (1 + (z_sx[z_ord].atk - abs(5 - z_acc) / 40) / 10)
-    elif ls_string[z_acc] == ".":
+    elif fz_lsstring[z_acc] == ".":
         zf(f"{z_sx[z_ord].name} 未能精准命中。", "壬")
         z_damage *= (1 - abs(5 - z_acc) / 30)
-    elif ls_string[z_acc] == "×" or not z_acc:
+    elif fz_lsstring[z_acc] == "×" or not z_acc:
         zf(f"{z_sx[z_ord].name} 落空了。", "癸")
         z_damage = 0
     print()
@@ -322,16 +324,16 @@ def gj(z_ord, d_ord): # z_ord：被抓角色，d_ord：抓角色的看守者。
     d_damage = randint(6, 9) + d_sx[d_ord].atk
     d_acc = mz(d_sx[d_ord].name, z_sx[z_ord].name)
     print()
-    if ls_string[d_acc] == "*":
+    if fz_lsstring[d_acc] == "*":
         zf(f"{d_sx[d_ord].name} 打出了暴击！", "壬")
         d_damage*= (1 + (d_sx[d_ord].atk - abs(5 - d_acc) / 50) / 10)
-    elif ls_string[d_acc] == "^":
+    elif fz_lsstring[d_acc] == "^":
         zf(f"{d_sx[d_ord].name} 打出了精准的一招。", "辛")
         d_damage *= (1 + (d_sx[d_ord].crit - abs(5 - d_acc) / 40) / 10)
-    elif ls_string[d_acc] == ".":
+    elif fz_lsstring[d_acc] == ".":
         zf(f"{d_sx[d_ord].name} 未能精准命中。", "乙")
         d_damage *= (1 - abs(5 - d_acc) / 30)
-    elif ls_string[d_acc] == "×" or d_acc == 0:
+    elif fz_lsstring[d_acc] == "×" or d_acc == 0:
         zf(f"{d_sx[d_ord].name} 落空了。", "甲")
         d_damage = 0
     print()
@@ -380,7 +382,7 @@ def fd(var, p, q):
             var = zf("请重新输入一个浮点数：", "error")
 
 def mz(me, enemy):
-    global ls_string, ls_range
+    global fz_lsstring, ls_range
 
     os.system("cls")
     print(fr"""      攻方                                防方""")
@@ -399,6 +401,7 @@ def mz(me, enemy):
 """)
     print("按下 Z 键攻击。")
     ls_string = list("×××..................^^*****^^...............××××××")
+    fz_lsstring = ls_string[:]
     ls_range = len(ls_string)
     pressed = False
 
@@ -452,6 +455,7 @@ if __name__ == "__main__":
     zf("…………", "aqua")
     k = zs(zf("矩阵规模？（k × k 的正方形）", "inp"), 5, 20)
     limit_steps = zs(zf("最大步数？", "inp"), 1, float("inf"))
+    qj_bw = zs(zf("进度条宽度？", "inp"), 25, 125)
 
     while True:
         print()
@@ -468,12 +472,12 @@ if __name__ == "__main__":
             break       
 
     z_sx = [
-        Z(0, 0, f"Z - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, -1, 0)
+        Z(0, 0, f"Z - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, -1, 0, False)
         for i in range(z_amount)
     ]
 
     d_sx = [
-        D(0, 0, f"D - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, -1, 0)
+        D(0, 0, f"D - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, -1, 0, False)
         for i in range(d_amount)
     ]
 
@@ -594,6 +598,7 @@ def print_map(side, num):
 
 def z_move(num):
     global player_step
+    
     def keyboard_control(bh_x, bh_y):
         global player_caught, maze
         destination_x, destination_y = z_x[num] + bh_x, z_y[num] + bh_y
@@ -622,14 +627,16 @@ def z_move(num):
                         z_sx[num].zdz = int(d_ids[0])
                         d_sx[int(d_ids[0])].zdz = num
         
-            z_slip = uniform(0.07, 0.19) * math.sqrt(z_sx[num].thp * randint(4, 6))
-            zf(f"Z - {num} 摔倒了！丧失了 {z_slip:.3f} HP。", "壬")
+            z_slip = uniform(0.19, 0.3) * math.sqrt(z_sx[num].thp * randint(9, 15))
+            zf(f"Z - {num} 摔倒了！丧失了 {z_slip:.3f} HP。", "辛")
             z_sx[num].hp -= z_slip
             jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "me")
             print()
             if z_sx[num].hp <= 0:
-                zf(f"Z - {num} 摔出了迷宫。", "癸")
-                z_sx[num].exist = False
+                zf(f"Z - {num} 摔晕了，看来他不得不休息两回合。", "壬")
+                z_sx[num].jz = 3
+                z_sx[num].dizzy = True
+                z_sx[num].hp = 0.001
                 return
         
             while True: # 寻找可以滑向的格子。
@@ -690,22 +697,43 @@ def z_move(num):
             else:
                 maze[x][y] = f"| D - {l} |"
 
+    def hitwall(i, fx): # fx：方向。
+        if i < 3:
+            cl_print(f"向{fx}走不通。", "error", "\n")
+        else:
+            if i == 3:
+                zf(f"如果，你非要向{fx}走的话……", "red")
+            z_hitwall = uniform(0.25, 0.49) * math.sqrt(z_sx[num].thp * randint(14, 22) + i)
+            zf(f"Z - {num} 撞向了{fx}方的墙壁！丧失了 {z_hitwall:.3f} HP。", "辛")
+            z_sx[num].hp -= z_hitwall
+            jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "me")
+            if z_sx[num].hp <= 0:
+                zf(f"Z - {num} 撞晕了，看来他不得不休息三回合。", "壬")
+                z_sx[num].jz = 4
+                z_sx[num].hp = 0.001
+                z_sx[num].dizzy = True
+                return -1
+            print()
+        i += 1
+        return i
+
     for i in range(2):
-        if z_sx[num].exist and z_sx[num].zdz == -1:
-            os.system("cls")
-            print("""| Z | 表示你的位置，| D | 表示看守者的位置，| . | 表示空格子，| Z , D | 表示你和看守者在同一格子内，| ; | 表示障碍物，不可通行；
+        os.system("cls")
+        print("""| Z | 表示你的位置，| D | 表示看守者的位置，| . | 表示空格子，| Z , D | 表示你和看守者在同一格子内，| ; | 表示障碍物，不可通行；
 进入 | _ | 会让 Z 摔倒、滑向附近的格子并失去部分 HP，也会让 D 摔倒、失去部分 HP 并停止移动一回合。
 
 使用方向键控制角色，按 ESC 暂停，按 F1 跳过本次移动，按 F3 跳过本回合。
 """)
-            cl_print("一回合可以移动两次。", "watergreen", "\n\n")
-            cl_print("若单角色被单看守者抓，则开始战斗；若多角色被单看守者抓或单角色被多看守者抓，直接出局。", "yellow", "\n\n")
-            print(f"""{f'已走 {player_step} 步，共 {limit_steps} 步，还有 {limit_steps - player_step} 步要走' if limit_steps > player_step else '这是最后一步'}。
+        cl_print("一回合可以移动两次。", "watergreen", "\n\n")
+        cl_print("若单角色被单看守者抓，则开始战斗；若多角色被单看守者抓或单角色被多看守者抓，直接出局。", "yellow", "\n\n")
+        print(f"""{f'已走 {player_step} 步，共 {limit_steps} 步，还有 {limit_steps - player_step} 步要走' if limit_steps > player_step else '这是最后一步'}。
 {f'已有 {player_caught} 名角色被捕' if player_caught > 0 else '无角色被捕'}，{f'已有 {monitor_killed} 名监视者出局' if monitor_killed > 0 else '无看守者出局'}。""")
     
-            print_map("z", num)
+        print_map("z", num)
     
-            print(f"现在移动 Z - {num}。")
+        print(f"现在移动 Z - {num}。")
+        et = 0
+        if z_sx[num].exist and z_sx[num].zdz == -1 and z_sx[num].dizzy == False: 
             while True:
                 time.sleep(0.1)
                 if kb.is_pressed("up"):
@@ -714,28 +742,37 @@ def z_move(num):
                         player_step += 1
                         break
                     else:
-                        cl_print("向上走不通。", "error", "\n")
+                        et = hitwall(et, "上")
+                        if et == -1:
+                            return
+
                 elif kb.is_pressed("down"):
                     if 0 <= z_x[num] + 1 <= k - 1 and maze[z_x[num] + 1][z_y[num]] != "| ; |":
                         keyboard_control(1, 0)
                         player_step += 1
                         break
                     else:
-                        cl_print("向下走不通。", "error", "\n")
+                        et = hitwall(et, "下")
+                        if et == -1:
+                            return
                 elif kb.is_pressed("left"):
                     if 0 <= z_y[num] - 1 <= k - 1 and maze[z_x[num]][z_y[num] - 1] != "| ; |":
                         keyboard_control(0, -1)
                         player_step += 1
                         break
                     else:
-                        cl_print("向左走不通。", "error", "\n")
+                        et = hitwall(et, "左")
+                        if et == -1:
+                            return
                 elif kb.is_pressed("right"):
                     if 0 <= z_y[num] + 1 <= k - 1 and maze[z_x[num]][z_y[num] + 1] != "| ; |":
                         keyboard_control(0, 1)
                         player_step += 1
                         break
                     else:
-                        cl_print("向右走不通。", "error", "\n")
+                        et = hitwall(et, "右")
+                        if et == -1:
+                            return
                 elif kb.is_pressed("esc"):
                     ls_res = xz("是否退出？", ["是。", "否。"])
                     if ls_res == "1":
@@ -755,7 +792,7 @@ def d_move(num):
     x_change = True
     ls_caughtzf = ""
     ls_slipped = ""
-    ls_died = ""
+    ls_dizzying = ""
     global player_caught, maze
     
     while True:
@@ -780,15 +817,17 @@ def d_move(num):
             destination_x, destination_y = d_x[num] + ls_cx, d_y[num] + ls_cy
 
             if maze[destination_x][destination_y] == "| _ |":
-                d_slip = uniform(0.07, 0.19) * math.sqrt(d_sx[num].thp * randint(4, 6))
+                d_slip = uniform(0.19, 0.3) * math.sqrt(d_sx[num].thp * randint(9, 15))
                 ls_slipped = f"D - {num} 摔倒了！丧失了 {d_slip:.3f} HP。他停止活动一回合！"
                 d_sx[num].hp -= d_slip
                 d_sx[num].jz = 2
                 print()
                 if d_sx[num].hp <= 0:
-                    ls_died = f"D - {num} 摔出了迷宫。"
-                    d_sx[num].exist = False
-                    return
+                    ls_dizzying = f"D - {num} 摔晕了，看来他不得不休息三回合！"
+                    d_sx[num].dizzy = True
+                    d_sx[num].jz = 4
+                    d_sx[num].hp = 0.001
+                    break
             
             if "Z" in maze[destination_x][destination_y]:
                 destination_xy = maze[destination_x][destination_y] # 获取目的地格子信息。
@@ -815,31 +854,31 @@ def d_move(num):
             d_y[num] += ls_cy
 
             # 更新迷宫。
-            maze = [["| . |" for i in range(k)] for j in range(k)]
-
+            maze = [["| . |" for _ in range(k)] for _ in range(k)]
+    
             for f in range(w_amount):
                 maze[w_x[f]][w_y[f]] = "| _ |"
-
+    
             for g in range(o_amount):
                 maze[o_x[g]][o_y[g]] = "| ; |"
-
+    
             for h in range(z_amount):
-                for i in range(k):
-                    for j in range(k):
-                        if i == z_x[h] and j == z_y[h] and z_sx[h].exist:
-                            if "Z" in maze[i][j] or "D" in maze[i][j]:
-                                maze[i][j] = maze[i][j][:-2] + f", Z - {h} |"
-                            elif maze[i][j] == "| . |":
-                                maze[i][j] = f"| Z - {h} |"
-
+                if not z_sx[h].exist:
+                    continue
+                x, y = z_x[h], z_y[h]
+                if "Z" in maze[x][y] or "D" in maze[x][y]:
+                    maze[x][y] = maze[x][y][:-2] + f", Z - {h} |"
+                else:
+                    maze[x][y] = f"| Z - {h} |"
+    
             for l in range(d_amount):
-                for m in range(k):
-                    for n in range(k):
-                        if m == d_x[l] and n == d_y[l] and d_sx[l].exist:
-                            if "D" in maze[m][n] or "Z" in maze[m][n]:
-                                maze[m][n] = maze[m][n][:-2] + f", D - {l} |"
-                            elif maze[i][j] == "| . |":
-                                maze[m][n] = f"| D - {l} |"
+                if not d_sx[l].exist:
+                    continue
+                x, y = d_x[l], d_y[l]
+                if "D" in maze[x][y] or "Z" in maze[x][y]:
+                    maze[x][y] = maze[x][y][:-2] + f", D - {l} |"
+                else:
+                    maze[x][y] = f"| D - {l} |"
             
             print("看守者移动。")
 
@@ -849,51 +888,67 @@ def d_move(num):
             if ls_caughtzf != "":
                 zf(ls_caughtzf, "癸")
             if ls_slipped != "":
-                zf(ls_slipped, "乙")
+                zf(ls_slipped, "丙")
                 jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "enemy")
                 input()
-            if ls_died != "":
-                zf(ls_died, "壬")
+            if ls_dizzying != "":
+                zf(ls_dizzying, "乙")
             break
 
 while player_caught < z_amount and monitor_killed < d_amount:
-    maze = [["| . |" for i in range(k)] for j in range(k)]
-
+    maze = [["| . |" for _ in range(k)] for _ in range(k)]
+    
     for f in range(w_amount):
         maze[w_x[f]][w_y[f]] = "| _ |"
-
+    
     for g in range(o_amount):
         maze[o_x[g]][o_y[g]] = "| ; |"
-
+    
     for h in range(z_amount):
-        for i in range(k):
-            for j in range(k):
-                if i == z_x[h] and j == z_y[h] and z_sx[h].exist:
-                    if "Z" in maze[i][j] or "D" in maze[i][j]:
-                        maze[i][j] = maze[i][j][:-2] + f", Z - {h} |"
-                    elif maze[i][j] == "| . |":
-                        maze[i][j] = f"| Z - {h} |"
-
+        if not z_sx[h].exist:
+            continue
+        x, y = z_x[h], z_y[h]
+        if "Z" in maze[x][y] or "D" in maze[x][y]:
+            maze[x][y] = maze[x][y][:-2] + f", Z - {h} |"
+        else:
+            maze[x][y] = f"| Z - {h} |"
+    
     for l in range(d_amount):
-        for m in range(k):
-            for n in range(k):
-                if m == d_x[l] and n == d_y[l] and d_sx[l].exist:
-                    if "D" in maze[m][n] or "Z" in maze[m][n]:
-                        maze[m][n] = maze[m][n][:-2] + f", D - {l} |"
-                    elif maze[m][n] == "| . |":
-                        maze[m][n] = f"| D - {l} |"
+        if not d_sx[l].exist:
+            continue
+        x, y = d_x[l], d_y[l]
+        if "D" in maze[x][y] or "Z" in maze[x][y]:
+            maze[x][y] = maze[x][y][:-2] + f", D - {l} |"
+        else:
+            maze[x][y] = f"| D - {l} |"
 
     for a in range(z_amount):
+        if z_sx[a].dizzy and z_sx[a].exist:
+            z_sx[a].hp = min(z_sx[a].hp + uniform(0.25, 0.4) * math.sqrt(z_sx[a].thp * randint(10, 17)), z_sx[a].thp)
+            if z_sx[a].dizzy and z_sx[a].jz == 0 and z_sx[a].exist:
+                z_sx[a].dizzy = False # 眩晕时间结束。
+                zf(f"Z - {a} 醒了过来。", "乙")
+                jdt(z_sx[a].hp, z_sx[a].thp, f"Z - {a}", "hp", "me")
+                os.system("pause > nul")
+
         if z_sx[a].exist and z_sx[a].zdz == -1 and z_sx[h].jz <= 0:
-            z_move(a)
+                z_move(a)
         elif z_sx[a].zdz != -1:
             os.system("cls")
             gj(a, z_sx[a].zdz)
         z_sx[a].jz -= 1
 
     for b in range(d_amount):
+        if d_sx[b].dizzy and d_sx[b].exist:
+            d_sx[b].hp = min(d_sx[b].hp + uniform(0.25, 0.4) * math.sqrt(d_sx[b].thp * randint(10, 17)), d_sx[b].thp)
+            if d_sx[b].dizzy and d_sx[b].jz == 0 and d_sx[b].exist:
+                d_sx[b].dizzy = False # 眩晕时间结束。
+                cl_print(f"D - {b} 醒了过来。", "壬")
+                jdt(d_sx[b].hp, d_sx[b].thp, f"D - {b}", "hp", "enemy")
+                os.system("pause > nul")
+
         if d_sx[b].exist and d_sx[b].zdz == -1 and d_sx[h].jz <= 0:
-            d_move(b)
+                d_move(b)
         elif d_sx[b].zdz != -1:
             os.system("cls")
             gj(d_sx[b].zdz, b)
