@@ -455,7 +455,12 @@ if __name__ == "__main__":
     zf("…………", "aqua")
     k = zs(zf("矩阵规模？（k × k 的正方形）", "inp"), 5, 20)
     limit_steps = zs(zf("最大步数？", "inp"), 1, float("inf"))
-    qj_bw = zs(zf("进度条宽度？", "inp"), 25, 125)
+    qj_bw = zf("进度条宽度（默认 60）？", "inp")
+    try:
+        if qj_bw == "" or 25 <= int(qj_bw) <= 125:
+            qj_bw = 60
+    except:
+        qj_bw = 60
 
     while True:
         print()
@@ -598,7 +603,7 @@ def print_map(side, num):
 
 def z_move(num):
     global player_step
-    
+
     def keyboard_control(bh_x, bh_y):
         global player_caught, maze
         destination_x, destination_y = z_x[num] + bh_x, z_y[num] + bh_y
@@ -703,7 +708,7 @@ def z_move(num):
         else:
             if i == 3:
                 zf(f"如果，你非要向{fx}走的话……", "red")
-            z_hitwall = uniform(0.25, 0.49) * math.sqrt(z_sx[num].thp * randint(14, 22) + i)
+            z_hitwall = uniform(0.25, 0.49) * math.sqrt(z_sx[num].thp * randint(14, 22) + i ** i)
             zf(f"Z - {num} 撞向了{fx}方的墙壁！丧失了 {z_hitwall:.3f} HP。", "辛")
             z_sx[num].hp -= z_hitwall
             jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "me")
@@ -794,7 +799,7 @@ def d_move(num):
     ls_slipped = ""
     ls_dizzying = ""
     global player_caught, maze
-    
+
     while True:
         ls_cx = randint(-1, 1)
         ls_cy = randint(-1, 1)
@@ -924,15 +929,15 @@ while player_caught < z_amount and monitor_killed < d_amount:
 
     for a in range(z_amount):
         if z_sx[a].dizzy and z_sx[a].exist:
-            z_sx[a].hp = min(z_sx[a].hp + uniform(0.25, 0.4) * math.sqrt(z_sx[a].thp * randint(10, 17)), z_sx[a].thp)
+            z_sx[a].hp = min(z_sx[a].hp + uniform(0.7, 1.4) * math.sqrt(z_sx[a].thp * randint(10, 17)), z_sx[a].thp)
             if z_sx[a].dizzy and z_sx[a].jz == 0 and z_sx[a].exist:
                 z_sx[a].dizzy = False # 眩晕时间结束。
-                zf(f"Z - {a} 醒了过来。", "乙")
+                zf(f"Z - {a} 恢复了知觉。", "乙")
                 jdt(z_sx[a].hp, z_sx[a].thp, f"Z - {a}", "hp", "me")
                 os.system("pause > nul")
 
         if z_sx[a].exist and z_sx[a].zdz == -1 and z_sx[h].jz <= 0:
-                z_move(a)
+            z_move(a)
         elif z_sx[a].zdz != -1:
             os.system("cls")
             gj(a, z_sx[a].zdz)
@@ -940,15 +945,15 @@ while player_caught < z_amount and monitor_killed < d_amount:
 
     for b in range(d_amount):
         if d_sx[b].dizzy and d_sx[b].exist:
-            d_sx[b].hp = min(d_sx[b].hp + uniform(0.25, 0.4) * math.sqrt(d_sx[b].thp * randint(10, 17)), d_sx[b].thp)
+            d_sx[b].hp = min(d_sx[b].hp + uniform(0.7, 1.4) * math.sqrt(d_sx[b].thp * randint(10, 17)), d_sx[b].thp)
             if d_sx[b].dizzy and d_sx[b].jz == 0 and d_sx[b].exist:
                 d_sx[b].dizzy = False # 眩晕时间结束。
-                cl_print(f"D - {b} 醒了过来。", "壬")
+                zf(f"D - {b} 恢复了知觉。", "壬")
                 jdt(d_sx[b].hp, d_sx[b].thp, f"D - {b}", "hp", "enemy")
                 os.system("pause > nul")
 
         if d_sx[b].exist and d_sx[b].zdz == -1 and d_sx[h].jz <= 0:
-                d_move(b)
+            d_move(b)
         elif d_sx[b].zdz != -1:
             os.system("cls")
             gj(d_sx[b].zdz, b)
