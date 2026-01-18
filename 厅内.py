@@ -560,6 +560,10 @@ if __name__ == "__main__":
     w_x = [] # 水洼 X 坐标列表。
     w_y = [] # 水洼 Y 坐标列表。
 
+    r_amount = randint(0, math.floor((o_amount + w_amount) ** 1.5)) # 随机事件格数量。
+    r_x = [] # 随机事件格 X 坐标列表。
+    r_y = [] # 随机事件格 Y 坐标列表。
+
     for i in range(o_amount):
         while True:
             ls_ox = randint(0, k - 1)
@@ -577,6 +581,73 @@ if __name__ == "__main__":
                 w_x.append(ls_wx)
                 w_y.append(ls_wy)
                 break
+
+    for i in range(r_amount):
+        while True:
+            ls_rx = randint(0, k - 1)
+            ls_ry = randint(0, k - 1)
+            if maze[ls_rx][ls_ry] == "| . |":
+                r_x.append(ls_rx)
+                r_y.append(ls_ry)
+                break
+
+def random_event(side, num):
+    global z_sx, d_sx
+    event_type = randint(1, 4)
+    match event_type:
+        case 1: # 恢复 HP。
+            if side == "z":
+                hp_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].thp * randint(9, 15))
+                zf(f"Z - {num} 恢复了 {hp_recover:.3f} HP。", "乙")
+                z_sx[num].hp += hp_recover
+                if z_sx[num].hp > z_sx[num].thp:
+                    z_sx[num].hp = z_sx[num].thp
+                jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "me")
+            elif side == "d":
+                hp_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].thp * randint(9, 15))
+                zf(f"D - {num} 恢复了 {hp_recover:.3f} HP。", "壬")
+                d_sx[num].hp += hp_recover
+                if d_sx[num].hp > d_sx[num].thp:
+                    d_sx[num].hp = d_sx[num].thp
+                jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "enemy")
+        case 2: # 增加攻击力。
+            if side == "z":
+                atk_increase = randint(1, 5)
+                zf(f"Z - {num} 增加了 {atk_increase} 点攻击力。", "text")
+                z_sx[num].atk += atk_increase
+            elif side == "d":
+                atk_increase = randint(1, 5)
+                zf(f"D - {num} 增加了 {atk_increase} 点攻击力。", "text")
+                d_sx[num].atk += atk_increase
+        case 3: # 增加防御力。
+            if side == "z":
+                fy_increase = randint(1, 5)
+                zf (f"Z - {num} 增加了 {fy_increase} 点防御力。", "text")
+                z_sx[num].fy += fy_increase
+            elif side == "d":
+                fy_increase = randint(1, 5)
+                zf (f"D - {num} 增加了 {fy_increase} 点防御力。", "text")
+                d_sx[num].fy += fy_increase
+        case 4: # 淘汰一名敌人或角色。
+            ls_opt = randint(1, 2) # 1：淘汰一名敌人；2：淘汰一名角色。
+            if ls_opt == 1:
+                while True:
+                    ls_dord = randint(0, d_amount - 1)
+                    if d_sx[ls_dord].exist:
+                        d_sx[ls_dord].exist = False
+                        d_sx[ls_dord].zdz = -1
+                        maze[d_x[ls_dord]][d_y[ls_dord]] = f"| . |"
+                        zf(f"D - {ls_dord} 突然消失了！", "甲")
+                        break
+            elif ls_opt == 2:
+                while True:
+                    ls_zord = randint(0, z_amount - 1)
+                    if z_sx[ls_zord].exist:
+                        z_sx[ls_zord].exist = False
+                        z_sx[ls_zord].zdz = -1
+                        maze[z_x[ls_zord]][z_y[ls_zord]] = f"| . |"
+                        zf(f"Z - {ls_zord} 突然消失了！", "乙")
+                        break
 
 def print_map(side, num):
     print()
@@ -596,6 +667,8 @@ def print_map(side, num):
                 cl_print(maze[i][j], "magenta", " ")
             elif maze[i][j] == "| _ |":
                 cl_print(maze[i][j], "darkred", " ")
+            elif maze[i][j] == "| ^ |":
+                cl_print(maze[i][j], "orange", " ")
             else:
                 print(maze[i][j], end=" ")
         print()
@@ -650,6 +723,8 @@ def z_move(num):
                 if (0 <= new_x < k and 0 <= new_y < k and maze[new_x][new_y] != "| ; |"):
                     zf(f"Z - {num} 滑向了 ({new_x}, {new_y})", "text")
                     keyboard_control(ls_bhx, ls_bhy)
+                    if maze[new_x][new_y] == "| ^ |":
+                        random_event("z", num)
                     break
             return
     
@@ -674,10 +749,15 @@ def z_move(num):
                 else: # 否则，开始战斗。
                     z_sx[num].zdz = int(d_ids[0])
                     d_sx[int(d_ids[0])].zdz = num
-    
+        elif maze[destination_x][destination_y] == "| ^ |":
+            random_event("z", num)
+        
         # 更新迷宫。
         maze = [["| . |" for _ in range(k)] for _ in range(k)]
     
+        for e in range(r_amount):
+            maze[r_x[e]][r_y[e]] = "| ^ |"
+
         for f in range(w_amount):
             maze[w_x[f]][w_y[f]] = "| _ |"
     
@@ -833,7 +913,9 @@ def d_move(num):
                     d_sx[num].jz = 4
                     d_sx[num].hp = 0.001
                     break
-            
+            elif maze[destination_x][destination_y] == "| ^ |":
+                random_event("d", num)
+
             if "Z" in maze[destination_x][destination_y]:
                 destination_xy = maze[destination_x][destination_y] # 获取目的地格子信息。
                 z_ids = [] # 记录被抓角色 ID。
@@ -861,6 +943,9 @@ def d_move(num):
             # 更新迷宫。
             maze = [["| . |" for _ in range(k)] for _ in range(k)]
     
+            for e in range(r_amount):
+                maze[r_x[e]][r_y[e]] = "| ^ |"
+
             for f in range(w_amount):
                 maze[w_x[f]][w_y[f]] = "| _ |"
     
@@ -900,9 +985,15 @@ def d_move(num):
                 zf(ls_dizzying, "乙")
             break
 
-while player_caught < z_amount and monitor_killed < d_amount:
+player_existing = z_amount
+monitor_existing = d_amount
+
+while player_existing > 0 and monitor_existing > 0:
     maze = [["| . |" for _ in range(k)] for _ in range(k)]
     
+    for e in range(r_amount):
+        maze[r_x[e]][r_y[e]] = "| ^ |"
+
     for f in range(w_amount):
         maze[w_x[f]][w_y[f]] = "| _ |"
     
@@ -910,6 +1001,7 @@ while player_caught < z_amount and monitor_killed < d_amount:
         maze[o_x[g]][o_y[g]] = "| ; |"
     
     for h in range(z_amount):
+        player_existing = 0
         if not z_sx[h].exist:
             continue
         x, y = z_x[h], z_y[h]
@@ -917,8 +1009,10 @@ while player_caught < z_amount and monitor_killed < d_amount:
             maze[x][y] = maze[x][y][:-2] + f", Z - {h} |"
         else:
             maze[x][y] = f"| Z - {h} |"
+        player_existing += 1
     
     for l in range(d_amount):
+        monitor_existing = 0
         if not d_sx[l].exist:
             continue
         x, y = d_x[l], d_y[l]
@@ -926,6 +1020,7 @@ while player_caught < z_amount and monitor_killed < d_amount:
             maze[x][y] = maze[x][y][:-2] + f", D - {l} |"
         else:
             maze[x][y] = f"| D - {l} |"
+        monitor_existing += 1
 
     for a in range(z_amount):
         if z_sx[a].dizzy and z_sx[a].exist:
@@ -959,11 +1054,17 @@ while player_caught < z_amount and monitor_killed < d_amount:
             gj(d_sx[b].zdz, b)
         d_sx[b].jz -= 1
 
-    if player_step == limit_steps or monitor_killed == d_amount:
+    if player_step == limit_steps:
         zf("你赢了！", "甲")
         sys.exit(0)
 
-if player_caught == z_amount:
+if player_existing == 0:
     zf("你输了！", "癸")
+elif monitor_existing == 0:
+    zf("你赢了！", "甲")
 else:
-    zf(f"{player_step} / {limit_steps}，{player_caught} / {z_amount}，{monitor_killed} / {d_amount}。", "error")
+    zf(f"""似乎发生了错误，以下是报错信息。
+步数：{player_step} / {limit_steps}。
+角色数量：{player_existing} / {z_amount}。
+看守者数量：{monitor_existing} / {d_amount}。
+""", "error")
