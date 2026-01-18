@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Comb Mosha 2025。
+# Mosha Comb 2025 ~ 2026。
 from calendar import c
 from pickle import TRUE
 from random import *
@@ -389,7 +389,7 @@ def mz(me, enemy):
     cl_print(f"""      {me}                               {enemy}""", "yellow", "")
     print(r"""
     -----                                   -----            
---      --                              --      --
+  --      --                              --      --
     -----                                   -----
     // || \\                                // || \\
 //  ||  \\   |￣￣￣￣￣￣￣￣￣￣|     //  ||  \\ 
@@ -489,33 +489,43 @@ if __name__ == "__main__":
     print()
     zf("…………", "aqua")
 
-    sf_zsj = xz("是否使用随机生成的起始位置？", ["是。", "否。"])
+    sf_zwz = xz("是否使用随机生成的起始位置？", ["是。", "否。"])
+    sf_zhp = xz("是否使用随机生成的 HP？（范围在 30 到 9999 之间）", ["是。", "否。"])
 
     for i in range(z_amount):
-        if z_amount == 1:
-            if sf_zsj != "1":
-                z_x.append(zs(zf("角色起始纵坐标？（X 从 0 开始）", "inp"), 0, k - 1))
-                z_y.append(zs(zf("角色起始横坐标？（Y 从 0 开始）", "inp"), 0, k - 1))
-            z_sx[i].thp = zs(zf("角色起始 HP？", "inp"), 1, float("inf"))
+        if sf_zhp == "1":
+            z_sx[i].thp = randint(30, 9999)
         else:
-            if sf_zsj != "1":
-                z_x.append(zs(zf(f"第 {i + 1} 位角色的起始纵坐标？（X 从 0 开始）", "inp"), 0, k - 1))
-                z_y.append(zs(zf(f"第 {i + 1} 位角色的起始横坐标？（Y 从 0 开始）", "inp"), 0, k - 1))
-            z_sx[i].thp = zs(zf(f"第 {i + 1} 位角色的起始 HP？", "inp"), 1, float("inf"))
+            if z_amount == 1:
+                if sf_zwz != "1":
+                    z_x.append(zs(zf("角色起始纵坐标？（X 从 0 开始）", "inp"), 0, k - 1))
+                    z_y.append(zs(zf("角色起始横坐标？（Y 从 0 开始）", "inp"), 0, k - 1))
+                else:
+                    z_sx[i].thp = zs(zf("角色起始 HP？", "inp"), 1, float("inf"))
+            else:
+                if sf_zwz != "1":
+                    z_x.append(zs(zf(f"第 {i + 1} 位角色的起始纵坐标？（X 从 0 开始）", "inp"), 0, k - 1))
+                    z_y.append(zs(zf(f"第 {i + 1} 位角色的起始横坐标？（Y 从 0 开始）", "inp"), 0, k - 1))
+                else:
+                    z_sx[i].thp = zs(zf(f"第 {i + 1} 位角色的起始 HP？", "inp"), 1, float("inf"))
         z_sx[i].hp = z_sx[i].thp        
 
     print()
     zf("…………", "aqua")
+    sf_dhp = xz("是否使用随机生成的看守者 HP？（范围在 30 到 9999 之间）", ["是。", "否。"])
     for j in range(d_amount):
-        if d_amount == 1:
-            d_sx[j].thp = zs(zf("看守者起始 HP？", "inp"), 1, float("inf"))
+        if sf_dhp == "1":
+            d_sx[j].thp = randint(30, 9999)
         else:
-            d_sx[j].thp = zs(zf(f"第 {j + 1} 位看守者的起始 HP？", "inp"), 1, float("inf"))
+            if d_amount == 1:
+                d_sx[j].thp = zs(zf("看守者起始 HP？", "inp"), 1, float("inf"))
+            else:
+                d_sx[j].thp = zs(zf(f"第 {j + 1} 位看守者的起始 HP？", "inp"), 1, float("inf"))
         d_sx[j].hp = d_sx[j].thp
 
     os.system("cls")
 
-    if sf_zsj == "1":
+    if sf_zwz == "1":
         for ls in range(z_amount): # 随机分配角色的位置。
             ls_zx = randint(0, k - 1)
             ls_zy = randint(0, k - 1)
@@ -560,7 +570,7 @@ if __name__ == "__main__":
     w_x = [] # 水洼 X 坐标列表。
     w_y = [] # 水洼 Y 坐标列表。
 
-    r_amount = randint(0, math.floor((o_amount + w_amount) ** 1.5)) # 随机事件格数量。
+    r_amount = randint(0, math.floor((o_amount + w_amount) ** uniform(0.9, 1.5))) # 随机事件格数量。
     r_x = [] # 随机事件格 X 坐标列表。
     r_y = [] # 随机事件格 Y 坐标列表。
 
@@ -592,62 +602,105 @@ if __name__ == "__main__":
                 break
 
 def random_event(side, num):
-    global z_sx, d_sx
-    event_type = randint(1, 4)
+    def hp_recover():
+        if side == "z":
+            hp_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].thp * randint(9, 15))
+            z_sx[num].hp += hp_recover
+            zf(f"Z - {num} 恢复了 {hp_recover:.3f} HP。", "甲" if z_sx[num].hp > z_sx[num].thp else "乙")
+            jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "me")
+        elif side == "d":
+            hp_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].thp * randint(9, 15))
+            d_sx[num].hp += hp_recover
+            zf(f"D - {num} 恢复了 {hp_recover:.3f} HP。", "癸" if d_sx[num].hp > d_sx[num].thp else "壬")
+            jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "enemy")
+        os.system("pause > nul")
+
+    global o_amount, w_amount
+    event_type = randint(1, 7)
     match event_type:
         case 1: # 恢复 HP。
-            if side == "z":
-                hp_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].thp * randint(9, 15))
-                zf(f"Z - {num} 恢复了 {hp_recover:.3f} HP。", "乙")
-                z_sx[num].hp += hp_recover
-                if z_sx[num].hp > z_sx[num].thp:
-                    z_sx[num].hp = z_sx[num].thp
-                jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "me")
-            elif side == "d":
-                hp_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].thp * randint(9, 15))
-                zf(f"D - {num} 恢复了 {hp_recover:.3f} HP。", "壬")
-                d_sx[num].hp += hp_recover
-                if d_sx[num].hp > d_sx[num].thp:
-                    d_sx[num].hp = d_sx[num].thp
-                jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "enemy")
+            hp_recover()
         case 2: # 增加攻击力。
             if side == "z":
                 atk_increase = randint(1, 5)
-                zf(f"Z - {num} 增加了 {atk_increase} 点攻击力。", "text")
+                zf(f"Z - {num} 增加了 {atk_increase} 点攻击力。", "丙")
                 z_sx[num].atk += atk_increase
             elif side == "d":
                 atk_increase = randint(1, 5)
-                zf(f"D - {num} 增加了 {atk_increase} 点攻击力。", "text")
+                zf(f"D - {num} 增加了 {atk_increase} 点攻击力。", "辛")
                 d_sx[num].atk += atk_increase
         case 3: # 增加防御力。
             if side == "z":
                 fy_increase = randint(1, 5)
-                zf (f"Z - {num} 增加了 {fy_increase} 点防御力。", "text")
+                zf (f"Z - {num} 增加了 {fy_increase} 点防御力。", "丙")
                 z_sx[num].fy += fy_increase
             elif side == "d":
                 fy_increase = randint(1, 5)
-                zf (f"D - {num} 增加了 {fy_increase} 点防御力。", "text")
+                zf (f"D - {num} 增加了 {fy_increase} 点防御力。", "辛")
                 d_sx[num].fy += fy_increase
         case 4: # 淘汰一名敌人或角色。
-            ls_opt = randint(1, 2) # 1：淘汰一名敌人；2：淘汰一名角色。
-            if ls_opt == 1:
-                while True:
-                    ls_dord = randint(0, d_amount - 1)
-                    if d_sx[ls_dord].exist:
-                        d_sx[ls_dord].exist = False
-                        d_sx[ls_dord].zdz = -1
-                        maze[d_x[ls_dord]][d_y[ls_dord]] = f"| . |"
-                        zf(f"D - {ls_dord} 突然消失了！", "甲")
-                        break
-            elif ls_opt == 2:
-                while True:
-                    ls_zord = randint(0, z_amount - 1)
-                    if z_sx[ls_zord].exist:
-                        z_sx[ls_zord].exist = False
-                        z_sx[ls_zord].zdz = -1
-                        maze[z_x[ls_zord]][z_y[ls_zord]] = f"| . |"
-                        zf(f"Z - {ls_zord} 突然消失了！", "乙")
-                        break
+            ls_dord = randint(0, d_amount - 1)
+            ls_zord = randint(0, z_amount - 1)
+            if randint(1, 9) <= 3:
+                ls_opt = [randint(0, 1), randint(0, 1)] # 0：淘汰一名敌人；1：淘汰一名角色。
+                if ls_opt[0] == 1 or ls_opt[1] == 0 and side == "z":
+                    while True:
+                        if d_sx[ls_dord].exist:
+                            d_sx[ls_dord].exist = False
+                            d_sx[ls_dord].zdz = -1
+                            maze[d_x[ls_dord]][d_y[ls_dord]] = f"| . |"
+                            zf(f"D - {ls_dord} 突然消失了！", "甲")
+                            break
+                elif ls_opt[0] == 0 or ls_opt[1] == 1 and side == "d":
+                    while True:
+                        if z_sx[ls_zord].exist:
+                            z_sx[ls_zord].exist = False
+                            z_sx[ls_zord].zdz = -1
+                            maze[z_x[ls_zord]][z_y[ls_zord]] = f"| . |"
+                            zf(f"Z - {ls_zord} 突然消失了！", "癸")
+                            break
+            else:
+                if side == "z":
+                    d_sx[ls_dord].jz = 2
+                    zf(f"D - {ls_dord} 遭眩晕，停止活动一回合！", "乙")
+                elif side == "d":
+                    z_sx[ls_zord].jz = 2
+                    zf(f"Z - {ls_zord} 遭眩晕，停止活动一回合！", "壬")
+        case 5: # 障碍物消失或恢复部分 HP。
+            if o_amount == 0:
+                ls_diso = randint(1, o_amount)
+                o_amount = max(0, o_amount - ls_diso)
+                zf(f"放眼望去，地图上消失了 {ls_diso} 个障碍物！", "丁")
+            else:
+                hp_recover()
+        case 6: # 水洼消失或恢复部分 HP。
+            if w_amount == 0:
+                ls_disw = randint(1, w_amount)
+                w_amount = max(0, w_amount - ls_disw)
+                zf(f"放眼望去，地图上消失了 {ls_disw} 个水洼！", "丙")
+            else:
+                hp_recover()
+        case 7: # JC 变动。
+            bh_jc = uniform(-2, 2)
+            side = "Z" if randint(1, 2) == 1 else "D"
+            if side == "Z":
+                if bh_jc < 0:
+                    zf(f"Z - {num} 的 JC 降低了 {abs(bh_jc):.3f} 点。", "乙")
+                    z_sx[num].jc += bh_jc
+                elif bh_jc > 0:
+                    zf(f"Z - {num} 的 JC 提高了 {bh_jc:.3f} 点。", "壬")
+                    z_sx[num].jc += bh_jc
+                else:
+                    hp_recover()
+            elif side == "D":
+                if bh_jc < 0:
+                    zf(f"D - {num} 的 JC 降低了 {abs(bh_jc):.3f} 点。", "壬")
+                    d_sx[num].jc += bh_jc
+                elif bh_jc > 0:
+                    zf(f"D - {num} 的 JC 提高了 {bh_jc:.3f} 点。", "乙")
+                    d_sx[num].jc += bh_jc
+                else:
+                    hp_recover()
 
 def print_map(side, num):
     print()
@@ -720,7 +773,7 @@ def z_move(num):
             while True: # 寻找可以滑向的格子。
                 ls_bhx, ls_bhy = randint(-1, 1), randint(-1, 1)
                 new_x, new_y = z_x[num] + ls_bhx, z_y[num] + ls_bhy
-                if (0 <= new_x < k and 0 <= new_y < k and maze[new_x][new_y] != "| ; |"):
+                if (0 <= new_x < k and 0 <= new_y < k and maze[new_x][new_y] != "| ; |" and ls_bhx != 0 or ls_bhy != 0):
                     zf(f"Z - {num} 滑向了 ({new_x}, {new_y})", "text")
                     keyboard_control(ls_bhx, ls_bhy)
                     if maze[new_x][new_y] == "| ^ |":
@@ -804,8 +857,9 @@ def z_move(num):
 
     for i in range(2):
         os.system("cls")
-        print("""| Z | 表示你的位置，| D | 表示看守者的位置，| . | 表示空格子，| Z , D | 表示你和看守者在同一格子内，| ; | 表示障碍物，不可通行；
-进入 | _ | 会让 Z 摔倒、滑向附近的格子并失去部分 HP，也会让 D 摔倒、失去部分 HP 并停止移动一回合。
+        print("""| Z | 表示你的位置，| D | 表示看守者的位置，| . | 表示空格子，| Z , D | 表示你和看守者在同一格子内；| ; | 表示障碍物，不可通行；
+进入 | _ | 会让 Z 摔倒、滑向附近的格子并失去部分 HP，也会让 D 摔倒、失去部分 HP 并停止移动一回合；
+| ^ | 表示随机事件格，进入后会触发随机事件。
 
 使用方向键控制角色，按 ESC 暂停，按 F1 跳过本次移动，按 F3 跳过本回合。
 """)
