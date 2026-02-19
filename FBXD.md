@@ -148,7 +148,7 @@ GENOCIDE? That's not what I want to do! （\\back \\back \\back \\back）”
 
 3991 年 6 月 21 日 5：18，“清净地带” 控制并入侵了维卡网络控制局，攫取了整个 Chanf 网络的控制权。\
 随后，\\back 方领导人 tcny 派间谍 ir 到正义方营地公然挑衅。\
-wk 录下了此过程的完整视频，在他准备将 ir 挑衅的视频发布到 HF Net 公开时，ir 向 tcny 通信，tcny 立刻切断了整个 Chanf 的网络。HF Net 停摆。\
+wk 录下了此过程的完整视频。在他准备将 ir 挑衅的视频发布到 HF Net 公开时，ir 向 tcny 通信，tcny 立刻切断了整个 Chanf 的网络。HF Net 停摆。\
 qxz 发现网络断开后，准备派 fn 和 zw 前往维卡网络控制局查看情况。\
 fn 和 zw 走后，ir 加大挑衅力度，使用数据枪攻击了 lx，导致 lx 的主要网络账号被删除，也对 lx 造成了五分钟的眩晕。\
 qxz 随即将数据枪对准 ir，却发现 ir 早已遁逃。\
