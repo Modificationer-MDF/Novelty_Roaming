@@ -117,8 +117,6 @@
 > > - 第三句 es 读 is。
 > > - 第四句 lives 读 livz 而非 laivz。
 
-接下来的阶段将在下一次对话里阐述。
-
 > [!tip]
 > - m 是 qxz 的第二分身，HF 的开发者，m 是正义人，研发公民日常所需的 HF 系统，并致力于做到高效率、美观，但是在本曲中，\\back 网民以着上面的网络（Harmony Fashion Net）为平台，散播 \\back 信息，污染了网络环境。
 > - m 是 qxz 的第二分身（雌），s 为 qxz 的第三分身（雄）。m 和 s 本质上都可以算上 Chanf 的领导人，而 qxz 则是他们的公民形态。
@@ -150,7 +148,7 @@
 > [!note]
 > / 表示长音，Y 表示掌声 / clap，_ 表示连音。\
 > XXX X/X XXXX X_YYY \
-> XXX X/X XXXX X_YYYY（此处有停顿感，后面一连串的 \\back 就是指 qxz 被“被 GENOCIDE”用户的回击。没有什么事是顺风顺水的。）
+> XXX X/X XXXX X_YYYY（此处有停顿感，后面一连串的 \\back 就是指 qxz 被“被 GENOCIDE”用户的回击。**没有什么事是顺风顺水的。**）
 
 > [!tip] 
 > ### 补充
