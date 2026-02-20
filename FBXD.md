@@ -97,8 +97,26 @@
 > 这里其实也暗讽简中互联网上的病象：一个制作优良的游戏，却因圈子混乱、玩家问题导致名声被毁。
 
 此时，第一个高潮开始，为反 \\back 组织成立的贺辞。
-> 只为了 Chanf 网络的 和平 \clap\ \clap\ \clap\ \
-就现在 反 \\back 组织 已成立 （紧跟的 4 次）\clap\）\
+> 只为了 | Chanf | 网络的 | 和平 \clap\ \clap\ \clap\ \
+> 就现在 | 反 \\back | 组织 | 已成立！ \clap\ \clap\ \clap\ \clap\ \
+> 心连心 | 接受 | 神圣的 | 洗礼 \clap\ \clap\ \clap\ \
+> 破虚妄 | 此刻 | 迎接 | 新生命！
+
+> [!note]
+> - 1、4 句韵脚为 “ing”。
+> - 2、3 句韵脚为 “i”。
+
+> Only for | Chanf net's | Harmony \clap\ \clap\ \clap\ \
+> Nowadays | Anti-\back | Established! \clap\ \clap\ \clap\ \clap\ \
+> Heart to Heart | Accepting | Sacred | Challenges \clap\ \clap\ \clap\ \
+> Through the Fake | Now just | Welcome | New Lives.
+
+> [!note]
+> 全部押 “i” 韵。
+> > - 第二句 ed 读 id。
+> > - 第三句 es 读 is。
+> > - 第四句 lives 读 livs 而非 laivs。
+
 接下来的阶段将在下一次对话里阐述。
 
 > [!tip]
@@ -124,8 +142,10 @@
 
 为了反驳 “GENOCIDE” 观点，qxz 以反 \\back 组织的名义，前往法纳最繁华的街道与其跟随者游行，并大声反驳 “GENOCIDE” 观点。
 
-> “Uchasan, o-nya, Hunasane, BU. (\\back \\back \\back）\
-GENOCIDE? That's not what I want to do! （\\back \\back \\back \\back）”
+> “Breaking through, where \\back shadows hide their lies. (\\back \\back \\back）\
+> GENOCIDE? That's not what I want to do! (\\back \\back \\back \\back) \
+> Marching forward, whether with courage or in fear. (\\back \\back \\back) \
+> SILENCING TRUTH? That's not what I aim to do!”
 
 > [!note]
 > / 表示长音，Y 表示掌声 / clap，_ 表示连音。\
