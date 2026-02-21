@@ -1196,7 +1196,7 @@ while player_existing > 0 and monitor_existing > 0:
         d_sx[b].jz -= 1
 
 if player_existing == 0 and player_escaped < z_amount:
-    zf("角色全亡（wú）！你输了！", "癸")
+    zf("角色全部阵亡！你输了！", "癸")
 elif monitor_existing == 0 :
     zf("你歼灭了敌人！你赢了！", "甲")
 elif player_escaped == z_amount:
