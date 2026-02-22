@@ -398,7 +398,7 @@ def mz(me, enemy):
 //  ||  \\                              //  ||  \\
 //   ||   \\                            //   ||   \\
 """)
-    print("按下 Z 键攻击。")
+    print("按下 Shift 攻击。")
     ls_string = list("×××..................^^*****^^...............××××××")
     fz_lsstring = ls_string[:]
     ls_range = len(ls_string)
@@ -422,7 +422,7 @@ def mz(me, enemy):
             l = (l + 1) % ls_range
             time.sleep(0.025)
 
-            if kb.is_pressed("z"):
+            if kb.is_pressed("shift"):
                 pressed = True
                 break
     else:
@@ -439,7 +439,7 @@ def mz(me, enemy):
             l = (l - 1) % ls_range
             time.sleep(0.025)
 
-            if kb.is_pressed("z"):
+            if kb.is_pressed("shift"):
                 pressed = True
                 break
 
