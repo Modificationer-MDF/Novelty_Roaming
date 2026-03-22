@@ -623,9 +623,21 @@
 > Feng Noti：“嗯……” \
 > （9：14，法纳祥云街 1418 号。）\
 > **千茶年又：“风灵、惟兹、无布，站住！”**
-> *（猛回头，千茶年又正快速赶来，冲向三人。）* \
+> *（猛回头，千茶年又正从法纳方向快速赶来，冲向三人。）* \
 > （三人不由得后退。）\
 > 千茶年又：“跑什么跑！？有话要说！！！” \
+> *（三人退得更快了。）* \
+> 千茶年又：“Feng Noti、Zyxa Wvub，你们请离开。我有事情找 Weizi Kuixuan 谈。” \
+> （9：15）\
+> Feng Noti：“Tsiancha Nianyou, What Do You Want?” \
+> Zyxa Wvub：“Also, Why Are You In Such A Hurry?” \
+> 千茶年又：“Ah! 你们别说英文了！我有正事要说，快离开！” \
+> （Feng Noti 护住了 Weizi Kuixuan。）\
+> Feng Noti：“你到底想干什么？在说明之前，我们绝对不走。”
+> *（千茶年又从衣服口袋中拿出了数据枪。）\
+> 千茶年又：“快点！否则结果够你仨受的！” \
+> （三人不由得惊恐——出门忘记带数据枪防备了。）\
+>
 
 受到连续几天的来自 “清净地带” 的骚扰后，为了反击，3991 年 4 月 8 日，Modificationer Shatelliti、Feng Noti、Weizi Kuixuan、Zyxa Wvub 及其拥护者以灭蝇组织的名义，前往法纳最繁华的街道游行。
 
