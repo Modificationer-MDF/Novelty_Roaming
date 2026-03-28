@@ -826,12 +826,12 @@
 > > （19：46：58）\
 > > 赤蝶：“2” \
 > > （19：46：59）\
-> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！”
+> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！” \
 > > （同时）\
-> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！”
-> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！”
-> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！”
-> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！”
+> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！” \
+> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！” \
+> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！” \
+> > Candy_Princess（IP 属地：藕莲）：“哇！倒计时开始了！” \
 > > 赤蝶：“1” \
 > > （19：47：50）\
 > > 赤蝶：“走起！”
