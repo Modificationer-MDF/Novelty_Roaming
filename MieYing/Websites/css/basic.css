@@ -1,12 +1,10 @@
 body {
     overflow-x: hidden;
-    background-color: #000000;
     letter-spacing: 1px;
     color: white;
     font-family: "mhmts";
     font-weight: 100;
     scrollbar-width: thin;
-    transition: all 0.7s ease;
     scrollbar-color: #ffffff #00000000;
 }
 

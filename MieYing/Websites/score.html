@@ -1,0 +1,166 @@
+<!-- Developer: Modificationer & Shatelliti. -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html lang="zh-cn">
+<head>
+    <title>待定 | Pending</title>
+    <link rel="stylesheet" type="text/css" href="css/basic.css" />
+    <link rel="stylesheet" type="text/css" href="css/functions.css" />
+    <style>
+        body {
+            background-color: #000000;
+        }
+    </style>
+    <script src="js/functions.js" defer></script>
+    <script src="js/basic.js" defer></script>
+    <script src="js/global.js" defer></script>
+    <script defer>
+        document.addEventListener("DOMContentLoaded", () => {
+            async function f1() {
+                while (true) {
+                    let ord = await inp("输入要查询的考生编号。", "输入", "i1");
+                    if (!ord.startsWith("jh_") && !ord.startsWith("sh_")) {
+                        const i1 = document.getElementById("i1");
+                        i1.style.animation = `mfn_shake1 0.3s ${easing}`;
+                        i1.style.backgroundColor = "#ffff00b0";
+                        fail("请输入正确的考生编号！");
+                        i1.addEventListener("animationend", () => {
+                            i1.style.animation = "";
+                            i1.style.backgroundColor = "#23508799";
+                        }, { once: true });
+                    } else {
+                        document.title = `${ord} 的成绩`;
+                        break;
+                    }
+                }
+            }
+            f1();
+        });
+    </script>
+</head>
+<body>
+    <div id="main">
+        <div class="ps" id="ps2">
+            <p style="font-size: 20px; text-align: center;" id="devs"></p>
+        </div>
+    </div>
+    <style>
+        h1 {
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 5px solid #494949;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            max-width: 600px;
+            margin: 24px auto;
+            color: #ffffff;
+        }
+
+        caption {
+            caption-side: top;
+            font-size: 30px;
+            font-weight: bold;
+            padding-bottom: 14px;
+            color: #e0e0e0;
+        }
+
+        td {
+            border-top: 1px solid #ffffff;
+            border-bottom: 1px solid #ffffff;
+            padding: 14px 25px;
+            font-size: 25px;
+            text-align: center;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        body table tr:first-child td {
+            border-top-width: 3px;
+        }
+
+        body table tr:last-child td {
+            border-bottom-width: 3px;
+        }
+    </style>
+    <h1>分数查询</h1>
+    <table>
+        <caption>文科 | Humanities (CEHPG)</caption>
+        <tr>
+            <td>语文 | Chinese</td>
+            <td id="c">待定 | Pending</td>
+        </tr>
+        <tr>
+            <td>英语 | English</td>
+            <td id="e">待定 | Pending</td>
+        </tr>
+        <tr>
+            <td>历史 | History</td>
+            <td id="h">待定 | Pending</td>
+        </tr>
+        <tr>
+            <td>政治 | Politics</td>
+            <td id="p">待定 | Pending</td>
+        </tr>
+        <tr>
+            <td>地理 | Geography</td>
+            <td id="g">待定 | Pending</td>
+        </tr>
+    </table>
+    <table>
+        <caption>理科 | Science (MFKB)</caption>
+        <tr>
+            <td>数学 | Mathematics</td>
+            <td id="m">待定 | Pending</td>
+        </tr>
+        <tr>
+            <td>物理 | Physics</td>
+            <td id="f">待定 | Pending</td>
+        </tr>
+        <tr>
+            <td>化学 | Chemistry</td>
+            <td id="k">待定 | Pending</td>
+        </tr>
+        <tr>
+            <td>生物 | Biology</td>
+            <td id="b">待定 | Pending</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>文科总分 | Humanities Total Score</td>
+            <td id="cehpg">待定 | Pending</td>
+        </tr>
+        <tr>
+            <td>理科总分 | Science Total Score</td>
+            <td id="mfkb">待定 | Pending</td>
+        </tr>
+        <tr>
+            <td>总分 | Total Score</td>
+            <td id="t">待定 | Pending</td>
+        </tr>
+</table>
+    <script>
+        const c = document.getElementById("c");
+        const e = document.getElementById("e");
+        const h = document.getElementById("h");
+        const p = document.getElementById("p");
+        const g = document.getElementById("g");
+        const m = document.getElementById("m");
+        const f = document.getElementById("f");
+        const k = document.getElementById("k");
+        const b = document.getElementById("b");
+        const cehpg = document.getElementById("cehpg");
+        const mfkb = document.getElementById("mfkb");
+        const t = document.getElementById("t");
+
+        switch (ord) {
+
+        }
+    </script>
+    <div style="font-size: 20px; text-align: center;">MoSha Comb</div>
+</body>
+</html>

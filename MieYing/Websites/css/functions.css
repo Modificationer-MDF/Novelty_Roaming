@@ -137,7 +137,8 @@
     position: relative;
     margin-bottom: 20px;
     white-space: nowrap;
-    height: 50px;
+    height: 60px;
+    overflow: auto;
 }
 
 .noti-window {
@@ -221,6 +222,7 @@
     font-weight: 100;
     border: none;
     backdrop-filter: blur(14px) saturate(250%);
+    margin-bottom: 20px;
 }
 
 .inp-box::-webkit-input-placeholder, .zd-box::-webkit-input-placeholder {
@@ -229,7 +231,7 @@
 
 .inp-box {
     text-align: center;
-    height: 3ch;
+    height: 60px;
     background-color: #9cdcfe99;
 }
 
@@ -380,7 +382,7 @@
 }
 
 .zd-box {
-    height: 6ch;
+    height: 60px;
     text-align: left;
     background-color: #22222299;
 }

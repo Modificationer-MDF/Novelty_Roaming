@@ -110,7 +110,7 @@ async function noti(string, title, id) {
             window.style.width = "30ch";
             window.style.left = "calc(50% - 15ch)";
             window.style.right = "calc(50% + 15ch)";
-            window.style.maxHeight = window.getBoundingClientRect().height + "px";
+            window.style.height = window.getBoundingClientRect().height + "px";
         });
 
         let square_height = hqgd(txt.innerHTML, "fn-title", "div");
@@ -217,7 +217,7 @@ async function cg(string, title, id) {
             window.style.width = "30ch";
             window.style.left = "calc(50% - 15ch)";
             window.style.right = "calc(50% + 15ch)";
-            window.style.maxHeight = window.getBoundingClientRect().height + "px";
+            window.style.height = window.getBoundingClientRect().height + "px";
         });
 
         let square_height = hqgd(txt.innerHTML, "fn-title", "div");
@@ -325,7 +325,7 @@ async function fail(string, title, id) {
             window.style.width = "30ch";
             window.style.left = "calc(50% - 15ch)";
             window.style.right = "calc(50% + 15ch)";
-            window.style.maxHeight = window.getBoundingClientRect().height + "px";
+            window.style.height = window.getBoundingClientRect().height + "px";
         });
 
         let square_height = hqgd(txt.innerHTML, "fn-title", "div");
@@ -432,7 +432,7 @@ async function warn(string, title, id) {
             window.style.width = "30ch";
             window.style.left = "calc(50% - 15ch)";
             window.style.right = "calc(50% + 15ch)";
-            window.style.maxHeight = window.getBoundingClientRect().height + "px";
+            window.style.height = window.getBoundingClientRect().height + "px";
         });
 
         let square_height = hqgd(txt.innerHTML, "fn-title", "div");
@@ -509,8 +509,8 @@ async function inp(string, title, id) {
         content.style.minWidth = "30ch";
         content.style.transition = `all 175ms ${easing}`;
         const box = document.createElement("textarea");
+        box.name = "inputbox";
         box.type = "text";
-        box.placeholder = "请输入内容.……";
         box.className = "inp-box";
         box.style.opacity = 0;
         box.style.transition = "all 175ms cubic-bezier(0.33, 1, 0.68, 1)";
@@ -540,7 +540,7 @@ async function inp(string, title, id) {
             window.style.width = "30ch";
             window.style.left = "calc(50% - 15ch)";
             window.style.right = "calc(50% + 15ch)";
-            window.style.maxHeight = window.getBoundingClientRect().height + "px";
+            window.style.height = window.getBoundingClientRect().height + "px";
         });
 
         let square_height = hqgd(txt.innerHTML, "fn-title", "div");
@@ -895,7 +895,7 @@ async function synchr(string, title, id) {
         window.style.width = "30ch";
         window.style.left = "calc(50% - 15ch)";
         window.style.right = "calc(50% + 15ch)";
-        window.style.maxHeight = window.getBoundingClientRect().height + "px";
+        window.style.height = window.getBoundingClientRect().height + "px";
     });
 
     let square_height = hqgd(txt.innerHTML, "fn-title", "div");
@@ -1126,6 +1126,7 @@ async function zd(string, title, id) {
         content.style.minWidth = "30ch";
         content.style.transition = `all 175ms ${easing}`;
         const box = document.createElement("textarea");
+        box.name = "terminalbox";
         box.className = "zd-box";
         box.style.opacity = 0;
         box.style.transition = "all 175ms cubic-bezier(0.33, 1, 0.68, 1)";
@@ -1256,7 +1257,7 @@ async function zd(string, title, id) {
             window.style.width = "30ch";
             window.style.left = "calc(50% - 15ch)";
             window.style.right = "calc(50% + 15ch)";
-            window.style.maxHeight = window.getBoundingClientRect().height + "px";
+            window.style.height = window.getBoundingClientRect().height + "px";
         });
 
         let square_height = hqgd(txt.innerHTML, "fn-title", "div");
@@ -1370,7 +1371,7 @@ async function timer(string, time, title, id) {
             window.style.width = "30ch";
             window.style.left = "calc(50% - 15ch)";
             window.style.right = "calc(50% + 15ch)";
-            window.style.maxHeight = window.getBoundingClientRect().height + "px";
+            window.style.height = window.getBoundingClientRect().height + "px";
         });
 
         let square_height = hqgd(txt.innerHTML, "fn-title", "div");
@@ -1412,7 +1413,7 @@ async function timer(string, time, title, id) {
         }, 10);
         setInterval(() => {
             if (ls_finish) {
-                window.style.maxHeight = window.getBoundingClientRect().height + "px";
+                window.style.height = window.getBoundingClientRect().height + "px";
                 content.style.opacity = 0;
                 content.style.transform = "translateY(-10px)";
                 icon.style.opacity = 0;
@@ -1565,7 +1566,7 @@ async function mb(strings, title, id) {
             window.style.width = "30ch";
             window.style.left = "calc(50% - 15ch)";
             window.style.right = "calc(50% + 15ch)";
-            window.style.maxHeight = window.getBoundingClientRect().height + "px";
+            window.style.height = window.getBoundingClientRect().height + "px";
         });
 
         let square_height = hqgd(txt.innerHTML, "fn-title", "div");
