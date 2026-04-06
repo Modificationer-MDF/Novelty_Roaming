@@ -106,8 +106,5 @@ document.addEventListener("DOMContentLoaded", function () {
         pos(0);
         pos(1);
         pos(2);
-
-        const mscomb = document.getElementById("devs");
-        mscomb.textContent = "组合 Harmonie | 3979.6/21 ~ 3991.3/31";
     }, 500);
 });

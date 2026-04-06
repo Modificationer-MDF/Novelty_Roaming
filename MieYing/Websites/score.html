@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <html lang="zh-cn">
 <head>
-    <title>待定 | Pending</title>
+    <title>成绩查询</title>
     <link rel="stylesheet" type="text/css" href="css/basic.css" />
     <link rel="stylesheet" type="text/css" href="css/functions.css" />
     <style>
@@ -15,35 +15,662 @@
     <script src="js/basic.js" defer></script>
     <script src="js/global.js" defer></script>
     <script defer>
-        document.addEventListener("DOMContentLoaded", () => {
-            async function f1() {
-                while (true) {
-                    let ord = await inp("输入要查询的考生编号。", "输入", "i1");
-                    if (!ord.startsWith("jh_") && !ord.startsWith("sh_")) {
-                        const i1 = document.getElementById("i1");
-                        i1.style.animation = `mfn_shake1 0.3s ${easing}`;
-                        i1.style.backgroundColor = "#ffff00b0";
-                        fail("请输入正确的考生编号！");
-                        i1.addEventListener("animationend", () => {
-                            i1.style.animation = "";
-                            i1.style.backgroundColor = "#23508799";
-                        }, { once: true });
-                    } else {
-                        document.title = `${ord} 的成绩`;
-                        break;
-                    }
+        c_s = {
+            "jh_stu787247": 141,
+            "jh_stu677613": 90,
+            "sh_stu47817313": 103,
+        };
+
+        m_s = {
+            "jh_stu787247": 139.5,
+            "jh_stu677613": 72,
+            "sh_stu47817313": 118,
+        };
+
+        e_s = {
+            "jh_stu787247": 143,
+            "jh_stu677613": 92,
+            "sh_stu47817313": 101,
+        }
+
+        h_s = {
+            "jh_stu787247": 144,
+            "jh_stu677613": 65,
+            "sh_stu47817313": 115,
+        };
+
+        p_s = {
+            "jh_stu787247": 146,
+            "jh_stu677613": 68,
+            "sh_stu47817313": 98,
+        };
+
+        g_s = {
+            "jh_stu787247": 145,
+            "jh_stu677613": 69,
+            "sh_stu47817313": 99,
+        };
+
+        f_s = {
+            "jh_stu787247": 143,
+            "jh_stu677613": 57,
+            "sh_stu47817313": 97,
+        };
+
+        k_s = {
+            "jh_stu787247": 142,
+            "jh_stu677613": 79,
+            "sh_stu47817313": 109,
+        };
+
+        b_s = {
+            "jh_stu787247": 139.5,
+            "jh_stu677613": 67,
+            "sh_stu47817313": 97,
+        };
+
+        // 班
+        const kcno = {
+            "jh_stu787247": "1/58",
+            "jh_stu677613": "44/55",
+            "sh_stu47817313": "47/60",
+        };
+
+        const kmno = {
+            "jh_stu787247": "6/58",
+            "jh_stu677613": "47/55",
+            "sh_stu47817313": "39/60",
+        };
+        const keno = {
+            "jh_stu787247": "1/58",
+            "jh_stu677613": "41/55",
+            "sh_stu47817313": "52/60",
+        };
+
+        const khno = {
+            "jh_stu787247": "2/58",
+            "jh_stu677613": "51/55",
+            "sh_stu47817313": "45/60",
+        };
+
+        const kpno = {
+            "jh_stu787247": "1/58",
+            "jh_stu677613": "49/55",
+            "sh_stu47817313": "53/60",
+        };
+
+        const kgno = {
+            "jh_stu787247": "1/58",
+            "jh_stu677613": "49/55",
+            "sh_stu47817313": "52/60",
+        };
+
+        const kfno = {
+            "jh_stu787247": "4/58",
+            "jh_stu677613": "53/55",
+            "sh_stu47817313": "48/60",
+        };
+
+        const kkno = {
+            "jh_stu787247": "5/58",
+            "jh_stu677613": "46/55",
+            "sh_stu47817313": "45/60",
+        };
+
+        const kbno = {
+            "jh_stu787247": "8/58",
+            "jh_stu677613": "47/55",
+            "sh_stu47817313": "52/60",
+        };
+
+        const kcehpgno = {
+            "jh_stu787247": "1/58",
+            "jh_stu677613": "45/55",
+            "sh_stu47817313": "53/60",
+        };
+
+        const kmfkbno = {
+            "jh_stu787247": "3/58",
+            "jh_stu677613": "55/55",
+            "sh_stu47817313": "48/60",
+        };
+
+        const ktno = {
+            "jh_stu787247": "1/58",
+            "jh_stu677613": "53/55",
+            "sh_stu47817313": "50/60",
+        };
+
+        // 校
+        const scno = {
+            "jh_stu787247": "2/1100",
+            "jh_stu677613": "1179/1425",
+            "sh_stu47817313": "741/900",
+        };
+
+        const smno = {
+            "jh_stu787247": "69/1100",
+            "jh_stu677613": "1210/1425",
+            "sh_stu47817313": "699/900",
+        };
+
+        const seno = {
+            "jh_stu787247": "39/1100",
+            "jh_stu677613": "1221/1425",
+            "sh_stu47817313": "791/900",
+        };
+
+        const shno = {
+            "jh_stu787247": "21/1100",
+            "jh_stu677613": "1301/1425",
+            "sh_stu47817313": "741/900",
+        };
+
+        const spno = {
+            "jh_stu787247": "14/1100",
+            "jh_stu677613": "1329/1425",
+            "sh_stu47817313": "841/900",
+        };
+
+        const sgno = {
+            "jh_stu787247": "9/1100",
+            "jh_stu677613": "1290/1425",
+            "sh_stu47817313": "832/900",
+        };
+
+        const sfno = {
+            "jh_stu787247": "37/1100",
+            "jh_stu677613": "1388/1425",
+            "sh_stu47817313": "777/900",
+        };
+
+        const skno = {
+            "jh_stu787247": "41/1100",
+            "jh_stu677613": "1241/1425",
+            "sh_stu47817313": "755/900",
+        };
+
+        const sbno = {
+            "jh_stu787247": "88/1100",
+            "jh_stu677613": "1301/1425",
+            "sh_stu47817313": "799/900",
+        };
+
+        const scehpgno = {
+            "jh_stu787247": "1/1100",
+            "jh_stu677613": "1287/1425",
+            "sh_stu47817313": "797/900",
+        };
+
+        const smfkbno = {
+            "jh_stu787247": "8/1100",
+            "jh_stu677613": "1377/1425",
+            "sh_stu47817313": "770/900",
+        };
+
+        const stno = {
+            "jh_stu787247": "1/1100",
+            "jh_stu677613": "1360/1425",
+            "sh_stu47817313": "790/900",
+        };
+
+        // 市
+        const icno = {
+            "jh_stu787247": "9/98331",
+            "jh_stu677613": "432834/532471",
+            "sh_stu47817313": "218283/300023",
+        };
+
+        const imno = {
+            "jh_stu787247": "689/98331",
+            "jh_stu677613": "471721/532471",
+            "sh_stu47817313": "180001/300023",
+        };
+
+        const ieno = {
+            "jh_stu787247": "199/98331",
+            "jh_stu677613": "424781/532471",
+            "sh_stu47817313": "221384/300023",
+        };
+
+        const ihno = {
+            "jh_stu787247": "187/98331",
+            "jh_stu677613": "484781/532471",
+            "sh_stu47817313": "211923/300023",
+        };
+
+        const ipno = {
+            "jh_stu787247": "167/98331",
+            "jh_stu677613": "468781/532471",
+            "sh_stu47817313": "239123/300023",
+        };
+
+        const igno = {
+            "jh_stu787247": "80/98331",
+            "jh_stu677613": "464231/532471",
+            "sh_stu47817313": "245912/300023",
+        };
+
+        const ifno = {
+            "jh_stu787247": "589/98331",
+            "jh_stu677613": "499999/532471",
+            "sh_stu47817313": "238912/300023",
+        };
+
+        const ikno = {
+            "jh_stu787247": "488/98331",
+            "jh_stu677613": "418367/532471",
+            "sh_stu47817313": "208312/300023",
+        };
+
+        const ibno = {
+            "jh_stu787247": "994/98331",
+            "jh_stu677613": "462478/532471",
+            "sh_stu47817313": "228123/300023",
+        };
+
+        const icehpgno = {
+            "jh_stu787247": "3/98331",
+            "jh_stu677613": "464001/532471",
+            "sh_stu47817313": "219234/300023",
+        };
+
+        const imfkbno = {
+            "jh_stu787247": "76/98331",
+            "jh_stu677613": "500461/532471",
+            "sh_stu47817313": "199994/300023",
+        };
+
+        const itno = {
+            "jh_stu787247": "1/98331",
+            "jh_stu677613": "499146/532471",
+            "sh_stu47817313": "201132/300023",
+        };
+
+        // Chanf
+        const ccno = {
+            "jh_stu787247": "9/2792149",
+            "jh_stu677613": "2067617/2792149",
+            "sh_stu47817313": "842678/1324671",
+        };
+
+        const cmno = {
+            "jh_stu787247": "1196/2792149",
+            "jh_stu677613": "2442781/2792149",
+            "sh_stu47817313": "771371/1324671",
+        };
+
+        const ceno = {
+            "jh_stu787247": "774/2792149",
+            "jh_stu677613": "2078732/2792149",
+            "sh_stu47817313": "862371/1324671",
+        };
+
+        const chno = {
+            "jh_stu787247": "666/2792149",
+            "jh_stu677613": "2368426/2792149",
+            "sh_stu47817313": "743672/1324671",
+        };
+
+        const cpno = {
+            "jh_stu787247": "354/2792149",
+            "jh_stu677613": "2312487/2792149",
+            "sh_stu47817313": "841389/1324671",
+        };
+
+        const cgno = {
+            "jh_stu787247": "287/2792149",
+            "jh_stu677613": "2307237/2792149",
+            "sh_stu47817313": "812831/1324671",
+        };
+
+        const cfno = {
+            "jh_stu787247": "996/2792149",
+            "jh_stu677613": "2520271/2792149",
+            "sh_stu47817313": "791378/1324671",
+        };
+
+        const ckno = {
+            "jh_stu787247": "789/2792149",
+            "jh_stu677613": "2310000/2792149",
+            "sh_stu47817313": "741282/1324671",
+        };
+
+        const cbno = {
+            "jh_stu787247": "2145/2792149",
+            "jh_stu677613": "2449781/2792149",
+            "sh_stu47817313": "792671/1324671",
+        };
+
+        const ccehpgno = {
+            "jh_stu787247": "10/2792149",
+            "jh_stu677613": "2267687/2792149",
+            "sh_stu47817313": "812678/1324671",
+        };
+
+        const cmfkbno = {
+            "jh_stu787247": "331/2792149",
+            "jh_stu677613": "2417617/2792149",
+            "sh_stu47817313": "782678/1324671",
+        };
+
+        const ctno = {
+            "jh_stu787247": "1/2792149",
+            "jh_stu677613": "2381242/2792149",
+            "sh_stu47817313": "895214/1324671",
+        };
+
+        let inputed = false;
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            while (true) {
+                window.ord = await inp("输入要查询的考生编号。<br />Enter the examinee's Test-ID that you want to check.", "输入<br />Enter");
+                if (!window.ord.startsWith("jh_") && !window.ord.startsWith("sh_")) {
+                    await fail("请输入正确的考生编号！<br />Please enter valid Test-ID!", "错误<br />Invalid Test-ID");
+                } else {
+                    inputed = true;
+                    fn1(window.ord);
+                    break;
                 }
             }
-            f1();
+
+            function fn1(o) {
+                const btm = document.getElementById("btm");
+
+                const cs = document.getElementById("cs");
+                const es = document.getElementById("es");
+                const hs = document.getElementById("hs");
+                const ps = document.getElementById("ps");
+                const gs = document.getElementById("gs");
+                const ms = document.getElementById("ms");
+                const fs = document.getElementById("fs");
+                const ks = document.getElementById("ks");
+                const bs = document.getElementById("bs");
+                const cehpgs = document.getElementById("cehpgs");
+                const mfkbs = document.getElementById("mfkbs");
+                const ts = document.getElementById("ts");
+
+                const k_cno = document.getElementById("k_cno");
+                const k_eno = document.getElementById("k_eno");
+                const k_hno = document.getElementById("k_hno");
+                const k_pno = document.getElementById("k_pno");
+                const k_gno = document.getElementById("k_gno");
+                const k_mno = document.getElementById("k_mno");
+                const k_fno = document.getElementById("k_fno");
+                const k_kno = document.getElementById("k_kno");
+                const k_bno = document.getElementById("k_bno");
+                const k_cehpcgno = document.getElementById("k_cehpcgno");
+                const k_mfkbno = document.getElementById("k_mfkbno");
+                const k_tno = document.getElementById("k_tno");
+
+                const s_cno = document.getElementById("s_cno");
+                const s_eno = document.getElementById("s_eno");
+                const s_hno = document.getElementById("s_hno");
+                const s_pno = document.getElementById("s_pno");
+                const s_gno = document.getElementById("s_gno");
+                const s_mno = document.getElementById("s_mno");
+                const s_fno = document.getElementById("s_fno");
+                const s_kno = document.getElementById("s_kno");
+                const s_bno = document.getElementById("s_bno");
+                const s_cehpcgno = document.getElementById("s_cehpcgno");
+                const s_mfkbno = document.getElementById("s_mfkbno");
+                const s_tno = document.getElementById("s_tno");
+
+                const i_cno = document.getElementById("i_cno");
+                const i_eno = document.getElementById("i_eno");
+                const i_hno = document.getElementById("i_hno");
+                const i_pno = document.getElementById("i_pno");
+                const i_gno = document.getElementById("i_gno");
+                const i_mno = document.getElementById("i_mno");
+                const i_fno = document.getElementById("i_fno");
+                const i_kno = document.getElementById("i_kno");
+                const i_bno = document.getElementById("i_bno");
+                const i_cehpcgno = document.getElementById("i_cehpcgno");
+                const i_mfkbno = document.getElementById("i_mfkbno");
+                const i_tno = document.getElementById("i_tno");
+
+                const c_cno = document.getElementById("c_cno");
+                const c_eno = document.getElementById("c_eno");
+                const c_hno = document.getElementById("c_hno");
+                const c_pno = document.getElementById("c_pno");
+                const c_gno = document.getElementById("c_gno");
+                const c_mno = document.getElementById("c_mno");
+                const c_fno = document.getElementById("c_fno");
+                const c_kno = document.getElementById("c_kno");
+                const c_bno = document.getElementById("c_bno");
+                const c_cehpgno = document.getElementById("c_cehpgno");
+                const c_mfkbno = document.getElementById("c_mfkbno");
+                const c_tno = document.getElementById("c_tno");
+
+                cs.innerHTML = c_s[o];
+                ms.innerHTML = m_s[o];
+                es.innerHTML = e_s[o];
+                hs.innerHTML = h_s[o];
+                ps.innerHTML = p_s[o];
+                gs.innerHTML = g_s[o];
+                fs.innerHTML = f_s[o];
+                ks.innerHTML = k_s[o];
+                bs.innerHTML = b_s[o];
+
+                k_cno.innerHTML = kcno[o];
+                k_mno.innerHTML = kmno[o];
+                k_eno.innerHTML = keno[o];
+                k_hno.innerHTML = khno[o];
+                k_pno.innerHTML = kpno[o];
+                k_gno.innerHTML = kgno[o];
+                k_fno.innerHTML = kfno[o];
+                k_kno.innerHTML = kkno[o];
+                k_bno.innerHTML = kbno[o];
+                k_cehpgno.innerHTML = kcehpgno[o];
+                k_mfkbno.innerHTML = kmfkbno[o];
+                k_tno.innerHTML = ktno[o];
+
+                s_cno.innerHTML = scno[o];
+                s_mno.innerHTML = smno[o];
+                s_eno.innerHTML = seno[o];
+                s_hno.innerHTML = shno[o];
+                s_pno.innerHTML = spno[o];
+                s_gno.innerHTML = sgno[o];
+                s_fno.innerHTML = sfno[o];
+                s_kno.innerHTML = skno[o];
+                s_bno.innerHTML = sbno[o];
+                s_cehpgno.innerHTML = scehpgno[o];
+                s_mfkbno.innerHTML = smfkbno[o];
+                s_tno.innerHTML = stno[o];
+
+                i_cno.innerHTML = icno[o];
+                i_mno.innerHTML = imno[o];
+                i_eno.innerHTML = ieno[o];
+                i_hno.innerHTML = ihno[o];
+                i_pno.innerHTML = ipno[o];
+                i_gno.innerHTML = igno[o];
+                i_fno.innerHTML = ifno[o];
+                i_kno.innerHTML = ikno[o];
+                i_bno.innerHTML = ibno[o];
+                i_cehpgno.innerHTML = icehpgno[o];
+                i_mfkbno.innerHTML = imfkbno[o];
+                i_tno.innerHTML = itno[o];
+
+                c_cno.innerHTML = ccno[o];
+                c_mno.innerHTML = cmno[o];
+                c_eno.innerHTML = ceno[o];
+                c_hno.innerHTML = chno[o];
+                c_pno.innerHTML = cpno[o];
+                c_gno.innerHTML = cgno[o];
+                c_fno.innerHTML = cfno[o];
+                c_kno.innerHTML = ckno[o];
+                c_bno.innerHTML = cbno[o];
+                c_cehpgno.innerHTML = ccehpgno[o];
+                c_mfkbno.innerHTML = cmfkbno[o];
+                c_tno.innerHTML = ctno[o];
+
+                cehpgs.innerHTML = c_s[o] + e_s[o] + h_s[o] + p_s[o] + g_s[o];
+                mfkbs.innerHTML = m_s[o] + f_s[o] + k_s[o] + b_s[o];
+                ts.innerHTML = c_s[o] + e_s[o] + h_s[o] + p_s[o] + g_s[o] + m_s[o] + f_s[o] + k_s[o] + b_s[o];
+
+                cs.style.opacity = "1";
+                es.style.opacity = "1";
+                hs.style.opacity = "1";
+                ps.style.opacity = "1";
+                gs.style.opacity = "1";
+                ms.style.opacity = "1";
+                fs.style.opacity = "1";
+                ks.style.opacity = "1";
+                bs.style.opacity = "1";
+                cehpgs.style.opacity = "1";
+                mfkbs.style.opacity = "1";
+                ts.style.opacity = "1";
+
+                k_cno.style.opacity = "1";
+                k_eno.style.opacity = "1";
+                k_hno.style.opacity = "1";
+                k_pno.style.opacity = "1";
+                k_gno.style.opacity = "1";
+                k_mno.style.opacity = "1";
+                k_fno.style.opacity = "1";
+                k_kno.style.opacity = "1";
+                k_bno.style.opacity = "1";
+                k_cehpgno.style.opacity = "1";
+                k_mfkbno.style.opacity = "1";
+                k_tno.style.opacity = "1";
+
+                s_cno.style.opacity = "1";
+                s_eno.style.opacity = "1";
+                s_hno.style.opacity = "1";
+                s_pno.style.opacity = "1";
+                s_gno.style.opacity = "1";
+                s_mno.style.opacity = "1";
+                s_fno.style.opacity = "1";
+                s_kno.style.opacity = "1";
+                s_bno.style.opacity = "1";
+                s_cehpgno.style.opacity = "1";
+                s_mfkbno.style.opacity = "1";
+                s_tno.style.opacity = "1";
+
+                i_cno.style.opacity = "1";
+                i_eno.style.opacity = "1";
+                i_hno.style.opacity = "1";
+                i_pno.style.opacity = "1";
+                i_gno.style.opacity = "1";
+                i_mno.style.opacity = "1";
+                i_fno.style.opacity = "1";
+                i_kno.style.opacity = "1";
+                i_bno.style.opacity = "1";
+                i_cehpgno.style.opacity = "1";
+                i_mfkbno.style.opacity = "1";
+                i_tno.style.opacity = "1";
+
+                c_cno.style.opacity = "1";
+                c_eno.style.opacity = "1";
+                c_hno.style.opacity = "1";
+                c_pno.style.opacity = "1";
+                c_gno.style.opacity = "1";
+                c_mno.style.opacity = "1";
+                c_fno.style.opacity = "1";
+                c_kno.style.opacity = "1";
+                c_bno.style.opacity = "1";
+                c_cehpgno.style.opacity = "1";
+                c_mfkbno.style.opacity = "1";
+                c_tno.style.opacity = "1";
+            }
+
+            const jh_score = [
+                { elem: cs, max: 150 },   // 语文
+                { elem: ms, max: 150 },   // 数学
+                { elem: es, max: 150 },   // 英语
+                { elem: hs, max: 150 },   // 历史
+                { elem: ps, max: 150 },   // 政治
+                { elem: gs, max: 150 },   // 地理
+                { elem: fs, max: 150 },   // 物理
+                { elem: ks, max: 150 },   // 化学
+                { elem: bs, max: 150 },   // 生物
+                { elem: cehpgs, max: 750 },   // 文综
+                { elem: mfkbs, max: 600 },    // 理综
+                { elem: ts, max: 1350 }       // 总分
+            ];
+
+            const sh_score = [
+                { elem: cs, max: 200 },   // 语文
+                { elem: ms, max: 200 },   // 数学
+                { elem: es, max: 200 },   // 英语
+                { elem: hs, max: 200 },   // 历史
+                { elem: ps, max: 200 },   // 政治
+                { elem: gs, max: 200 },   // 地理
+                { elem: fs, max: 200 },   // 物理
+                { elem: ks, max: 200 },   // 化学
+                { elem: bs, max: 200 },   // 生物
+                { elem: cehpgs, max: 1000 },   // 文综
+                { elem: mfkbs, max: 800 },    // 理综
+                { elem: ts, max: 1800 }       // 总分
+            ];
+
+            function s2c(res, mres) { // 分数颜色设置。
+                if (isNaN(res)) {
+                    fail("分数不合法，请重新检查。");
+                    return;
+                }
+                const hue = 160 * res / mres;
+                return `hsl(${hue}, 75%, 60%)`;
+            }
+
+            window.checked = false;
+
+            if (window.ord.startsWith("jh_")) {
+                if (Number(ts.innerHTML) >= 1260) {
+                    btm.style.color = "#11ff11";
+                    btm.innerHTML = "不公布考生信息 / The examinee's information is not PUBLIC. | MoSha Comb";
+                    btm.onclick = () => {
+                        if (!window.checked) {
+                            noti("分数高于 1260 分，不公布考生信息。<br />Due to the examinee's score (above 1260), the examinee's information is not PUBLIC.", "通知<br />Notification");
+                        }
+                    };
+                    btm.oncontextmenu = async () => {
+                        if (!window.checked) {
+                            let confirm = await inp(`确认是否为考生本人。<br />
+In order to make sure you're the examinee.`, "输入考生编号<br/>Enter Examinee's Test-ID");
+                            if (confirm === window.ord) {
+                                btm.innerHTML = `${window.ord} | MoSha Comb`;
+                                cg(`欢迎！${window.ord}！<br />
+Welcome! ${window.ord}`, `完成 <br /> Completed`);
+                                window.checked = true;
+                            } else {
+                                fail(`所输入内容与考生编号不对应。<br />
+The content you entered didn't match the examinee's Test-ID.`, "错误<br />Error");
+                            }
+                        }
+                    };
+                } else {
+                    btm.innerHTML = `${window.ord} | MoSha Comb`;
+                }
+            }
+
+            setInterval(() => {
+                if (inputed) {
+                    cehpgs.innerHTML = c_s[window.ord] + e_s[window.ord] + h_s[window.ord] + p_s[window.ord] + g_s[window.ord];
+                    mfkbs.innerHTML = m_s[window.ord] + f_s[window.ord] + k_s[window.ord] + b_s[window.ord];
+                    ts.innerHTML = c_s[window.ord] + e_s[window.ord] + h_s[window.ord] + p_s[window.ord] + g_s[window.ord] + m_s[window.ord] + f_s[window.ord] + k_s[window.ord] + b_s[window.ord];
+                    if (window.ord.startsWith("jh_")) {
+                        jh_score.forEach(i => {
+                            const res = parseFloat(i.elem.innerHTML);
+                            if (!isNaN(res)) {
+                                i.elem.style.color = s2c(res, i.max);
+                            }
+                        });
+                    } else if (window.ord.startsWith("sh_")) {
+                        sh_score.forEach(i => {
+                            const res = parseFloat(i.elem.innerHTML);
+                            if (!isNaN(res)) {
+                                i.elem.style.color = s2c(res, i.max);
+                            }
+                        });
+                        btm.innerHTML = `${window.ord} | MoSha Comb`;
+                    }
+                }
+            }, 400);
         });
     </script>
 </head>
 <body>
-    <div id="main">
-        <div class="ps" id="ps2">
-            <p style="font-size: 20px; text-align: center;" id="devs"></p>
-        </div>
-    </div>
     <style>
         h1 {
             font-size: 40px;
@@ -54,10 +681,10 @@
 
         table {
             border-collapse: collapse;
-            width: 90%;
-            max-width: 600px;
+            max-width: 80vw;
             margin: 24px auto;
             color: #ffffff;
+            transition: all 0.35s cubic-bezier(0.17, 0.9, 0.4, 0.99);
         }
 
         caption {
@@ -65,7 +692,6 @@
             font-size: 30px;
             font-weight: bold;
             padding-bottom: 14px;
-            color: #e0e0e0;
         }
 
         td {
@@ -76,91 +702,149 @@
             text-align: center;
             letter-spacing: 1px;
             color: #ffffff;
+            background-color: #00000000;
+            transition: all 0.35s cubic-bezier(0.17, 0.9, 0.4, 0.99);
         }
 
         body table tr:first-child td {
-            border-top-width: 3px;
+            border-top-width: 5px;
+            border-bottom-width: 3px;
         }
 
         body table tr:last-child td {
-            border-bottom-width: 3px;
+            border-bottom-width: 5px;
         }
     </style>
-    <h1>分数查询</h1>
-    <table>
-        <caption>文科 | Humanities (CEHPG)</caption>
+    <h1>分数查询 | Score Checking</h1>
+    <table id="cehpg">
+        <caption style="background: linear-gradient(45deg, #ff0000b9, #f75b38b9, #ed2aa7b9); width: 80vw;">文科 | Humanities (CEHPG)</caption>
+        <tr>
+            <td style="font-weight: bold;">科目 | Subject</td>
+            <td style="font-weight: bold;">分数 | Score</td>
+            <td style="font-weight: bold;">班次 | Class NO.</td>
+            <td style="font-weight: bold;">校次 | School NO.</td>
+            <td style="font-weight: bold;">市次 | City NO.</td>
+            <td style="font-weight: bold;">Chanf | Chanf NO.</td>
+        </tr>
         <tr>
             <td>语文 | Chinese</td>
-            <td id="c">待定 | Pending</td>
+            <td id="cs" style="opacity: 0;"></td>
+            <td id="k_cno" style="opacity: 0;"></td>
+            <td id="s_cno" style="opacity: 0"></td>
+            <td id="i_cno" style="opacity: 0"></td>
+            <td id="c_cno" style="opacity: 0"></td>
         </tr>
         <tr>
             <td>英语 | English</td>
-            <td id="e">待定 | Pending</td>
+            <td id="es" style="opacity: 0;"></td>
+            <td id="k_eno" style="opacity: 0;"></td>
+            <td id="s_eno" style="opacity: 0"></td>
+            <td id="i_eno" style="opacity: 0"></td>
+            <td id="c_eno" style="opacity: 0"></td>
         </tr>
         <tr>
             <td>历史 | History</td>
-            <td id="h">待定 | Pending</td>
+            <td id="hs" style="opacity: 0;"></td>
+            <td id="k_hno" style="opacity: 0;"></td>
+            <td id="s_hno" style="opacity: 0"></td>
+            <td id="i_hno" style="opacity: 0"></td>
+            <td id="c_hno" style="opacity: 0"></td>
         </tr>
         <tr>
             <td>政治 | Politics</td>
-            <td id="p">待定 | Pending</td>
+            <td id="ps" style="opacity: 0;"></td>
+            <td id="k_pno" style="opacity: 0;"></td>
+            <td id="s_pno" style="opacity: 0"></td>
+            <td id="i_pno" style="opacity: 0"></td>
+            <td id="c_pno" style="opacity: 0"></td>
         </tr>
         <tr>
             <td>地理 | Geography</td>
-            <td id="g">待定 | Pending</td>
+            <td id="gs" style="opacity: 0;"></td>
+            <td id="k_gno" style="opacity: 0;"></td>
+            <td id="s_gno" style="opacity: 0"></td>
+            <td id="i_gno" style="opacity: 0"></td>
+            <td id="c_gno" style="opacity: 0"></td>
         </tr>
     </table>
-    <table>
-        <caption>理科 | Science (MFKB)</caption>
+    <table id="mfkb">
+        <caption style="background: linear-gradient(45deg, #0000ffb9, #13559cb9, #3235b4b9); width: 80vw;">理科 | Science (MFKB)</caption>
+        <tr>
+            <td style="font-weight: bold;">科目 | Subject</td>
+            <td style="font-weight: bold;">分数 | Score</td>
+            <td style="font-weight: bold;">班次 | Class NO.</td>
+            <td style="font-weight: bold;">校次 | School NO.</td>
+            <td style="font-weight: bold;">市次 | City NO.</td>
+            <td style="font-weight: bold;">Chanf | Chanf NO.</td>
+        </tr>
         <tr>
             <td>数学 | Mathematics</td>
-            <td id="m">待定 | Pending</td>
+            <td id="ms" style="opacity: 0;"></td>
+            <td id="k_mno" style="opacity: 0;"></td>
+            <td id="s_mno" style="opacity: 0"></td>
+            <td id="i_mno" style="opacity: 0"></td>
+            <td id="c_mno" style="opacity: 0"></td>
         </tr>
         <tr>
             <td>物理 | Physics</td>
-            <td id="f">待定 | Pending</td>
+            <td id="fs" style="opacity: 0;"></td>
+            <td id="k_fno" style="opacity: 0;"></td>
+            <td id="s_fno" style="opacity: 0"></td>
+            <td id="i_fno" style="opacity: 0"></td>
+            <td id="c_fno" style="opacity: 0"></td>
         </tr>
         <tr>
             <td>化学 | Chemistry</td>
-            <td id="k">待定 | Pending</td>
+            <td id="ks" style="opacity: 0;"></td>
+            <td id="k_kno" style="opacity: 0;"></td>
+            <td id="s_kno" style="opacity: 0"></td>
+            <td id="i_kno" style="opacity: 0"></td>
+            <td id="c_kno" style="opacity: 0"></td>
         </tr>
         <tr>
             <td>生物 | Biology</td>
-            <td id="b">待定 | Pending</td>
+            <td id="bs" style="opacity: 0;"></td>
+            <td id="k_bno" style="opacity: 0;"></td>
+            <td id="s_bno" style="opacity: 0"></td>
+            <td id="i_bno" style="opacity: 0"></td>
+            <td id="c_bno" style="opacity: 0"></td>
         </tr>
     </table>
-    <table>
+    <table id="t">
+        <caption style="background: linear-gradient(45deg, #00ff00b9, #117d10b9, #197a72b9); width: 80vw;">综合统计 | Comprehensive Details</caption>
         <tr>
-            <td>文科总分 | Humanities Total Score</td>
-            <td id="cehpg">待定 | Pending</td>
+            <td style="font-weight: bold;">科类 | Subject Kinds</td>
+            <td style="font-weight: bold;">分数 | Score</td>
+            <td style="font-weight: bold;">班次 | Class NO.</td>
+            <td style="font-weight: bold;">校次 | School NO.</td>
+            <td style="font-weight: bold;">市次 | City NO.</td>
+            <td style="font-weight: bold;">Chanf | Chanf NO.</td>
         </tr>
         <tr>
-            <td>理科总分 | Science Total Score</td>
-            <td id="mfkb">待定 | Pending</td>
+            <td>文综 | Humanities Total Score</td>
+            <td id="cehpgs" style="opacity: 0;"></td>
+            <td id="k_cehpgno" style="opacity: 0;"></td>
+            <td id="s_cehpgno" style="opacity: 0;"></td>
+            <td id="i_cehpgno" style="opacity: 0;"></td>
+            <td id="c_cehpgno" style="opacity: 0;"></td>
+        </tr>
+        <tr>
+            <td>理综 | Science Total Score</td>
+            <td id="mfkbs" style="opacity: 0;"></td>
+            <td id="k_mfkbno" style="opacity: 0;"></td>
+            <td id="s_mfkbno" style="opacity: 0;"></td>
+            <td id="i_mfkbno" style="opacity: 0;"></td>
+            <td id="c_mfkbno" style="opacity: 0;"></td>
         </tr>
         <tr>
             <td>总分 | Total Score</td>
-            <td id="t">待定 | Pending</td>
+            <td id="ts" style="opacity: 0;"></td>
+            <td id="k_tno" style="opacity: 0;"></td>
+            <td id="s_tno" style="opacity: 0;"></td>
+            <td id="i_tno" style="opacity: 0;"></td>
+            <td id="c_tno" style="opacity: 0;"></td>
         </tr>
 </table>
-    <script>
-        const c = document.getElementById("c");
-        const e = document.getElementById("e");
-        const h = document.getElementById("h");
-        const p = document.getElementById("p");
-        const g = document.getElementById("g");
-        const m = document.getElementById("m");
-        const f = document.getElementById("f");
-        const k = document.getElementById("k");
-        const b = document.getElementById("b");
-        const cehpg = document.getElementById("cehpg");
-        const mfkb = document.getElementById("mfkb");
-        const t = document.getElementById("t");
-
-        switch (ord) {
-
-        }
-    </script>
-    <div style="font-size: 20px; text-align: center;">MoSha Comb</div>
+    <div style="font-size: 20px; text-align: center; transition: all 350ms ease;" id="btm">MoSha Comb</div>
 </body>
 </html>
