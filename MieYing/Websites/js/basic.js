@@ -7,16 +7,9 @@ function ld(el, percent) { // 控制亮度。
     }, { once: true });
 }
 
-function xzsj() { // 现在时间。
-    const t = new Date();
-    const y = t.getFullYear();
-    const m = t.getMonth() + 1;
-    const d = t.getDate();
-    const h = t.getHours();
-    const mi = t.getMinutes();
-    const s = t.getSeconds();
-    const time = `${y}.${m}/${d} ${h}:${mi >= 10 ? mi : "0" + String(mi)}:${s >= 10 ? s : "0" + String(s)}`;
-    return time;
+function xzsj() { // 获取现在时间。
+    const now = new Date();
+    return `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
 }
 
 function fhsj(time) { // 返回带正确单位的时间。
@@ -96,20 +89,12 @@ function smarttime(str) {
 
     if (deftime === "Smart") {
         let [zh, al, ma] = chara_sort(str);
-        let time = zh * 165 + al * 95 + ma * 50;
+        let time = zh * 150 + al * 90 + ma * 50;
         return (time > 1250 ? time : 1250);
     } else {
         return deftime;
     }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    document.body.style.backgroundColor = "#ffffff";
-    document.body.addEventListener("transitionend", () => {
-        document.body.style.transition = `all 0.3s ${easing}`;
-
-    });
-});
 
 function totop() { // 返回顶部。
     window.scrollTo({
@@ -129,7 +114,7 @@ function pos(p) {
     function fn(w) {
         w.forEach((window) => {
             const wh = window.getBoundingClientRect().height;
-            window.style.transition = `all 0.55s ${easing}`;
+            window.style.transition = `all 0.5s ${easing}`;
             window.style.top = `${total}px`;
             total += (wh + 3);
         });
@@ -144,7 +129,7 @@ function pos(p) {
 }
 
 function create(window) { // 创建窗口。
-    if (window.className === "rz-window") {
+    if (window.className === "rz-mele") {
         left_win.push(window);
         pos(0);
     } else if (midwins.includes(window.className)) {
@@ -154,7 +139,7 @@ function create(window) { // 创建窗口。
 }
 
 function close(window) { // 关闭窗口。
-    if (window.className === "rz-window") {
+    if (window.className === "rz-mele") {
         left_win = left_win.filter(win => win !== window);
         pos(0);
     } else if (midwins.includes(window.className)) {

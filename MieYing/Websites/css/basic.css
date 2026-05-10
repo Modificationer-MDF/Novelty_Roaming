@@ -2,7 +2,7 @@ body {
     overflow-x: hidden;
     letter-spacing: 1px;
     color: white;
-    font-family: "mhmts";
+    font-family: "hf";
     font-weight: 100;
     scrollbar-width: thin;
     scrollbar-color: #ffffff #00000000;
@@ -52,19 +52,9 @@ pre {
     font-size: 20px;
     color: white;
     background-color: #00000079;
-    font-family: "mhmts";
+    font-family: "hf";
     border: none;
     padding: 7px 15px;
-}
-
-@keyframes jr_head {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
 }
 
 .ps {
@@ -72,18 +62,6 @@ pre {
     font-size: 20px;
     text-align: center;
     padding: 5px 5px;
-}
-
-@keyframes jr_top {
-    from {
-        width: 55vw;
-        background-color: #02211d00;
-    }
-
-    to {
-        width: 100vw;
-        background-color: #02211d49;
-    }
 }
 
 .top {
@@ -94,39 +72,11 @@ pre {
     padding: 7px 7px;
 }
 
-@keyframes jr_head1 {
-    from {
-        letter-spacing: 7px;
-        transform: translateX(50vw);
-        opacity: 0;
-    }
-
-    to {
-        letter-spacing: 4px;
-        transform: translateX(5vw);
-        opacity: 1;
-    }
-}
-
 .head1 {
     display: none;
     font-weight: 200;
     font-size: 48px;
     letter-spacing: 4px;
-}
-
-@keyframes jr_head2 {
-    from {
-        letter-spacing: 7px;
-        transform: translateX(30vw);
-        opacity: 0;
-    }
-
-    to {
-        letter-spacing: 2px;
-        transform: translateX(5vw);
-        opacity: 1;
-    }
 }
 
 .head2 {
@@ -145,130 +95,6 @@ pre {
     margin-bottom: 15px;
     font-size: 25px;
     border: none;
-}
-
-@keyframes jr1_fn1 { /* “函数展示” 进入动画。 */
-    from {
-        visibility: hidden;
-        opacity: 0;
-        transform: translateX(0);
-    }
-
-    to {
-        visibility: visible;
-        opacity: 1;
-        transform: translateX(20vw);
-    }
-}
-
-@keyframes jr1_fn3 { /* “版本列表” 进入动画 1。 */
-    from {
-        visibility: hidden;
-        opacity: 0;
-        transform: translateX(0);
-    }
-
-    to {
-        visibility: visible;
-        opacity: 1;
-        transform: translateX(20vw);
-    }
-}
-
-@keyframes jr2_fn1 { /* “演示函数” “预设” 进入动画。 */
-    from {
-        visibility: visible;
-        opacity: 1;
-        height: 60px;
-        transform: translateX(20vw);
-    }
-
-    to {
-        visibility: visible;
-        opacity: 1;
-        height: 1100px;
-        transform: translateX(5vw);
-    }
-}
-
-@keyframes cc2_fn1 { /* “演示函数” “预设” 出场动画。 */
-    from {
-        visibility: visible;
-        opacity: 1;
-        height: 1100px;
-        transform: translateX(5vw);
-    }
-
-    to {
-        visibility: visible;
-        opacity: 1;
-        height: 60px;
-        transform: translateX(20vw);
-    }
-}
-
-@keyframes jr2_fn2 { /* “演示函数” “演示” 进入动画。 */
-    from {
-        visibility: visible;
-        opacity: 1;
-        height: 60px;
-        transform: translateX(20vw);
-    }
-
-    to {
-        visibility: visible;
-        opacity: 1;
-        height: 615px;
-        transform: translateX(5vw);
-    }
-}
-
-@keyframes cc2_fn2 { /* “演示函数” “演示” 出场动画。 */
-    from {
-        visibility: visible;
-        opacity: 1;
-        height: 615px;
-        transform: translateX(5vw);
-    }
-
-    to {
-        visibility: visible;
-        opacity: 1;
-        height: 60px;
-        transform: translateX(20vw);
-    }
-}
-
-@keyframes jr2_fn3 { /* “版本列表” 进入动画 2。 */
-    from {
-        visibility: visible;
-        opacity: 1;
-        transform: translateX(20vw);
-        height: 60px;
-    }
-
-    to {
-        visibility: visible;
-        opacity: 1;
-        transform: translateX(10vw);
-        height: 280px;
-    }
-}
-
-@keyframes cc2_fn3 { /* “版本列表” 出场动画。 */
-    from {
-        visibility: visible;
-        opacity: 1;
-        transform: translateX(10vw);
-        height: 280px;
-    }
-
-    to {
-        visibility: visible;
-        opacity: 1;
-        transform: translateX(20vw);
-        height: 60px;
-    }
 }
 
 .btn1, .btn2, .btn3, .btn4, .btn5, .btn6, .btn7, .btn8, .btn9, .btn10, .btn11, .btn12, .btn13, .btn14, .btn15, .btn16, .btn17, .btn18, .btn19, .btn20, .btn21, .btn22, .btn23, .btn24, .btn25 {
@@ -405,19 +231,6 @@ pre {
     background-color: #f0f0f099;
 }
 
-
-@keyframes jr_para {
-    from {
-        opacity: 0;
-        transform: translateX(0);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(5vw);
-    }
-}
-
 .para {
     font-size: 20px;
     position: absolute;
@@ -450,11 +263,11 @@ a {
     }
 
 button {
-    font-family: "mhmts";
+    font-family: "hf";
     font-weight: 100;
 }
 
-.dakai {
+.btn30 {
     color: #ffffff;
     z-index: 999;
     margin-left: 30px;
@@ -463,121 +276,6 @@ button {
     padding: 14px 25px;
     font-size: 25px;
     border: none;
-}
-
-.fn-1, .fn-2 {
-    opacity: 0;
-    padding: 14px 25px;
-    margin-bottom: 15px;
-    font-size: 20px;
-    border: none;
-}
-
-.fn-1 {
-    background-color: #a123bf99;
-}
-
-.fn-2 {
-    background-color: #ff573399;
-}
-
-.div1, .div2, .div3 {
-    font-weight: bold;
-    margin-top: 30px;
-    width: auto;
-    font-size: 25px;
-    text-align: center;
-    padding: 15px 15px;
-}
-
-.div1 {
-    background-color: #F39C1249;
-}
-
-.div2 {
-    background-color: #1ABC9C49;
-}
-
-.div3 {
-    background-color: #8E44AD49;
-}
-
-.control-pad, .information-table {
-    overflow-x: hidden;
-    overflow-y: auto;
-    position: fixed;
-    top: 0;
-    width: 400px;
-    height: 100%;
-    background-color: #00000099;
-    color: white;
-    z-index: 100;
-    scrollbar-width: thin;
-    scrollbar-color: #ffffff99 #00000000;
-}
-
-.control-pad {
-    left: calc(-30vw - 300px);
-}
-
-.information-table {
-    right: calc(-30vw - 300px);
-}
-
-    .control-pad::-webkit-scrollbar-thumb, .information-table::-webkit-scrollbar-thumb {
-        border-radius: 4px;
-    }
-
-        .control-pad::-webkit-scrollbar-thumb:hover, .information-table::-webkit-scrollbar-thumb:hover {
-            background-color: #828282;
-        }
-
-@keyframes jr_ctrl {
-    from {
-        left: calc(-30vw - 300px);
-        backdrop-filter: blur(0px) saturate(100%);
-    }
-
-    to {
-        left: 0;
-        backdrop-filter: blur(14px) saturate(250%);
-    }
-}
-
-@keyframes cc_ctrl {
-    from {
-        left: 0;
-        backdrop-filter: blur(14px) saturate(250%);
-    }
-
-    to {
-        left: calc(-30vw - 300px);
-        backdrop-filter: blur(0px) saturate(100%);
-    }
-}
-
-@keyframes jr_inf {
-    from {
-        right: calc(-30vw - 300px);
-        backdrop-filter: blur(0px) saturate(100%);
-    }
-
-    to {
-        right: 0;
-        backdrop-filter: blur(14px) saturate(250%);
-    }
-}
-
-@keyframes cc_inf {
-    from {
-        right: 0;
-        backdrop-filter: blur(14px) saturate(250%);
-    }
-
-    to {
-        right: calc(-30vw - 300px);
-        backdrop-filter: blur(0px) saturate(100%);
-    }
 }
 
 @keyframes opacity_flash {
@@ -593,210 +291,3 @@ button {
         opacity: 1;
     }
 }
-
-.title {
-    color: #ffffff;
-    position: absolute;
-    top: 30px;
-    left: 25px;
-    text-align: left;
-    font-size: 30px;
-    max-width: 350px;
-}
-
-.lcont, .rcont {
-    position: absolute;
-    color: #ffffff;
-    font-size: 20px;
-}
-
-.lcont {
-    left: 15px;
-    text-align: left;
-}
-
-.rcont {
-    position: relative;
-    right: 15px;
-    text-align: right;
-    padding: 14px 25px;
-}
-
-.rtxt {
-    position: relative;
-    text-align: right;
-    color: white;
-    max-width: 335px;
-    word-break: break-word;
-    line-height: 1.4;
-    opacity: 1;
-}
-
-.control1, .control2, .control3, .control4, .control5, .control6, .control7, .control8, .control9, .control10, .control11, .control12, .control13, .control14, .control15, .control16, .control17, .control18, .control19, .control20, .inf1, .inf2, .inf3, .inf4, .inf5 {
-    color: #ffffff;
-    z-index: 999;
-    margin-left: 30px;
-    padding: 7px 15px;
-    font-size: 20px;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-}
-
-.inf1, .inf2, .inf3, .inf4, .inf5 {
-    transition: width 0.2s ease-in-out;
-    transition: height 0.2s ease-in-out;
-}
-
-.control1 {
-    background-color: #3498db99;
-}
-
-.control2 {
-    background-color: #2ecc7199;
-}
-
-.control3 {
-    background-color: #51c8ef99;
-}
-
-.control4 {
-    background-color: #1abc9c99;
-}
-
-.control5 {
-    background-color: #4fbbdd99;
-}
-
-.control6 {
-    background-color: #3cb18999;
-}
-
-.control7 {
-    background-color: #6fc4ec99;
-}
-
-.control8 {
-    background-color: #57cb8599;
-}
-
-.control9 {
-    background-color: #489fb599;
-}
-
-.control10 {
-    background-color: #80808099;
-}
-
-.control11 {
-    background-color: #2b8cad99;
-}
-
-.control12 {
-    background-color: #1c789a99;
-}
-
-.control13 {
-    background-color: #2d7c8a99;
-}
-
-.control14 {
-    background-color: #3d869a99;
-}
-
-.control15 {
-    background-color: #4c90a899;
-}
-
-.control16 {
-    background-color: #5b99b699;
-}
-
-.control17 {
-    background-color: #6aa3c499;
-}
-
-.control18 {
-    background-color: #79adcf99;
-}
-
-.control19 {
-    background-color: #88b7d899;
-}
-
-.control20 {
-    background-color: #97c1e099;
-}
-
-.inf1 {
-    background-color: #26c9a999;
-}
-
-.inf2 {
-    background-color: #204e3099;
-}
-
-.inf3 {
-    background-color: #4a151499;
-}
-
-.inf4 {
-    background-color: #9c8d2c99;
-}
-
-.inf5 {
-    background-color: #e11af199;
-    background-color: #127053b9;
-}
-
-.notic, .cgc, .failc, .warnc, .synchrc {
-    position: relative;
-    transition: all 0.3s ease-in-out;
-    opacity: 0;
-    visibility: hidden;
-    margin-bottom: 11px;
-    overflow-x: auto;
-}
-
-.notic {
-    background-color: #18a68979;
-}
-
-.cgc {
-    background-color: #1d583779;
-}
-
-.failc {
-    background-color: #791e1d79;
-}
-
-.warnc {
-    background-color: #84782979;
-}
-
-.synchrc {
-    background-color: #9e338979;
-}
-
-.rightclick-menu {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    background-color: #8e226e99;
-    backdrop-filter: blur(14px) saturate(250%);
-    box-shadow: 0px 3px 7px #ff00b4;
-    z-index: 1001;
-    top: 0;
-    left: 0;
-    font-size: 20px;
-}
-
-    .rightclick-menu li {
-        padding: 7px 11px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-        .rightclick-menu li:hover {
-            background-color: #8e226199;
-        }

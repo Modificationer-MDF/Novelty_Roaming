@@ -1,850 +1,1820 @@
-<!-- Developer: Modificationer & Shatelliti. -->
+<!-- 于 2026 年 5 月 2 日完工。 -->
+<!-- Finished in May 2, 2026. -->
 <!DOCTYPE html>
-<meta charset="utf-8">
 <html lang="zh-cn">
 <head>
+    <meta charset="UTF-8">
     <title>成绩查询</title>
     <link rel="stylesheet" type="text/css" href="css/basic.css" />
-    <link rel="stylesheet" type="text/css" href="css/functions.css" />
-    <style>
-        body {
-            background-color: #000000;
-        }
-    </style>
-    <script src="js/functions.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="css/mw_functions.css" />
+    <link rel="stylesheet" type="text/css" href="css/rw_functions.css" />
+    <link rel="stylesheet" type="text/css" href="css/lrw_ui.css" />
+    <script src="js/mw_functions.js" defer></script>
+    <script src="js/rw_functions.js" defer></script>
     <script src="js/basic.js" defer></script>
     <script src="js/global.js" defer></script>
-    <script defer>
-        c_s = {
-            "jh_stu787247": 141,
-            "jh_stu677613": 90,
-            "sh_stu47817313": 103,
-        };
-
-        m_s = {
-            "jh_stu787247": 139.5,
-            "jh_stu677613": 72,
-            "sh_stu47817313": 118,
-        };
-
-        e_s = {
-            "jh_stu787247": 143,
-            "jh_stu677613": 92,
-            "sh_stu47817313": 101,
-        }
-
-        h_s = {
-            "jh_stu787247": 144,
-            "jh_stu677613": 65,
-            "sh_stu47817313": 115,
-        };
-
-        p_s = {
-            "jh_stu787247": 146,
-            "jh_stu677613": 68,
-            "sh_stu47817313": 98,
-        };
-
-        g_s = {
-            "jh_stu787247": 145,
-            "jh_stu677613": 69,
-            "sh_stu47817313": 99,
-        };
-
-        f_s = {
-            "jh_stu787247": 143,
-            "jh_stu677613": 57,
-            "sh_stu47817313": 97,
-        };
-
-        k_s = {
-            "jh_stu787247": 142,
-            "jh_stu677613": 79,
-            "sh_stu47817313": 109,
-        };
-
-        b_s = {
-            "jh_stu787247": 139.5,
-            "jh_stu677613": 67,
-            "sh_stu47817313": 97,
-        };
-
-        // 班
-        const kcno = {
-            "jh_stu787247": "1/58",
-            "jh_stu677613": "44/55",
-            "sh_stu47817313": "47/60",
-        };
-
-        const kmno = {
-            "jh_stu787247": "6/58",
-            "jh_stu677613": "47/55",
-            "sh_stu47817313": "39/60",
-        };
-        const keno = {
-            "jh_stu787247": "1/58",
-            "jh_stu677613": "41/55",
-            "sh_stu47817313": "52/60",
-        };
-
-        const khno = {
-            "jh_stu787247": "2/58",
-            "jh_stu677613": "51/55",
-            "sh_stu47817313": "45/60",
-        };
-
-        const kpno = {
-            "jh_stu787247": "1/58",
-            "jh_stu677613": "49/55",
-            "sh_stu47817313": "53/60",
-        };
-
-        const kgno = {
-            "jh_stu787247": "1/58",
-            "jh_stu677613": "49/55",
-            "sh_stu47817313": "52/60",
-        };
-
-        const kfno = {
-            "jh_stu787247": "4/58",
-            "jh_stu677613": "53/55",
-            "sh_stu47817313": "48/60",
-        };
-
-        const kkno = {
-            "jh_stu787247": "5/58",
-            "jh_stu677613": "46/55",
-            "sh_stu47817313": "45/60",
-        };
-
-        const kbno = {
-            "jh_stu787247": "8/58",
-            "jh_stu677613": "47/55",
-            "sh_stu47817313": "52/60",
-        };
-
-        const kcehpgno = {
-            "jh_stu787247": "1/58",
-            "jh_stu677613": "45/55",
-            "sh_stu47817313": "53/60",
-        };
-
-        const kmfkbno = {
-            "jh_stu787247": "3/58",
-            "jh_stu677613": "55/55",
-            "sh_stu47817313": "48/60",
-        };
-
-        const ktno = {
-            "jh_stu787247": "1/58",
-            "jh_stu677613": "53/55",
-            "sh_stu47817313": "50/60",
-        };
-
-        // 校
-        const scno = {
-            "jh_stu787247": "2/1100",
-            "jh_stu677613": "1179/1425",
-            "sh_stu47817313": "741/900",
-        };
-
-        const smno = {
-            "jh_stu787247": "69/1100",
-            "jh_stu677613": "1210/1425",
-            "sh_stu47817313": "699/900",
-        };
-
-        const seno = {
-            "jh_stu787247": "39/1100",
-            "jh_stu677613": "1221/1425",
-            "sh_stu47817313": "791/900",
-        };
-
-        const shno = {
-            "jh_stu787247": "21/1100",
-            "jh_stu677613": "1301/1425",
-            "sh_stu47817313": "741/900",
-        };
-
-        const spno = {
-            "jh_stu787247": "14/1100",
-            "jh_stu677613": "1329/1425",
-            "sh_stu47817313": "841/900",
-        };
-
-        const sgno = {
-            "jh_stu787247": "9/1100",
-            "jh_stu677613": "1290/1425",
-            "sh_stu47817313": "832/900",
-        };
-
-        const sfno = {
-            "jh_stu787247": "37/1100",
-            "jh_stu677613": "1388/1425",
-            "sh_stu47817313": "777/900",
-        };
-
-        const skno = {
-            "jh_stu787247": "41/1100",
-            "jh_stu677613": "1241/1425",
-            "sh_stu47817313": "755/900",
-        };
-
-        const sbno = {
-            "jh_stu787247": "88/1100",
-            "jh_stu677613": "1301/1425",
-            "sh_stu47817313": "799/900",
-        };
-
-        const scehpgno = {
-            "jh_stu787247": "1/1100",
-            "jh_stu677613": "1287/1425",
-            "sh_stu47817313": "797/900",
-        };
-
-        const smfkbno = {
-            "jh_stu787247": "8/1100",
-            "jh_stu677613": "1377/1425",
-            "sh_stu47817313": "770/900",
-        };
-
-        const stno = {
-            "jh_stu787247": "1/1100",
-            "jh_stu677613": "1360/1425",
-            "sh_stu47817313": "790/900",
-        };
-
-        // 市
-        const icno = {
-            "jh_stu787247": "9/98331",
-            "jh_stu677613": "432834/532471",
-            "sh_stu47817313": "218283/300023",
-        };
-
-        const imno = {
-            "jh_stu787247": "689/98331",
-            "jh_stu677613": "471721/532471",
-            "sh_stu47817313": "180001/300023",
-        };
-
-        const ieno = {
-            "jh_stu787247": "199/98331",
-            "jh_stu677613": "424781/532471",
-            "sh_stu47817313": "221384/300023",
-        };
-
-        const ihno = {
-            "jh_stu787247": "187/98331",
-            "jh_stu677613": "484781/532471",
-            "sh_stu47817313": "211923/300023",
-        };
-
-        const ipno = {
-            "jh_stu787247": "167/98331",
-            "jh_stu677613": "468781/532471",
-            "sh_stu47817313": "239123/300023",
-        };
-
-        const igno = {
-            "jh_stu787247": "80/98331",
-            "jh_stu677613": "464231/532471",
-            "sh_stu47817313": "245912/300023",
-        };
-
-        const ifno = {
-            "jh_stu787247": "589/98331",
-            "jh_stu677613": "499999/532471",
-            "sh_stu47817313": "238912/300023",
-        };
-
-        const ikno = {
-            "jh_stu787247": "488/98331",
-            "jh_stu677613": "418367/532471",
-            "sh_stu47817313": "208312/300023",
-        };
-
-        const ibno = {
-            "jh_stu787247": "994/98331",
-            "jh_stu677613": "462478/532471",
-            "sh_stu47817313": "228123/300023",
-        };
-
-        const icehpgno = {
-            "jh_stu787247": "3/98331",
-            "jh_stu677613": "464001/532471",
-            "sh_stu47817313": "219234/300023",
-        };
-
-        const imfkbno = {
-            "jh_stu787247": "76/98331",
-            "jh_stu677613": "500461/532471",
-            "sh_stu47817313": "199994/300023",
-        };
-
-        const itno = {
-            "jh_stu787247": "1/98331",
-            "jh_stu677613": "499146/532471",
-            "sh_stu47817313": "201132/300023",
-        };
-
-        // Chanf
-        const ccno = {
-            "jh_stu787247": "9/2792149",
-            "jh_stu677613": "2067617/2792149",
-            "sh_stu47817313": "842678/1324671",
-        };
-
-        const cmno = {
-            "jh_stu787247": "1196/2792149",
-            "jh_stu677613": "2442781/2792149",
-            "sh_stu47817313": "771371/1324671",
-        };
-
-        const ceno = {
-            "jh_stu787247": "774/2792149",
-            "jh_stu677613": "2078732/2792149",
-            "sh_stu47817313": "862371/1324671",
-        };
-
-        const chno = {
-            "jh_stu787247": "666/2792149",
-            "jh_stu677613": "2368426/2792149",
-            "sh_stu47817313": "743672/1324671",
-        };
-
-        const cpno = {
-            "jh_stu787247": "354/2792149",
-            "jh_stu677613": "2312487/2792149",
-            "sh_stu47817313": "841389/1324671",
-        };
-
-        const cgno = {
-            "jh_stu787247": "287/2792149",
-            "jh_stu677613": "2307237/2792149",
-            "sh_stu47817313": "812831/1324671",
-        };
-
-        const cfno = {
-            "jh_stu787247": "996/2792149",
-            "jh_stu677613": "2520271/2792149",
-            "sh_stu47817313": "791378/1324671",
-        };
-
-        const ckno = {
-            "jh_stu787247": "789/2792149",
-            "jh_stu677613": "2310000/2792149",
-            "sh_stu47817313": "741282/1324671",
-        };
-
-        const cbno = {
-            "jh_stu787247": "2145/2792149",
-            "jh_stu677613": "2449781/2792149",
-            "sh_stu47817313": "792671/1324671",
-        };
-
-        const ccehpgno = {
-            "jh_stu787247": "10/2792149",
-            "jh_stu677613": "2267687/2792149",
-            "sh_stu47817313": "812678/1324671",
-        };
-
-        const cmfkbno = {
-            "jh_stu787247": "331/2792149",
-            "jh_stu677613": "2417617/2792149",
-            "sh_stu47817313": "782678/1324671",
-        };
-
-        const ctno = {
-            "jh_stu787247": "1/2792149",
-            "jh_stu677613": "2381242/2792149",
-            "sh_stu47817313": "895214/1324671",
-        };
-
-        let inputed = false;
-
-        document.addEventListener("DOMContentLoaded", async () => {
-            while (true) {
-                window.ord = await inp("输入要查询的考生编号。<br />Enter the examinee's Test-ID that you want to check.", "输入<br />Enter");
-                if (!window.ord.startsWith("jh_") && !window.ord.startsWith("sh_")) {
-                    await fail("请输入正确的考生编号！<br />Please enter valid Test-ID!", "错误<br />Invalid Test-ID");
-                } else {
-                    inputed = true;
-                    fn1(window.ord);
-                    break;
-                }
-            }
-
-            function fn1(o) {
-                const btm = document.getElementById("btm");
-
-                const cs = document.getElementById("cs");
-                const es = document.getElementById("es");
-                const hs = document.getElementById("hs");
-                const ps = document.getElementById("ps");
-                const gs = document.getElementById("gs");
-                const ms = document.getElementById("ms");
-                const fs = document.getElementById("fs");
-                const ks = document.getElementById("ks");
-                const bs = document.getElementById("bs");
-                const cehpgs = document.getElementById("cehpgs");
-                const mfkbs = document.getElementById("mfkbs");
-                const ts = document.getElementById("ts");
-
-                const k_cno = document.getElementById("k_cno");
-                const k_eno = document.getElementById("k_eno");
-                const k_hno = document.getElementById("k_hno");
-                const k_pno = document.getElementById("k_pno");
-                const k_gno = document.getElementById("k_gno");
-                const k_mno = document.getElementById("k_mno");
-                const k_fno = document.getElementById("k_fno");
-                const k_kno = document.getElementById("k_kno");
-                const k_bno = document.getElementById("k_bno");
-                const k_cehpcgno = document.getElementById("k_cehpcgno");
-                const k_mfkbno = document.getElementById("k_mfkbno");
-                const k_tno = document.getElementById("k_tno");
-
-                const s_cno = document.getElementById("s_cno");
-                const s_eno = document.getElementById("s_eno");
-                const s_hno = document.getElementById("s_hno");
-                const s_pno = document.getElementById("s_pno");
-                const s_gno = document.getElementById("s_gno");
-                const s_mno = document.getElementById("s_mno");
-                const s_fno = document.getElementById("s_fno");
-                const s_kno = document.getElementById("s_kno");
-                const s_bno = document.getElementById("s_bno");
-                const s_cehpcgno = document.getElementById("s_cehpcgno");
-                const s_mfkbno = document.getElementById("s_mfkbno");
-                const s_tno = document.getElementById("s_tno");
-
-                const i_cno = document.getElementById("i_cno");
-                const i_eno = document.getElementById("i_eno");
-                const i_hno = document.getElementById("i_hno");
-                const i_pno = document.getElementById("i_pno");
-                const i_gno = document.getElementById("i_gno");
-                const i_mno = document.getElementById("i_mno");
-                const i_fno = document.getElementById("i_fno");
-                const i_kno = document.getElementById("i_kno");
-                const i_bno = document.getElementById("i_bno");
-                const i_cehpcgno = document.getElementById("i_cehpcgno");
-                const i_mfkbno = document.getElementById("i_mfkbno");
-                const i_tno = document.getElementById("i_tno");
-
-                const c_cno = document.getElementById("c_cno");
-                const c_eno = document.getElementById("c_eno");
-                const c_hno = document.getElementById("c_hno");
-                const c_pno = document.getElementById("c_pno");
-                const c_gno = document.getElementById("c_gno");
-                const c_mno = document.getElementById("c_mno");
-                const c_fno = document.getElementById("c_fno");
-                const c_kno = document.getElementById("c_kno");
-                const c_bno = document.getElementById("c_bno");
-                const c_cehpgno = document.getElementById("c_cehpgno");
-                const c_mfkbno = document.getElementById("c_mfkbno");
-                const c_tno = document.getElementById("c_tno");
-
-                cs.innerHTML = c_s[o];
-                ms.innerHTML = m_s[o];
-                es.innerHTML = e_s[o];
-                hs.innerHTML = h_s[o];
-                ps.innerHTML = p_s[o];
-                gs.innerHTML = g_s[o];
-                fs.innerHTML = f_s[o];
-                ks.innerHTML = k_s[o];
-                bs.innerHTML = b_s[o];
-
-                k_cno.innerHTML = kcno[o];
-                k_mno.innerHTML = kmno[o];
-                k_eno.innerHTML = keno[o];
-                k_hno.innerHTML = khno[o];
-                k_pno.innerHTML = kpno[o];
-                k_gno.innerHTML = kgno[o];
-                k_fno.innerHTML = kfno[o];
-                k_kno.innerHTML = kkno[o];
-                k_bno.innerHTML = kbno[o];
-                k_cehpgno.innerHTML = kcehpgno[o];
-                k_mfkbno.innerHTML = kmfkbno[o];
-                k_tno.innerHTML = ktno[o];
-
-                s_cno.innerHTML = scno[o];
-                s_mno.innerHTML = smno[o];
-                s_eno.innerHTML = seno[o];
-                s_hno.innerHTML = shno[o];
-                s_pno.innerHTML = spno[o];
-                s_gno.innerHTML = sgno[o];
-                s_fno.innerHTML = sfno[o];
-                s_kno.innerHTML = skno[o];
-                s_bno.innerHTML = sbno[o];
-                s_cehpgno.innerHTML = scehpgno[o];
-                s_mfkbno.innerHTML = smfkbno[o];
-                s_tno.innerHTML = stno[o];
-
-                i_cno.innerHTML = icno[o];
-                i_mno.innerHTML = imno[o];
-                i_eno.innerHTML = ieno[o];
-                i_hno.innerHTML = ihno[o];
-                i_pno.innerHTML = ipno[o];
-                i_gno.innerHTML = igno[o];
-                i_fno.innerHTML = ifno[o];
-                i_kno.innerHTML = ikno[o];
-                i_bno.innerHTML = ibno[o];
-                i_cehpgno.innerHTML = icehpgno[o];
-                i_mfkbno.innerHTML = imfkbno[o];
-                i_tno.innerHTML = itno[o];
-
-                c_cno.innerHTML = ccno[o];
-                c_mno.innerHTML = cmno[o];
-                c_eno.innerHTML = ceno[o];
-                c_hno.innerHTML = chno[o];
-                c_pno.innerHTML = cpno[o];
-                c_gno.innerHTML = cgno[o];
-                c_fno.innerHTML = cfno[o];
-                c_kno.innerHTML = ckno[o];
-                c_bno.innerHTML = cbno[o];
-                c_cehpgno.innerHTML = ccehpgno[o];
-                c_mfkbno.innerHTML = cmfkbno[o];
-                c_tno.innerHTML = ctno[o];
-
-                cehpgs.innerHTML = c_s[o] + e_s[o] + h_s[o] + p_s[o] + g_s[o];
-                mfkbs.innerHTML = m_s[o] + f_s[o] + k_s[o] + b_s[o];
-                ts.innerHTML = c_s[o] + e_s[o] + h_s[o] + p_s[o] + g_s[o] + m_s[o] + f_s[o] + k_s[o] + b_s[o];
-
-                cs.style.opacity = "1";
-                es.style.opacity = "1";
-                hs.style.opacity = "1";
-                ps.style.opacity = "1";
-                gs.style.opacity = "1";
-                ms.style.opacity = "1";
-                fs.style.opacity = "1";
-                ks.style.opacity = "1";
-                bs.style.opacity = "1";
-                cehpgs.style.opacity = "1";
-                mfkbs.style.opacity = "1";
-                ts.style.opacity = "1";
-
-                k_cno.style.opacity = "1";
-                k_eno.style.opacity = "1";
-                k_hno.style.opacity = "1";
-                k_pno.style.opacity = "1";
-                k_gno.style.opacity = "1";
-                k_mno.style.opacity = "1";
-                k_fno.style.opacity = "1";
-                k_kno.style.opacity = "1";
-                k_bno.style.opacity = "1";
-                k_cehpgno.style.opacity = "1";
-                k_mfkbno.style.opacity = "1";
-                k_tno.style.opacity = "1";
-
-                s_cno.style.opacity = "1";
-                s_eno.style.opacity = "1";
-                s_hno.style.opacity = "1";
-                s_pno.style.opacity = "1";
-                s_gno.style.opacity = "1";
-                s_mno.style.opacity = "1";
-                s_fno.style.opacity = "1";
-                s_kno.style.opacity = "1";
-                s_bno.style.opacity = "1";
-                s_cehpgno.style.opacity = "1";
-                s_mfkbno.style.opacity = "1";
-                s_tno.style.opacity = "1";
-
-                i_cno.style.opacity = "1";
-                i_eno.style.opacity = "1";
-                i_hno.style.opacity = "1";
-                i_pno.style.opacity = "1";
-                i_gno.style.opacity = "1";
-                i_mno.style.opacity = "1";
-                i_fno.style.opacity = "1";
-                i_kno.style.opacity = "1";
-                i_bno.style.opacity = "1";
-                i_cehpgno.style.opacity = "1";
-                i_mfkbno.style.opacity = "1";
-                i_tno.style.opacity = "1";
-
-                c_cno.style.opacity = "1";
-                c_eno.style.opacity = "1";
-                c_hno.style.opacity = "1";
-                c_pno.style.opacity = "1";
-                c_gno.style.opacity = "1";
-                c_mno.style.opacity = "1";
-                c_fno.style.opacity = "1";
-                c_kno.style.opacity = "1";
-                c_bno.style.opacity = "1";
-                c_cehpgno.style.opacity = "1";
-                c_mfkbno.style.opacity = "1";
-                c_tno.style.opacity = "1";
-            }
-
-            const jh_score = [
-                { elem: cs, max: 150 },   // 语文
-                { elem: ms, max: 150 },   // 数学
-                { elem: es, max: 150 },   // 英语
-                { elem: hs, max: 150 },   // 历史
-                { elem: ps, max: 150 },   // 政治
-                { elem: gs, max: 150 },   // 地理
-                { elem: fs, max: 150 },   // 物理
-                { elem: ks, max: 150 },   // 化学
-                { elem: bs, max: 150 },   // 生物
-                { elem: cehpgs, max: 750 },   // 文综
-                { elem: mfkbs, max: 600 },    // 理综
-                { elem: ts, max: 1350 }       // 总分
-            ];
-
-            const sh_score = [
-                { elem: cs, max: 200 },   // 语文
-                { elem: ms, max: 200 },   // 数学
-                { elem: es, max: 200 },   // 英语
-                { elem: hs, max: 200 },   // 历史
-                { elem: ps, max: 200 },   // 政治
-                { elem: gs, max: 200 },   // 地理
-                { elem: fs, max: 200 },   // 物理
-                { elem: ks, max: 200 },   // 化学
-                { elem: bs, max: 200 },   // 生物
-                { elem: cehpgs, max: 1000 },   // 文综
-                { elem: mfkbs, max: 800 },    // 理综
-                { elem: ts, max: 1800 }       // 总分
-            ];
-
-            function s2c(res, mres) { // 分数颜色设置。
-                if (isNaN(res)) {
-                    fail("分数不合法，请重新检查。");
-                    return;
-                }
-                const hue = 160 * res / mres;
-                return `hsl(${hue}, 75%, 60%)`;
-            }
-
-            window.checked = false;
-
-            if (window.ord.startsWith("jh_")) {
-                if (Number(ts.innerHTML) >= 1260) {
-                    btm.style.color = "#11ff11";
-                    btm.innerHTML = "不公布考生信息 / The examinee's information is not PUBLIC. | MoSha Comb";
-                    btm.onclick = () => {
-                        if (!window.checked) {
-                            noti("分数高于 1260 分，不公布考生信息。<br />Due to the examinee's score (above 1260), the examinee's information is not PUBLIC.", "通知<br />Notification");
-                        }
-                    };
-                    btm.oncontextmenu = async () => {
-                        if (!window.checked) {
-                            let confirm = await inp(`确认是否为考生本人。<br />
-In order to make sure you're the examinee.`, "输入考生编号<br/>Enter Examinee's Test-ID");
-                            if (confirm === window.ord) {
-                                btm.innerHTML = `${window.ord} | MoSha Comb`;
-                                cg(`欢迎！${window.ord}！<br />
-Welcome! ${window.ord}`, `完成 <br /> Completed`);
-                                window.checked = true;
-                            } else {
-                                fail(`所输入内容与考生编号不对应。<br />
-The content you entered didn't match the examinee's Test-ID.`, "错误<br />Error");
-                            }
-                        }
-                    };
-                } else {
-                    btm.innerHTML = `${window.ord} | MoSha Comb`;
-                }
-            }
-
-            setInterval(() => {
-                if (inputed) {
-                    cehpgs.innerHTML = c_s[window.ord] + e_s[window.ord] + h_s[window.ord] + p_s[window.ord] + g_s[window.ord];
-                    mfkbs.innerHTML = m_s[window.ord] + f_s[window.ord] + k_s[window.ord] + b_s[window.ord];
-                    ts.innerHTML = c_s[window.ord] + e_s[window.ord] + h_s[window.ord] + p_s[window.ord] + g_s[window.ord] + m_s[window.ord] + f_s[window.ord] + k_s[window.ord] + b_s[window.ord];
-                    if (window.ord.startsWith("jh_")) {
-                        jh_score.forEach(i => {
-                            const res = parseFloat(i.elem.innerHTML);
-                            if (!isNaN(res)) {
-                                i.elem.style.color = s2c(res, i.max);
-                            }
-                        });
-                    } else if (window.ord.startsWith("sh_")) {
-                        sh_score.forEach(i => {
-                            const res = parseFloat(i.elem.innerHTML);
-                            if (!isNaN(res)) {
-                                i.elem.style.color = s2c(res, i.max);
-                            }
-                        });
-                        btm.innerHTML = `${window.ord} | MoSha Comb`;
-                    }
-                }
-            }, 400);
-        });
-    </script>
-</head>
-<body>
+    <script src="js/lrw_ui.js" defer></script>
     <style>
-        h1 {
-            font-size: 40px;
-            font-weight: bold;
-            text-align: center;
-            border-bottom: 5px solid #494949;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "hf";
         }
 
-        table {
-            border-collapse: collapse;
-            max-width: 80vw;
-            margin: 24px auto;
-            color: #ffffff;
-            transition: all 0.35s cubic-bezier(0.17, 0.9, 0.4, 0.99);
-        }
-
-        caption {
-            caption-side: top;
-            font-size: 30px;
-            font-weight: bold;
-            padding-bottom: 14px;
-        }
-
-        td {
-            border-top: 1px solid #ffffff;
-            border-bottom: 1px solid #ffffff;
+        body {
+            background-color: #ffffff;
+            transition: all 0.3s ease;
             padding: 14px 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 主卡片。 */
+        .score-container {
+            max-width: 1400px;
+            width: 100%;
+            background: #111317b9;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
+            user-select: none; /* 避免拖动时误选文本。 */
+        }
+
+        /* 头部区域。 */
+        .header-area {
+            padding: 20px 28px 12px 28px;
+            border-bottom: 1px solid #2a2e3a;
+            background: #0f1117;
+        }
+
+        .title {
+            font-size: 50px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #e6e9ff, #b1c3ff);
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .sub {
+            font-size: 30px;
+            color: #7f8fa4;
+            margin-top: 6px;
+        }
+
+        /* 输入区 */
+        .input-zone {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        #ordinp {
+            background: #1e222c;
+            border: 1px solid #3a3f4b;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
             font-size: 25px;
-            text-align: center;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.14s cubic-bezier(0.17, 0.9, 0.4, 0.99);
+            backdrop-filter: blur(4px);
+        }
+
+            #ordinp:hover {
+                background: #2c313d;
+                border-color: #113838;
+                transform: scale(0.95); /* 悬浮时变小 */
+            }
+
+        /* 科目标签栏。 */
+        .tabbar {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 7px;
+            padding: 12px 24px 0 24px;
+            background: #0f1117;
+            border-bottom: 1px solid #262a33;
+            scrollbar-width: auto;
+        }
+
+            .tabbar::-webkit-scrollbar {
+                height: 4px;
+            }
+
+        .tab-btn {
+            background: #191e26;
+            border: none;
+            padding: 10px 24px;
+            font-size: 22.5px;
+            font-weight: 500;
+            font-family: inherit;
+            color: #b9c7d9;
+            cursor: pointer;
+            transition: all 0.14s cubic-bezier(0.17, 0.9, 0.4, 0.99);
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+            margin-right: 2px;
+            backdrop-filter: blur(2px);
+        }
+
+            .tab-btn:hover {
+                background: #113838;
+                color: #f0f3fa;
+            }
+
+            .tab-btn.active {
+                background: #197e6f;
+                color: white;
+                box-shadow: 0 -2px 0 #3b82f6 inset;
+                font-weight: 500;
+            }
+
+        /* 内容主体。 */
+
+        .content-wrapper {
+            padding: 28px 30px 38px;
+            background: #0f1117;
+            transition: all 0.2s;
+        }
+
+        /* 所有科目面板初始不可见，输入后渐显。 */
+        .panetab {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s ease;
+        }
+
+            .panetab.visible {
+                visibility: visible;
+                opacity: 1;
+            }
+
+        .pane {
+            display: none;
+            animation: fs 0.25s ease;
+        }
+
+            .pane.active-pane {
+                display: block;
+            }
+
+        @keyframes fs { /* 淡入。 */
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 成绩卡片样式。 */
+        .subject-header {
+            font-size: 65px;
+            font-weight: 700;
+            background: linear-gradient(120deg, #d9e2ff, #9bb6ff);
+            color: transparent;
+            margin-bottom: 20px;
+            border-left: 5px solid #0d986e;
+            padding-left: 20px;
+        }
+
+        .score-big {
+            background: #151b24;
+            border-radius: 32px;
+            padding: 20px 28px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 15px;
+            border: 1px solid #2a2f3c;
+        }
+
+        .score-number {
+            font-size: 60px;
+            font-weight: 800;
+            font-family: "hf";
+            letter-spacing: 2px;
+        }
+
+        .score-percent {
+            font-size: 25px;
+            background: #1f2a36;
+            padding: 6px 18px;
+            border-radius: 60px;
+            color: #b9f3ff;
+        }
+
+        .rank-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .rank-card {
+            background: #131a22;
+            border-radius: 24px;
+            padding: 18px 16px;
+            transition: 0.1s;
+            border: 1px solid #252d38;
+        }
+
+        .rank-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #8f9bb3;
             letter-spacing: 1px;
-            color: #ffffff;
-            background-color: #00000000;
-            transition: all 0.35s cubic-bezier(0.17, 0.9, 0.4, 0.99);
+            margin-bottom: 12px;
         }
 
-        body table tr:first-child td {
-            border-top-width: 5px;
-            border-bottom-width: 3px;
+        .rank-value {
+            font-size: 30px;
+            font-family: "hf";
+            word-break: break-word;
         }
 
-        body table tr:last-child td {
-            border-bottom-width: 5px;
+        .msc {
+            text-align: center;
+            padding: 14px 25px;
+            font-size: 20px;
+            border-top: 1px solid #1e232e;
+            color: #5c6e8c;
+            background: #0b0e13;
+            width: 100%;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+        }
+
+        .protected-badge {
+            background: #2c2a2f;
+            border-radius: 60px;
+            padding: 3px 12px;
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 700px) {
+            .tab-btn {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+            }
+
+            .score-number {
+                font-size: 2rem;
+            }
+
+            .rank-value {
+                font-size: 1.2rem;
+            }
+
+            .content-wrapper {
+                padding: 20px 16px;
+            }
+        }
+
+        /* 进度条组件样式。 */
+        .progress-card {
+            margin-bottom: 20px;
+            background: #1e232e;
+            border-radius: 28px;
+            padding: 16px 20px;
+            border: 1px solid #2a2f3c;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #cbd5e6;
+        }
+
+        .subject-percent {
+            font-family: "hf";
+            font-size: 25px;
+            font-weight: bold;
+            color: #b9f3ff;
+        }
+
+        .progress-bar-bg {
+            background-color: #2a2f3c;
+            border-radius: 40px;
+            height: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px #00000030;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 40px;
+            transition: width 0.4s cubic-bezier(0.17, 0.9, 0.4, 0.99), background-color 0.3s;
         }
     </style>
-    <h1>分数查询 | Score Checking</h1>
-    <table id="cehpg">
-        <caption style="background: linear-gradient(45deg, #ff0000b9, #f75b38b9, #ed2aa7b9); width: 80vw;">文科 | Humanities (CEHPG)</caption>
-        <tr>
-            <td style="font-weight: bold;">科目 | Subject</td>
-            <td style="font-weight: bold;">分数 | Score</td>
-            <td style="font-weight: bold;">班次 | Class NO.</td>
-            <td style="font-weight: bold;">校次 | School NO.</td>
-            <td style="font-weight: bold;">市次 | City NO.</td>
-            <td style="font-weight: bold;">Chanf | Chanf NO.</td>
-        </tr>
-        <tr>
-            <td>语文 | Chinese</td>
-            <td id="cs" style="opacity: 0;"></td>
-            <td id="k_cno" style="opacity: 0;"></td>
-            <td id="s_cno" style="opacity: 0"></td>
-            <td id="i_cno" style="opacity: 0"></td>
-            <td id="c_cno" style="opacity: 0"></td>
-        </tr>
-        <tr>
-            <td>英语 | English</td>
-            <td id="es" style="opacity: 0;"></td>
-            <td id="k_eno" style="opacity: 0;"></td>
-            <td id="s_eno" style="opacity: 0"></td>
-            <td id="i_eno" style="opacity: 0"></td>
-            <td id="c_eno" style="opacity: 0"></td>
-        </tr>
-        <tr>
-            <td>历史 | History</td>
-            <td id="hs" style="opacity: 0;"></td>
-            <td id="k_hno" style="opacity: 0;"></td>
-            <td id="s_hno" style="opacity: 0"></td>
-            <td id="i_hno" style="opacity: 0"></td>
-            <td id="c_hno" style="opacity: 0"></td>
-        </tr>
-        <tr>
-            <td>政治 | Politics</td>
-            <td id="ps" style="opacity: 0;"></td>
-            <td id="k_pno" style="opacity: 0;"></td>
-            <td id="s_pno" style="opacity: 0"></td>
-            <td id="i_pno" style="opacity: 0"></td>
-            <td id="c_pno" style="opacity: 0"></td>
-        </tr>
-        <tr>
-            <td>地理 | Geography</td>
-            <td id="gs" style="opacity: 0;"></td>
-            <td id="k_gno" style="opacity: 0;"></td>
-            <td id="s_gno" style="opacity: 0"></td>
-            <td id="i_gno" style="opacity: 0"></td>
-            <td id="c_gno" style="opacity: 0"></td>
-        </tr>
-    </table>
-    <table id="mfkb">
-        <caption style="background: linear-gradient(45deg, #0000ffb9, #13559cb9, #3235b4b9); width: 80vw;">理科 | Science (MFKB)</caption>
-        <tr>
-            <td style="font-weight: bold;">科目 | Subject</td>
-            <td style="font-weight: bold;">分数 | Score</td>
-            <td style="font-weight: bold;">班次 | Class NO.</td>
-            <td style="font-weight: bold;">校次 | School NO.</td>
-            <td style="font-weight: bold;">市次 | City NO.</td>
-            <td style="font-weight: bold;">Chanf | Chanf NO.</td>
-        </tr>
-        <tr>
-            <td>数学 | Mathematics</td>
-            <td id="ms" style="opacity: 0;"></td>
-            <td id="k_mno" style="opacity: 0;"></td>
-            <td id="s_mno" style="opacity: 0"></td>
-            <td id="i_mno" style="opacity: 0"></td>
-            <td id="c_mno" style="opacity: 0"></td>
-        </tr>
-        <tr>
-            <td>物理 | Physics</td>
-            <td id="fs" style="opacity: 0;"></td>
-            <td id="k_fno" style="opacity: 0;"></td>
-            <td id="s_fno" style="opacity: 0"></td>
-            <td id="i_fno" style="opacity: 0"></td>
-            <td id="c_fno" style="opacity: 0"></td>
-        </tr>
-        <tr>
-            <td>化学 | Chemistry</td>
-            <td id="ks" style="opacity: 0;"></td>
-            <td id="k_kno" style="opacity: 0;"></td>
-            <td id="s_kno" style="opacity: 0"></td>
-            <td id="i_kno" style="opacity: 0"></td>
-            <td id="c_kno" style="opacity: 0"></td>
-        </tr>
-        <tr>
-            <td>生物 | Biology</td>
-            <td id="bs" style="opacity: 0;"></td>
-            <td id="k_bno" style="opacity: 0;"></td>
-            <td id="s_bno" style="opacity: 0"></td>
-            <td id="i_bno" style="opacity: 0"></td>
-            <td id="c_bno" style="opacity: 0"></td>
-        </tr>
-    </table>
-    <table id="t">
-        <caption style="background: linear-gradient(45deg, #00ff00b9, #117d10b9, #197a72b9); width: 80vw;">综合统计 | Comprehensive Details</caption>
-        <tr>
-            <td style="font-weight: bold;">科类 | Subject Kinds</td>
-            <td style="font-weight: bold;">分数 | Score</td>
-            <td style="font-weight: bold;">班次 | Class NO.</td>
-            <td style="font-weight: bold;">校次 | School NO.</td>
-            <td style="font-weight: bold;">市次 | City NO.</td>
-            <td style="font-weight: bold;">Chanf | Chanf NO.</td>
-        </tr>
-        <tr>
-            <td>文综 | Humanities Total Score</td>
-            <td id="cehpgs" style="opacity: 0;"></td>
-            <td id="k_cehpgno" style="opacity: 0;"></td>
-            <td id="s_cehpgno" style="opacity: 0;"></td>
-            <td id="i_cehpgno" style="opacity: 0;"></td>
-            <td id="c_cehpgno" style="opacity: 0;"></td>
-        </tr>
-        <tr>
-            <td>理综 | Science Total Score</td>
-            <td id="mfkbs" style="opacity: 0;"></td>
-            <td id="k_mfkbno" style="opacity: 0;"></td>
-            <td id="s_mfkbno" style="opacity: 0;"></td>
-            <td id="i_mfkbno" style="opacity: 0;"></td>
-            <td id="c_mfkbno" style="opacity: 0;"></td>
-        </tr>
-        <tr>
-            <td>总分 | Total Score</td>
-            <td id="ts" style="opacity: 0;"></td>
-            <td id="k_tno" style="opacity: 0;"></td>
-            <td id="s_tno" style="opacity: 0;"></td>
-            <td id="i_tno" style="opacity: 0;"></td>
-            <td id="c_tno" style="opacity: 0;"></td>
-        </tr>
-</table>
-    <div style="font-size: 20px; text-align: center; transition: all 350ms ease;" id="btm">MoSha Comb</div>
+</head>
+<body>
+    <div class="lw"></div>
+    <div class="rw"></div>
+    <div class="score-container">
+        <div class="header-area">
+            <div class="input-zone">
+                <button id="ordinp">输入考生编号</button>
+            </div>
+        </div>
+
+        <!-- 科目栏。 -->
+        <div class="tabbar"></div>
+
+        <!-- 分数容器。 -->
+        <div class="content-wrapper">
+            <div class="panetab"></div>
+        </div>
+        <div class="msc">Moshariny Combination</div>
+    </div>
+
+    <script>
+        const c_s = {
+            "jh_t0": "104/120", "jh_t1": "99/120", "jh_t2": "91/120", "jh_t3": "82/120", "jh_t4": "73/120", "jh_t5": "66/120", "jh_t6": "55/120",
+            "jh_787247": "114.25/120", "jh_73049281": "106/120", "jh_59402736": "103/120", "jh_48613057": "100/120",
+            "jh_23507469": "97/120", "jh_677613": "94.75/120", "jh_86140295": "91/120", "jh_17394056": "88/120",
+            "jh_36917802": "82/120", "jh_51284739": "75/120", "jh_94628351": "83/120",
+            "jh_2748676": "112/120", "jh_756455": "108/120", "jh_72486754": "104/120", "jh_1425434": "99/120", "jh_12563991": "95/120",
+            "jh_24764": "90/120", "jh_26475411": "86/120", "jh_888819002": "81/120", "jh_24675411": "76/120", "jh_27486760": "70/120",
+            "jh_9412": "31/120", "jh_38164": "45/120", "jh_727495": "52/120", "jh_1583062": "67/120", "jh_60472918": "73/120",
+            "jh_5130247": "79/120", "jh_862094": "84/120", "jh_47519306": "88/120", "jh_619532": "92/120", "jh_3048715": "96/120",
+            "jh_7294501": "100/120", "jh_1326894": "103/120", "jh_86729345": "106/120", "jh_2497180": "109/120", "jh_53629841": "111/120",
+            "jh_1802746": "19/120", "jh_9385062": "28/120", "jh_47163985": "37/120", "jh_2650847": "57/120", "jh_80349762": "63/120",
+            "jh_6193802": "70/120", "jh_45279308": "75/120", "jh_1374629": "81/120", "jh_9875043": "86/120", "jh_21467935": "90/120",
+            "jh_3428176": "93/120", "jh_60148237": "97/120", "jh_85392401": "99/120", "jh_4762895": "102/120", "jh_12073648": "105/120",
+            "jh_5683219": "108/120", "jh_73452981": "110/120", "jh_2896745": "112/120", "jh_40518273": "114/120", "jh_9572618": "0.5/120",
+            "jh_67381902": "13/120", "jh_2485607": "41/120", "jh_79031246": "55/120", "jh_1534872": "62/120", "jh_42698531": "68/120",
+            "jh_8792410": "72/120", "jh_34057962": "78/120", "jh_6951837": "82/120", "jh_17825490": "87/120", "jh_5436981": "91/120",
+            "jh_90247638": "94/120", "jh_2617953": "98/120", "jh_74839026": "101/120", "jh_3862174": "104/120", "jh_59980273": "107/120",
+            "jh_12463785": "109/120", "jh_4561890": "113/120", "jh_87230165": "17/120", "jh_3074962": "34/120", "jh_53927184": "48/120",
+            "jh_1638497": "59/120", "jh_72846150": "66/120", "jh_3948027": "71/120", "jh_61037942": "76/120", "jh_8520641": "80/120",
+            "jh_19754823": "85/120", "jh_4637815": "89/120", "jh_70482931": "92/120", "jh_2395178": "95/120", "jh_57613209": "99/120",
+            "jh_8154762": "102/120", "jh_31879045": "105/120", "jh_6429813": "108/120", "jh_97516042": "111/120", "jh_4012857": "114/120",
+            "jh_78930462": "116/120", "jh_2365781": "117/120", "jh_65491328": "9/120", "jh_1706485": "24/120", "jh_52391607": "38/120",
+            "jh_9463852": "49/120", "jh_28170463": "60/120", "jh_4376291": "68/120", "jh_59208314": "73/120", "jh_7142568": "78/120",
+            "jh_16934752": "83/120", "jh_3089264": "87/120", "jh_54218309": "91/120", "jh_6792458": "95/120", "jh_10374682": "99/120",
+            "jh_3875906": "102/120", "jh_82637194": "106/120", "jh_4519027": "110/120", "jh_78952316": "113/120", "jh_2640891": "115/120",
+            "jh_3819": "15/120", "jh_76024": "28/120", "jh_547183": "36/120", "jh_2910456": "47/120", "jh_83670215": "55/120",
+            "jh_1694832": "62/120", "jh_50462789": "68/120", "jh_273851": "74/120", "jh_91840637": "79/120", "jh_645293": "83/120",
+            "jh_1827490": "87/120", "jh_53726148": "91/120", "jh_904658": "94/120", "jh_37628415": "97/120", "jh_821593": "100/120",
+            "jh_2684790": "103/120", "jh_61372584": "106/120", "jh_479852": "108/120", "jh_13502679": "110/120", "jh_682493": "112/120",
+            "jh_2074183": "114/120", "jh_75496328": "116/120", "jh_391625": "117/120", "jh_84620715": "118/120", "jh_573184": "119/120",
+            "jh_1284967": "119.5/120", "jh_46283905": "1/120", "jh_795316": "5/120", "jh_3402718": "11/120", "jh_68749532": "18/120",
+            "jh_924608": "24/120", "jh_15937246": "31/120", "jh_486503": "38/120", "jh_73129485": "44/120", "jh_278906": "50/120",
+            "jh_6158237": "57/120", "jh_942756": "63/120", "jh_38901524": "69/120", "jh_726438": "75/120", "jh_15370269": "80/120",
+            "jh_480625": "84/120", "jh_82715439": "88/120", "jh_364807": "92/120", "jh_70128946": "95/120", "jh_248675": "98/120",
+            "jh_69501237": "101/120", "jh_132746": "104/120", "jh_57926841": "107/120", "jh_816394": "109/120", "jh_45372085": "111/120",
+            "jh_290145": "113/120", "jh_63798254": "115/120", "jh_174359": "116.5/120", "jh_52187436": "118/120", "jh_968207": "119/120",
+            "jh_3054961": "9/120", "jh_742853": "16/120", "jh_48921760": "22/120", "jh_126784": "29/120", "jh_57394128": "35/120",
+            "jh_810263": "42/120", "jh_35718924": "48/120", "jh_694057": "54/120", "jh_14152678": "60/120", "jh_598132": "66/120",
+            "jh_93567021": "72/120", "jh_472885": "77/120", "jh_81923647": "82/120", "jh_356174": "86/120", "jh_70348529": "90/120",
+            "jh_240618": "93/120", "jh_68713254": "96/120", "jh_124785": "99/120", "jh_57193846": "102/120", "jh_918403": "105/120",
+            "jh_36517928": "108/120", "jh_702846": "110/120", "jh_24973561": "112/120", "jh_596108": "114/120", "jh_83327549": "116/120",
+            "jh_470653": "117/120", "jh_80719432": "118/120", "jh_254381": "119/120", "jh_69172845": "119.8/120", "jh_138205": "0.5/120",
+            "jh_7853126": "7/120", "jh_432187": "13/120", "jh_87956430": "20/120", "jh_326149": "26/120", "jh_76358249": "33/120",
+            "jh_200375": "40/120", "jh_54792816": "46/120", "jh_984051": "52/120", "jh_43126875": "58/120", "jh_879430": "64/120",
+            "jh_32658719": "70/120", "jh_763100": "76/120", "jh_21045538": "81/120", "jh_657382": "85/120", "jh_19402765": "89/120",
+            "jh_521830": "92/120", "jh_96834712": "95/120", "jh_315618": "98/120", "jh_75214986": "101/120", "jh_289307": "104/120",
+            "jh_63640275": "107/120", "jh_173682": "109/120", "jh_51024938": "111/120", "jh_857496": "113/120", "jh_39468521": "115/120",
+            "jh_831704": "116/120", "jh_27819365": "117/120", "jh_615028": "118/120", "jh_14278639": "119/120", "jh_593217": "120/120",
+            "jh_304179": "18/120", "jh_74162358": "27/120", "jh_482906": "34/120", "jh_12948537": "41/120", "jh_566784": "49/120",
+            "jh_80319526": "56/120", "jh_350162": "62/120", "jh_98765943": "68/120", "jh_524718": "74/120", "jh_16154732": "79/120",
+            "jh_708401": "83/120", "jh_24586973": "87/120", "jh_682196": "91/120", "jh_12954386": "94/120", "jh_476812": "97/120",
+            "jh_81365724": "100/120", "jh_360298": "103/120", "jh_90752481": "106/120", "jh_544619": "108/120", "jh_28145736": "110/120",
+            "jh_638102": "112/120", "jh_17564923": "114/120", "jh_512987": "116/120", "jh_85103476": "117/120", "jh_408162": "118/120",
+            "jh_94567938": "119/120", "jh_382456": "119.2/120", "jh_73918405": "4/120", "jh_270513": "10/120", "jh_61784296": "17/120",
+            "jh_154627": "23/120", "jh_49138507": "30/120", "jh_838276": "37/120", "jh_37519284": "43/120", "jh_712465": "49/120",
+            "jh_25980471": "55/120", "jh_696782": "61/120", "jh_13327546": "67/120", "jh_580139": "73/120", "jh_92740835": "78/120",
+            "jh_364625": "82/120", "jh_70123894": "86/120", "jh_258197": "90/120", "jh_69547231": "93/120", "jh_132584": "96/120",
+            "jh_57931628": "99/120", "jh_916845": "102/120", "jh_45367912": "105/120", "jh_890523": "108/120", "jh_34718659": "110/120",
+            "jh_784215": "112/120", "jh_32164978": "114/120", "jh_768092": "116/120", "jh_20543761": "117/120", "jh_642875": "118/120",
+            "jh_18972645": "119/120", "jh_526814": "119.5/120", "jh_96354817": "8/120", "jh_400937": "14/120", "jh_84726935": "21/120",
+            "jh_284105": "28/120", "jh_72153849": "35/120", "jh_468217": "42/120", "jh_10596438": "48/120", "jh_542736": "54/120",
+            "jh_18967324": "60/120", "jh_526109": "66/120", "jh_96384752": "72/120", "jh_400286": "77/120", "jh_84751039": "82/120",
+            "jh_284751": "86/120", "jh_72148325": "90/120", "jh_468619": "93/120", "jh_10570248": "96/120", "jh_542973": "99/120",
+            "jh_18905637": "102/120", "jh_526428": "105/120", "jh_96358124": "108/120", "jh_400312": "110/120", "jh_84764739": "112/120",
+            "jh_284859": "114/120", "jh_72156281": "116/120", "jh_468925": "117/120", "jh_10593846": "118/120", "jh_543184": "119/120",
+            "jh_18976359": "0.75/120", "jh_526057": "6/120", "jh_96340927": "12/120", "jh_400748": "19/120", "jh_84713562": "25/120",
+
+            "sh_t0": "142/150", "sh_t1": "134/150", "sh_t2": "126.5/150", "sh_t3": "118/150", "sh_t4": "107.5/150", "sh_t5": "95/150", "sh_t6": "81.75/150",
+            "sh_16284759": "142/150", "sh_37104926": "137/150", "sh_90357248": "133/150", "sh_61738295": "130/150",
+            "sh_40826139": "124/150", "sh_47817313": "119/150", "sh_52937018": "110/150", "sh_74689130": "104/150",
+            "sh_48269137": "96/150", "sh_29475683": "0/150",
+            "sh_2748676": "138/150", "sh_756455": "132/150", "sh_72486754": "126/150", "sh_1425434": "119/150", "sh_12563991": "113/150",
+            "sh_24764": "106/150", "sh_26475411": "99/150", "sh_888819002": "92/150", "sh_24675411": "85/150", "sh_27486760": "78/150",
+            "sh_5714": "41/150", "sh_26839": "57/150", "sh_649752": "68/150", "sh_1837046": "79/150", "sh_72583916": "88/150",
+            "sh_4972803": "97/150", "sh_8315064": "105/150", "sh_37492518": "112/150", "sh_672319": "119/150", "sh_2503867": "126/150",
+            "sh_94826713": "132/150", "sh_1395842": "137/150", "sh_86750439": "141/150", "sh_4216798": "144/150", "sh_73028145": "147/150",
+            "sh_1974365": "18/150", "sh_52603987": "29/150", "sh_813764": "35/150", "sh_46019528": "52/150", "sh_7342816": "63/150",
+            "sh_18935740": "72/150", "sh_6279413": "81/150", "sh_45386270": "90/150", "sh_2781394": "98/150", "sh_96150487": "107/150",
+            "sh_3162859": "114/150", "sh_70549831": "121/150", "sh_8426730": "128/150", "sh_17932546": "134/150", "sh_5302894": "139/150",
+            "sh_67418023": "142/150", "sh_3925678": "145/150", "sh_82649157": "148/150", "sh_1410729": "7/150", "sh_75936482": "16/150",
+            "sh_4629183": "27/150", "sh_89740635": "43/150", "sh_3159847": "55/150", "sh_74209168": "66/150", "sh_1835724": "76/150",
+            "sh_49637501": "85/150", "sh_6208497": "94/150", "sh_17358426": "103/150", "sh_8510439": "110/150", "sh_39726158": "118/150",
+            "sh_6247853": "125/150", "sh_18902647": "130/150", "sh_5073692": "136/150", "sh_89402157": "140/150", "sh_4326795": "143/150",
+            "sh_71648503": "146/150", "sh_2591786": "149/150", "sh_68314097": "2/150", "sh_4912658": "14/150", "sh_84703952": "23/150",
+            "sh_1703684": "38/150", "sh_40985276": "50/150", "sh_6250973": "60/150", "sh_18349762": "71/150", "sh_7601483": "82/150",
+            "sh_49520386": "92/150", "sh_3146592": "101/150", "sh_69274518": "109/150", "sh_5289476": "115/150", "sh_17963528": "122/150",
+            "sh_8037415": "129/150", "sh_24759036": "135/150", "sh_6148932": "139/150", "sh_97513268": "143/150", "sh_3851746": "147/150",
+            "sh_72406815": "150/150", "sh_1594762": "149.5/150", "sh_48691507": "4/150", "sh_7924451": "21/150", "sh_35876049": "33/150",
+            "sh_1742896": "46/150", "sh_50946382": "59/150", "sh_6239571": "69/150", "sh_18735042": "78/150", "sh_4602819": "87/150",
+            "sh_93148756": "96/150", "sh_2541796": "104/150", "sh_78950213": "111/150", "sh_3426189": "117/150", "sh_67942530": "124/150",
+            "sh_9053628": "131/150", "sh_23648791": "137/150", "sh_4789125": "141/150", "sh_89352716": "144/150", "sh_3650178": "147/150",
+            "sh_2945": "21/150", "sh_67318": "35/150", "sh_452807": "47/150", "sh_1893264": "58/150", "sh_70459362": "68/150",
+            "sh_1374560": "77/150", "sh_48250971": "86/150", "sh_254871": "94/150", "sh_89163425": "102/150", "sh_568129": "109/150",
+            "sh_1269047": "116/150", "sh_47535128": "123/150", "sh_832749": "129/150", "sh_30965284": "135/150", "sh_674018": "140/150",
+            "sh_2417359": "144/150", "sh_69847231": "147/150", "sh_155860": "149/150", "sh_52290467": "150/150", "sh_987416": "148.5/150",
+            "sh_3642538": "3/150", "sh_72163485": "9/150", "sh_488571": "15/150", "sh_14500926": "24/150", "sh_592867": "32/150",
+            "sh_1492345": "40/150", "sh_49657132": "49/150", "sh_853840": "57/150", "sh_31018246": "66/150", "sh_647539": "75/150",
+            "sh_1842630": "83/150", "sh_52187459": "91/150", "sh_978401": "99/150", "sh_43561728": "107/150", "sh_772583": "114/150",
+            "sh_2194065": "121/150", "sh_65697531": "128/150", "sh_193820": "134/150", "sh_54076149": "139/150", "sh_887036": "143/150",
+            "sh_3241298": "146/150", "sh_76157420": "148/150", "sh_408587": "149.5/150", "sh_14567392": "1.5/150", "sh_592408": "8/150",
+            "sh_1397265": "14/150", "sh_47695032": "23/150", "sh_813486": "31/150", "sh_35023479": "39/150", "sh_697651": "48/150",
+            "sh_2445602": "56/150", "sh_68173495": "65/150", "sh_528970": "74/150", "sh_16546932": "82/150", "sh_502815": "90/150",
+            "sh_1590724": "98/150", "sh_49653781": "106/150", "sh_853482": "113/150", "sh_31029146": "120/150", "sh_647615": "127/150",
+            "sh_1847635": "133/150", "sh_52100829": "138/150", "sh_978547": "142/150", "sh_43579618": "145/150", "sh_772609": "147/150",
+            "sh_2192513": "149/150", "sh_65638417": "150/150", "sh_193071": "149.8/150", "sh_54084295": "2/150", "sh_887124": "7/150",
+            "sh_3249078": "13/150", "sh_76185263": "22/150", "sh_408765": "30/150", "sh_14537946": "38/150", "sh_592419": "47/150",
+            "sh_1394385": "55/150", "sh_47685930": "64/150", "sh_813617": "73/150", "sh_35019647": "81/150", "sh_697538": "89/150",
+            "sh_2441308": "97/150", "sh_68149255": "105/150", "sh_528846": "112/150", "sh_16543789": "119/150", "sh_502983": "126/150",
+            "sh_1590286": "132/150", "sh_49651427": "137/150", "sh_853679": "141/150", "sh_31025098": "144/150", "sh_647483": "146/150",
+            "sh_1847352": "148/150", "sh_52188609": "149.2/150", "sh_978125": "150/150", "sh_43597468": "5/150", "sh_772350": "11/150",
+            "sh_2196017": "19/150", "sh_65643259": "27/150", "sh_193286": "36/150", "sh_54075384": "44/150", "sh_887041": "53/150",
+            "sh_3241596": "62/150", "sh_76130847": "71/150", "sh_408924": "79/150", "sh_14568213": "87/150", "sh_592765": "95/150",
+            "sh_1390428": "103/150", "sh_47657196": "110/150", "sh_813382": "117/150", "sh_35046728": "124/150", "sh_697814": "130/150",
+            "sh_2442957": "136/150", "sh_68163914": "141/150", "sh_528705": "145/150", "sh_16502283": "148/150", "sh_502479": "149.5/150",
+            "sh_1593571": "150/150", "sh_49682846": "0.5/150", "sh_853942": "6/150", "sh_31018527": "12/150", "sh_647663": "20/150",
+            "sh_1849702": "29/150", "sh_52149133": "37/150", "sh_978876": "45/150", "sh_43534916": "54/150", "sh_772258": "63/150",
+            "sh_2196354": "72/150", "sh_65609782": "80/150", "sh_193478": "88/150", "sh_54092561": "96/150", "sh_887593": "104/150",
+            "sh_3248610": "111/150", "sh_76150724": "118/150", "sh_408132": "125/150", "sh_14576489": "131/150", "sh_592846": "137/150",
+            "sh_1392983": "142/150", "sh_47603475": "146/150", "sh_813619": "148/150", "sh_35058126": "149/150", "sh_697042": "150/150",
+            "sh_2447681": "150/150", "sh_68129534": "4/150", "sh_528979": "10/150", "sh_16561407": "18/150", "sh_502358": "26/150",
+            "sh_1594039": "34/150", "sh_49678215": "43/150", "sh_853208": "52/150", "sh_31063479": "61/150", "sh_647551": "70/150"
+        };
+        const m_s = {
+            "jh_t0": "116/120", "jh_t1": "110.5/120", "jh_t2": "102.25/120", "jh_t3": "95/120", "jh_t4": "85.5/120", "jh_t5": "74/120", "jh_t6": "66/120",
+            "jh_787247": "119.5/120", "jh_73049281": "116/120", "jh_59402736": "113/120", "jh_48613057": "111/120",
+            "jh_23507469": "108/120", "jh_677613": "106/120", "jh_86140295": "103/120", "jh_17394056": "101/120",
+            "jh_36917802": "99.75/120", "jh_51284739": "96/120", "jh_94628351": "103/120",
+            "jh_2748676": "115/120", "jh_756455": "111/120", "jh_72486754": "107/120", "jh_1425434": "102/120", "jh_12563991": "98/120",
+            "jh_24764": "93/120", "jh_26475411": "89/120", "jh_888819002": "84/120", "jh_24675411": "79/120", "jh_27486760": "73/120",
+            "jh_9412": "29/120", "jh_38164": "41/120", "jh_727495": "48/120", "jh_1583062": "63/120", "jh_60472918": "70/120",
+            "jh_5130247": "77/120", "jh_862094": "82/120", "jh_47519306": "86/120", "jh_619532": "90/120", "jh_3048715": "94/120",
+            "jh_7294501": "98/120", "jh_1326894": "101/120", "jh_86729345": "104/120", "jh_2497180": "107/120", "jh_53629841": "109/120",
+            "jh_1802746": "15/120", "jh_9385062": "25/120", "jh_47163985": "34/120", "jh_2650847": "53/120", "jh_80349762": "59/120",
+            "jh_6193802": "67/120", "jh_45279308": "72/120", "jh_1374629": "78/120", "jh_9875043": "83/120", "jh_21467935": "87/120",
+            "jh_3428176": "91/120", "jh_60148237": "95/120", "jh_85392401": "97/120", "jh_4762895": "100/120", "jh_12073648": "103/120",
+            "jh_5683219": "106/120", "jh_73452981": "108/120", "jh_2896745": "110/120", "jh_40518273": "112/120", "jh_9572618": "0/120",
+            "jh_67381902": "11/120", "jh_2485607": "38/120", "jh_79031246": "52/120", "jh_1534872": "59/120", "jh_42698531": "65/120",
+            "jh_8792410": "69/120", "jh_34057962": "75/120", "jh_6951837": "79/120", "jh_17825490": "84/120", "jh_5436981": "88/120",
+            "jh_90247638": "92/120", "jh_2617953": "96/120", "jh_74839026": "99/120", "jh_3862174": "102/120", "jh_59980273": "105/120",
+            "jh_12463785": "107/120", "jh_4561890": "111/120", "jh_87230165": "13/120", "jh_3074962": "31/120", "jh_53927184": "44/120",
+            "jh_1638497": "55/120", "jh_72846150": "62/120", "jh_3948027": "68/120", "jh_61037942": "73/120", "jh_8520641": "77/120",
+            "jh_19754823": "82/120", "jh_4637815": "86/120", "jh_70482931": "90/120", "jh_2395178": "93/120", "jh_57613209": "97/120",
+            "jh_8154762": "100/120", "jh_31879045": "103/120", "jh_6429813": "106/120", "jh_97516042": "109/120", "jh_4012857": "112/120",
+            "jh_78930462": "114/120", "jh_2365781": "115/120", "jh_65491328": "8/120", "jh_1706485": "22/120", "jh_52391607": "35/120",
+            "jh_9463852": "46/120", "jh_28170463": "57/120", "jh_4376291": "64/120", "jh_59208314": "70/120", "jh_7142568": "75/120",
+            "jh_16934752": "80/120", "jh_3089264": "84/120", "jh_54218309": "88/120", "jh_6792458": "92/120", "jh_10374682": "96/120",
+            "jh_3875906": "100/120", "jh_82637194": "104/120", "jh_4519027": "108/120", "jh_78952316": "111/120", "jh_2640891": "113/120",
+            "jh_3819": "13/120", "jh_76024": "25/120", "jh_547183": "33/120", "jh_2910456": "44/120", "jh_83670215": "52/120",
+            "jh_1694832": "59/120", "jh_50462789": "65/120", "jh_273851": "71/120", "jh_91840637": "76/120", "jh_645293": "80/120",
+            "jh_1827490": "84/120", "jh_53726148": "88/120", "jh_904658": "91/120", "jh_37628415": "94/120", "jh_821593": "97/120",
+            "jh_2684790": "100/120", "jh_61372584": "103/120", "jh_479852": "105/120", "jh_13502679": "107/120", "jh_682493": "109/120",
+            "jh_2074183": "111/120", "jh_75496328": "113/120", "jh_391625": "114/120", "jh_84620715": "115/120", "jh_573184": "116/120",
+            "jh_1284967": "117/120", "jh_46283905": "1/120", "jh_795316": "4/120", "jh_3402718": "10/120", "jh_68749532": "17/120",
+            "jh_924608": "23/120", "jh_15937246": "29/120", "jh_486503": "36/120", "jh_73129485": "42/120", "jh_278906": "48/120",
+            "jh_6158237": "55/120", "jh_942756": "61/120", "jh_38901524": "67/120", "jh_726438": "72/120", "jh_15370269": "77/120",
+            "jh_480625": "81/120", "jh_82715439": "85/120", "jh_364807": "89/120", "jh_70128946": "92/120", "jh_248675": "95/120",
+            "jh_69501237": "98/120", "jh_132746": "101/120", "jh_57926841": "104/120", "jh_816394": "106/120", "jh_45372085": "108/120",
+            "jh_290145": "110/120", "jh_63798254": "112/120", "jh_174359": "113.5/120", "jh_52187436": "115/120", "jh_968207": "116/120",
+            "jh_3054961": "8/120", "jh_742853": "15/120", "jh_48921760": "21/120", "jh_126784": "27/120", "jh_57394128": "34/120",
+            "jh_810263": "40/120", "jh_35718924": "46/120", "jh_694057": "52/120", "jh_14152678": "58/120", "jh_598132": "64/120",
+            "jh_93567021": "69/120", "jh_472885": "74/120", "jh_81923647": "79/120", "jh_356174": "83/120", "jh_70348529": "87/120",
+            "jh_240618": "91/120", "jh_68713254": "94/120", "jh_124785": "97/120", "jh_57193846": "100/120", "jh_918403": "103/120",
+            "jh_36517928": "105/120", "jh_702846": "107/120", "jh_24973561": "109/120", "jh_596108": "111/120", "jh_83327549": "113/120",
+            "jh_470653": "114/120", "jh_80719432": "115/120", "jh_254381": "116/120", "jh_69172845": "117/120", "jh_138205": "0/120",
+            "jh_7853126": "6/120", "jh_432187": "12/120", "jh_87956430": "19/120", "jh_326149": "25/120", "jh_76358249": "32/120",
+            "jh_200375": "38/120", "jh_54792816": "44/120", "jh_984051": "50/120", "jh_43126875": "56/120", "jh_879430": "62/120",
+            "jh_32658719": "67/120", "jh_763100": "73/120", "jh_21045538": "78/120", "jh_657382": "82/120", "jh_19402765": "86/120",
+            "jh_521830": "90/120", "jh_96834712": "93/120", "jh_315618": "96/120", "jh_75214986": "99/120", "jh_289307": "102/120",
+            "jh_63640275": "104/120", "jh_173682": "106/120", "jh_51024938": "108/120", "jh_857496": "110/120", "jh_39468521": "112/120",
+            "jh_831704": "113/120", "jh_27819365": "114/120", "jh_615028": "115/120", "jh_14278639": "116/120", "jh_593217": "117/120",
+            "jh_304179": "17/120", "jh_74162358": "26/120", "jh_482906": "33/120", "jh_12948537": "39/120", "jh_566784": "47/120",
+            "jh_80319526": "54/120", "jh_350162": "60/120", "jh_98765943": "66/120", "jh_524718": "71/120", "jh_16154732": "76/120",
+            "jh_708401": "80/120", "jh_24586973": "84/120", "jh_682196": "88/120", "jh_12954386": "91/120", "jh_476812": "94/120",
+            "jh_81365724": "97/120", "jh_360298": "100/120", "jh_90752481": "103/120", "jh_544619": "105/120", "jh_28145736": "107/120",
+            "jh_638102": "109/120", "jh_17564923": "111/120", "jh_512987": "113/120", "jh_85103476": "114/120", "jh_408162": "115/120",
+            "jh_94567938": "116/120", "jh_382456": "117/120", "jh_73918405": "3/120", "jh_270513": "9/120", "jh_61784296": "16/120",
+            "jh_154627": "22/120", "jh_49138507": "28/120", "jh_838276": "35/120", "jh_37519284": "41/120", "jh_712465": "47/120",
+            "jh_25980471": "53/120", "jh_696782": "59/120", "jh_13327546": "65/120", "jh_580139": "70/120", "jh_92740835": "75/120",
+            "jh_364625": "79/120", "jh_70123894": "83/120", "jh_258197": "87/120", "jh_69547231": "90/120", "jh_132584": "93/120",
+            "jh_57931628": "96/120", "jh_916845": "99/120", "jh_45367912": "102/120", "jh_890523": "104/120", "jh_34718659": "106/120",
+            "jh_784215": "108/120", "jh_32164978": "110/120", "jh_768092": "112/120", "jh_20543761": "113/120", "jh_642875": "114/120",
+            "jh_18972645": "115/120", "jh_526814": "116/120", "jh_96354817": "7/120", "jh_400937": "13/120", "jh_84726935": "20/120",
+            "jh_284105": "27/120", "jh_72153849": "34/120", "jh_468217": "40/120", "jh_10596438": "46/120", "jh_542736": "52/120",
+            "jh_18967324": "58/120", "jh_526109": "64/120", "jh_96384752": "69/120", "jh_400286": "74/120", "jh_84751039": "79/120",
+            "jh_284751": "83/120", "jh_72148325": "87/120", "jh_468619": "90/120", "jh_10570248": "93/120", "jh_542973": "96/120",
+            "jh_18905637": "99/120", "jh_526428": "102/120", "jh_96358124": "104/120", "jh_400312": "106/120", "jh_84764739": "108/120",
+            "jh_284859": "110/120", "jh_72156281": "112/120", "jh_468925": "113/120", "jh_10593846": "114/120", "jh_543184": "115/120",
+            "jh_18976359": "0.5/120", "jh_526057": "5/120", "jh_96340927": "11/120", "jh_400748": "18/120", "jh_84713562": "24/120",
+
+            "sh_t0": "139/150", "sh_t1": "130.25/150", "sh_t2": "121.75/150", "sh_t3": "110.5/150", "sh_t4": "97.5/150", "sh_t5": "85/150", "sh_t6": "71/150",
+            "sh_16284759": "140.25/150", "sh_37104926": "144/150", "sh_90357248": "140/150", "sh_61738295": "136/150",
+            "sh_40826139": "133/150", "sh_47817313": "132/150", "sh_52937018": "130/150", "sh_74689130": "127/150",
+            "sh_48269137": "125/150", "sh_29475683": "0.5/150",
+            "sh_2748676": "136/150", "sh_756455": "130/150", "sh_72486754": "124/150", "sh_1425434": "117/150", "sh_12563991": "111/150",
+            "sh_24764": "104/150", "sh_26475411": "97/150", "sh_888819002": "90/150", "sh_24675411": "83/150", "sh_27486760": "76/150",
+            "sh_5714": "35/150", "sh_26839": "49/150", "sh_649752": "61/150", "sh_1837046": "73/150", "sh_72583916": "82/150",
+            "sh_4972803": "91/150", "sh_8315064": "99/150", "sh_37492518": "107/150", "sh_672319": "114/150", "sh_2503867": "121/150",
+            "sh_94826713": "128/150", "sh_1395842": "133/150", "sh_86750439": "137/150", "sh_4216798": "140/150", "sh_73028145": "143/150",
+            "sh_1974365": "12/150", "sh_52603987": "23/150", "sh_813764": "30/150", "sh_46019528": "47/150", "sh_7342816": "58/150",
+            "sh_18935740": "68/150", "sh_6279413": "77/150", "sh_45386270": "85/150", "sh_2781394": "93/150", "sh_96150487": "102/150",
+            "sh_3162859": "110/150", "sh_70549831": "117/150", "sh_8426730": "123/150", "sh_17932546": "129/150", "sh_5302894": "135/150",
+            "sh_67418023": "139/150", "sh_3925678": "142/150", "sh_82649157": "145/150", "sh_1410729": "5/150", "sh_75936482": "13/150",
+            "sh_4629183": "24/150", "sh_89740635": "40/150", "sh_3159847": "52/150", "sh_74209168": "63/150", "sh_1835724": "73/150",
+            "sh_49637501": "82/150", "sh_6208497": "91/150", "sh_17358426": "100/150", "sh_8510439": "107/150", "sh_39726158": "115/150",
+            "sh_6247853": "122/150", "sh_18902647": "128/150", "sh_5073692": "134/150", "sh_89402157": "138/150", "sh_4326795": "141/150",
+            "sh_71648503": "144/150", "sh_2591786": "147/150", "sh_68314097": "1/150", "sh_4912658": "11/150", "sh_84703952": "20/150",
+            "sh_1703684": "35/150", "sh_40985276": "48/150", "sh_6250973": "58/150", "sh_18349762": "69/150", "sh_7601483": "78/150",
+            "sh_49520386": "88/150", "sh_3146592": "97/150", "sh_69274518": "106/150", "sh_5289476": "112/150", "sh_17963528": "119/150",
+            "sh_8037415": "126/150", "sh_24759036": "132/150", "sh_6148932": "137/150", "sh_97513268": "141/150", "sh_3851746": "145/150",
+            "sh_72406815": "149/150", "sh_1594762": "147.5/150", "sh_48691507": "3/150", "sh_7924451": "19/150", "sh_35876049": "31/150",
+            "sh_1742896": "44/150", "sh_50946382": "57/150", "sh_6239571": "67/150", "sh_18735042": "76/150", "sh_4602819": "85/150",
+            "sh_93148756": "94/150", "sh_2541796": "102/150", "sh_78950213": "109/150", "sh_3426189": "115/150", "sh_67942530": "122/150",
+            "sh_9053628": "129/150", "sh_23648791": "135/150", "sh_4789125": "139/150", "sh_89352716": "142/150", "sh_3650178": "145/150",
+            "sh_2945": "19/150", "sh_67318": "33/150", "sh_452807": "44/150", "sh_1893264": "55/150", "sh_70459362": "65/150",
+            "sh_1374560": "74/150", "sh_48250971": "83/150", "sh_254871": "91/150", "sh_89163425": "99/150", "sh_568129": "107/150",
+            "sh_1269047": "114/150", "sh_47535128": "121/150", "sh_832749": "127/150", "sh_30965284": "133/150", "sh_674018": "138/150",
+            "sh_2417359": "142/150", "sh_69847231": "145/150", "sh_155860": "147/150", "sh_52290467": "148/150", "sh_987416": "147.5/150",
+            "sh_3642538": "2/150", "sh_72163485": "8/150", "sh_488571": "14/150", "sh_14500926": "23/150", "sh_592867": "31/150",
+            "sh_1492345": "39/150", "sh_49657132": "48/150", "sh_853840": "56/150", "sh_31018246": "65/150", "sh_647539": "73/150",
+            "sh_1842630": "81/150", "sh_52187459": "89/150", "sh_978401": "97/150", "sh_43561728": "105/150", "sh_772583": "112/150",
+            "sh_2194065": "119/150", "sh_65697531": "126/150", "sh_193820": "132/150", "sh_54076149": "137/150", "sh_887036": "141/150",
+            "sh_3241298": "144/150", "sh_76157420": "146/150", "sh_408587": "148/150", "sh_14567392": "1/150", "sh_592408": "7/150",
+            "sh_1397265": "13/150", "sh_47695032": "22/150", "sh_813486": "30/150", "sh_35023479": "38/150", "sh_697651": "47/150",
+            "sh_2445602": "55/150", "sh_68173495": "64/150", "sh_528970": "72/150", "sh_16546932": "80/150", "sh_502815": "88/150",
+            "sh_1590724": "96/150", "sh_49653781": "104/150", "sh_853482": "111/150", "sh_31029146": "118/150", "sh_647615": "125/150",
+            "sh_1847635": "131/150", "sh_52100829": "136/150", "sh_978547": "140/150", "sh_43579618": "143/150", "sh_772609": "145/150",
+            "sh_2192513": "147/150", "sh_65638417": "148/150", "sh_193071": "149/150", "sh_54084295": "1.5/150", "sh_887124": "6/150",
+            "sh_3249078": "12/150", "sh_76185263": "21/150", "sh_408765": "29/150", "sh_14537946": "37/150", "sh_592419": "46/150",
+            "sh_1394385": "54/150", "sh_47685930": "63/150", "sh_813617": "71/150", "sh_35019647": "79/150", "sh_697538": "87/150",
+            "sh_2441308": "95/150", "sh_68149255": "103/150", "sh_528846": "110/150", "sh_16543789": "117/150", "sh_502983": "124/150",
+            "sh_1590286": "130/150", "sh_49651427": "135/150", "sh_853679": "139/150", "sh_31025098": "142/150", "sh_647483": "144/150",
+            "sh_1847352": "146/150", "sh_52188609": "147.2/150", "sh_978125": "148/150", "sh_43597468": "4/150", "sh_772350": "10/150",
+            "sh_2196017": "18/150", "sh_65643259": "26/150", "sh_193286": "35/150", "sh_54075384": "43/150", "sh_887041": "52/150",
+            "sh_3241596": "61/150", "sh_76130847": "70/150", "sh_408924": "78/150", "sh_14568213": "86/150", "sh_592765": "94/150",
+            "sh_1390428": "102/150", "sh_47657196": "109/150", "sh_813382": "116/150", "sh_35046728": "123/150", "sh_697814": "129/150",
+            "sh_2442957": "135/150", "sh_68163914": "140/150", "sh_528705": "144/150", "sh_16502283": "147/150", "sh_502479": "148.5/150",
+            "sh_1593571": "149/150", "sh_49682846": "0/150", "sh_853942": "5/150", "sh_31018527": "11/150", "sh_647663": "19/150",
+            "sh_1849702": "28/150", "sh_52149133": "36/150", "sh_978876": "44/150", "sh_43534916": "53/150", "sh_772258": "62/150",
+            "sh_2196354": "71/150", "sh_65609782": "79/150", "sh_193478": "87/150", "sh_54092561": "95/150", "sh_887593": "103/150",
+            "sh_3248610": "110/150", "sh_76150724": "117/150", "sh_408132": "124/150", "sh_14576489": "130/150", "sh_592846": "136/150",
+            "sh_1392983": "141/150", "sh_47603475": "145/150", "sh_813619": "147/150", "sh_35058126": "148/150", "sh_697042": "149/150",
+            "sh_2447681": "150/150", "sh_68129534": "3/150", "sh_528979": "9/150", "sh_16561407": "17/150", "sh_502358": "25/150",
+            "sh_1594039": "33/150", "sh_49678215": "42/150", "sh_853208": "51/150", "sh_31063479": "60/150", "sh_647551": "69/150"
+        };
+        const e_s = {
+            "jh_t0": "116/120", "jh_t1": "109.75/120", "jh_t2": "101.75/120", "jh_t3": "93/120", "jh_t4": "82.5/120", "jh_t5": "72/120", "jh_t6": "61/120",
+            "jh_787247": "118.5/120", "jh_73049281": "116/120", "jh_59402736": "114.5/120", "jh_48613057": "112/120",
+            "jh_23507469": "111.5/120", "jh_677613": "115/120", "jh_86140295": "117.25/120", "jh_17394056": "114/120",
+            "jh_36917802": "113/120", "jh_51284739": "106/120", "jh_94628351": "111/120",
+            "jh_2748676": "114/120", "jh_756455": "110/120", "jh_72486754": "106/120", "jh_1425434": "101/120", "jh_12563991": "97/120",
+            "jh_24764": "92/120", "jh_26475411": "88/120", "jh_888819002": "83/120", "jh_24675411": "78/120", "jh_27486760": "72/120",
+            "jh_9412": "32/120", "jh_38164": "47/120", "jh_727495": "53/120", "jh_1583062": "68/120", "jh_60472918": "74/120",
+            "jh_5130247": "80/120", "jh_862094": "85/120", "jh_47519306": "89/120", "jh_619532": "93/120", "jh_3048715": "97/120",
+            "jh_7294501": "101/120", "jh_1326894": "104/120", "jh_86729345": "107/120", "jh_2497180": "110/120", "jh_53629841": "112/120",
+            "jh_1802746": "18/120", "jh_9385062": "27/120", "jh_47163985": "36/120", "jh_2650847": "56/120", "jh_80349762": "62/120",
+            "jh_6193802": "69/120", "jh_45279308": "74/120", "jh_1374629": "80/120", "jh_9875043": "85/120", "jh_21467935": "89/120",
+            "jh_3428176": "92/120", "jh_60148237": "96/120", "jh_85392401": "98/120", "jh_4762895": "101/120", "jh_12073648": "104/120",
+            "jh_5683219": "107/120", "jh_73452981": "109/120", "jh_2896745": "111/120", "jh_40518273": "113/120", "jh_9572618": "1/120",
+            "jh_67381902": "12/120", "jh_2485607": "39/120", "jh_79031246": "54/120", "jh_1534872": "61/120", "jh_42698531": "67/120",
+            "jh_8792410": "71/120", "jh_34057962": "77/120", "jh_6951837": "81/120", "jh_17825490": "86/120", "jh_5436981": "90/120",
+            "jh_90247638": "93/120", "jh_2617953": "97/120", "jh_74839026": "100/120", "jh_3862174": "103/120", "jh_59980273": "106/120",
+            "jh_12463785": "108/120", "jh_4561890": "112/120", "jh_87230165": "16/120", "jh_3074962": "33/120", "jh_53927184": "47/120",
+            "jh_1638497": "58/120", "jh_72846150": "65/120", "jh_3948027": "70/120", "jh_61037942": "75/120", "jh_8520641": "79/120",
+            "jh_19754823": "84/120", "jh_4637815": "88/120", "jh_70482931": "91/120", "jh_2395178": "94/120", "jh_57613209": "98/120",
+            "jh_8154762": "101/120", "jh_31879045": "104/120", "jh_6429813": "107/120", "jh_97516042": "110/120", "jh_4012857": "113/120",
+            "jh_78930462": "115/120", "jh_2365781": "116/120", "jh_65491328": "10/120", "jh_1706485": "23/120", "jh_52391607": "37/120",
+            "jh_9463852": "48/120", "jh_28170463": "59/120", "jh_4376291": "66/120", "jh_59208314": "72/120", "jh_7142568": "77/120",
+            "jh_16934752": "82/120", "jh_3089264": "86/120", "jh_54218309": "90/120", "jh_6792458": "94/120", "jh_10374682": "98/120",
+            "jh_3875906": "101/120", "jh_82637194": "105/120", "jh_4519027": "109/120", "jh_78952316": "112/120", "jh_2640891": "114/120",
+            "jh_3819": "16/120", "jh_76024": "29/120", "jh_547183": "37/120", "jh_2910456": "48/120", "jh_83670215": "56/120",
+            "jh_1694832": "63/120", "jh_50462789": "69/120", "jh_273851": "75/120", "jh_91840637": "80/120", "jh_645293": "84/120",
+            "jh_1827490": "88/120", "jh_53726148": "92/120", "jh_904658": "95/120", "jh_37628415": "98/120", "jh_821593": "101/120",
+            "jh_2684790": "104/120", "jh_61372584": "107/120", "jh_479852": "109/120", "jh_13502679": "111/120", "jh_682493": "113/120",
+            "jh_2074183": "115/120", "jh_75496328": "117/120", "jh_391625": "118/120", "jh_84620715": "119/120", "jh_573184": "119.5/120",
+            "jh_1284967": "119.8/120", "jh_46283905": "2/120", "jh_795316": "5/120", "jh_3402718": "12/120", "jh_68749532": "19/120",
+            "jh_924608": "25/120", "jh_15937246": "32/120", "jh_486503": "39/120", "jh_73129485": "45/120", "jh_278906": "51/120",
+            "jh_6158237": "58/120", "jh_942756": "64/120", "jh_38901524": "70/120", "jh_726438": "76/120", "jh_15370269": "81/120",
+            "jh_480625": "85/120", "jh_82715439": "89/120", "jh_364807": "93/120", "jh_70128946": "96/120", "jh_248675": "99/120",
+            "jh_69501237": "102/120", "jh_132746": "105/120", "jh_57926841": "108/120", "jh_816394": "110/120", "jh_45372085": "112/120",
+            "jh_290145": "114/120", "jh_63798254": "116/120", "jh_174359": "117.5/120", "jh_52187436": "118.5/120", "jh_968207": "119.2/120",
+            "jh_3054961": "10/120", "jh_742853": "17/120", "jh_48921760": "23/120", "jh_126784": "30/120", "jh_57394128": "36/120",
+            "jh_810263": "43/120", "jh_35718924": "49/120", "jh_694057": "55/120", "jh_14152678": "61/120", "jh_598132": "67/120",
+            "jh_93567021": "73/120", "jh_472885": "78/120", "jh_81923647": "83/120", "jh_356174": "87/120", "jh_70348529": "91/120",
+            "jh_240618": "94/120", "jh_68713254": "97/120", "jh_124785": "100/120", "jh_57193846": "103/120", "jh_918403": "106/120",
+            "jh_36517928": "109/120", "jh_702846": "111/120", "jh_24973561": "113/120", "jh_596108": "115/120", "jh_83327549": "117/120",
+            "jh_470653": "118/120", "jh_80719432": "119/120", "jh_254381": "119.5/120", "jh_69172845": "120/120", "jh_138205": "1/120",
+            "jh_7853126": "7/120", "jh_432187": "14/120", "jh_87956430": "21/120", "jh_326149": "27/120", "jh_76358249": "34/120",
+            "jh_200375": "41/120", "jh_54792816": "47/120", "jh_984051": "53/120", "jh_43126875": "59/120", "jh_879430": "65/120",
+            "jh_32658719": "71/120", "jh_763100": "77/120", "jh_21045538": "82/120", "jh_657382": "86/120", "jh_19402765": "90/120",
+            "jh_521830": "93/120", "jh_96834712": "96/120", "jh_315618": "99/120", "jh_75214986": "102/120", "jh_289307": "105/120",
+            "jh_63640275": "108/120", "jh_173682": "110/120", "jh_51024938": "112/120", "jh_857496": "114/120", "jh_39468521": "116/120",
+            "jh_831704": "117/120", "jh_27819365": "118/120", "jh_615028": "119/120", "jh_14278639": "119.3/120", "jh_593217": "119.7/120",
+            "jh_304179": "18/120", "jh_74162358": "27/120", "jh_482906": "35/120", "jh_12948537": "42/120", "jh_566784": "50/120",
+            "jh_80319526": "57/120", "jh_350162": "63/120", "jh_98765943": "69/120", "jh_524718": "75/120", "jh_16154732": "80/120",
+            "jh_708401": "84/120", "jh_24586973": "88/120", "jh_682196": "92/120", "jh_12954386": "95/120", "jh_476812": "98/120",
+            "jh_81365724": "101/120", "jh_360298": "104/120", "jh_90752481": "107/120", "jh_544619": "109/120", "jh_28145736": "111/120",
+            "jh_638102": "113/120", "jh_17564923": "115/120", "jh_512987": "117/120", "jh_85103476": "118/120", "jh_408162": "119/120",
+            "jh_94567938": "119.4/120", "jh_382456": "119.9/120", "jh_73918405": "4/120", "jh_270513": "11/120", "jh_61784296": "18/120",
+            "jh_154627": "24/120", "jh_49138507": "31/120", "jh_838276": "38/120", "jh_37519284": "44/120", "jh_712465": "51/120",
+            "jh_25980471": "57/120", "jh_696782": "63/120", "jh_13327546": "69/120", "jh_580139": "74/120", "jh_92740835": "79/120",
+            "jh_364625": "83/120", "jh_70123894": "87/120", "jh_258197": "91/120", "jh_69547231": "94/120", "jh_132584": "97/120",
+            "jh_57931628": "100/120", "jh_916845": "103/120", "jh_45367912": "106/120", "jh_890523": "108/120", "jh_34718659": "110/120",
+            "jh_784215": "112/120", "jh_32164978": "114/120", "jh_768092": "116/120", "jh_20543761": "117/120", "jh_642875": "118/120",
+            "jh_18972645": "119/120", "jh_526814": "119.6/120", "jh_96354817": "8/120", "jh_400937": "15/120", "jh_84726935": "22/120",
+            "jh_284105": "29/120", "jh_72153849": "36/120", "jh_468217": "43/120", "jh_10596438": "49/120", "jh_542736": "56/120",
+            "jh_18967324": "62/120", "jh_526109": "68/120", "jh_96384752": "73/120", "jh_400286": "78/120", "jh_84751039": "82/120",
+            "jh_284751": "86/120", "jh_72148325": "90/120", "jh_468619": "93/120", "jh_10570248": "96/120", "jh_542973": "99/120",
+            "jh_18905637": "102/120", "jh_526428": "105/120", "jh_96358124": "108/120", "jh_400312": "110/120", "jh_84764739": "112/120",
+            "jh_284859": "114/120", "jh_72156281": "116/120", "jh_468925": "117/120", "jh_10593846": "118/120", "jh_543184": "119/120",
+            "jh_18976359": "1.5/120", "jh_526057": "6/120", "jh_96340927": "13/120", "jh_400748": "20/120", "jh_84713562": "26/120",
+
+            "sh_t0": "143/150", "sh_t1": "135/150", "sh_t2": "126.5/150", "sh_t3": "118/150", "sh_t4": "110/150", "sh_t5": "99.75/150", "sh_t6": "89/150",
+            "sh_16284759": "147/150", "sh_37104926": "138/150", "sh_90357248": "142/150", "sh_61738295": "140/150",
+            "sh_40826139": "132/150", "sh_47817313": "136/150", "sh_52937018": "136.5/150", "sh_74689130": "134/150",
+            "sh_48269137": "138/150", "sh_29475683": "0.25/150",
+            "sh_2748676": "140/150", "sh_756455": "134/150", "sh_72486754": "128/150", "sh_1425434": "121/150", "sh_12563991": "115/150",
+            "sh_24764": "108/150", "sh_26475411": "101/150", "sh_888819002": "94/150", "sh_24675411": "87/150", "sh_27486760": "80/150",
+            "sh_5714": "39/150", "sh_26839": "53/150", "sh_649752": "64/150", "sh_1837046": "76/150", "sh_72583916": "85/150",
+            "sh_4972803": "94/150", "sh_8315064": "102/150", "sh_37492518": "110/150", "sh_672319": "117/150", "sh_2503867": "124/150",
+            "sh_94826713": "131/150", "sh_1395842": "136/150", "sh_86750439": "140/150", "sh_4216798": "143/150", "sh_73028145": "146/150",
+            "sh_1974365": "15/150", "sh_52603987": "26/150", "sh_813764": "33/150", "sh_46019528": "50/150", "sh_7342816": "61/150",
+            "sh_18935740": "71/150", "sh_6279413": "80/150", "sh_45386270": "88/150", "sh_2781394": "96/150", "sh_96150487": "105/150",
+            "sh_3162859": "113/150", "sh_70549831": "120/150", "sh_8426730": "126/150", "sh_17932546": "132/150", "sh_5302894": "138/150",
+            "sh_67418023": "142/150", "sh_3925678": "144/150", "sh_82649157": "147/150", "sh_1410729": "7/150", "sh_75936482": "16/150",
+            "sh_4629183": "27/150", "sh_89740635": "43/150", "sh_3159847": "55/150", "sh_74209168": "66/150", "sh_1835724": "75/150",
+            "sh_49637501": "84/150", "sh_6208497": "93/150", "sh_17358426": "102/150", "sh_8510439": "109/150", "sh_39726158": "117/150",
+            "sh_6247853": "124/150", "sh_18902647": "130/150", "sh_5073692": "136/150", "sh_89402157": "140/150", "sh_4326795": "143/150",
+            "sh_71648503": "146/150", "sh_2591786": "149/150", "sh_68314097": "2/150", "sh_4912658": "13/150", "sh_84703952": "22/150",
+            "sh_1703684": "37/150", "sh_40985276": "49/150", "sh_6250973": "61/150", "sh_18349762": "72/150", "sh_7601483": "81/150",
+            "sh_49520386": "91/150", "sh_3146592": "100/150", "sh_69274518": "108/150", "sh_5289476": "114/150", "sh_17963528": "121/150",
+            "sh_8037415": "128/150", "sh_24759036": "134/150", "sh_6148932": "139/150", "sh_97513268": "143/150", "sh_3851746": "147/150",
+            "sh_72406815": "150/150", "sh_1594762": "148.5/150", "sh_48691507": "4/150", "sh_7924451": "20/150", "sh_35876049": "32/150",
+            "sh_1742896": "45/150", "sh_50946382": "58/150", "sh_6239571": "68/150", "sh_18735042": "77/150", "sh_4602819": "86/150",
+            "sh_93148756": "95/150", "sh_2541796": "103/150", "sh_78950213": "110/150", "sh_3426189": "116/150", "sh_67942530": "123/150",
+            "sh_9053628": "130/150", "sh_23648791": "136/150", "sh_4789125": "140/150", "sh_89352716": "143/150", "sh_3650178": "146/150",
+            "sh_2945": "20/150", "sh_67318": "34/150", "sh_452807": "46/150", "sh_1893264": "57/150", "sh_70459362": "67/150",
+            "sh_1374560": "76/150", "sh_48250971": "85/150", "sh_254871": "93/150", "sh_89163425": "101/150", "sh_568129": "108/150",
+            "sh_1269047": "115/150", "sh_47535128": "122/150", "sh_832749": "128/150", "sh_30965284": "134/150", "sh_674018": "139/150",
+            "sh_2417359": "143/150", "sh_69847231": "146/150", "sh_155860": "148/150", "sh_52290467": "149/150", "sh_987416": "149.5/150",
+            "sh_3642538": "2.5/150", "sh_72163485": "9/150", "sh_488571": "15/150", "sh_14500926": "24/150", "sh_592867": "32/150",
+            "sh_1492345": "41/150", "sh_49657132": "50/150", "sh_853840": "58/150", "sh_31018246": "67/150", "sh_647539": "76/150",
+            "sh_1842630": "84/150", "sh_52187459": "92/150", "sh_978401": "100/150", "sh_43561728": "108/150", "sh_772583": "115/150",
+            "sh_2194065": "122/150", "sh_65697531": "129/150", "sh_193820": "135/150", "sh_54076149": "140/150", "sh_887036": "144/150",
+            "sh_3241298": "147/150", "sh_76157420": "149/150", "sh_408587": "149.8/150", "sh_14567392": "1.5/150", "sh_592408": "8/150",
+            "sh_1397265": "14/150", "sh_47695032": "23/150", "sh_813486": "31/150", "sh_35023479": "39/150", "sh_697651": "48/150",
+            "sh_2445602": "57/150", "sh_68173495": "66/150", "sh_528970": "75/150", "sh_16546932": "83/150", "sh_502815": "91/150",
+            "sh_1590724": "99/150", "sh_49653781": "107/150", "sh_853482": "114/150", "sh_31029146": "121/150", "sh_647615": "128/150",
+            "sh_1847635": "134/150", "sh_52100829": "139/150", "sh_978547": "143/150", "sh_43579618": "146/150", "sh_772609": "148/150",
+            "sh_2192513": "149.2/150", "sh_65638417": "150/150", "sh_193071": "150/150", "sh_54084295": "2/150", "sh_887124": "7/150",
+            "sh_3249078": "13/150", "sh_76185263": "22/150", "sh_408765": "30/150", "sh_14537946": "38/150", "sh_592419": "47/150",
+            "sh_1394385": "55/150", "sh_47685930": "64/150", "sh_813617": "73/150", "sh_35019647": "81/150", "sh_697538": "89/150",
+            "sh_2441308": "97/150", "sh_68149255": "105/150", "sh_528846": "112/150", "sh_16543789": "119/150", "sh_502983": "126/150",
+            "sh_1590286": "132/150", "sh_49651427": "137/150", "sh_853679": "141/150", "sh_31025098": "144/150", "sh_647483": "146/150",
+            "sh_1847352": "148/150", "sh_52188609": "149/150", "sh_978125": "149.5/150", "sh_43597468": "5/150", "sh_772350": "11/150",
+            "sh_2196017": "19/150", "sh_65643259": "27/150", "sh_193286": "36/150", "sh_54075384": "44/150", "sh_887041": "53/150",
+            "sh_3241596": "62/150", "sh_76130847": "71/150", "sh_408924": "79/150", "sh_14568213": "87/150", "sh_592765": "95/150",
+            "sh_1390428": "103/150", "sh_47657196": "110/150", "sh_813382": "117/150", "sh_35046728": "124/150", "sh_697814": "130/150",
+            "sh_2442957": "136/150", "sh_68163914": "141/150", "sh_528705": "145/150", "sh_16502283": "148/150", "sh_502479": "149.5/150",
+            "sh_1593571": "150/150", "sh_49682846": "0.5/150", "sh_853942": "6/150", "sh_31018527": "12/150", "sh_647663": "20/150",
+            "sh_1849702": "29/150", "sh_52149133": "37/150", "sh_978876": "45/150", "sh_43534916": "54/150", "sh_772258": "63/150",
+            "sh_2196354": "72/150", "sh_65609782": "80/150", "sh_193478": "88/150", "sh_54092561": "96/150", "sh_887593": "104/150",
+            "sh_3248610": "111/150", "sh_76150724": "118/150", "sh_408132": "125/150", "sh_14576489": "131/150", "sh_592846": "137/150",
+            "sh_1392983": "142/150", "sh_47603475": "146/150", "sh_813619": "148/150", "sh_35058126": "149/150", "sh_697042": "150/150",
+            "sh_2447681": "150/150", "sh_68129534": "4/150", "sh_528979": "10/150", "sh_16561407": "18/150", "sh_502358": "26/150",
+            "sh_1594039": "34/150", "sh_49678215": "43/150", "sh_853208": "52/150", "sh_31063479": "61/150", "sh_647551": "70/150"
+        };
+        const h_s = {
+            "jh_t0": "59/60", "jh_t1": "57/60", "jh_t2": "53/60", "jh_t3": "48/60", "jh_t4": "43/60", "jh_t5": "38/60", "jh_t6": "30/60",
+            "jh_787247": "60/60", "jh_73049281": "59/60", "jh_59402736": "59/60", "jh_48613057": "58/60",
+            "jh_23507469": "60/60", "jh_677613": "53/60", "jh_86140295": "52/60", "jh_17394056": "54/60",
+            "jh_36917802": "52/60", "jh_51284739": "51/60", "jh_94628351": "52/60",
+            "jh_2748676": "58/60", "jh_756455": "56/60", "jh_72486754": "54/60", "jh_1425434": "51/60", "jh_12563991": "49/60",
+            "jh_24764": "46/60", "jh_26475411": "43/60", "jh_888819002": "40/60", "jh_24675411": "37/60", "jh_27486760": "34/60",
+            "jh_9412": "15/60", "jh_38164": "22/60", "jh_727495": "26/60", "jh_1583062": "34/60", "jh_60472918": "37/60",
+            "jh_5130247": "40/60", "jh_862094": "42/60", "jh_47519306": "44/60", "jh_619532": "46/60", "jh_3048715": "48/60",
+            "jh_7294501": "50/60", "jh_1326894": "52/60", "jh_86729345": "53/60", "jh_2497180": "55/60", "jh_53629841": "56/60",
+            "jh_1802746": "9/60", "jh_9385062": "14/60", "jh_47163985": "19/60", "jh_2650847": "28/60", "jh_80349762": "31/60",
+            "jh_6193802": "34/60", "jh_45279308": "37/60", "jh_1374629": "39/60", "jh_9875043": "42/60", "jh_21467935": "44/60",
+            "jh_3428176": "46/60", "jh_60148237": "48/60", "jh_85392401": "49/60", "jh_4762895": "51/60", "jh_12073648": "53/60",
+            "jh_5683219": "54/60", "jh_73452981": "55/60", "jh_2896745": "56/60", "jh_40518273": "57/60", "jh_9572618": "0/60",
+            "jh_67381902": "7/60", "jh_2485607": "20/60", "jh_79031246": "27/60", "jh_1534872": "31/60", "jh_42698531": "34/60",
+            "jh_8792410": "36/60", "jh_34057962": "38/60", "jh_6951837": "40/60", "jh_17825490": "42/60", "jh_5436981": "44/60",
+            "jh_90247638": "46/60", "jh_2617953": "48/60", "jh_74839026": "50/60", "jh_3862174": "52/60", "jh_59980273": "54/60",
+            "jh_12463785": "55/60", "jh_4561890": "57/60", "jh_87230165": "8/60", "jh_3074962": "16/60", "jh_53927184": "23/60",
+            "jh_1638497": "29/60", "jh_72846150": "33/60", "jh_3948027": "35/60", "jh_61037942": "38/60", "jh_8520641": "40/60",
+            "jh_19754823": "42/60", "jh_4637815": "44/60", "jh_70482931": "46/60", "jh_2395178": "48/60", "jh_57613209": "50/60",
+            "jh_8154762": "51/60", "jh_31879045": "53/60", "jh_6429813": "54/60", "jh_97516042": "56/60", "jh_4012857": "57/60",
+            "jh_78930462": "58/60", "jh_2365781": "59/60", "jh_65491328": "5/60", "jh_1706485": "12/60", "jh_52391607": "19/60",
+            "jh_9463852": "24/60", "jh_28170463": "30/60", "jh_4376291": "33/60", "jh_59208314": "36/60", "jh_7142568": "39/60",
+            "jh_16934752": "41/60", "jh_3089264": "43/60", "jh_54218309": "45/60", "jh_6792458": "47/60", "jh_10374682": "49/60",
+            "jh_3875906": "51/60", "jh_82637194": "53/60", "jh_4519027": "55/60", "jh_78952316": "57/60", "jh_2640891": "58/60",
+            "jh_3819": "8/60", "jh_76024": "15/60", "jh_547183": "19/60", "jh_2910456": "26/60", "jh_83670215": "31/60",
+            "jh_1694832": "36/60", "jh_50462789": "41/60", "jh_273851": "45/60", "jh_91840637": "49/60", "jh_645293": "52/60",
+            "jh_1827490": "55/60", "jh_53726148": "57/60", "jh_904658": "59/60", "jh_37628415": "60/60", "jh_821593": "58/60",
+            "jh_2684790": "56/60", "jh_61372584": "54/60", "jh_479852": "52/60", "jh_13502679": "50/60", "jh_682493": "48/60",
+            "jh_2074183": "46/60", "jh_75496328": "44/60", "jh_391625": "42/60", "jh_84620715": "40/60", "jh_573184": "38/60",
+            "jh_1284967": "36/60", "jh_46283905": "1/60", "jh_795316": "3/60", "jh_3402718": "6/60", "jh_68749532": "10/60",
+            "jh_924608": "13/60", "jh_15937246": "17/60", "jh_486503": "21/60", "jh_73129485": "25/60", "jh_278906": "29/60",
+            "jh_6158237": "33/60", "jh_942756": "37/60", "jh_38901524": "40/60", "jh_726438": "44/60", "jh_15370269": "47/60",
+            "jh_480625": "50/60", "jh_82715439": "53/60", "jh_364807": "55/60", "jh_70128946": "57/60", "jh_248675": "59/60",
+            "jh_69501237": "60/60", "jh_132746": "58/60", "jh_57926841": "56/60", "jh_816394": "54/60", "jh_45372085": "52/60",
+            "jh_290145": "50/60", "jh_63798254": "48/60", "jh_174359": "46/60", "jh_52187436": "44/60", "jh_968207": "42/60",
+            "jh_3054961": "5/60", "jh_742853": "9/60", "jh_48921760": "12/60", "jh_126784": "16/60", "jh_57394128": "20/60",
+            "jh_810263": "24/60", "jh_35718924": "28/60", "jh_694057": "32/60", "jh_14152678": "35/60", "jh_598132": "39/60",
+            "jh_93567021": "42/60", "jh_472885": "45/60", "jh_81923647": "48/60", "jh_356174": "51/60", "jh_70348529": "53/60",
+            "jh_240618": "55/60", "jh_68713254": "57/60", "jh_124785": "59/60", "jh_57193846": "60/60", "jh_918403": "58/60",
+            "jh_36517928": "56/60", "jh_702846": "54/60", "jh_24973561": "52/60", "jh_596108": "50/60", "jh_83327549": "48/60",
+            "jh_470653": "46/60", "jh_80719432": "44/60", "jh_254381": "42/60", "jh_69172845": "40/60", "jh_138205": "0/60",
+            "jh_7853126": "4/60", "jh_432187": "7/60", "jh_87956430": "11/60", "jh_326149": "14/60", "jh_76358249": "18/60",
+            "jh_200375": "22/60", "jh_54792816": "26/60", "jh_984051": "30/60", "jh_43126875": "34/60", "jh_879430": "37/60",
+            "jh_32658719": "41/60", "jh_763100": "44/60", "jh_21045538": "47/60", "jh_657382": "50/60", "jh_19402765": "52/60",
+            "jh_521830": "54/60", "jh_96834712": "56/60", "jh_315618": "58/60", "jh_75214986": "59/60", "jh_289307": "60/60",
+            "jh_63640275": "57.5/60", "jh_173682": "55.5/60", "jh_51024938": "53.5/60", "jh_857496": "51/60", "jh_39468521": "49/60",
+            "jh_831704": "47/60", "jh_27819365": "45/60", "jh_615028": "43/60", "jh_14278639": "41/60", "jh_593217": "39/60",
+            "jh_304179": "10/60", "jh_74162358": "15/60", "jh_482906": "20/60", "jh_12948537": "25/60", "jh_566784": "30/60",
+            "jh_80319526": "35/60", "jh_350162": "39/60", "jh_98765943": "43/60", "jh_524718": "47/60", "jh_16154732": "50/60",
+            "jh_708401": "53/60", "jh_24586973": "55/60", "jh_682196": "57/60", "jh_12954386": "59/60", "jh_476812": "60/60",
+            "jh_81365724": "58/60", "jh_360298": "56/60", "jh_90752481": "54/60", "jh_544619": "52/60", "jh_28145736": "50/60",
+            "jh_638102": "48/60", "jh_17564923": "46/60", "jh_512987": "44/60", "jh_85103476": "42/60", "jh_408162": "40/60",
+            "jh_94567938": "38/60", "jh_382456": "36/60", "jh_73918405": "2/60", "jh_270513": "5/60", "jh_61784296": "9/60",
+            "jh_154627": "13/60", "jh_49138507": "17/60", "jh_838276": "21/60", "jh_37519284": "25/60", "jh_712465": "29/60",
+            "jh_25980471": "33/60", "jh_696782": "37/60", "jh_13327546": "41/60", "jh_580139": "44/60", "jh_92740835": "48/60",
+            "jh_364625": "51/60", "jh_70123894": "53/60", "jh_258197": "55/60", "jh_69547231": "57/60", "jh_132584": "59/60",
+            "jh_57931628": "60/60", "jh_916845": "58/60", "jh_45367912": "56/60", "jh_890523": "54/60", "jh_34718659": "52/60",
+            "jh_784215": "50/60", "jh_32164978": "48/60", "jh_768092": "46/60", "jh_20543761": "44/60", "jh_642875": "42/60",
+            "jh_18972645": "40/60", "jh_526814": "38/60", "jh_96354817": "4/60", "jh_400937": "8/60", "jh_84726935": "12/60",
+            "jh_284105": "16/60", "jh_72153849": "20/60", "jh_468217": "24/60", "jh_10596438": "28/60", "jh_542736": "32/60",
+            "jh_18967324": "36/60", "jh_526109": "40/60", "jh_96384752": "43/60", "jh_400286": "47/60", "jh_84751039": "50/60",
+            "jh_284751": "52/60", "jh_72148325": "54/60", "jh_468619": "56/60", "jh_10570248": "58/60", "jh_542973": "59/60",
+            "jh_18905637": "60/60", "jh_526428": "57.5/60", "jh_96358124": "55.5/60", "jh_400312": "53/60", "jh_84764739": "51/60",
+            "jh_284859": "49/60", "jh_72156281": "47/60", "jh_468925": "45/60", "jh_10593846": "43/60", "jh_543184": "41/60",
+            "jh_18976359": "0.5/60", "jh_526057": "3/60", "jh_96340927": "7/60", "jh_400748": "11/60", "jh_84713562": "15/60",
+
+            "sh_t0": "95/100", "sh_t1": "88/100", "sh_t2": "83/100", "sh_t3": "76/100", "sh_t4": "68/100", "sh_t5": "62/100", "sh_t6": "55/100",
+            "sh_16284759": "99/100", "sh_37104926": "96/100", "sh_90357248": "88/100", "sh_61738295": "91/100",
+            "sh_40826139": "92/100", "sh_47817313": "98/100", "sh_52937018": "95/100", "sh_74689130": "89/100",
+            "sh_48269137": "83/100", "sh_29475683": "0.75/100",
+            "sh_2748676": "93/100", "sh_756455": "89/100", "sh_72486754": "85/100", "sh_1425434": "80/100", "sh_12563991": "75/100",
+            "sh_24764": "70/100", "sh_26475411": "65/100", "sh_888819002": "60/100", "sh_24675411": "55/100", "sh_27486760": "50/100",
+            "sh_5714": "22/100", "sh_26839": "31/100", "sh_649752": "38/100", "sh_1837046": "45/100", "sh_72583916": "52/100",
+            "sh_4972803": "59/100", "sh_8315064": "65/100", "sh_37492518": "72/100", "sh_672319": "78/100", "sh_2503867": "84/100",
+            "sh_94826713": "89/100", "sh_1395842": "93/100", "sh_86750439": "96/100", "sh_4216798": "98/100", "sh_73028145": "99/100",
+            "sh_1974365": "8/100", "sh_52603987": "15/100", "sh_813764": "20/100", "sh_46019528": "32/100", "sh_7342816": "41/100",
+            "sh_18935740": "49/100", "sh_6279413": "55/100", "sh_45386270": "62/100", "sh_2781394": "68/100", "sh_96150487": "75/100",
+            "sh_3162859": "80/100", "sh_70549831": "85/100", "sh_8426730": "89/100", "sh_17932546": "93/100", "sh_5302894": "96/100",
+            "sh_67418023": "98/100", "sh_3925678": "99/100", "sh_82649157": "100/100", "sh_1410729": "4/100", "sh_75936482": "11/100",
+            "sh_4629183": "18/100", "sh_89740635": "28/100", "sh_3159847": "36/100", "sh_74209168": "44/100", "sh_1835724": "51/100",
+            "sh_49637501": "58/100", "sh_6208497": "65/100", "sh_17358426": "72/100", "sh_8510439": "78/100", "sh_39726158": "84/100",
+            "sh_6247853": "89/100", "sh_18902647": "93/100", "sh_5073692": "96/100", "sh_89402157": "98/100", "sh_4326795": "99/100",
+            "sh_71648503": "100/100", "sh_2591786": "100/100", "sh_68314097": "1/100", "sh_4912658": "9/100", "sh_84703952": "16/100",
+            "sh_1703684": "25/100", "sh_40985276": "34/100", "sh_6250973": "42/100", "sh_18349762": "50/100", "sh_7601483": "57/100",
+            "sh_49520386": "64/100", "sh_3146592": "71/100", "sh_69274518": "77/100", "sh_5289476": "82/100", "sh_17963528": "87/100",
+            "sh_8037415": "92/100", "sh_24759036": "95/100", "sh_6148932": "97/100", "sh_97513268": "98/100", "sh_3851746": "99/100",
+            "sh_72406815": "100/100", "sh_1594762": "99/100", "sh_48691507": "3/100", "sh_7924451": "14/100", "sh_35876049": "23/100",
+            "sh_1742896": "33/100", "sh_50946382": "40/100", "sh_6239571": "48/100", "sh_18735042": "55/100", "sh_4602819": "62/100",
+            "sh_93148756": "69/100", "sh_2541796": "76/100", "sh_78950213": "82/100", "sh_3426189": "87/100", "sh_67942530": "92/100",
+            "sh_9053628": "96/100", "sh_23648791": "98/100", "sh_4789125": "99/100", "sh_89352716": "100/100", "sh_3650178": "100/100",
+            "sh_2945": "14/100", "sh_67318": "22/100", "sh_452807": "30/100", "sh_1893264": "38/100", "sh_70459362": "46/100",
+            "sh_1374560": "53/100", "sh_48250971": "60/100", "sh_254871": "67/100", "sh_89163425": "74/100", "sh_568129": "80/100",
+            "sh_1269047": "86/100", "sh_47535128": "91/100", "sh_832749": "95/100", "sh_30965284": "98/100", "sh_674018": "100/100",
+            "sh_2417359": "99/100", "sh_69847231": "97/100", "sh_155860": "95/100", "sh_52290467": "93/100", "sh_987416": "90/100",
+            "sh_3642538": "2/100", "sh_72163485": "6/100", "sh_488571": "10/100", "sh_14500926": "16/100", "sh_592867": "22/100",
+            "sh_1492345": "28/100", "sh_49657132": "34/100", "sh_853840": "40/100", "sh_31018246": "46/100", "sh_647539": "52/100",
+            "sh_1842630": "58/100", "sh_52187459": "64/100", "sh_978401": "70/100", "sh_43561728": "76/100", "sh_772583": "82/100",
+            "sh_2194065": "88/100", "sh_65697531": "93/100", "sh_193820": "97/100", "sh_54076149": "99/100", "sh_887036": "100/100",
+            "sh_3241298": "98/100", "sh_76157420": "96/100", "sh_408587": "94/100", "sh_14567392": "1/100", "sh_592408": "5/100",
+            "sh_1397265": "9/100", "sh_47695032": "15/100", "sh_813486": "21/100", "sh_35023479": "27/100", "sh_697651": "33/100",
+            "sh_2445602": "39/100", "sh_68173495": "45/100", "sh_528970": "51/100", "sh_16546932": "57/100", "sh_502815": "63/100",
+            "sh_1590724": "69/100", "sh_49653781": "75/100", "sh_853482": "81/100", "sh_31029146": "87/100", "sh_647615": "92/100",
+            "sh_1847635": "96/100", "sh_52100829": "98/100", "sh_978547": "99/100", "sh_43579618": "100/100", "sh_772609": "97.5/100",
+            "sh_2192513": "95/100", "sh_65638417": "93/100", "sh_193071": "90/100", "sh_54084295": "1.5/100", "sh_887124": "5/100",
+            "sh_3249078": "9/100", "sh_76185263": "15/100", "sh_408765": "21/100", "sh_14537946": "27/100", "sh_592419": "33/100",
+            "sh_1394385": "39/100", "sh_47685930": "45/100", "sh_813617": "51/100", "sh_35019647": "57/100", "sh_697538": "63/100",
+            "sh_2441308": "69/100", "sh_68149255": "75/100", "sh_528846": "81/100", "sh_16543789": "87/100", "sh_502983": "92/100",
+            "sh_1590286": "96/100", "sh_49651427": "98/100", "sh_853679": "99/100", "sh_31025098": "100/100", "sh_647483": "97/100",
+            "sh_1847352": "94/100", "sh_52188609": "91/100", "sh_978125": "88/100", "sh_43597468": "4/100", "sh_772350": "8/100",
+            "sh_2196017": "12/100", "sh_65643259": "18/100", "sh_193286": "24/100", "sh_54075384": "30/100", "sh_887041": "36/100",
+            "sh_3241596": "42/100", "sh_76130847": "48/100", "sh_408924": "54/100", "sh_14568213": "60/100", "sh_592765": "66/100",
+            "sh_1390428": "72/100", "sh_47657196": "78/100", "sh_813382": "84/100", "sh_35046728": "89/100", "sh_697814": "94/100",
+            "sh_2442957": "97/100", "sh_68163914": "99/100", "sh_528705": "100/100", "sh_16502283": "98/100", "sh_502479": "96/100",
+            "sh_1593571": "93.5/100", "sh_49682846": "0.5/100", "sh_853942": "4/100", "sh_31018527": "8/100", "sh_647663": "12/100",
+            "sh_1849702": "18/100", "sh_52149133": "24/100", "sh_978876": "30/100", "sh_43534916": "36/100", "sh_772258": "42/100",
+            "sh_2196354": "48/100", "sh_65609782": "54/100", "sh_193478": "60/100", "sh_54092561": "66/100", "sh_887593": "72/100",
+            "sh_3248610": "78/100", "sh_76150724": "84/100", "sh_408132": "89/100", "sh_14576489": "94/100", "sh_592846": "97/100",
+            "sh_1392983": "99/100", "sh_47603475": "100/100", "sh_813619": "98/100", "sh_35058126": "96/100", "sh_697042": "93/100",
+            "sh_2447681": "90/100", "sh_68129534": "3/100", "sh_528979": "7/100", "sh_16561407": "11/100", "sh_502358": "17/100",
+            "sh_1594039": "23/100", "sh_49678215": "29/100", "sh_853208": "35/100", "sh_31063479": "41/100", "sh_647551": "47/100"
+        };
+        const p_s = {
+            "jh_t0": "58/60", "jh_t1": "55/60", "jh_t2": "51/60", "jh_t3": "47/60", "jh_t4": "43/60", "jh_t5": "38/60", "jh_t6": "33/60",
+            "jh_787247": "60/60", "jh_73049281": "56/60", "jh_59402736": "57/60", "jh_48613057": "55/60",
+            "jh_23507469": "51/60", "jh_677613": "57/60", "jh_86140295": "51/60", "jh_17394056": "56/60",
+            "jh_36917802": "49/60", "jh_51284739": "57/60", "jh_94628351": "47/60",
+            "jh_2748676": "57/60", "jh_756455": "55/60", "jh_72486754": "52/60", "jh_1425434": "49/60", "jh_12563991": "46/60",
+            "jh_24764": "43/60", "jh_26475411": "40/60", "jh_888819002": "37/60", "jh_24675411": "34/60", "jh_27486760": "31/60",
+            "jh_9412": "16/60", "jh_38164": "23/60", "jh_727495": "27/60", "jh_1583062": "35/60", "jh_60472918": "38/60",
+            "jh_5130247": "41/60", "jh_862094": "43/60", "jh_47519306": "45/60", "jh_619532": "47/60", "jh_3048715": "49/60",
+            "jh_7294501": "51/60", "jh_1326894": "53/60", "jh_86729345": "54/60", "jh_2497180": "56/60", "jh_53629841": "57/60",
+            "jh_1802746": "10/60", "jh_9385062": "15/60", "jh_47163985": "20/60", "jh_2650847": "29/60", "jh_80349762": "32/60",
+            "jh_6193802": "35/60", "jh_45279308": "38/60", "jh_1374629": "40/60", "jh_9875043": "43/60", "jh_21467935": "45/60",
+            "jh_3428176": "47/60", "jh_60148237": "49/60", "jh_85392401": "50/60", "jh_4762895": "52/60", "jh_12073648": "54/60",
+            "jh_5683219": "55/60", "jh_73452981": "56/60", "jh_2896745": "57/60", "jh_40518273": "58/60", "jh_9572618": "1/60",
+            "jh_67381902": "8/60", "jh_2485607": "21/60", "jh_79031246": "28/60", "jh_1534872": "32/60", "jh_42698531": "35/60",
+            "jh_8792410": "37/60", "jh_34057962": "39/60", "jh_6951837": "41/60", "jh_17825490": "43/60", "jh_5436981": "45/60",
+            "jh_90247638": "47/60", "jh_2617953": "49/60", "jh_74839026": "51/60", "jh_3862174": "53/60", "jh_59980273": "55/60",
+            "jh_12463785": "56/60", "jh_4561890": "58/60", "jh_87230165": "9/60", "jh_3074962": "17/60", "jh_53927184": "24/60",
+            "jh_1638497": "30/60", "jh_72846150": "34/60", "jh_3948027": "36/60", "jh_61037942": "39/60", "jh_8520641": "41/60",
+            "jh_19754823": "43/60", "jh_4637815": "45/60", "jh_70482931": "47/60", "jh_2395178": "49/60", "jh_57613209": "51/60",
+            "jh_8154762": "52/60", "jh_31879045": "54/60", "jh_6429813": "55/60", "jh_97516042": "57/60", "jh_4012857": "58/60",
+            "jh_78930462": "59/60", "jh_2365781": "60/60", "jh_65491328": "6/60", "jh_1706485": "13/60", "jh_52391607": "20/60",
+            "jh_9463852": "25/60", "jh_28170463": "31/60", "jh_4376291": "34/60", "jh_59208314": "37/60", "jh_7142568": "40/60",
+            "jh_16934752": "42/60", "jh_3089264": "44/60", "jh_54218309": "46/60", "jh_6792458": "48/60", "jh_10374682": "50/60",
+            "jh_3875906": "52/60", "jh_82637194": "54/60", "jh_4519027": "56/60", "jh_78952316": "58/60", "jh_2640891": "59/60",
+            "jh_3819": "9/60", "jh_76024": "16/60", "jh_547183": "20/60", "jh_2910456": "27/60", "jh_83670215": "32/60",
+            "jh_1694832": "37/60", "jh_50462789": "42/60", "jh_273851": "46/60", "jh_91840637": "50/60", "jh_645293": "53/60",
+            "jh_1827490": "56/60", "jh_53726148": "58/60", "jh_904658": "60/60", "jh_37628415": "59/60", "jh_821593": "57/60",
+            "jh_2684790": "55/60", "jh_61372584": "53/60", "jh_479852": "51/60", "jh_13502679": "49/60", "jh_682493": "47/60",
+            "jh_2074183": "45/60", "jh_75496328": "43/60", "jh_391625": "41/60", "jh_84620715": "39/60", "jh_573184": "37/60",
+            "jh_1284967": "35/60", "jh_46283905": "1/60", "jh_795316": "4/60", "jh_3402718": "7/60", "jh_68749532": "11/60",
+            "jh_924608": "14/60", "jh_15937246": "18/60", "jh_486503": "22/60", "jh_73129485": "26/60", "jh_278906": "30/60",
+            "jh_6158237": "34/60", "jh_942756": "38/60", "jh_38901524": "41/60", "jh_726438": "45/60", "jh_15370269": "48/60",
+            "jh_480625": "51/60", "jh_82715439": "54/60", "jh_364807": "56/60", "jh_70128946": "58/60", "jh_248675": "60/60",
+            "jh_69501237": "59/60", "jh_132746": "57/60", "jh_57926841": "55/60", "jh_816394": "53/60", "jh_45372085": "51/60",
+            "jh_290145": "49/60", "jh_63798254": "47/60", "jh_174359": "45/60", "jh_52187436": "43/60", "jh_968207": "41/60",
+            "jh_3054961": "6/60", "jh_742853": "10/60", "jh_48921760": "13/60", "jh_126784": "17/60", "jh_57394128": "21/60",
+            "jh_810263": "25/60", "jh_35718924": "29/60", "jh_694057": "33/60", "jh_14152678": "36/60", "jh_598132": "40/60",
+            "jh_93567021": "43/60", "jh_472885": "46/60", "jh_81923647": "49/60", "jh_356174": "52/60", "jh_70348529": "54/60",
+            "jh_240618": "56/60", "jh_68713254": "58/60", "jh_124785": "60/60", "jh_57193846": "59/60", "jh_918403": "57/60",
+            "jh_36517928": "55/60", "jh_702846": "53/60", "jh_24973561": "51/60", "jh_596108": "49/60", "jh_83327549": "47/60",
+            "jh_470653": "45/60", "jh_80719432": "43/60", "jh_254381": "41/60", "jh_69172845": "39/60", "jh_138205": "0/60",
+            "jh_7853126": "5/60", "jh_432187": "8/60", "jh_87956430": "12/60", "jh_326149": "15/60", "jh_76358249": "19/60",
+            "jh_200375": "23/60", "jh_54792816": "27/60", "jh_984051": "31/60", "jh_43126875": "35/60", "jh_879430": "38/60",
+            "jh_32658719": "42/60", "jh_763100": "45/60", "jh_21045538": "48/60", "jh_657382": "51/60", "jh_19402765": "53/60",
+            "jh_521830": "55/60", "jh_96834712": "57/60", "jh_315618": "59/60", "jh_75214986": "60/60", "jh_289307": "58/60",
+            "jh_63640275": "56/60", "jh_173682": "54/60", "jh_51024938": "52/60", "jh_857496": "50/60", "jh_39468521": "48/60",
+            "jh_831704": "46/60", "jh_27819365": "44/60", "jh_615028": "42/60", "jh_14278639": "40/60", "jh_593217": "38/60",
+            "jh_304179": "11/60", "jh_74162358": "16/60", "jh_482906": "21/60", "jh_12948537": "26/60", "jh_566784": "31/60",
+            "jh_80319526": "36/60", "jh_350162": "40/60", "jh_98765943": "44/60", "jh_524718": "48/60", "jh_16154732": "51/60",
+            "jh_708401": "54/60", "jh_24586973": "56/60", "jh_682196": "58/60", "jh_12954386": "60/60", "jh_476812": "59/60",
+            "jh_81365724": "57/60", "jh_360298": "55/60", "jh_90752481": "53/60", "jh_544619": "51/60", "jh_28145736": "49/60",
+            "jh_638102": "47/60", "jh_17564923": "45/60", "jh_512987": "43/60", "jh_85103476": "41/60", "jh_408162": "39/60",
+            "jh_94567938": "37/60", "jh_382456": "35/60", "jh_73918405": "3/60", "jh_270513": "6/60", "jh_61784296": "10/60",
+            "jh_154627": "14/60", "jh_49138507": "18/60", "jh_838276": "22/60", "jh_37519284": "26/60", "jh_712465": "30/60",
+            "jh_25980471": "34/60", "jh_696782": "38/60", "jh_13327546": "42/60", "jh_580139": "45/60", "jh_92740835": "49/60",
+            "jh_364625": "52/60", "jh_70123894": "54/60", "jh_258197": "56/60", "jh_69547231": "58/60", "jh_132584": "60/60",
+            "jh_57931628": "59/60", "jh_916845": "57/60", "jh_45367912": "55/60", "jh_890523": "53/60", "jh_34718659": "51/60",
+            "jh_784215": "49/60", "jh_32164978": "47/60", "jh_768092": "45/60", "jh_20543761": "43/60", "jh_642875": "41/60",
+            "jh_18972645": "39/60", "jh_526814": "37/60", "jh_96354817": "5/60", "jh_400937": "9/60", "jh_84726935": "13/60",
+            "jh_284105": "17/60", "jh_72153849": "21/60", "jh_468217": "25/60", "jh_10596438": "29/60", "jh_542736": "33/60",
+            "jh_18967324": "37/60", "jh_526109": "41/60", "jh_96384752": "44/60", "jh_400286": "48/60", "jh_84751039": "51/60",
+            "jh_284751": "53/60", "jh_72148325": "55/60", "jh_468619": "57/60", "jh_10570248": "59/60", "jh_542973": "60/60",
+            "jh_18905637": "58/60", "jh_526428": "56/60", "jh_96358124": "54/60", "jh_400312": "52/60", "jh_84764739": "50/60",
+            "jh_284859": "48/60", "jh_72156281": "46/60", "jh_468925": "44/60", "jh_10593846": "42/60", "jh_543184": "40/60",
+            "jh_18976359": "1/60", "jh_526057": "4/60", "jh_96340927": "8/60", "jh_400748": "12/60", "jh_84713562": "16/60",
+
+            "sh_t0": "96/100", "sh_t1": "90/100", "sh_t2": "83/100", "sh_t3": "78/100", "sh_t4": "71/100", "sh_t5": "64/100", "sh_t6": "57/100",
+            "sh_16284759": "95/100", "sh_37104926": "87/100", "sh_90357248": "87/100", "sh_61738295": "92/100",
+            "sh_40826139": "96/100", "sh_47817313": "97/100", "sh_52937018": "84/100", "sh_74689130": "85/100",
+            "sh_48269137": "82/100", "sh_29475683": "9/100",
+            "sh_2748676": "93/100", "sh_756455": "89/100", "sh_72486754": "84/100", "sh_1425434": "79/100", "sh_12563991": "74/100",
+            "sh_24764": "69/100", "sh_26475411": "64/100", "sh_888819002": "59/100", "sh_24675411": "54/100", "sh_27486760": "49/100",
+            "sh_5714": "23/100", "sh_26839": "32/100", "sh_649752": "39/100", "sh_1837046": "46/100", "sh_72583916": "53/100",
+            "sh_4972803": "60/100", "sh_8315064": "66/100", "sh_37492518": "73/100", "sh_672319": "79/100", "sh_2503867": "85/100",
+            "sh_94826713": "90/100", "sh_1395842": "94/100", "sh_86750439": "97/100", "sh_4216798": "99/100", "sh_73028145": "100/100",
+            "sh_1974365": "9/100", "sh_52603987": "16/100", "sh_813764": "21/100", "sh_46019528": "33/100", "sh_7342816": "42/100",
+            "sh_18935740": "50/100", "sh_6279413": "56/100", "sh_45386270": "63/100", "sh_2781394": "69/100", "sh_96150487": "76/100",
+            "sh_3162859": "81/100", "sh_70549831": "86/100", "sh_8426730": "90/100", "sh_17932546": "94/100", "sh_5302894": "97/100",
+            "sh_67418023": "99/100", "sh_3925678": "100/100", "sh_82649157": "100/100", "sh_1410729": "5/100", "sh_75936482": "12/100",
+            "sh_4629183": "19/100", "sh_89740635": "29/100", "sh_3159847": "37/100", "sh_74209168": "45/100", "sh_1835724": "52/100",
+            "sh_49637501": "59/100", "sh_6208497": "66/100", "sh_17358426": "73/100", "sh_8510439": "79/100", "sh_39726158": "85/100",
+            "sh_6247853": "90/100", "sh_18902647": "94/100", "sh_5073692": "97/100", "sh_89402157": "99/100", "sh_4326795": "100/100",
+            "sh_71648503": "100/100", "sh_2591786": "100/100", "sh_68314097": "2/100", "sh_4912658": "10/100", "sh_84703952": "17/100",
+            "sh_1703684": "26/100", "sh_40985276": "35/100", "sh_6250973": "43/100", "sh_18349762": "51/100", "sh_7601483": "58/100",
+            "sh_49520386": "65/100", "sh_3146592": "72/100", "sh_69274518": "78/100", "sh_5289476": "83/100", "sh_17963528": "88/100",
+            "sh_8037415": "93/100", "sh_24759036": "96/100", "sh_6148932": "98/100", "sh_97513268": "99/100", "sh_3851746": "100/100",
+            "sh_72406815": "100/100", "sh_1594762": "99.5/100", "sh_48691507": "4/100", "sh_7924451": "15/100", "sh_35876049": "24/100",
+            "sh_1742896": "34/100", "sh_50946382": "41/100", "sh_6239571": "49/100", "sh_18735042": "56/100", "sh_4602819": "63/100",
+            "sh_93148756": "70/100", "sh_2541796": "77/100", "sh_78950213": "83/100", "sh_3426189": "88/100", "sh_67942530": "93/100",
+            "sh_9053628": "97/100", "sh_23648791": "99/100", "sh_4789125": "100/100", "sh_89352716": "100/100", "sh_3650178": "100/100",
+            "sh_2945": "15/100", "sh_67318": "23/100", "sh_452807": "31/100", "sh_1893264": "39/100", "sh_70459362": "47/100",
+            "sh_1374560": "54/100", "sh_48250971": "61/100", "sh_254871": "68/100", "sh_89163425": "75/100", "sh_568129": "81/100",
+            "sh_1269047": "87/100", "sh_47535128": "92/100", "sh_832749": "96/100", "sh_30965284": "99/100", "sh_674018": "100/100",
+            "sh_2417359": "98.5/100", "sh_69847231": "97/100", "sh_155860": "95/100", "sh_52290467": "92/100", "sh_987416": "90/100",
+            "sh_3642538": "2/100", "sh_72163485": "7/100", "sh_488571": "11/100", "sh_14500926": "17/100", "sh_592867": "23/100",
+            "sh_1492345": "29/100", "sh_49657132": "35/100", "sh_853840": "41/100", "sh_31018246": "47/100", "sh_647539": "53/100",
+            "sh_1842630": "59/100", "sh_52187459": "65/100", "sh_978401": "71/100", "sh_43561728": "77/100", "sh_772583": "83/100",
+            "sh_2194065": "89/100", "sh_65697531": "94/100", "sh_193820": "98/100", "sh_54076149": "100/100", "sh_887036": "99/100",
+            "sh_3241298": "97/100", "sh_76157420": "95/100", "sh_408587": "93/100", "sh_14567392": "1/100", "sh_592408": "6/100",
+            "sh_1397265": "10/100", "sh_47695032": "16/100", "sh_813486": "22/100", "sh_35023479": "28/100", "sh_697651": "34/100",
+            "sh_2445602": "40/100", "sh_68173495": "46/100", "sh_528970": "52/100", "sh_16546932": "58/100", "sh_502815": "64/100",
+            "sh_1590724": "70/100", "sh_49653781": "76/100", "sh_853482": "82/100", "sh_31029146": "88/100", "sh_647615": "93/100",
+            "sh_1847635": "97/100", "sh_52100829": "99/100", "sh_978547": "100/100", "sh_43579618": "98/100", "sh_772609": "96/100",
+            "sh_2192513": "94/100", "sh_65638417": "91/100", "sh_193071": "89/100", "sh_54084295": "2/100", "sh_887124": "6/100",
+            "sh_3249078": "10/100", "sh_76185263": "16/100", "sh_408765": "22/100", "sh_14537946": "28/100", "sh_592419": "34/100",
+            "sh_1394385": "40/100", "sh_47685930": "46/100", "sh_813617": "52/100", "sh_35019647": "58/100", "sh_697538": "64/100",
+            "sh_2441308": "70/100", "sh_68149255": "76/100", "sh_528846": "82/100", "sh_16543789": "88/100", "sh_502983": "93/100",
+            "sh_1590286": "97/100", "sh_49651427": "99/100", "sh_853679": "100/100", "sh_31025098": "98.5/100", "sh_647483": "97/100",
+            "sh_1847352": "94/100", "sh_52188609": "91/100", "sh_978125": "88/100", "sh_43597468": "5/100", "sh_772350": "9/100",
+            "sh_2196017": "13/100", "sh_65643259": "19/100", "sh_193286": "25/100", "sh_54075384": "31/100", "sh_887041": "37/100",
+            "sh_3241596": "43/100", "sh_76130847": "49/100", "sh_408924": "55/100", "sh_14568213": "61/100", "sh_592765": "67/100",
+            "sh_1390428": "73/100", "sh_47657196": "79/100", "sh_813382": "85/100", "sh_35046728": "90/100", "sh_697814": "95/100",
+            "sh_2442957": "98/100", "sh_68163914": "100/100", "sh_528705": "99/100", "sh_16502283": "97/100", "sh_502479": "95/100",
+            "sh_1593571": "92/100", "sh_49682846": "1/100", "sh_853942": "5/100", "sh_31018527": "9/100", "sh_647663": "13/100",
+            "sh_1849702": "19/100", "sh_52149133": "25/100", "sh_978876": "31/100", "sh_43534916": "37/100", "sh_772258": "43/100",
+            "sh_2196354": "49/100", "sh_65609782": "55/100", "sh_193478": "61/100", "sh_54092561": "67/100", "sh_887593": "73/100",
+            "sh_3248610": "79/100", "sh_76150724": "85/100", "sh_408132": "90/100", "sh_14576489": "95/100", "sh_592846": "98/100",
+            "sh_1392983": "100/100", "sh_47603475": "99/100", "sh_813619": "97/100", "sh_35058126": "94/100", "sh_697042": "92/100",
+            "sh_2447681": "89/100", "sh_68129534": "4/100", "sh_528979": "8/100", "sh_16561407": "12/100", "sh_502358": "18/100",
+            "sh_1594039": "24/100", "sh_49678215": "30/100", "sh_853208": "36/100", "sh_31063479": "42/100", "sh_647551": "48/100"
+        };
+        const g_s = {
+            "jh_t0": "47/50", "jh_t1": "44/50", "jh_t2": "41/50", "jh_t3": "38.5/50", "jh_t4": "33.75/50", "jh_t5": "27.5/50", "jh_t6": "22/50",
+            "jh_787247": "49/50", "jh_73049281": "47/50", "jh_59402736": "48/50", "jh_48613057": "44/50",
+            "jh_23507469": "43/50", "jh_677613": "44/50", "jh_86140295": "40/50", "jh_17394056": "39/50",
+            "jh_36917802": "48/50", "jh_51284739": "41/50", "jh_94628351": "38/50",
+            "jh_2748676": "46/50", "jh_756455": "44/50", "jh_72486754": "42/50", "jh_1425434": "39/50", "jh_12563991": "37/50",
+            "jh_24764": "34/50", "jh_26475411": "31/50", "jh_888819002": "28/50", "jh_24675411": "25/50", "jh_27486760": "22/50",
+            "jh_9412": "13/50", "jh_38164": "19/50", "jh_727495": "22/50", "jh_1583062": "28/50", "jh_60472918": "31/50",
+            "jh_5130247": "34/50", "jh_862094": "36/50", "jh_47519306": "38/50", "jh_619532": "40/50", "jh_3048715": "42/50",
+            "jh_7294501": "44/50", "jh_1326894": "45/50", "jh_86729345": "46/50", "jh_2497180": "47/50", "jh_53629841": "48/50",
+            "jh_1802746": "7/50", "jh_9385062": "12/50", "jh_47163985": "16/50", "jh_2650847": "24/50", "jh_80349762": "26/50",
+            "jh_6193802": "29/50", "jh_45279308": "32/50", "jh_1374629": "33/50", "jh_9875043": "36/50", "jh_21467935": "38/50",
+            "jh_3428176": "40/50", "jh_60148237": "42/50", "jh_85392401": "43/50", "jh_4762895": "44/50", "jh_12073648": "46/50",
+            "jh_5683219": "47/50", "jh_73452981": "48/50", "jh_2896745": "49/50", "jh_40518273": "49.5/50", "jh_9572618": "0/50",
+            "jh_67381902": "6/50", "jh_2485607": "17/50", "jh_79031246": "23/50", "jh_1534872": "26/50", "jh_42698531": "29/50",
+            "jh_8792410": "31/50", "jh_34057962": "33/50", "jh_6951837": "35/50", "jh_17825490": "37/50", "jh_5436981": "39/50",
+            "jh_90247638": "41/50", "jh_2617953": "43/50", "jh_74839026": "44/50", "jh_3862174": "46/50", "jh_59980273": "47/50",
+            "jh_12463785": "48/50", "jh_4561890": "49/50", "jh_87230165": "7/50", "jh_3074962": "14/50", "jh_53927184": "20/50",
+            "jh_1638497": "25/50", "jh_72846150": "28/50", "jh_3948027": "30/50", "jh_61037942": "32/50", "jh_8520641": "34/50",
+            "jh_19754823": "36/50", "jh_4637815": "38/50", "jh_70482931": "40/50", "jh_2395178": "42/50", "jh_57613209": "44/50",
+            "jh_8154762": "45/50", "jh_31879045": "46/50", "jh_6429813": "47/50", "jh_97516042": "48/50", "jh_4012857": "49/50",
+            "jh_78930462": "49.5/50", "jh_2365781": "49.8/50", "jh_65491328": "5/50", "jh_1706485": "11/50", "jh_52391607": "16/50",
+            "jh_9463852": "21/50", "jh_28170463": "26/50", "jh_4376291": "29/50", "jh_59208314": "31/50", "jh_7142568": "34/50",
+            "jh_16934752": "36/50", "jh_3089264": "38/50", "jh_54218309": "40/50", "jh_6792458": "42/50", "jh_10374682": "44/50",
+            "jh_3875906": "45/50", "jh_82637194": "47/50", "jh_4519027": "48/50", "jh_78952316": "49/50", "jh_2640891": "49.5/50",
+            "jh_3819": "7/50", "jh_76024": "13/50", "jh_547183": "17/50", "jh_2910456": "23/50", "jh_83670215": "28/50",
+            "jh_1694832": "32/50", "jh_50462789": "36/50", "jh_273851": "40/50", "jh_91840637": "43/50", "jh_645293": "46/50",
+            "jh_1827490": "48/50", "jh_53726148": "49/50", "jh_904658": "50/50", "jh_37628415": "48.5/50", "jh_821593": "47/50",
+            "jh_2684790": "45/50", "jh_61372584": "43/50", "jh_479852": "41/50", "jh_13502679": "39/50", "jh_682493": "37/50",
+            "jh_2074183": "35/50", "jh_75496328": "33/50", "jh_391625": "31/50", "jh_84620715": "29/50", "jh_573184": "27/50",
+            "jh_1284967": "25/50", "jh_46283905": "0/50", "jh_795316": "3/50", "jh_3402718": "6/50", "jh_68749532": "9/50",
+            "jh_924608": "12/50", "jh_15937246": "15/50", "jh_486503": "18/50", "jh_73129485": "21/50", "jh_278906": "24/50",
+            "jh_6158237": "27/50", "jh_942756": "30/50", "jh_38901524": "33/50", "jh_726438": "36/50", "jh_15370269": "39/50",
+            "jh_480625": "42/50", "jh_82715439": "44/50", "jh_364807": "46/50", "jh_70128946": "48/50", "jh_248675": "49/50",
+            "jh_69501237": "50/50", "jh_132746": "48/50", "jh_57926841": "46/50", "jh_816394": "44/50", "jh_45372085": "42/50",
+            "jh_290145": "40/50", "jh_63798254": "38/50", "jh_174359": "36/50", "jh_52187436": "34/50", "jh_968207": "32/50",
+            "jh_3054961": "5/50", "jh_742853": "8/50", "jh_48921760": "11/50", "jh_126784": "14/50", "jh_57394128": "17/50",
+            "jh_810263": "20/50", "jh_35718924": "23/50", "jh_694057": "26/50", "jh_14152678": "29/50", "jh_598132": "32/50",
+            "jh_93567021": "35/50", "jh_472885": "38/50", "jh_81923647": "40/50", "jh_356174": "42/50", "jh_70348529": "44/50",
+            "jh_240618": "46/50", "jh_68713254": "48/50", "jh_124785": "49/50", "jh_57193846": "50/50", "jh_918403": "48.5/50",
+            "jh_36517928": "47/50", "jh_702846": "45/50", "jh_24973561": "43/50", "jh_596108": "41/50", "jh_83327549": "39/50",
+            "jh_470653": "37/50", "jh_80719432": "35/50", "jh_254381": "33/50", "jh_69172845": "31/50", "jh_138205": "0.5/50",
+            "jh_7853126": "4/50", "jh_432187": "7/50", "jh_87956430": "10/50", "jh_326149": "13/50", "jh_76358249": "16/50",
+            "jh_200375": "19/50", "jh_54792816": "22/50", "jh_984051": "25/50", "jh_43126875": "28/50", "jh_879430": "31/50",
+            "jh_32658719": "34/50", "jh_763100": "37/50", "jh_21045538": "39/50", "jh_657382": "41/50", "jh_19402765": "43/50",
+            "jh_521830": "45/50", "jh_96834712": "47/50", "jh_315618": "48/50", "jh_75214986": "49/50", "jh_289307": "50/50",
+            "jh_63640275": "48/50", "jh_173682": "46/50", "jh_51024938": "44/50", "jh_857496": "42/50", "jh_39468521": "40/50",
+            "jh_831704": "38/50", "jh_27819365": "36/50", "jh_615028": "34/50", "jh_14278639": "32/50", "jh_593217": "30/50",
+            "jh_304179": "9/50", "jh_74162358": "14/50", "jh_482906": "19/50", "jh_12948537": "24/50", "jh_566784": "29/50",
+            "jh_80319526": "34/50", "jh_350162": "38/50", "jh_98765943": "42/50", "jh_524718": "45/50", "jh_16154732": "48/50",
+            "jh_708401": "50/50", "jh_24586973": "49/50", "jh_682196": "47/50", "jh_12954386": "45/50", "jh_476812": "43/50",
+            "jh_81365724": "41/50", "jh_360298": "39/50", "jh_90752481": "37/50", "jh_544619": "35/50", "jh_28145736": "33/50",
+            "jh_638102": "31/50", "jh_17564923": "29/50", "jh_512987": "27/50", "jh_85103476": "25/50", "jh_408162": "23/50",
+            "jh_94567938": "21/50", "jh_382456": "19/50", "jh_73918405": "2/50", "jh_270513": "5/50", "jh_61784296": "8/50",
+            "jh_154627": "11/50", "jh_49138507": "14/50", "jh_838276": "17/50", "jh_37519284": "20/50", "jh_712465": "23/50",
+            "jh_25980471": "26/50", "jh_696782": "29/50", "jh_13327546": "32/50", "jh_580139": "35/50", "jh_92740835": "38/50",
+            "jh_364625": "40/50", "jh_70123894": "42/50", "jh_258197": "44/50", "jh_69547231": "46/50", "jh_132584": "48/50",
+            "jh_57931628": "49/50", "jh_916845": "50/50", "jh_45367912": "48.5/50", "jh_890523": "47/50", "jh_34718659": "45/50",
+            "jh_784215": "43/50", "jh_32164978": "41/50", "jh_768092": "39/50", "jh_20543761": "37/50", "jh_642875": "35/50",
+            "jh_18972645": "33/50", "jh_526814": "31/50", "jh_96354817": "4/50", "jh_400937": "7/50", "jh_84726935": "10/50",
+            "jh_284105": "13/50", "jh_72153849": "16/50", "jh_468217": "19/50", "jh_10596438": "22/50", "jh_542736": "25/50",
+            "jh_18967324": "28/50", "jh_526109": "31/50", "jh_96384752": "34/50", "jh_400286": "37/50", "jh_84751039": "40/50",
+            "jh_284751": "42/50", "jh_72148325": "44/50", "jh_468619": "46/50", "jh_10570248": "48/50", "jh_542973": "49/50",
+            "jh_18905637": "50/50", "jh_526428": "48/50", "jh_96358124": "46/50", "jh_400312": "44/50", "jh_84764739": "42/50",
+            "jh_284859": "40/50", "jh_72156281": "38/50", "jh_468925": "36/50", "jh_10593846": "34/50", "jh_543184": "32/50",
+            "jh_18976359": "1/50", "jh_526057": "3/50", "jh_96340927": "6/50", "jh_400748": "9/50", "jh_84713562": "12/50",
+
+            "sh_t0": "95.5/100", "sh_t1": "89/100", "sh_t2": "83.5/100", "sh_t3": "74/100", "sh_t4": "64.5/100", "sh_t5": "54.5/100", "sh_t6": "44/100",
+            "sh_16284759": "95/100", "sh_37104926": "93/100", "sh_90357248": "87/100", "sh_61738295": "81/100",
+            "sh_40826139": "85/100", "sh_47817313": "89/100", "sh_52937018": "81/100", "sh_74689130": "87/100",
+            "sh_48269137": "81/100", "sh_29475683": "1/100",
+            "sh_2748676": "93/100", "sh_756455": "89/100", "sh_72486754": "84/100", "sh_1425434": "79/100", "sh_12563991": "74/100",
+            "sh_24764": "69/100", "sh_26475411": "64/100", "sh_888819002": "59/100", "sh_24675411": "54/100", "sh_27486760": "49/100",
+            "sh_5714": "19/100", "sh_26839": "27/100", "sh_649752": "33/100", "sh_1837046": "40/100", "sh_72583916": "47/100",
+            "sh_4972803": "54/100", "sh_8315064": "60/100", "sh_37492518": "67/100", "sh_672319": "73/100", "sh_2503867": "79/100",
+            "sh_94826713": "85/100", "sh_1395842": "90/100", "sh_86750439": "94/100", "sh_4216798": "97/100", "sh_73028145": "99/100",
+            "sh_1974365": "7/100", "sh_52603987": "13/100", "sh_813764": "18/100", "sh_46019528": "29/100", "sh_7342816": "38/100",
+            "sh_18935740": "46/100", "sh_6279413": "52/100", "sh_45386270": "59/100", "sh_2781394": "65/100", "sh_96150487": "72/100",
+            "sh_3162859": "78/100", "sh_70549831": "83/100", "sh_8426730": "88/100", "sh_17932546": "92/100", "sh_5302894": "95/100",
+            "sh_67418023": "97/100", "sh_3925678": "98/100", "sh_82649157": "99/100", "sh_1410729": "3/100", "sh_75936482": "10/100",
+            "sh_4629183": "16/100", "sh_89740635": "25/100", "sh_3159847": "33/100", "sh_74209168": "41/100", "sh_1835724": "48/100",
+            "sh_49637501": "55/100", "sh_6208497": "62/100", "sh_17358426": "69/100", "sh_8510439": "75/100", "sh_39726158": "81/100",
+            "sh_6247853": "87/100", "sh_18902647": "92/100", "sh_5073692": "95/100", "sh_89402157": "97/100", "sh_4326795": "98/100",
+            "sh_71648503": "99/100", "sh_2591786": "100/100", "sh_68314097": "1/100", "sh_4912658": "8/100", "sh_84703952": "14/100",
+            "sh_1703684": "23/100", "sh_40985276": "32/100", "sh_6250973": "40/100", "sh_18349762": "48/100", "sh_7601483": "54/100",
+            "sh_49520386": "61/100", "sh_3146592": "68/100", "sh_69274518": "74/100", "sh_5289476": "80/100", "sh_17963528": "85/100",
+            "sh_8037415": "90/100", "sh_24759036": "94/100", "sh_6148932": "96/100", "sh_97513268": "98/100", "sh_3851746": "99/100",
+            "sh_72406815": "100/100", "sh_1594762": "99/100", "sh_48691507": "2/100", "sh_7924451": "13/100", "sh_35876049": "21/100",
+            "sh_1742896": "31/100", "sh_50946382": "38/100", "sh_6239571": "46/100", "sh_18735042": "53/100", "sh_4602819": "60/100",
+            "sh_93148756": "67/100", "sh_2541796": "74/100", "sh_78950213": "80/100", "sh_3426189": "85/100", "sh_67942530": "90/100",
+            "sh_9053628": "95/100", "sh_23648791": "97/100", "sh_4789125": "98/100", "sh_89352716": "99/100", "sh_3650178": "100/100",
+            "sh_2945": "13/100", "sh_67318": "20/100", "sh_452807": "28/100", "sh_1893264": "36/100", "sh_70459362": "44/100",
+            "sh_1374560": "51/100", "sh_48250971": "58/100", "sh_254871": "65/100", "sh_89163425": "72/100", "sh_568129": "78/100",
+            "sh_1269047": "84/100", "sh_47535128": "89/100", "sh_832749": "93/100", "sh_30965284": "96/100", "sh_674018": "98/100",
+            "sh_2417359": "99/100", "sh_69847231": "97/100", "sh_155860": "95/100", "sh_52290467": "92/100", "sh_987416": "90/100",
+            "sh_3642538": "1/100", "sh_72163485": "5/100", "sh_488571": "9/100", "sh_14500926": "15/100", "sh_592867": "21/100",
+            "sh_1492345": "27/100", "sh_49657132": "33/100", "sh_853840": "39/100", "sh_31018246": "45/100", "sh_647539": "51/100",
+            "sh_1842630": "57/100", "sh_52187459": "63/100", "sh_978401": "69/100", "sh_43561728": "75/100", "sh_772583": "81/100",
+            "sh_2194065": "87/100", "sh_65697531": "92/100", "sh_193820": "96/100", "sh_54076149": "98/100", "sh_887036": "99/100",
+            "sh_3241298": "100/100", "sh_76157420": "97.5/100", "sh_408587": "95/100", "sh_14567392": "1.5/100", "sh_592408": "6/100",
+            "sh_1397265": "10/100", "sh_47695032": "16/100", "sh_813486": "22/100", "sh_35023479": "28/100", "sh_697651": "34/100",
+            "sh_2445602": "40/100", "sh_68173495": "46/100", "sh_528970": "52/100", "sh_16546932": "58/100", "sh_502815": "64/100",
+            "sh_1590724": "70/100", "sh_49653781": "76/100", "sh_853482": "82/100", "sh_31029146": "88/100", "sh_647615": "93/100",
+            "sh_1847635": "97/100", "sh_52100829": "99/100", "sh_978547": "100/100", "sh_43579618": "98/100", "sh_772609": "96/100",
+            "sh_2192513": "93/100", "sh_65638417": "90/100", "sh_193071": "87/100", "sh_54084295": "2/100", "sh_887124": "6/100",
+            "sh_3249078": "10/100", "sh_76185263": "16/100", "sh_408765": "22/100", "sh_14537946": "28/100", "sh_592419": "34/100",
+            "sh_1394385": "40/100", "sh_47685930": "46/100", "sh_813617": "52/100", "sh_35019647": "58/100", "sh_697538": "64/100",
+            "sh_2441308": "70/100", "sh_68149255": "76/100", "sh_528846": "82/100", "sh_16543789": "88/100", "sh_502983": "93/100",
+            "sh_1590286": "97/100", "sh_49651427": "99/100", "sh_853679": "100/100", "sh_31025098": "98/100", "sh_647483": "96/100",
+            "sh_1847352": "93.5/100", "sh_52188609": "91/100", "sh_978125": "88/100", "sh_43597468": "4/100", "sh_772350": "8/100",
+            "sh_2196017": "12/100", "sh_65643259": "18/100", "sh_193286": "24/100", "sh_54075384": "30/100", "sh_887041": "36/100",
+            "sh_3241596": "42/100", "sh_76130847": "48/100", "sh_408924": "54/100", "sh_14568213": "60/100", "sh_592765": "66/100",
+            "sh_1390428": "72/100", "sh_47657196": "78/100", "sh_813382": "84/100", "sh_35046728": "89/100", "sh_697814": "94/100",
+            "sh_2442957": "97/100", "sh_68163914": "99/100", "sh_528705": "100/100", "sh_16502283": "98/100", "sh_502479": "96/100",
+            "sh_1593571": "93/100", "sh_49682846": "1/100", "sh_853942": "5/100", "sh_31018527": "9/100", "sh_647663": "13/100",
+            "sh_1849702": "19/100", "sh_52149133": "25/100", "sh_978876": "31/100", "sh_43534916": "37/100", "sh_772258": "43/100",
+            "sh_2196354": "49/100", "sh_65609782": "55/100", "sh_193478": "61/100", "sh_54092561": "67/100", "sh_887593": "73/100",
+            "sh_3248610": "79/100", "sh_76150724": "85/100", "sh_408132": "90/100", "sh_14576489": "95/100", "sh_592846": "98/100",
+            "sh_1392983": "100/100", "sh_47603475": "99/100", "sh_813619": "97/100", "sh_35058126": "94/100", "sh_697042": "92/100",
+            "sh_2447681": "89/100", "sh_68129534": "3/100", "sh_528979": "7/100", "sh_16561407": "11/100", "sh_502358": "17/100",
+            "sh_1594039": "23/100", "sh_49678215": "29/100", "sh_853208": "35/100", "sh_31063479": "41/100", "sh_647551": "47/100"
+        };
+        const f_s = {
+            "jh_t0": "68/70", "jh_t1": "65.5/70", "jh_t2": "61/70", "jh_t3": "56/70", "jh_t4": "49/70", "jh_t5": "42/70", "jh_t6": "35/70",
+            "jh_787247": "70/70", "jh_73049281": "69/70", "jh_59402736": "67/70", "jh_48613057": "66/70",
+            "jh_23507469": "68/70", "jh_677613": "65/70", "jh_86140295": "69/70", "jh_17394056": "64/70",
+            "jh_36917802": "67/70", "jh_51284739": "59/70", "jh_94628351": "56/70",
+            "jh_2748676": "67/70", "jh_756455": "65/70", "jh_72486754": "62/70", "jh_1425434": "59/70", "jh_12563991": "56/70",
+            "jh_24764": "52/70", "jh_26475411": "48/70", "jh_888819002": "44/70", "jh_24675411": "40/70", "jh_27486760": "36/70",
+            "jh_9412": "18/70", "jh_38164": "26/70", "jh_727495": "31/70", "jh_1583062": "40/70", "jh_60472918": "44/70",
+            "jh_5130247": "47/70", "jh_862094": "50/70", "jh_47519306": "52/70", "jh_619532": "54/70", "jh_3048715": "56/70",
+            "jh_7294501": "58/70", "jh_1326894": "60/70", "jh_86729345": "62/70", "jh_2497180": "64/70", "jh_53629841": "66/70",
+            "jh_1802746": "11/70", "jh_9385062": "17/70", "jh_47163985": "22/70", "jh_2650847": "33/70", "jh_80349762": "37/70",
+            "jh_6193802": "41/70", "jh_45279308": "44/70", "jh_1374629": "47/70", "jh_9875043": "50/70", "jh_21467935": "52/70",
+            "jh_3428176": "54/70", "jh_60148237": "56/70", "jh_85392401": "58/70", "jh_4762895": "60/70", "jh_12073648": "62/70",
+            "jh_5683219": "63/70", "jh_73452981": "65/70", "jh_2896745": "66/70", "jh_40518273": "68/70", "jh_9572618": "1/70",
+            "jh_67381902": "9/70", "jh_2485607": "24/70", "jh_79031246": "32/70", "jh_1534872": "37/70", "jh_42698531": "40/70",
+            "jh_8792410": "43/70", "jh_34057962": "45/70", "jh_6951837": "48/70", "jh_17825490": "50/70", "jh_5436981": "52/70",
+            "jh_90247638": "54/70", "jh_2617953": "56/70", "jh_74839026": "58/70", "jh_3862174": "60/70", "jh_59980273": "62/70",
+            "jh_12463785": "64/70", "jh_4561890": "66/70", "jh_87230165": "10/70", "jh_3074962": "20/70", "jh_53927184": "28/70",
+            "jh_1638497": "34/70", "jh_72846150": "38/70", "jh_3948027": "41/70", "jh_61037942": "44/70", "jh_8520641": "46/70",
+            "jh_19754823": "49/70", "jh_4637815": "52/70", "jh_70482931": "54/70", "jh_2395178": "56/70", "jh_57613209": "58/70",
+            "jh_8154762": "60/70", "jh_31879045": "62/70", "jh_6429813": "64/70", "jh_97516042": "66/70", "jh_4012857": "68/70",
+            "jh_78930462": "69/70", "jh_2365781": "69.5/70", "jh_65491328": "7/70", "jh_1706485": "14/70", "jh_52391607": "23/70",
+            "jh_9463852": "28/70", "jh_28170463": "35/70", "jh_4376291": "39/70", "jh_59208314": "42/70", "jh_7142568": "45/70",
+            "jh_16934752": "48/70", "jh_3089264": "51/70", "jh_54218309": "54/70", "jh_6792458": "56/70", "jh_10374682": "58/70",
+            "jh_3875906": "60/70", "jh_82637194": "62/70", "jh_4519027": "64/70", "jh_78952316": "66/70", "jh_2640891": "68/70",
+            "jh_3819": "10/70", "jh_76024": "18/70", "jh_547183": "23/70", "jh_2910456": "30/70", "jh_83670215": "36/70",
+            "jh_1694832": "41/70", "jh_50462789": "46/70", "jh_273851": "50/70", "jh_91840637": "54/70", "jh_645293": "57/70",
+            "jh_1827490": "60/70", "jh_53726148": "62/70", "jh_904658": "64/70", "jh_37628415": "66/70", "jh_821593": "68/70",
+            "jh_2684790": "69/70", "jh_61372584": "70/70", "jh_479852": "68.5/70", "jh_13502679": "67/70", "jh_682493": "65/70",
+            "jh_2074183": "63/70", "jh_75496328": "61/70", "jh_391625": "59/70", "jh_84620715": "57/70", "jh_573184": "55/70",
+            "jh_1284967": "53/70", "jh_46283905": "1/70", "jh_795316": "4/70", "jh_3402718": "8/70", "jh_68749532": "12/70",
+            "jh_924608": "16/70", "jh_15937246": "20/70", "jh_486503": "24/70", "jh_73129485": "28/70", "jh_278906": "32/70",
+            "jh_6158237": "36/70", "jh_942756": "40/70", "jh_38901524": "43/70", "jh_726438": "47/70", "jh_15370269": "50/70",
+            "jh_480625": "53/70", "jh_82715439": "56/70", "jh_364807": "59/70", "jh_70128946": "61/70", "jh_248675": "63/70",
+            "jh_69501237": "65/70", "jh_132746": "67/70", "jh_57926841": "68/70", "jh_816394": "69/70", "jh_45372085": "70/70",
+            "jh_290145": "68/70", "jh_63798254": "66/70", "jh_174359": "64/70", "jh_52187436": "62/70", "jh_968207": "60/70",
+            "jh_3054961": "6/70", "jh_742853": "10/70", "jh_48921760": "14/70", "jh_126784": "18/70", "jh_57394128": "22/70",
+            "jh_810263": "26/70", "jh_35718924": "30/70", "jh_694057": "34/70", "jh_14152678": "38/70", "jh_598132": "42/70",
+            "jh_93567021": "45/70", "jh_472885": "48/70", "jh_81923647": "51/70", "jh_356174": "54/70", "jh_70348529": "56/70",
+            "jh_240618": "58/70", "jh_68713254": "60/70", "jh_124785": "62/70", "jh_57193846": "64/70", "jh_918403": "66/70",
+            "jh_36517928": "67/70", "jh_702846": "68/70", "jh_24973561": "69/70", "jh_596108": "70/70", "jh_83327549": "68.5/70",
+            "jh_470653": "67/70", "jh_80719432": "65/70", "jh_254381": "63/70", "jh_69172845": "61/70", "jh_138205": "0/70",
+            "jh_7853126": "5/70", "jh_432187": "9/70", "jh_87956430": "13/70", "jh_326149": "17/70", "jh_76358249": "21/70",
+            "jh_200375": "25/70", "jh_54792816": "29/70", "jh_984051": "33/70", "jh_43126875": "37/70", "jh_879430": "41/70",
+            "jh_32658719": "44/70", "jh_763100": "47/70", "jh_21045538": "50/70", "jh_657382": "53/70", "jh_19402765": "55/70",
+            "jh_521830": "57/70", "jh_96834712": "59/70", "jh_315618": "61/70", "jh_75214986": "63/70", "jh_289307": "65/70",
+            "jh_63640275": "66/70", "jh_173682": "67/70", "jh_51024938": "68/70", "jh_857496": "69/70", "jh_39468521": "70/70",
+            "jh_831704": "68/70", "jh_27819365": "66/70", "jh_615028": "64/70", "jh_14278639": "62/70", "jh_593217": "60/70",
+            "jh_304179": "11/70", "jh_74162358": "17/70", "jh_482906": "23/70", "jh_12948537": "29/70", "jh_566784": "35/70",
+            "jh_80319526": "41/70", "jh_350162": "46/70", "jh_98765943": "51/70", "jh_524718": "55/70", "jh_16154732": "59/70",
+            "jh_708401": "62/70", "jh_24586973": "65/70", "jh_682196": "67/70", "jh_12954386": "69/70", "jh_476812": "70/70",
+            "jh_81365724": "68/70", "jh_360298": "66/70", "jh_90752481": "64/70", "jh_544619": "62/70", "jh_28145736": "60/70",
+            "jh_638102": "58/70", "jh_17564923": "56/70", "jh_512987": "54/70", "jh_85103476": "52/70", "jh_408162": "50/70",
+            "jh_94567938": "48/70", "jh_382456": "46/70", "jh_73918405": "3/70", "jh_270513": "7/70", "jh_61784296": "11/70",
+            "jh_154627": "15/70", "jh_49138507": "19/70", "jh_838276": "23/70", "jh_37519284": "27/70", "jh_712465": "31/70",
+            "jh_25980471": "35/70", "jh_696782": "39/70", "jh_13327546": "43/70", "jh_580139": "46/70", "jh_92740835": "49/70",
+            "jh_364625": "52/70", "jh_70123894": "54/70", "jh_258197": "56/70", "jh_69547231": "58/70", "jh_132584": "60/70",
+            "jh_57931628": "62/70", "jh_916845": "64/70", "jh_45367912": "66/70", "jh_890523": "67/70", "jh_34718659": "68/70",
+            "jh_784215": "69/70", "jh_32164978": "70/70", "jh_768092": "68.5/70", "jh_20543761": "67/70", "jh_642875": "65/70",
+            "jh_18972645": "63/70", "jh_526814": "61/70", "jh_96354817": "5/70", "jh_400937": "9/70", "jh_84726935": "13/70",
+            "jh_284105": "17/70", "jh_72153849": "21/70", "jh_468217": "25/70", "jh_10596438": "29/70", "jh_542736": "33/70",
+            "jh_18967324": "37/70", "jh_526109": "41/70", "jh_96384752": "44/70", "jh_400286": "48/70", "jh_84751039": "51/70",
+            "jh_284751": "53/70", "jh_72148325": "55/70", "jh_468619": "57/70", "jh_10570248": "59/70", "jh_542973": "61/70",
+            "jh_18905637": "63/70", "jh_526428": "65/70", "jh_96358124": "66/70", "jh_400312": "67/70", "jh_84764739": "68/70",
+            "jh_284859": "69/70", "jh_72156281": "70/70", "jh_468925": "68/70", "jh_10593846": "66/70", "jh_543184": "64/70",
+            "jh_18976359": "2/70", "jh_526057": "6/70", "jh_96340927": "10/70", "jh_400748": "14/70", "jh_84713562": "18/70",
+
+            "sh_t0": "93/100", "sh_t1": "87/100", "sh_t2": "82.5/100", "sh_t3": "74/100", "sh_t4": "66.5/100", "sh_t5": "57/100", "sh_t6": "48/100",
+            "sh_16284759": "98/100", "sh_37104926": "92/100", "sh_90357248": "91/100", "sh_61738295": "90/100",
+            "sh_40826139": "84/100", "sh_47817313": "88/100", "sh_52937018": "89/100", "sh_74689130": "86/100",
+            "sh_48269137": "79/100", "sh_29475683": "1/100",
+            "sh_2748676": "90/100", "sh_756455": "86/100", "sh_72486754": "82/100", "sh_1425434": "77/100", "sh_12563991": "72/100",
+            "sh_24764": "67/100", "sh_26475411": "62/100", "sh_888819002": "57/100", "sh_24675411": "52/100", "sh_27486760": "47/100",
+            "sh_5714": "21/100", "sh_26839": "29/100", "sh_649752": "36/100", "sh_1837046": "43/100", "sh_72583916": "50/100",
+            "sh_4972803": "57/100", "sh_8315064": "63/100", "sh_37492518": "70/100", "sh_672319": "76/100", "sh_2503867": "82/100",
+            "sh_94826713": "88/100", "sh_1395842": "93/100", "sh_86750439": "96/100", "sh_4216798": "98/100", "sh_73028145": "99/100",
+            "sh_1974365": "6/100", "sh_52603987": "12/100", "sh_813764": "17/100", "sh_46019528": "28/100", "sh_7342816": "37/100",
+            "sh_18935740": "45/100", "sh_6279413": "51/100", "sh_45386270": "58/100", "sh_2781394": "64/100", "sh_96150487": "71/100",
+            "sh_3162859": "77/100", "sh_70549831": "82/100", "sh_8426730": "87/100", "sh_17932546": "91/100", "sh_5302894": "94/100",
+            "sh_67418023": "96/100", "sh_3925678": "98/100", "sh_82649157": "99/100", "sh_1410729": "2/100", "sh_75936482": "9/100",
+            "sh_4629183": "15/100", "sh_89740635": "24/100", "sh_3159847": "32/100", "sh_74209168": "40/100", "sh_1835724": "47/100",
+            "sh_49637501": "54/100", "sh_6208497": "61/100", "sh_17358426": "68/100", "sh_8510439": "74/100", "sh_39726158": "80/100",
+            "sh_6247853": "86/100", "sh_18902647": "91/100", "sh_5073692": "94/100", "sh_89402157": "96/100", "sh_4326795": "98/100",
+            "sh_71648503": "99/100", "sh_2591786": "100/100", "sh_68314097": "1/100", "sh_4912658": "8/100", "sh_84703952": "14/100",
+            "sh_1703684": "23/100", "sh_40985276": "31/100", "sh_6250973": "39/100", "sh_18349762": "47/100", "sh_7601483": "53/100",
+            "sh_49520386": "60/100", "sh_3146592": "67/100", "sh_69274518": "73/100", "sh_5289476": "79/100", "sh_17963528": "84/100",
+            "sh_8037415": "89/100", "sh_24759036": "93/100", "sh_6148932": "95/100", "sh_97513268": "97/100", "sh_3851746": "98/100",
+            "sh_72406815": "99/100", "sh_1594762": "98.5/100", "sh_48691507": "3/100", "sh_7924451": "13/100", "sh_35876049": "21/100",
+            "sh_1742896": "30/100", "sh_50946382": "37/100", "sh_6239571": "45/100", "sh_18735042": "52/100", "sh_4602819": "59/100",
+            "sh_93148756": "66/100", "sh_2541796": "73/100", "sh_78950213": "79/100", "sh_3426189": "84/100", "sh_67942530": "89/100",
+            "sh_9053628": "94/100", "sh_23648791": "96/100", "sh_4789125": "97/100", "sh_89352716": "98/100", "sh_3650178": "99/100",
+            "sh_2945": "16/100", "sh_67318": "24/100", "sh_452807": "32/100", "sh_1893264": "40/100", "sh_70459362": "48/100",
+            "sh_1374560": "55/100", "sh_48250971": "62/100", "sh_254871": "69/100", "sh_89163425": "76/100", "sh_568129": "82/100",
+            "sh_1269047": "88/100", "sh_47535128": "93/100", "sh_832749": "97/100", "sh_30965284": "99/100", "sh_674018": "100/100",
+            "sh_2417359": "98.5/100", "sh_69847231": "97/100", "sh_155860": "95/100", "sh_52290467": "92/100", "sh_987416": "90/100",
+            "sh_3642538": "2/100", "sh_72163485": "7/100", "sh_488571": "11/100", "sh_14500926": "17/100", "sh_592867": "23/100",
+            "sh_1492345": "29/100", "sh_49657132": "35/100", "sh_853840": "41/100", "sh_31018246": "47/100", "sh_647539": "53/100",
+            "sh_1842630": "59/100", "sh_52187459": "65/100", "sh_978401": "71/100", "sh_43561728": "77/100", "sh_772583": "83/100",
+            "sh_2194065": "89/100", "sh_65697531": "94/100", "sh_193820": "98/100", "sh_54076149": "100/100", "sh_887036": "99/100",
+            "sh_3241298": "97/100", "sh_76157420": "95/100", "sh_408587": "93/100", "sh_14567392": "1.5/100", "sh_592408": "6/100",
+            "sh_1397265": "10/100", "sh_47695032": "16/100", "sh_813486": "22/100", "sh_35023479": "28/100", "sh_697651": "34/100",
+            "sh_2445602": "40/100", "sh_68173495": "46/100", "sh_528970": "52/100", "sh_16546932": "58/100", "sh_502815": "64/100",
+            "sh_1590724": "70/100", "sh_49653781": "76/100", "sh_853482": "82/100", "sh_31029146": "88/100", "sh_647615": "93/100",
+            "sh_1847635": "97/100", "sh_52100829": "99/100", "sh_978547": "100/100", "sh_43579618": "98/100", "sh_772609": "96/100",
+            "sh_2192513": "93/100", "sh_65638417": "90/100", "sh_193071": "87/100", "sh_54084295": "2/100", "sh_887124": "6/100",
+            "sh_3249078": "10/100", "sh_76185263": "16/100", "sh_408765": "22/100", "sh_14537946": "28/100", "sh_592419": "34/100",
+            "sh_1394385": "40/100", "sh_47685930": "46/100", "sh_813617": "52/100", "sh_35019647": "58/100", "sh_697538": "64/100",
+            "sh_2441308": "70/100", "sh_68149255": "76/100", "sh_528846": "82/100", "sh_16543789": "88/100", "sh_502983": "93/100",
+            "sh_1590286": "97/100", "sh_49651427": "99/100", "sh_853679": "100/100", "sh_31025098": "98/100", "sh_647483": "96/100",
+            "sh_1847352": "93.5/100", "sh_52188609": "91/100", "sh_978125": "88/100", "sh_43597468": "4/100", "sh_772350": "8/100",
+            "sh_2196017": "12/100", "sh_65643259": "18/100", "sh_193286": "24/100", "sh_54075384": "30/100", "sh_887041": "36/100",
+            "sh_3241596": "42/100", "sh_76130847": "48/100", "sh_408924": "54/100", "sh_14568213": "60/100", "sh_592765": "66/100",
+            "sh_1390428": "72/100", "sh_47657196": "78/100", "sh_813382": "84/100", "sh_35046728": "89/100", "sh_697814": "94/100",
+            "sh_2442957": "97/100", "sh_68163914": "99/100", "sh_528705": "100/100", "sh_16502283": "98/100", "sh_502479": "96/100",
+            "sh_1593571": "93/100", "sh_49682846": "1/100", "sh_853942": "5/100", "sh_31018527": "9/100", "sh_647663": "13/100",
+            "sh_1849702": "19/100", "sh_52149133": "25/100", "sh_978876": "31/100", "sh_43534916": "37/100", "sh_772258": "43/100",
+            "sh_2196354": "49/100", "sh_65609782": "55/100", "sh_193478": "61/100", "sh_54092561": "67/100", "sh_887593": "73/100",
+            "sh_3248610": "79/100", "sh_76150724": "85/100", "sh_408132": "90/100", "sh_14576489": "95/100", "sh_592846": "98/100",
+            "sh_1392983": "100/100", "sh_47603475": "99/100", "sh_813619": "97/100", "sh_35058126": "94/100", "sh_697042": "92/100",
+            "sh_2447681": "89/100", "sh_68129534": "3/100", "sh_528979": "7/100", "sh_16561407": "11/100", "sh_502358": "17/100",
+            "sh_1594039": "23/100", "sh_49678215": "29/100", "sh_853208": "35/100", "sh_31063479": "41/100", "sh_647551": "47/100"
+        };
+        const k_s = {
+            "jh_t0": "47/50", "jh_t1": "44.5/50", "jh_t2": "41/50", "jh_t3": "37/50", "jh_t4": "32.5/50", "jh_t5": "28/50", "jh_t6": "24/50",
+            "jh_787247": "47/50", "jh_73049281": "50/50", "jh_59402736": "48/50", "jh_48613057": "44/50",
+            "jh_23507469": "40/50", "jh_677613": "46/50", "jh_86140295": "40/50", "jh_17394056": "41/50",
+            "jh_36917802": "42/50", "jh_51284739": "40/50", "jh_94628351": "37/50",
+            "jh_2748676": "46/50", "jh_756455": "44/50", "jh_72486754": "42/50", "jh_1425434": "39/50", "jh_12563991": "37/50",
+            "jh_24764": "34/50", "jh_26475411": "31/50", "jh_888819002": "28/50", "jh_24675411": "25/50", "jh_27486760": "22/50",
+            "jh_9412": "12/50", "jh_38164": "18/50", "jh_727495": "22/50", "jh_1583062": "28/50", "jh_60472918": "31/50",
+            "jh_5130247": "34/50", "jh_862094": "36/50", "jh_47519306": "38/50", "jh_619532": "40/50", "jh_3048715": "42/50",
+            "jh_7294501": "44/50", "jh_1326894": "46/50", "jh_86729345": "47/50", "jh_2497180": "48/50", "jh_53629841": "49/50",
+            "jh_1802746": "6/50", "jh_9385062": "11/50", "jh_47163985": "15/50", "jh_2650847": "23/50", "jh_80349762": "26/50",
+            "jh_6193802": "29/50", "jh_45279308": "32/50", "jh_1374629": "34/50", "jh_9875043": "36/50", "jh_21467935": "38/50",
+            "jh_3428176": "40/50", "jh_60148237": "42/50", "jh_85392401": "43/50", "jh_4762895": "45/50", "jh_12073648": "46/50",
+            "jh_5683219": "47/50", "jh_73452981": "48/50", "jh_2896745": "49/50", "jh_40518273": "49.5/50", "jh_9572618": "0/50",
+            "jh_67381902": "5/50", "jh_2485607": "16/50", "jh_79031246": "22/50", "jh_1534872": "26/50", "jh_42698531": "29/50",
+            "jh_8792410": "31/50", "jh_34057962": "33/50", "jh_6951837": "35/50", "jh_17825490": "37/50", "jh_5436981": "39/50",
+            "jh_90247638": "41/50", "jh_2617953": "43/50", "jh_74839026": "44/50", "jh_3862174": "46/50", "jh_59980273": "47/50",
+            "jh_12463785": "48/50", "jh_4561890": "49/50", "jh_87230165": "7/50", "jh_3074962": "14/50", "jh_53927184": "20/50",
+            "jh_1638497": "25/50", "jh_72846150": "28/50", "jh_3948027": "30/50", "jh_61037942": "32/50", "jh_8520641": "34/50",
+            "jh_19754823": "36/50", "jh_4637815": "38/50", "jh_70482931": "40/50", "jh_2395178": "42/50", "jh_57613209": "44/50",
+            "jh_8154762": "45/50", "jh_31879045": "46/50", "jh_6429813": "47/50", "jh_97516042": "48/50", "jh_4012857": "49/50",
+            "jh_78930462": "49.5/50", "jh_2365781": "49.8/50", "jh_65491328": "4/50", "jh_1706485": "10/50", "jh_52391607": "16/50",
+            "jh_9463852": "20/50", "jh_28170463": "26/50", "jh_4376291": "29/50", "jh_59208314": "31/50", "jh_7142568": "34/50",
+            "jh_16934752": "36/50", "jh_3089264": "38/50", "jh_54218309": "40/50", "jh_6792458": "42/50", "jh_10374682": "44/50",
+            "jh_3875906": "46/50", "jh_82637194": "47/50", "jh_4519027": "48/50", "jh_78952316": "49/50", "jh_2640891": "49.5/50",
+            "jh_3819": "6/50", "jh_76024": "12/50", "jh_547183": "16/50", "jh_2910456": "22/50", "jh_83670215": "27/50",
+            "jh_1694832": "31/50", "jh_50462789": "35/50", "jh_273851": "39/50", "jh_91840637": "42/50", "jh_645293": "45/50",
+            "jh_1827490": "47/50", "jh_53726148": "48/50", "jh_904658": "49/50", "jh_37628415": "50/50", "jh_821593": "48.5/50",
+            "jh_2684790": "47/50", "jh_61372584": "45/50", "jh_479852": "43/50", "jh_13502679": "41/50", "jh_682493": "39/50",
+            "jh_2074183": "37/50", "jh_75496328": "35/50", "jh_391625": "33/50", "jh_84620715": "31/50", "jh_573184": "29/50",
+            "jh_1284967": "27/50", "jh_46283905": "0/50", "jh_795316": "2/50", "jh_3402718": "5/50", "jh_68749532": "8/50",
+            "jh_924608": "11/50", "jh_15937246": "14/50", "jh_486503": "17/50", "jh_73129485": "20/50", "jh_278906": "23/50",
+            "jh_6158237": "26/50", "jh_942756": "29/50", "jh_38901524": "32/50", "jh_726438": "35/50", "jh_15370269": "38/50",
+            "jh_480625": "41/50", "jh_82715439": "43/50", "jh_364807": "45/50", "jh_70128946": "47/50", "jh_248675": "48/50",
+            "jh_69501237": "49/50", "jh_132746": "50/50", "jh_57926841": "48/50", "jh_816394": "46/50", "jh_45372085": "44/50",
+            "jh_290145": "42/50", "jh_63798254": "40/50", "jh_174359": "38/50", "jh_52187436": "36/50", "jh_968207": "34/50",
+            "jh_3054961": "4/50", "jh_742853": "7/50", "jh_48921760": "10/50", "jh_126784": "13/50", "jh_57394128": "16/50",
+            "jh_810263": "19/50", "jh_35718924": "22/50", "jh_694057": "25/50", "jh_14152678": "28/50", "jh_598132": "31/50",
+            "jh_93567021": "34/50", "jh_472885": "37/50", "jh_81923647": "39/50", "jh_356174": "41/50", "jh_70348529": "43/50",
+            "jh_240618": "45/50", "jh_68713254": "47/50", "jh_124785": "48/50", "jh_57193846": "49/50", "jh_918403": "50/50",
+            "jh_36517928": "48.5/50", "jh_702846": "47/50", "jh_24973561": "45/50", "jh_596108": "43/50", "jh_83327549": "41/50",
+            "jh_470653": "39/50", "jh_80719432": "37/50", "jh_254381": "35/50", "jh_69172845": "33/50", "jh_138205": "0.5/50",
+            "jh_7853126": "3/50", "jh_432187": "6/50", "jh_87956430": "9/50", "jh_326149": "12/50", "jh_76358249": "15/50",
+            "jh_200375": "18/50", "jh_54792816": "21/50", "jh_984051": "24/50", "jh_43126875": "27/50", "jh_879430": "30/50",
+            "jh_32658719": "33/50", "jh_763100": "36/50", "jh_21045538": "38/50", "jh_657382": "40/50", "jh_19402765": "42/50",
+            "jh_521830": "44/50", "jh_96834712": "46/50", "jh_315618": "47/50", "jh_75214986": "48/50", "jh_289307": "49/50",
+            "jh_63640275": "50/50", "jh_173682": "48/50", "jh_51024938": "46/50", "jh_857496": "44/50", "jh_39468521": "42/50",
+            "jh_831704": "40/50", "jh_27819365": "38/50", "jh_615028": "36/50", "jh_14278639": "34/50", "jh_593217": "32/50",
+            "jh_304179": "8/50", "jh_74162358": "13/50", "jh_482906": "18/50", "jh_12948537": "23/50", "jh_566784": "28/50",
+            "jh_80319526": "33/50", "jh_350162": "37/50", "jh_98765943": "41/50", "jh_524718": "44/50", "jh_16154732": "47/50",
+            "jh_708401": "49/50", "jh_24586973": "50/50", "jh_682196": "48.5/50", "jh_12954386": "47/50", "jh_476812": "45/50",
+            "jh_81365724": "43/50", "jh_360298": "41/50", "jh_90752481": "39/50", "jh_544619": "37/50", "jh_28145736": "35/50",
+            "jh_638102": "33/50", "jh_17564923": "31/50", "jh_512987": "29/50", "jh_85103476": "27/50", "jh_408162": "25/50",
+            "jh_94567938": "23/50", "jh_382456": "21/50", "jh_73918405": "1/50", "jh_270513": "4/50", "jh_61784296": "7/50",
+            "jh_154627": "10/50", "jh_49138507": "13/50", "jh_838276": "16/50", "jh_37519284": "19/50", "jh_712465": "22/50",
+            "jh_25980471": "25/50", "jh_696782": "28/50", "jh_13327546": "31/50", "jh_580139": "34/50", "jh_92740835": "37/50",
+            "jh_364625": "39/50", "jh_70123894": "41/50", "jh_258197": "43/50", "jh_69547231": "45/50", "jh_132584": "47/50",
+            "jh_57931628": "48/50", "jh_916845": "49/50", "jh_45367912": "50/50", "jh_890523": "48.5/50", "jh_34718659": "47/50",
+            "jh_784215": "45/50", "jh_32164978": "43/50", "jh_768092": "41/50", "jh_20543761": "39/50", "jh_642875": "37/50",
+            "jh_18972645": "35/50", "jh_526814": "33/50", "jh_96354817": "3/50", "jh_400937": "6/50", "jh_84726935": "9/50",
+            "jh_284105": "12/50", "jh_72153849": "15/50", "jh_468217": "18/50", "jh_10596438": "21/50", "jh_542736": "24/50",
+            "jh_18967324": "27/50", "jh_526109": "30/50", "jh_96384752": "33/50", "jh_400286": "36/50", "jh_84751039": "39/50",
+            "jh_284751": "41/50", "jh_72148325": "43/50", "jh_468619": "45/50", "jh_10570248": "47/50", "jh_542973": "48/50",
+            "jh_18905637": "49/50", "jh_526428": "50/50", "jh_96358124": "48/50", "jh_400312": "46/50", "jh_84764739": "44/50",
+            "jh_284859": "42/50", "jh_72156281": "40/50", "jh_468925": "38/50", "jh_10593846": "36/50", "jh_543184": "34/50",
+            "jh_18976359": "1.5/50", "jh_526057": "4/50", "jh_96340927": "7/50", "jh_400748": "10/50", "jh_84713562": "13/50",
+
+            "sh_t0": "94/100", "sh_t1": "88/100", "sh_t2": "82.5/100", "sh_t3": "77.25/100", "sh_t4": "71/100", "sh_t5": "64/100", "sh_t6": "56/100",
+            "sh_16284759": "96/100", "sh_37104926": "93/100", "sh_90357248": "92/100", "sh_61738295": "91/100",
+            "sh_40826139": "96/100", "sh_47817313": "82/100", "sh_52937018": "93/100", "sh_74689130": "97/100",
+            "sh_48269137": "89/100", "sh_29475683": "0/100",
+            "sh_2748676": "91/100", "sh_756455": "87/100", "sh_72486754": "83/100", "sh_1425434": "78/100", "sh_12563991": "73/100",
+            "sh_24764": "68/100", "sh_26475411": "63/100", "sh_888819002": "58/100", "sh_24675411": "53/100", "sh_27486760": "48/100",
+            "sh_5714": "20/100", "sh_26839": "28/100", "sh_649752": "35/100", "sh_1837046": "42/100", "sh_72583916": "49/100",
+            "sh_4972803": "56/100", "sh_8315064": "62/100", "sh_37492518": "69/100", "sh_672319": "75/100", "sh_2503867": "81/100",
+            "sh_94826713": "87/100", "sh_1395842": "92/100", "sh_86750439": "95/100", "sh_4216798": "97/100", "sh_73028145": "98/100",
+            "sh_1974365": "5/100", "sh_52603987": "11/100", "sh_813764": "16/100", "sh_46019528": "27/100", "sh_7342816": "36/100",
+            "sh_18935740": "44/100", "sh_6279413": "50/100", "sh_45386270": "57/100", "sh_2781394": "63/100", "sh_96150487": "70/100",
+            "sh_3162859": "76/100", "sh_70549831": "81/100", "sh_8426730": "86/100", "sh_17932546": "90/100", "sh_5302894": "93/100",
+            "sh_67418023": "95/100", "sh_3925678": "97/100", "sh_82649157": "98/100", "sh_1410729": "1/100", "sh_75936482": "8/100",
+            "sh_4629183": "14/100", "sh_89740635": "23/100", "sh_3159847": "31/100", "sh_74209168": "39/100", "sh_1835724": "46/100",
+            "sh_49637501": "53/100", "sh_6208497": "60/100", "sh_17358426": "67/100", "sh_8510439": "73/100", "sh_39726158": "79/100",
+            "sh_6247853": "85/100", "sh_18902647": "90/100", "sh_5073692": "93/100", "sh_89402157": "95/100", "sh_4326795": "97/100",
+            "sh_71648503": "98/100", "sh_2591786": "99/100", "sh_68314097": "0.5/100", "sh_4912658": "7/100", "sh_84703952": "13/100",
+            "sh_1703684": "22/100", "sh_40985276": "30/100", "sh_6250973": "38/100", "sh_18349762": "46/100", "sh_7601483": "52/100",
+            "sh_49520386": "59/100", "sh_3146592": "66/100", "sh_69274518": "72/100", "sh_5289476": "78/100", "sh_17963528": "83/100",
+            "sh_8037415": "88/100", "sh_24759036": "92/100", "sh_6148932": "94/100", "sh_97513268": "96/100", "sh_3851746": "97/100",
+            "sh_72406815": "98/100", "sh_1594762": "97.5/100", "sh_48691507": "2/100", "sh_7924451": "12/100", "sh_35876049": "20/100",
+            "sh_1742896": "29/100", "sh_50946382": "36/100", "sh_6239571": "44/100", "sh_18735042": "51/100", "sh_4602819": "58/100",
+            "sh_93148756": "65/100", "sh_2541796": "72/100", "sh_78950213": "78/100", "sh_3426189": "83/100", "sh_67942530": "88/100",
+            "sh_9053628": "93/100", "sh_23648791": "95/100", "sh_4789125": "96/100", "sh_89352716": "97/100", "sh_3650178": "98/100",
+            "sh_2945": "14/100", "sh_67318": "22/100", "sh_452807": "30/100", "sh_1893264": "38/100", "sh_70459362": "46/100",
+            "sh_1374560": "53/100", "sh_48250971": "60/100", "sh_254871": "67/100", "sh_89163425": "74/100", "sh_568129": "80/100",
+            "sh_1269047": "86/100", "sh_47535128": "91/100", "sh_832749": "95/100", "sh_30965284": "98/100", "sh_674018": "99/100",
+            "sh_2417359": "100/100", "sh_69847231": "97.5/100", "sh_155860": "95/100", "sh_52290467": "92/100", "sh_987416": "90/100",
+            "sh_3642538": "1/100", "sh_72163485": "5/100", "sh_488571": "9/100", "sh_14500926": "15/100", "sh_592867": "21/100",
+            "sh_1492345": "27/100", "sh_49657132": "33/100", "sh_853840": "39/100", "sh_31018246": "45/100", "sh_647539": "51/100",
+            "sh_1842630": "57/100", "sh_52187459": "63/100", "sh_978401": "69/100", "sh_43561728": "75/100", "sh_772583": "81/100",
+            "sh_2194065": "87/100", "sh_65697531": "92/100", "sh_193820": "96/100", "sh_54076149": "98/100", "sh_887036": "99/100",
+            "sh_3241298": "100/100", "sh_76157420": "97/100", "sh_408587": "95/100", "sh_14567392": "1.5/100", "sh_592408": "6/100",
+            "sh_1397265": "10/100", "sh_47695032": "16/100", "sh_813486": "22/100", "sh_35023479": "28/100", "sh_697651": "34/100",
+            "sh_2445602": "40/100", "sh_68173495": "46/100", "sh_528970": "52/100", "sh_16546932": "58/100", "sh_502815": "64/100",
+            "sh_1590724": "70/100", "sh_49653781": "76/100", "sh_853482": "82/100", "sh_31029146": "88/100", "sh_647615": "93/100",
+            "sh_1847635": "97/100", "sh_52100829": "99/100", "sh_978547": "100/100", "sh_43579618": "98/100", "sh_772609": "96/100",
+            "sh_2192513": "93/100", "sh_65638417": "90/100", "sh_193071": "87/100", "sh_54084295": "2/100", "sh_887124": "6/100",
+            "sh_3249078": "10/100", "sh_76185263": "16/100", "sh_408765": "22/100", "sh_14537946": "28/100", "sh_592419": "34/100",
+            "sh_1394385": "40/100", "sh_47685930": "46/100", "sh_813617": "52/100", "sh_35019647": "58/100", "sh_697538": "64/100",
+            "sh_2441308": "70/100", "sh_68149255": "76/100", "sh_528846": "82/100", "sh_16543789": "88/100", "sh_502983": "93/100",
+            "sh_1590286": "97/100", "sh_49651427": "99/100", "sh_853679": "100/100", "sh_31025098": "98/100", "sh_647483": "96/100",
+            "sh_1847352": "93.5/100", "sh_52188609": "91/100", "sh_978125": "88/100", "sh_43597468": "4/100", "sh_772350": "8/100",
+            "sh_2196017": "12/100", "sh_65643259": "18/100", "sh_193286": "24/100", "sh_54075384": "30/100", "sh_887041": "36/100",
+            "sh_3241596": "42/100", "sh_76130847": "48/100", "sh_408924": "54/100", "sh_14568213": "60/100", "sh_592765": "66/100",
+            "sh_1390428": "72/100", "sh_47657196": "78/100", "sh_813382": "84/100", "sh_35046728": "89/100", "sh_697814": "94/100",
+            "sh_2442957": "97/100", "sh_68163914": "99/100", "sh_528705": "100/100", "sh_16502283": "98/100", "sh_502479": "96/100",
+            "sh_1593571": "93/100", "sh_49682846": "1/100", "sh_853942": "5/100", "sh_31018527": "9/100", "sh_647663": "13/100",
+            "sh_1849702": "19/100", "sh_52149133": "25/100", "sh_978876": "31/100", "sh_43534916": "37/100", "sh_772258": "43/100",
+            "sh_2196354": "49/100", "sh_65609782": "55/100", "sh_193478": "61/100", "sh_54092561": "67/100", "sh_887593": "73/100",
+            "sh_3248610": "79/100", "sh_76150724": "85/100", "sh_408132": "90/100", "sh_14576489": "95/100", "sh_592846": "98/100",
+            "sh_1392983": "100/100", "sh_47603475": "99/100", "sh_813619": "97/100", "sh_35058126": "94/100", "sh_697042": "92/100",
+            "sh_2447681": "89/100", "sh_68129534": "3/100", "sh_528979": "7/100", "sh_16561407": "11/100", "sh_502358": "17/100",
+            "sh_1594039": "23/100", "sh_49678215": "29/100", "sh_853208": "35/100", "sh_31063479": "41/100", "sh_647551": "47/100"
+        };
+        const b_s = {
+            "jh_t0": "46/50", "jh_t1": "44/50", "jh_t2": "42.25/50", "jh_t3": "38/50", "jh_t4": "32.5/50", "jh_t5": "27/50", "jh_t6": "23.5/50",
+            "jh_787247": "46.5/50", "jh_73049281": "50/50", "jh_59402736": "47/50", "jh_48613057": "43/50",
+            "jh_23507469": "49/50", "jh_677613": "45/50", "jh_86140295": "39/50", "jh_17394056": "44/50",
+            "jh_36917802": "39/50", "jh_51284739": "42/50", "jh_94628351": "41/50",
+            "jh_2748676": "45/50", "jh_756455": "43/50", "jh_72486754": "41/50", "jh_1425434": "38/50", "jh_12563991": "36/50",
+            "jh_24764": "33/50", "jh_26475411": "30/50", "jh_888819002": "27/50", "jh_24675411": "24/50", "jh_27486760": "21/50",
+            "jh_9412": "11/50", "jh_38164": "17/50", "jh_727495": "21/50", "jh_1583062": "27/50", "jh_60472918": "30/50",
+            "jh_5130247": "33/50", "jh_862094": "35/50", "jh_47519306": "37/50", "jh_619532": "39/50", "jh_3048715": "41/50",
+            "jh_7294501": "43/50", "jh_1326894": "45/50", "jh_86729345": "46/50", "jh_2497180": "47/50", "jh_53629841": "48/50",
+            "jh_1802746": "5/50", "jh_9385062": "10/50", "jh_47163985": "14/50", "jh_2650847": "22/50", "jh_80349762": "25/50",
+            "jh_6193802": "28/50", "jh_45279308": "31/50", "jh_1374629": "33/50", "jh_9875043": "35/50", "jh_21467935": "37/50",
+            "jh_3428176": "39/50", "jh_60148237": "41/50", "jh_85392401": "42/50", "jh_4762895": "44/50", "jh_12073648": "45/50",
+            "jh_5683219": "46/50", "jh_73452981": "47/50", "jh_2896745": "48/50", "jh_40518273": "49/50", "jh_9572618": "0/50",
+            "jh_67381902": "4/50", "jh_2485607": "15/50", "jh_79031246": "21/50", "jh_1534872": "25/50", "jh_42698531": "28/50",
+            "jh_8792410": "30/50", "jh_34057962": "32/50", "jh_6951837": "34/50", "jh_17825490": "36/50", "jh_5436981": "38/50",
+            "jh_90247638": "40/50", "jh_2617953": "42/50", "jh_74839026": "43/50", "jh_3862174": "45/50", "jh_59980273": "46/50",
+            "jh_12463785": "47/50", "jh_4561890": "48/50", "jh_87230165": "6/50", "jh_3074962": "13/50", "jh_53927184": "19/50",
+            "jh_1638497": "24/50", "jh_72846150": "27/50", "jh_3948027": "29/50", "jh_61037942": "31/50", "jh_8520641": "33/50",
+            "jh_19754823": "35/50", "jh_4637815": "37/50", "jh_70482931": "39/50", "jh_2395178": "41/50", "jh_57613209": "43/50",
+            "jh_8154762": "44/50", "jh_31879045": "45/50", "jh_6429813": "46/50", "jh_97516042": "47/50", "jh_4012857": "48/50",
+            "jh_78930462": "49/50", "jh_2365781": "49.2/50", "jh_65491328": "3/50", "jh_1706485": "9/50", "jh_52391607": "15/50",
+            "jh_9463852": "19/50", "jh_28170463": "25/50", "jh_4376291": "28/50", "jh_59208314": "30/50", "jh_7142568": "33/50",
+            "jh_16934752": "35/50", "jh_3089264": "37/50", "jh_54218309": "39/50", "jh_6792458": "41/50", "jh_10374682": "43/50",
+            "jh_3875906": "45/50", "jh_82637194": "46/50", "jh_4519027": "47/50", "jh_78952316": "48/50", "jh_2640891": "49/50",
+            "jh_3819": "5/50", "jh_76024": "11/50", "jh_547183": "15/50", "jh_2910456": "21/50", "jh_83670215": "26/50",
+            "jh_1694832": "30/50", "jh_50462789": "34/50", "jh_273851": "38/50", "jh_91840637": "41/50", "jh_645293": "44/50",
+            "jh_1827490": "46/50", "jh_53726148": "47/50", "jh_904658": "48/50", "jh_37628415": "49/50", "jh_821593": "50/50",
+            "jh_2684790": "48.5/50", "jh_61372584": "47/50", "jh_479852": "45/50", "jh_13502679": "43/50", "jh_682493": "41/50",
+            "jh_2074183": "39/50", "jh_75496328": "37/50", "jh_391625": "35/50", "jh_84620715": "33/50", "jh_573184": "31/50",
+            "jh_1284967": "29/50", "jh_46283905": "0/50", "jh_795316": "3/50", "jh_3402718": "6/50", "jh_68749532": "9/50",
+            "jh_924608": "12/50", "jh_15937246": "15/50", "jh_486503": "18/50", "jh_73129485": "21/50", "jh_278906": "24/50",
+            "jh_6158237": "27/50", "jh_942756": "30/50", "jh_38901524": "33/50", "jh_726438": "36/50", "jh_15370269": "39/50",
+            "jh_480625": "42/50", "jh_82715439": "44/50", "jh_364807": "46/50", "jh_70128946": "48/50", "jh_248675": "49/50",
+            "jh_69501237": "50/50", "jh_132746": "48.5/50", "jh_57926841": "47/50", "jh_816394": "45/50", "jh_45372085": "43/50",
+            "jh_290145": "41/50", "jh_63798254": "39/50", "jh_174359": "37/50", "jh_52187436": "35/50", "jh_968207": "33/50",
+            "jh_3054961": "5/50", "jh_742853": "8/50", "jh_48921760": "11/50", "jh_126784": "14/50", "jh_57394128": "17/50",
+            "jh_810263": "20/50", "jh_35718924": "23/50", "jh_694057": "26/50", "jh_14152678": "29/50", "jh_598132": "32/50",
+            "jh_93567021": "35/50", "jh_472885": "38/50", "jh_81923647": "40/50", "jh_356174": "42/50", "jh_70348529": "44/50",
+            "jh_240618": "46/50", "jh_68713254": "48/50", "jh_124785": "49/50", "jh_57193846": "50/50", "jh_918403": "48/50",
+            "jh_36517928": "46/50", "jh_702846": "44/50", "jh_24973561": "42/50", "jh_596108": "40/50", "jh_83327549": "38/50",
+            "jh_470653": "36/50", "jh_80719432": "34/50", "jh_254381": "32/50", "jh_69172845": "30/50", "jh_138205": "0.5/50",
+            "jh_7853126": "4/50", "jh_432187": "7/50", "jh_87956430": "10/50", "jh_326149": "13/50", "jh_76358249": "16/50",
+            "jh_200375": "19/50", "jh_54792816": "22/50", "jh_984051": "25/50", "jh_43126875": "28/50", "jh_879430": "31/50",
+            "jh_32658719": "34/50", "jh_763100": "37/50", "jh_21045538": "39/50", "jh_657382": "41/50", "jh_19402765": "43/50",
+            "jh_521830": "45/50", "jh_96834712": "47/50", "jh_315618": "48/50", "jh_75214986": "49/50", "jh_289307": "50/50",
+            "jh_63640275": "48.5/50", "jh_173682": "47/50", "jh_51024938": "45/50", "jh_857496": "43/50", "jh_39468521": "41/50",
+            "jh_831704": "39/50", "jh_27819365": "37/50", "jh_615028": "35/50", "jh_14278639": "33/50", "jh_593217": "31/50",
+            "jh_304179": "9/50", "jh_74162358": "14/50", "jh_482906": "19/50", "jh_12948537": "24/50", "jh_566784": "29/50",
+            "jh_80319526": "34/50", "jh_350162": "38/50", "jh_98765943": "42/50", "jh_524718": "45/50", "jh_16154732": "48/50",
+            "jh_708401": "50/50", "jh_24586973": "49/50", "jh_682196": "47/50", "jh_12954386": "45/50", "jh_476812": "43/50",
+            "jh_81365724": "41/50", "jh_360298": "39/50", "jh_90752481": "37/50", "jh_544619": "35/50", "jh_28145736": "33/50",
+            "jh_638102": "31/50", "jh_17564923": "29/50", "jh_512987": "27/50", "jh_85103476": "25/50", "jh_408162": "23/50",
+            "jh_94567938": "21/50", "jh_382456": "19/50", "jh_73918405": "2/50", "jh_270513": "5/50", "jh_61784296": "8/50",
+            "jh_154627": "11/50", "jh_49138507": "14/50", "jh_838276": "17/50", "jh_37519284": "20/50", "jh_712465": "23/50",
+            "jh_25980471": "26/50", "jh_696782": "29/50", "jh_13327546": "32/50", "jh_580139": "35/50", "jh_92740835": "38/50",
+            "jh_364625": "40/50", "jh_70123894": "42/50", "jh_258197": "44/50", "jh_69547231": "46/50", "jh_132584": "48/50",
+            "jh_57931628": "49/50", "jh_916845": "50/50", "jh_45367912": "48.5/50", "jh_890523": "47/50", "jh_34718659": "45/50",
+            "jh_784215": "43/50", "jh_32164978": "41/50", "jh_768092": "39/50", "jh_20543761": "37/50", "jh_642875": "35/50",
+            "jh_18972645": "33/50", "jh_526814": "31/50", "jh_96354817": "4/50", "jh_400937": "7/50", "jh_84726935": "10/50",
+            "jh_284105": "13/50", "jh_72153849": "16/50", "jh_468217": "19/50", "jh_10596438": "22/50", "jh_542736": "25/50",
+            "jh_18967324": "28/50", "jh_526109": "31/50", "jh_96384752": "34/50", "jh_400286": "37/50", "jh_84751039": "40/50",
+            "jh_284751": "42/50", "jh_72148325": "44/50", "jh_468619": "46/50", "jh_10570248": "48/50", "jh_542973": "49/50",
+            "jh_18905637": "50/50", "jh_526428": "48/50", "jh_96358124": "46/50", "jh_400312": "44/50", "jh_84764739": "42/50",
+            "jh_284859": "40/50", "jh_72156281": "38/50", "jh_468925": "36/50", "jh_10593846": "34/50", "jh_543184": "32/50",
+            "jh_18976359": "1/50", "jh_526057": "4/50", "jh_96340927": "7/50", "jh_400748": "10/50", "jh_84713562": "13/50",
+
+            "sh_t0": "96/100", "sh_t1": "91.5/100", "sh_t2": "82.75/100", "sh_t3": "78.75/100", "sh_t4": "71/100", "sh_t5": "64.5/100", "sh_t6": "57/100",
+            "sh_16284759": "99/100", "sh_37104926": "92/100", "sh_90357248": "96/100", "sh_61738295": "97/100",
+            "sh_40826139": "94/100", "sh_47817313": "95/100", "sh_52937018": "92/100", "sh_74689130": "87/100",
+            "sh_48269137": "86/100", "sh_29475683": "1/100",
+            "sh_2748676": "92/100", "sh_756455": "88/100", "sh_72486754": "83/100", "sh_1425434": "78/100", "sh_12563991": "73/100",
+            "sh_24764": "68/100", "sh_26475411": "63/100", "sh_888819002": "58/100", "sh_24675411": "53/100", "sh_27486760": "48/100",
+            "sh_5714": "18/100", "sh_26839": "26/100", "sh_649752": "33/100", "sh_1837046": "40/100", "sh_72583916": "47/100",
+            "sh_4972803": "54/100", "sh_8315064": "60/100", "sh_37492518": "67/100", "sh_672319": "73/100", "sh_2503867": "79/100",
+            "sh_94826713": "85/100", "sh_1395842": "90/100", "sh_86750439": "94/100", "sh_4216798": "96/100", "sh_73028145": "98/100",
+            "sh_1974365": "4/100", "sh_52603987": "10/100", "sh_813764": "15/100", "sh_46019528": "26/100", "sh_7342816": "35/100",
+            "sh_18935740": "43/100", "sh_6279413": "49/100", "sh_45386270": "56/100", "sh_2781394": "62/100", "sh_96150487": "69/100",
+            "sh_3162859": "75/100", "sh_70549831": "80/100", "sh_8426730": "85/100", "sh_17932546": "89/100", "sh_5302894": "92/100",
+            "sh_67418023": "94/100", "sh_3925678": "96/100", "sh_82649157": "97/100", "sh_1410729": "0.5/100", "sh_75936482": "7/100",
+            "sh_4629183": "13/100", "sh_89740635": "22/100", "sh_3159847": "30/100", "sh_74209168": "38/100", "sh_1835724": "45/100",
+            "sh_49637501": "52/100", "sh_6208497": "59/100", "sh_17358426": "66/100", "sh_8510439": "72/100", "sh_39726158": "78/100",
+            "sh_6247853": "84/100", "sh_18902647": "89/100", "sh_5073692": "92/100", "sh_89402157": "94/100", "sh_4326795": "96/100",
+            "sh_71648503": "97/100", "sh_2591786": "98/100", "sh_68314097": "0/100", "sh_4912658": "6/100", "sh_84703952": "12/100",
+            "sh_1703684": "21/100", "sh_40985276": "29/100", "sh_6250973": "37/100", "sh_18349762": "45/100", "sh_7601483": "51/100",
+            "sh_49520386": "58/100", "sh_3146592": "65/100", "sh_69274518": "71/100", "sh_5289476": "77/100", "sh_17963528": "82/100",
+            "sh_8037415": "87/100", "sh_24759036": "91/100", "sh_6148932": "93/100", "sh_97513268": "95/100", "sh_3851746": "96/100",
+            "sh_72406815": "97/100", "sh_1594762": "96.5/100", "sh_48691507": "1/100", "sh_7924451": "11/100", "sh_35876049": "19/100",
+            "sh_1742896": "28/100", "sh_50946382": "35/100", "sh_6239571": "43/100", "sh_18735042": "50/100", "sh_4602819": "57/100",
+            "sh_93148756": "64/100", "sh_2541796": "71/100", "sh_78950213": "77/100", "sh_3426189": "82/100", "sh_67942530": "87/100",
+            "sh_9053628": "92/100", "sh_23648791": "94/100", "sh_4789125": "95/100", "sh_89352716": "96/100", "sh_3650178": "97/100",
+            "sh_2945": "15/100", "sh_67318": "23/100", "sh_452807": "31/100", "sh_1893264": "39/100", "sh_70459362": "47/100",
+            "sh_1374560": "54/100", "sh_48250971": "61/100", "sh_254871": "68/100", "sh_89163425": "75/100", "sh_568129": "81/100",
+            "sh_1269047": "87/100", "sh_47535128": "92/100", "sh_832749": "96/100", "sh_30965284": "99/100", "sh_674018": "100/100",
+            "sh_2417359": "98.5/100", "sh_69847231": "97/100", "sh_155860": "95/100", "sh_52290467": "92/100", "sh_987416": "90/100",
+            "sh_3642538": "2/100", "sh_72163485": "7/100", "sh_488571": "11/100", "sh_14500926": "17/100", "sh_592867": "23/100",
+            "sh_1492345": "29/100", "sh_49657132": "35/100", "sh_853840": "41/100", "sh_31018246": "47/100", "sh_647539": "53/100",
+            "sh_1842630": "59/100", "sh_52187459": "65/100", "sh_978401": "71/100", "sh_43561728": "77/100", "sh_772583": "83/100",
+            "sh_2194065": "89/100", "sh_65697531": "94/100", "sh_193820": "98/100", "sh_54076149": "100/100", "sh_887036": "99/100",
+            "sh_3241298": "97/100", "sh_76157420": "95/100", "sh_408587": "93/100", "sh_14567392": "1.5/100", "sh_592408": "6/100",
+            "sh_1397265": "10/100", "sh_47695032": "16/100", "sh_813486": "22/100", "sh_35023479": "28/100", "sh_697651": "34/100",
+            "sh_2445602": "40/100", "sh_68173495": "46/100", "sh_528970": "52/100", "sh_16546932": "58/100", "sh_502815": "64/100",
+            "sh_1590724": "70/100", "sh_49653781": "76/100", "sh_853482": "82/100", "sh_31029146": "88/100", "sh_647615": "93/100",
+            "sh_1847635": "97/100", "sh_52100829": "99/100", "sh_978547": "100/100", "sh_43579618": "98/100", "sh_772609": "96/100",
+            "sh_2192513": "93/100", "sh_65638417": "90/100", "sh_193071": "87/100", "sh_54084295": "2/100", "sh_887124": "6/100",
+            "sh_3249078": "10/100", "sh_76185263": "16/100", "sh_408765": "22/100", "sh_14537946": "28/100", "sh_592419": "34/100",
+            "sh_1394385": "40/100", "sh_47685930": "46/100", "sh_813617": "52/100", "sh_35019647": "58/100", "sh_697538": "64/100",
+            "sh_2441308": "70/100", "sh_68149255": "76/100", "sh_528846": "82/100", "sh_16543789": "88/100", "sh_502983": "93/100",
+            "sh_1590286": "97/100", "sh_49651427": "99/100", "sh_853679": "100/100", "sh_31025098": "98/100", "sh_647483": "96/100",
+            "sh_1847352": "93.5/100", "sh_52188609": "91/100", "sh_978125": "88/100", "sh_43597468": "4/100", "sh_772350": "8/100",
+            "sh_2196017": "12/100", "sh_65643259": "18/100", "sh_193286": "24/100", "sh_54075384": "30/100", "sh_887041": "36/100",
+            "sh_3241596": "42/100", "sh_76130847": "48/100", "sh_408924": "54/100", "sh_14568213": "60/100", "sh_592765": "66/100",
+            "sh_1390428": "72/100", "sh_47657196": "78/100", "sh_813382": "84/100", "sh_35046728": "89/100", "sh_697814": "94/100",
+            "sh_2442957": "97/100", "sh_68163914": "99/100", "sh_528705": "100/100", "sh_16502283": "98/100", "sh_502479": "96/100",
+            "sh_1593571": "93/100", "sh_49682846": "1/100", "sh_853942": "5/100", "sh_31018527": "9/100", "sh_647663": "13/100",
+            "sh_1849702": "19/100", "sh_52149133": "25/100", "sh_978876": "31/100", "sh_43534916": "37/100", "sh_772258": "43/100",
+            "sh_2196354": "49/100", "sh_65609782": "55/100", "sh_193478": "61/100", "sh_54092561": "67/100", "sh_887593": "73/100",
+            "sh_3248610": "79/100", "sh_76150724": "85/100", "sh_408132": "90/100", "sh_14576489": "95/100", "sh_592846": "98/100",
+            "sh_1392983": "100/100", "sh_47603475": "99/100", "sh_813619": "97/100", "sh_35058126": "94/100", "sh_697042": "92/100",
+            "sh_2447681": "89/100", "sh_68129534": "3/100", "sh_528979": "7/100", "sh_16561407": "11/100", "sh_502358": "17/100",
+            "sh_1594039": "23/100", "sh_49678215": "29/100", "sh_853208": "35/100", "sh_31063479": "41/100", "sh_647551": "47/100"
+        };
+
+        const candnum = {
+            "jh_787247": "37749172176353",
+            "jh_73049281": "28405916327541"
+        };
+
+        function s2c(s, max) {
+            let ratio = s / max;
+            let hue = 150 * ratio;
+            return `hsl(${hue}, 75%, 60%)`;
+        }
+
+        function sdiff(score, line_score) {
+            let diff = score - line_score;
+            if (diff > 0) {
+                return `<span style="color:#7cff7c;">+${diff} 分</span>`;
+            } else if (diff == 0) {
+                return `<span style="color:#ffff00;">刚好过线</span>`;
+            } else {
+                return `<span style="color:#ff7070;">${diff} 分</span>`;
+            }
+        }
+
+        const subjects = [
+            { key: "语文", res: (ord) => c_s[ord], dataMap: c_s },
+            { key: "数学", res: (ord) => m_s[ord], dataMap: m_s },
+            { key: "英语", res: (ord) => e_s[ord], dataMap: e_s },
+            { key: "历史", res: (ord) => h_s[ord], dataMap: h_s },
+            { key: "政治", res: (ord) => p_s[ord], dataMap: p_s },
+            { key: "地理", res: (ord) => g_s[ord], dataMap: g_s },
+            { key: "物理", res: (ord) => f_s[ord], dataMap: f_s },
+            { key: "化学", res: (ord) => k_s[ord], dataMap: k_s },
+            { key: "生物", res: (ord) => b_s[ord], dataMap: b_s },
+            {
+                key: "文综", iscomp: true,
+                res: (ord) => {
+                    let ch = parseFloat(c_s[ord].split('/')[0]), en = parseFloat(e_s[ord].split('/')[0]), hi = parseFloat(h_s[ord].split('/')[0]), po = parseFloat(p_s[ord].split('/')[0]), geo = parseFloat(g_s[ord].split('/')[0]);
+                    let max_ch = parseFloat(c_s[ord].split('/')[1]), max_en = parseFloat(e_s[ord].split('/')[1]), max_hi = parseFloat(h_s[ord].split('/')[1]), max_po = parseFloat(p_s[ord].split('/')[1]), max_geo = parseFloat(g_s[ord].split('/')[1]);
+                    let total_score = ch + en + hi + po + geo;
+                    let total_max = max_ch + max_en + max_hi + max_po + max_geo;
+                    return `${total_score}/${total_max}`;
+                },
+                dataMap: null
+            },
+            {
+                key: "理综", iscomp: true,
+                res: (ord) => {
+                    let ma = parseFloat(m_s[ord].split('/')[0]), ph = parseFloat(f_s[ord].split('/')[0]), chm = parseFloat(k_s[ord].split('/')[0]), bio = parseFloat(b_s[ord].split('/')[0]);
+                    let max_ma = parseFloat(m_s[ord].split('/')[1]), max_ph = parseFloat(f_s[ord].split('/')[1]), max_chm = parseFloat(k_s[ord].split('/')[1]), max_bio = parseFloat(b_s[ord].split('/')[1]);
+                    let total_score = ma + ph + chm + bio;
+                    let total_max = max_ma + max_ph + max_chm + max_bio;
+                    return `${total_score}/${total_max}`;
+                },
+                dataMap: null
+            },
+            {
+                key: "总分", iscomp: true,
+                res: (ord) => {
+                    let ch = parseFloat(c_s[ord].split('/')[0]), ma = parseFloat(m_s[ord].split('/')[0]), en = parseFloat(e_s[ord].split('/')[0]), hi = parseFloat(h_s[ord].split('/')[0]), po = parseFloat(p_s[ord].split('/')[0]), geo = parseFloat(g_s[ord].split('/')[0]), ph = parseFloat(f_s[ord].split('/')[0]), chm = parseFloat(k_s[ord].split('/')[0]), bio = parseFloat(b_s[ord].split('/')[0]);
+                    let max_ch = parseFloat(c_s[ord].split('/')[1]), max_ma = parseFloat(m_s[ord].split('/')[1]), max_en = parseFloat(e_s[ord].split('/')[1]), max_hi = parseFloat(h_s[ord].split('/')[1]), max_po = parseFloat(p_s[ord].split('/')[1]), max_geo = parseFloat(g_s[ord].split('/')[1]), max_ph = parseFloat(f_s[ord].split('/')[1]), max_chm = parseFloat(k_s[ord].split('/')[1]), max_bio = parseFloat(b_s[ord].split('/')[1]);
+                    let total = ch + ma + en + hi + po + geo + ph + chm + bio;
+                    let total_max = max_ch + max_ma + max_en + max_hi + max_po + max_geo + max_ph + max_chm + max_bio;
+                    return `${total}/${total_max}`;
+                },
+                dataMap: null
+            }
+        ];
+
+        let current_ord = null;
+        let data_loaded = false;
+        let verified = false;
+
+        const tabbar = document.querySelector(".tabbar");
+        const panetab = document.querySelector(".panetab");
+        const msc = document.querySelector(".msc");
+
+        function start() {
+            tabbar.innerHTML = '';
+            panetab.innerHTML = '';
+            subjects.forEach((sub, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "tab-btn";
+                btn.textContent = sub.key;
+                btn.dataset.index = idx;
+                btn.addEventListener("click", () => {
+                    if (!data_loaded && !verified) return;
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active-pane'));
+                    const target_pane = document.getElementById(`pane-${idx}`);
+                    if (target_pane) target_pane.classList.add('active-pane');
+                });
+                tabbar.appendChild(btn);
+
+                const pane = document.createElement('div');
+                pane.className = 'pane';
+                if (idx !== 0) pane.classList.remove('active-pane');
+                else pane.classList.add('active-pane');
+                pane.id = `pane-${idx}`;
+                pane.innerHTML = `
+                                    <div class="score-big" id="score_area_${idx}"></div>
+                                    <div class="progress-bar-wrapper" style="margin: 10px 0 20px 0;">
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-fill" id="progress_fill_${idx}" style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+                                    <div id="line_cards_${idx}" class="rank-grid"></div>
+                                `;
+                panetab.appendChild(pane);
+            });
+        }
+
+        function upd_bar(idx, s, max) {
+            const fill_div = document.getElementById(`progress_fill_${idx}`);
+            if (!fill_div) return;
+            const ratio = s / max;
+            const percent = (ratio * 100);
+            fill_div.style.width = `${percent}%`;
+            const hue = Math.min(150, Math.max(0, 150 * ratio));
+            fill_div.style.backgroundColor = `hsl(${hue}, 70%, 55%)`;
+        }
+
+        function linecards(ord, sub) {
+            const is_jh = ord.startsWith('jh_');
+            const line_keys = is_jh ? ['jh_t0', 'jh_t1', 'jh_t2', 'jh_t3', 'jh_t4', 'jh_t5', 'jh_t6'] : ['sh_t0', 'sh_t1', 'sh_t2', 'sh_t3', 'sh_t4', 'sh_t5', 'sh_t6'];
+            const line_names = ['提前批', '第一批', '第二批', '第三批', '第四批', '第五批', "第六批"];
+
+            if (sub.key === "总分") {
+                let total_score = parseFloat(sub.res(ord).split('/')[0]);
+                let cards = '';
+                for (let i = 0; i < line_keys.length; i++) {
+                    let line_sum = 0;
+                    for (let s of subjects) {
+                        if (!s.iscomp && s.dataMap) {
+                            let line_str = s.dataMap[line_keys[i]];
+                            if (line_str) line_sum += parseFloat(line_str.split('/')[0]);
+                        }
+                    }
+                    let diff_html = sdiff(total_score, line_sum);
+                    cards += `
+                                <div class="rank-card">
+                                    <div class="rank-label">${line_names[i]}</div>
+                                    <div class="rank-value" style="font-size:1.2rem;">${line_sum} 分</div>
+                                    <div class="small-note" style="margin-top:8px;">${diff_html}</div>
+                                </div>
+                            `;
+                }
+                return cards;
+            } else if (sub.key === "文综") {
+                let total_score = parseFloat(sub.res(ord).split('/')[0]);
+                let cards = '';
+                const cehpg_keys = ['语文', '英语', '历史', '政治', '地理'];
+                for (let i = 0; i < line_keys.length; i++) {
+                    let line_sum = 0;
+                    for (let s of subjects) {
+                        if (!s.iscomp && cehpg_keys.includes(s.key) && s.dataMap) {
+                            let line_str = s.dataMap[line_keys[i]];
+                            if (line_str) line_sum += parseFloat(line_str.split('/')[0]);
+                        }
+                    }
+                    let diff_html = sdiff(total_score, line_sum);
+                    cards += `
+                                <div class="rank-card">
+                                    <div class="rank-label">${line_names[i]}</div>
+                                    <div class="rank-value" style="font-size:1.2rem;">${line_sum} 分</div>
+                                    <div class="small-note" style="margin-top:8px;">${diff_html}</div>
+                                </div>
+                            `;
+                }
+                return cards;
+            } else if (sub.key === "理综") {
+                let total_score = parseFloat(sub.res(ord).split('/')[0]);
+                let cards = '';
+                const mfkb_keys = ['数学', '物理', '化学', '生物'];
+                for (let i = 0; i < line_keys.length; i++) {
+                    let line_sum = 0;
+                    for (let s of subjects) {
+                        if (!s.iscomp && mfkb_keys.includes(s.key) && s.dataMap) {
+                            let line_str = s.dataMap[line_keys[i]];
+                            if (line_str) line_sum += parseFloat(line_str.split('/')[0]);
+                        }
+                    }
+                    let diff_html = sdiff(total_score, line_sum);
+                    cards += `
+                                <div class="rank-card">
+                                    <div class="rank-label">${line_names[i]}</div>
+                                    <div class="rank-value" style="font-size:1.2rem;">${line_sum} 分</div>
+                                    <div class="small-note" style="margin-top:8px;">${diff_html}</div>
+                                </div>
+                            `;
+                }
+                return cards;
+            } else {
+                let score_val = parseFloat(sub.res(ord).split('/')[0]);
+                let cards = '';
+                for (let i = 0; i < line_keys.length; i++) {
+                    let line_str = sub.dataMap[line_keys[i]];
+                    if (line_str) {
+                        let line_score = parseFloat(line_str.split('/')[0]);
+                        let diff_html = sdiff(score_val, line_score);
+                        cards += `
+                                    <div class="rank-card">
+                                        <div class="rank-label">${line_names[i]}</div>
+                                        <div class="rank-value" style="font-size:1.2rem;">${line_score} 分</div>
+                                        <div class="small-note" style="margin-top:8px;">${diff_html}</div>
+                                    </div>
+                                `;
+                    }
+                }
+                return cards;
+            }
+        }
+
+        function content_score(ord, idx) {
+            const sub = subjects[idx];
+            if (!sub) return;
+            const score_str = sub.res(ord);
+            let [s, max] = score_str.split('/').map(v => parseFloat(v));
+            const percent = (s / max * 100).toFixed(2);
+            const color_style = s2c(s, max);
+
+            const score_area = document.getElementById(`score_area_${idx}`);
+            score_area.innerHTML = `
+                                <div class="score-number" style="color: ${color_style};">${score_str}</div>
+                                <div class="score-percent" style="color: ${color_style};">得分率 ${percent}%</div>
+                            `;
+            upd_bar(idx, s, max);
+
+            const line_cards_div = document.getElementById(`line_cards_${idx}`);
+            line_cards_div.innerHTML = linecards(ord, sub);
+        }
+
+        function show_subjects(ord) {
+            for (let i = 0; i < subjects.length; i++) {
+                content_score(ord, i);
+            }
+        }
+
+        function v_highscore(ord) {
+            if (!ord.startsWith('jh_')) return false;
+            const total_subject = subjects.find(s => s.key === '总分');
+            const total_str = total_subject.res(ord);
+            const total_score = parseFloat(total_str.split('/')[0]);
+            return total_score >= 1260;
+        }
+
+        function s_highscore(ord) {
+            if (!ord) return;
+            show_subjects(ord);
+            data_loaded = true;
+            verified = true;
+            const active_idx = document.querySelector('.tab-btn.active')?.dataset.index;
+            if (active_idx !== undefined) content_score(ord, parseInt(active_idx));
+            msc.style.color = "#5c6e8c";
+            msc.innerHTML = "Moshariny Combination";
+            msc.style.cursor = "default";
+            msc.onclick = null;
+        }
+
+        function highscore_placeholder(ord) {
+            for (let i = 0; i < subjects.length; i++) {
+                const score_area = document.getElementById(`score_area_${i}`);
+                const fill_div = document.getElementById(`progress_fill_${i}`);
+                const line_cards = document.getElementById(`line_cards_${i}`);
+                if (score_area) score_area.innerHTML = `<div class="score-number" style="color:#6c6f7a;">不公布</div><div class="score-percent">不公布</div>`;
+                if (fill_div) fill_div.style.width = '0%';
+                if (line_cards) line_cards.innerHTML = `<div class="rank-card" style="grid-column:1/-1; text-align:center;">不公布</div>`;
+            }
+            msc.style.color = "#ffaa66";
+            msc.innerHTML = "不公布考生信息";
+            msc.style.cursor = "pointer";
+            msc.onclick = async () => {
+                if (verified) return;
+                let submit_code = await inp("请输入准考证号。", "确认");
+                if (submit_code === candnum[current_ord]) {
+                    s_highscore(current_ord);
+                    msc.innerHTML = "Moshariny Combination";
+                    msc.style.color = "#87f5a5";
+                    msc.onclick = null;
+                } else {
+                    await fail("准考证号不匹配。");
+                }
+            };
+        }
+
+        async function switch_student(ord) {
+            const container = document.querySelector('.panetab');
+            if (!container.classList.contains('visible')) {
+                container.classList.add('visible');
+                container.style.opacity = '1';
+                current_ord = ord;
+                if (v_highscore(ord)) {
+                    highscore_placeholder(ord);
+                    data_loaded = false;
+                    verified = false;
+                } else {
+                    s_highscore(ord);
+                    verified = true;
+                    data_loaded = true;
+                }
+                return;
+            }
+            container.style.transition = 'opacity 0.2s ease';
+            container.style.opacity = '0';
+            await new Promise(resolve => setTimeout(resolve, 200));
+            current_ord = ord;
+            rz(`当前正在阅览${ord.includes('t') ? '分数线' : ' ' + ord + ' '}的成绩！`);
+            if (v_highscore(ord)) {
+                highscore_placeholder(ord);
+                data_loaded = false;
+                verified = false;
+            } else {
+                s_highscore(ord);
+                verified = true;
+                data_loaded = true;
+            }
+            container.style.opacity = '1';
+            setTimeout(() => {
+                if (container.style.transition) container.style.transition = '';
+            }, 200);
+        }
+
+        async function init(ord) {
+            const container = document.querySelector('.panetab');
+            if (!container.classList.contains('visible')) {
+                container.classList.add('visible');
+                container.style.opacity = '1';
+                current_ord = ord;
+                document.title = `${ord} 的成绩`;
+                rz(`当前正在阅览${ord.includes('t') ? '分数线' : ' ' + ord + ' '}的成绩！`);
+
+                if (v_highscore(ord)) {
+                    highscore_placeholder(ord);
+                    data_loaded = false;
+                    verified = false;
+                } else {
+                    s_highscore(ord);
+                    verified = true;
+                    data_loaded = true;
+                }
+            } else {
+                await switch_student(ord);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            start();
+            const panetab = document.querySelector('.panetab');
+            panetab.classList.remove('visible');
+            panetab.style.opacity = '0';
+
+            const ordinp = document.getElementById("ordinp");
+            ordinp.onclick = async () => {
+                let user_ord = await inp("输入考生编号。");
+                if (!user_ord) return;
+                if ((!user_ord.startsWith("jh_") && !user_ord.startsWith("sh_"))) {
+                    await fail("编号必须以 jh_ 或 sh_ 开头，请重新输入。");
+                    return;
+                }
+                if (!c_s[user_ord]) {
+                    await fail("此考生编号不存在，请检查后重新输入。");
+                    return;
+                }
+                await init(user_ord);
+            };
+
+            setTimeout(() => {
+                document.body.style.backgroundColor = "#111317";
+            }, 10);
+        });
+    </script>
 </body>
 </html>

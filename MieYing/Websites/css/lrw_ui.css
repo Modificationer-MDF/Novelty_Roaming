@@ -1,0 +1,277 @@
+/* 左侧面板 lw 和右侧面板 rw 的样式。 */
+.lw, .rw {
+    position: fixed;
+    top: 0;
+    width: 0px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #00000099;
+    backdrop-filter: blur(14px) saturate(250%);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 10;
+    transition: none;
+    pointer-events: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+    .lw::-webkit-scrollbar, .rw::-webkit-scrollbar {
+        display: none;
+    }
+
+.lw {
+    left: -500px;
+    border-radius: 25px;
+}
+
+.rw {
+    right: -500px;
+    border-radius: 25px;
+}
+
+/* 左侧面板进入动画。 */
+@keyframes jr_lw {
+    0% {
+        left: -666px;
+        width: 0px;
+    }
+
+    55% {
+        left: 0;
+    }
+
+    100% {
+        left: 0;
+        width: 444px;
+    }
+}
+
+/* 左侧面板退出动画。 */
+@keyframes cc_lw {
+    0% {
+        left: 0;
+        width: 444px;
+    }
+
+    100% {
+        left: -666px;
+        width: 0px;
+    }
+}
+
+/* 右侧面板进入动画。 */
+@keyframes jr_rw {
+    0% {
+        right: -666px;
+        width: 0px;
+    }
+
+    55% {
+        right: 0;
+    }
+
+    100% {
+        right: 0;
+        width: 444px;
+    }
+}
+
+/* 右侧面板退出动画。 */
+@keyframes cc_rw {
+    0% {
+        width: 444px;
+        right: 0;
+    }
+
+    100% {
+        width: 0px;
+        right: -666px;
+    }
+}
+
+.lf1, .lf2 { /* 分割线。*/
+    position: relative;
+    overflow-x: hidden;
+    top: 30px;
+    width: 0;
+    height: 11px;
+    z-index: 999;
+    backdrop-filter: blur(14px) saturate(250%);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-bottom: 20px;
+}
+
+.lf1 {
+    background-color: #00ff1d99;
+}
+
+.lf2 {
+    margin-top: 20px;
+    background-color: #00f7ff99;
+}
+
+@keyframes jr_lf {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes cc_lf {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0;
+    }
+}
+
+.t { /* 标题。 */
+    color: #ffffff;
+    position: relative;
+    top: 30px;
+    left: 20px;
+    text-align: left;
+    font-size: 30px;
+    width: 384px;
+}
+
+.tlarea, .la2t {
+    color: #ffffff;
+    position: relative;
+    top: 20px;
+    font-size: 30px;
+    text-align: center;
+    width: 100%;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.la2t {
+    left: -100%;
+    border-top: 10px solid #8bff9fb9;
+    border-bottom: 10px solid #8bff9fb9;
+    font-size: 25px;
+}
+
+.i { /* 图标。 */
+    position: absolute;
+    right: 0px;
+    opacity: 1;
+    transition: all 0.2s;
+}
+
+.scs, .share, .pr, .reload, .ifscr, .ofscr, .lw11, .lw12, .lw13, .lw14, .lw15, .lw16, .lw17, .lw18, .lw19, .lw20, .rw1, .rw2, .rw3, .rw4, .rw5 {
+    position: relative;
+    opacity: 0;
+    color: #ffffff;
+    z-index: 12;
+    top: 20px;
+    left: -100%;
+    padding: 14px 25px;
+    font-size: 25px;
+    border-radius: 14px;
+    cursor: pointer;
+    text-align: center;
+    backdrop-filter: blur(14px) saturate(250%);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.phl {}
+
+.rw1, .rw2, .rw3, .rw4, .rw5 {
+    transition: width 0.2s ease-in-out;
+    transition: height 0.2s ease-in-out;
+}
+
+.scs {
+    background-color: #033a7e99;
+}
+
+.share {
+    background-color: #2ecc7199;
+}
+
+.pr {
+    background-color: #51c8ef99;
+}
+
+.reload {
+    background-color: #1abc9c99;
+}
+
+.ifscr {
+    background-color: #4fbbdd99;
+}
+
+.ofscr {
+    background-color: #3cb18999;
+}
+
+.lw11 {
+    background-color: #2b8cad99;
+}
+
+.lw12 {
+    background-color: #1c789a99;
+}
+
+.lw13 {
+    background-color: #2d7c8a99;
+}
+
+.lw14 {
+    background-color: #3d869a99;
+}
+
+.lw15 {
+    background-color: #4c90a899;
+}
+
+.lw16 {
+    background-color: #5b99b699;
+}
+
+.lw17 {
+    background-color: #6aa3c499;
+}
+
+.lw18 {
+    background-color: #79adcf99;
+}
+
+.lw19 {
+    background-color: #88b7d899;
+}
+
+.lw20 {
+    background-color: #97c1e099;
+}
+
+.larea1, .larea2 { /* 左侧窗口第一部分。 */
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    top: 30px;
+    width: 100%;
+    height: 0px;
+    z-index: 11;
+    backdrop-filter: blur(14px) saturate(250%);
+    border-radius: 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+}
+
+.larea1 {
+    background-color: #023b4199;
+}
+
+.larea2 {
+    background-color: #0e410299;
+}

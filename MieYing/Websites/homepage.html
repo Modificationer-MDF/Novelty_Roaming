@@ -1,47 +1,26 @@
-﻿<!-- Developer: Modificationer & Shatelliti. -->
-<!DOCTYPE html>
-<meta charset="utf-8">
+﻿<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>欢迎来到 HF 网络！</title>
+    <meta charset="UTF-8">
+    <title>HF Net</title>
     <link rel="stylesheet" type="text/css" href="css/basic.css" />
-    <link rel="stylesheet" type="text/css" href="css/functions.css" />
-    <script src="js/functions.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="css/mw_functions.css" />
+    <link rel="stylesheet" type="text/css" href="css/rw_functions.css" />
+    <link rel="stylesheet" type="text/css" href="css/lrw_ui.css" />
+    <script src="js/mw_functions.js" defer></script>
+    <script src="js/rw_functions.js" defer></script>
     <script src="js/basic.js" defer></script>
     <script src="js/global.js" defer></script>
-    <style>
-        body {
-            background-color: #000000;
-            transition: all 0.7s ease;
-        }
-    </style>
+    <script src="js/lrw_ui.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.body.style.backgroundColor = "#000000";
+            }, 10);
+        })
+    </script>
 </head>
-<body>
-    <div id="main">
-        <div class="ps" id="ps1">
-            <img src="images/Version.png" style="transition: all ease 0.3s; margin-bottom: -40px;" alt="" />
-            <p style="font-size: 20px; text-align: center;">Harmony Fashion 1.1.3.9</p>
-        </div>
-        <div class="top">
-            <p class="head1">The Play Games</p>
-            <p class="head2">Make the game-playing easier.</p>
-            <div class="fn1">
-                函数演示
-                <button type="button" class="dakai" id="1" onclick="fn0();">打开</button>
-            </div>
-            <div class="fn3">
-                版本列表
-                <button type="button" class="dakai" id="3" onclick="fn3();">打开</button>
-            </div>
-        </div>
-        <div class="ps" id="ps2">
-            <p style="font-size: 20px; text-align: center;" id="devs"></p>
-        </div>
-    </div>
-    <ul class="rightclick-menu">
-        <li onclick="zd('在此处输入代码。');">调出终端</li>
-    </ul>
-    <div class="control-pad"></div>
-    <div class="information-table"></div>
-</body>
+    <body style="background-color: #ffffff; transition: all 0.3s ease;">
+
+    </body>
 </html>

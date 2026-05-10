@@ -1,7 +1,5 @@
-let mode = "Preset";
-let titleset = "Default";
-let rightset = "跟随该网站的设置";
-let easing = "cubic-bezier(0.17, 0.9, 0.4, 0.99)";
+let easing = "cubic-bezier(0.16, 1, 0.3, 1)";
+let fasing = "cubic-bezier(0.7, 0, 0.84, 0)";
 let deftime = "Smart";
 let defwid = 1024;
 let defhei = 768;
@@ -47,22 +45,22 @@ let left_win = []; // 左函数数组。
 let mid_win= []; // 中函数数组。
 let right_win = []; // 右函数数组。
 let wzwin = []; // wz() 数组。
-let midwins = ["noti-window", "cg-window", "fail-window", "warn-window", "inp-window", "xz-window", "lj-window", "synchr-window", "zd-window", "timer-window", "mb-window"];
+let midwins = ["noti-mele", "cg-mele", "fail-mele", "warn-mele", "inp-mele", "xz-mele", "lj-mele", "synchr-mele", "zd-mele", "timer-mele", "mb-mele"];
 
 document.addEventListener("DOMContentLoaded", function () {
     var start = performance.now();
-    var font1 = new FontFace("mhmts", 'url("fonts/Moharmiteksai.woff2")');
+    var font1 = new FontFace("hf", 'url("fonts/Harfash.woff2")');
     var font2 = new FontFace("lan", 'url("fonts/Lanubu Light.woff2")');
     font1.load().then(function (f) {
         var end = performance.now();
         document.fonts.add(f);
-        console.log(`成功加载字体：Moharmiteksai。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
+        console.log(`成功加载字体：Harfash。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
     }).catch(function (error) {
-        var by_font1 = new FontFace("mhmts", 'url("fonts/Moharmiteksai.otf")');
+        var by_font1 = new FontFace("mhmts", 'url("fonts/Harfash.otf")');
         by_font1.load().then(function (f) {
             var end = performance.now();
             document.fonts.add(f);
-            console.log(`成功加载字体：Moharmiteksai。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
+            console.log(`成功加载字体：Harfash。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
         }).catch(function (error) {
             switch (error.name) {
                 case "NetworkError":
