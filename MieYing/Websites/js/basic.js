@@ -112,10 +112,10 @@ function hqzd(s) { // 获取栈顶元素。
 function pos(p) {
     let total = 3 * window.innerHeight / 100;
     function fn(w) {
-        w.forEach((window) => {
-            const wh = window.getBoundingClientRect().height;
-            window.style.transition = `all 0.5s ${easing}`;
-            window.style.top = `${total}px`;
+        w.forEach((ls_w) => {
+            const wh = ls_w.getBoundingClientRect().height;
+            ls_w.style.transition = `all 0.5s ${easing}`;
+            ls_w.style.top = `${total}px`;
             total += (wh + 3);
         });
     }

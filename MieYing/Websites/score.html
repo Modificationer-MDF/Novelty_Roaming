@@ -1469,15 +1469,17 @@
         }
 
         const subjects = [
-            { key: "语文", res: (ord) => c_s[ord], dataMap: c_s },
-            { key: "数学", res: (ord) => m_s[ord], dataMap: m_s },
-            { key: "英语", res: (ord) => e_s[ord], dataMap: e_s },
-            { key: "历史", res: (ord) => h_s[ord], dataMap: h_s },
-            { key: "政治", res: (ord) => p_s[ord], dataMap: p_s },
-            { key: "地理", res: (ord) => g_s[ord], dataMap: g_s },
-            { key: "物理", res: (ord) => f_s[ord], dataMap: f_s },
-            { key: "化学", res: (ord) => k_s[ord], dataMap: k_s },
-            { key: "生物", res: (ord) => b_s[ord], dataMap: b_s },
+            {
+                key: "总分", iscomp: true,
+                res: (ord) => {
+                    let ch = parseFloat(c_s[ord].split('/')[0]), ma = parseFloat(m_s[ord].split('/')[0]), en = parseFloat(e_s[ord].split('/')[0]), hi = parseFloat(h_s[ord].split('/')[0]), po = parseFloat(p_s[ord].split('/')[0]), geo = parseFloat(g_s[ord].split('/')[0]), ph = parseFloat(f_s[ord].split('/')[0]), chm = parseFloat(k_s[ord].split('/')[0]), bio = parseFloat(b_s[ord].split('/')[0]);
+                    let max_ch = parseFloat(c_s[ord].split('/')[1]), max_ma = parseFloat(m_s[ord].split('/')[1]), max_en = parseFloat(e_s[ord].split('/')[1]), max_hi = parseFloat(h_s[ord].split('/')[1]), max_po = parseFloat(p_s[ord].split('/')[1]), max_geo = parseFloat(g_s[ord].split('/')[1]), max_ph = parseFloat(f_s[ord].split('/')[1]), max_chm = parseFloat(k_s[ord].split('/')[1]), max_bio = parseFloat(b_s[ord].split('/')[1]);
+                    let total = ch + ma + en + hi + po + geo + ph + chm + bio;
+                    let total_max = max_ch + max_ma + max_en + max_hi + max_po + max_geo + max_ph + max_chm + max_bio;
+                    return `${total}/${total_max}`;
+                },
+                dataMap: null
+            },
             {
                 key: "文综", iscomp: true,
                 res: (ord) => {
@@ -1500,17 +1502,15 @@
                 },
                 dataMap: null
             },
-            {
-                key: "总分", iscomp: true,
-                res: (ord) => {
-                    let ch = parseFloat(c_s[ord].split('/')[0]), ma = parseFloat(m_s[ord].split('/')[0]), en = parseFloat(e_s[ord].split('/')[0]), hi = parseFloat(h_s[ord].split('/')[0]), po = parseFloat(p_s[ord].split('/')[0]), geo = parseFloat(g_s[ord].split('/')[0]), ph = parseFloat(f_s[ord].split('/')[0]), chm = parseFloat(k_s[ord].split('/')[0]), bio = parseFloat(b_s[ord].split('/')[0]);
-                    let max_ch = parseFloat(c_s[ord].split('/')[1]), max_ma = parseFloat(m_s[ord].split('/')[1]), max_en = parseFloat(e_s[ord].split('/')[1]), max_hi = parseFloat(h_s[ord].split('/')[1]), max_po = parseFloat(p_s[ord].split('/')[1]), max_geo = parseFloat(g_s[ord].split('/')[1]), max_ph = parseFloat(f_s[ord].split('/')[1]), max_chm = parseFloat(k_s[ord].split('/')[1]), max_bio = parseFloat(b_s[ord].split('/')[1]);
-                    let total = ch + ma + en + hi + po + geo + ph + chm + bio;
-                    let total_max = max_ch + max_ma + max_en + max_hi + max_po + max_geo + max_ph + max_chm + max_bio;
-                    return `${total}/${total_max}`;
-                },
-                dataMap: null
-            }
+            { key: "语文", res: (ord) => c_s[ord], dataMap: c_s },
+            { key: "数学", res: (ord) => m_s[ord], dataMap: m_s },
+            { key: "英语", res: (ord) => e_s[ord], dataMap: e_s },
+            { key: "历史", res: (ord) => h_s[ord], dataMap: h_s },
+            { key: "政治", res: (ord) => p_s[ord], dataMap: p_s },
+            { key: "地理", res: (ord) => g_s[ord], dataMap: g_s },
+            { key: "物理", res: (ord) => f_s[ord], dataMap: f_s },
+            { key: "化学", res: (ord) => k_s[ord], dataMap: k_s },
+            { key: "生物", res: (ord) => b_s[ord], dataMap: b_s },
         ];
 
         let current_ord = null;
@@ -1688,7 +1688,7 @@
             const total_subject = subjects.find(s => s.key === '总分');
             const total_str = total_subject.res(ord);
             const total_score = parseFloat(total_str.split('/')[0]);
-            return total_score >= 1260;
+            return total_score >= 670;
         }
 
         function s_highscore(ord) {

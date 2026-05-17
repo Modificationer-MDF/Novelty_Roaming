@@ -28,43 +28,40 @@ async function rz(string, time) {
         mele.appendChild(inf);
         mele.appendChild(bar);
 
-        mele.style.animation = `jr_rz 0.4s forwards ${easing}`;
+        mele.style.animation = `jr_rz 0.5s forwards ${easing}`;
 
         mele.addEventListener("animationend", () => {
             inf.style.opacity = 1;
         }, { once: true });
 
         mele.oncontextmenu = async () => {
-            let c1 = await xz("关闭该 rz() 窗口？", 1, ["是。", "否。"]);
-            if (c1 != null) {
-                if (c1[0] === "是。") {
-                    inf.style.opacity = 0;
-                    inf.addEventListener("transitionend", () => {
-                        mele.style.animation = `cc_rz 0.4s forwards ${easing}`;
-                        mele.addEventListener("animationend", () => {
-                            if (document.body.contains(mele)) document.body.removeChild(mele);
-                            close(mele);
-                            resolve();
-                        }, { once: true });
-                    }, { once: true });
-                }
-            }
+            inf.style.opacity = 0;
+            inf.addEventListener("transitionend", () => {
+                mele.style.animation = `cc_rz 0.5s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    close(mele);
+                    resolve();
+                }, { once: true });
+            }, { once: true });
         };
 
-        let i1 = setInterval(() => {
-            pro += 10 / (time / 100);
-            bar.style.width = `${pro}%`;
-            if (pro >= 100) {
-                timeup = true;
-                clearInterval(i1);
-            }
-        }, 10);
+        inf.addEventListener(("transitionend"), () => {
+            let i1 = setInterval(() => {
+                pro += 10 / (time / 100);
+                bar.style.width = `${pro}%`;
+                if (pro >= 100) {
+                    timeup = true;
+                    clearInterval(i1);
+                }
+            }, 10);
+        }, { once: true });
 
         setInterval(() => {
             if (timeup) {
                 inf.style.opacity = 0;
                 inf.addEventListener("transitionend", () => {
-                    mele.style.animation = `cc_rz 0.4s forwards ${easing}`;
+                    mele.style.animation = `cc_rz 0.5s forwards ${easing}`;
                     mele.addEventListener("animationend", () => {
                         if (document.body.contains(mele)) document.body.removeChild(mele);
                         close(mele);
@@ -987,7 +984,7 @@ async function lj(string, url, title, id) {
         warn("无法跳转至空地址。");
         return "在 Lj() 函数中，url 参数不能为空。";
     }
-    if (title == null || title == undefined) title = "链接";
+    if (title == null || title == undefined) title = (url.startsWith("mailto:") ? "邮件" : "链接");
     else {
         title = String(title);
         let t_replaced = title.replace(/\s+/g, "");

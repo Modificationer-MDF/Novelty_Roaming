@@ -165,7 +165,7 @@
     transition: all 0.2s;
 }
 
-.scs, .share, .pr, .reload, .ifscr, .ofscr, .lw11, .lw12, .lw13, .lw14, .lw15, .lw16, .lw17, .lw18, .lw19, .lw20, .rw1, .rw2, .rw3, .rw4, .rw5 {
+.scs, .share, .pr, .reportying, .ter, .on, .off, .lw14, .lw15, .lw16, .lw17, .lw18, .lw19, .lw20, .rw1, .rw2, .rw3, .rw4, .rw5 {
     position: relative;
     opacity: 0;
     color: #ffffff;
@@ -200,29 +200,22 @@
     background-color: #51c8ef99;
 }
 
-.reload {
+.reportying {
     background-color: #1abc9c99;
 }
 
-.ifscr {
-    background-color: #4fbbdd99;
+.ter {
+    background-color: #00000099;
 }
 
-.ofscr {
-    background-color: #3cb18999;
+.on {
+    background-color: #008e0099;
 }
 
-.lw11 {
-    background-color: #2b8cad99;
+.off {
+    background-color: #8e000099;
 }
 
-.lw12 {
-    background-color: #1c789a99;
-}
-
-.lw13 {
-    background-color: #2d7c8a99;
-}
 
 .lw14 {
     background-color: #3d869a99;

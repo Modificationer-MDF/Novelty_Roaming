@@ -442,15 +442,25 @@
 }
 
 @keyframes jr_rz {
-    from {
+    0% {
+        padding: 14px 0px;
         left: -250px;
         backdrop-filter: blur(0px) saturate(100%);
         opacity: 0;
         width: 0px;
     }
 
-    to {
-        left: 3px;
+    40% {
+        padding: 14px 0px;
+        left: 10px;
+        backdrop-filter: blur(0px) saturate(100%);
+        opacity: 1;
+        width: 0px;
+    }
+
+    100% {
+        padding: 14px 25px;
+        left: 10px;
         backdrop-filter: blur(14px) saturate(250%);
         opacity: 1;
         width: 300px;
@@ -458,14 +468,24 @@
 }
 
 @keyframes cc_rz {
-    from {
-        left: 3px;
+    0% {
+        padding: 14px 25px;
+        left: 10px;
         backdrop-filter: blur(14px) saturate(250%);
         opacity: 1;
         width: 300px;
     }
 
-    to {
+    60% {
+        padding: 14px 0px;
+        left: 10px;
+        backdrop-filter: blur(0px) saturate(100%);
+        opacity: 1;
+        width: 0px;
+    }
+
+    100% {
+        padding: 14px 0px;
         left: -250px;
         backdrop-filter: blur(0px) saturate(100%);
         opacity: 0;

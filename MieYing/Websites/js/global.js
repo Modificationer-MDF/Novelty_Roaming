@@ -44,8 +44,8 @@ let isdimmed = false;
 let left_win = []; // 左函数数组。
 let mid_win= []; // 中函数数组。
 let right_win = []; // 右函数数组。
-let wzwin = []; // wz() 数组。
 let midwins = ["noti-mele", "cg-mele", "fail-mele", "warn-mele", "inp-mele", "xz-mele", "lj-mele", "synchr-mele", "zd-mele", "timer-mele", "mb-mele"];
+let ofscrt = true; // 是否启用截图工具。
 
 document.addEventListener("DOMContentLoaded", function () {
     var start = performance.now();
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var end = performance.now();
         document.fonts.add(f);
         console.log(`成功加载字体：Harfash。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
-    }).catch(function (error) {
+    }).catch(() => {
         var by_font1 = new FontFace("mhmts", 'url("fonts/Harfash.otf")');
         by_font1.load().then(function (f) {
             var end = performance.now();
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var end = performance.now();
         document.fonts.add(f);
         console.log(`成功加载字体：Lanubu Light。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
-    }).catch(function (error) {
+    }).catch(() => {
         var by_font2 = new FontFace("lan", 'url("fonts/Lanubu Light.ttf")');
         by_font2.load().then(function (f) {
             var end = performance.now();
@@ -100,9 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    const tscrs = document.getElementById("tscrs");
     setInterval(() => {
         pos(0);
         pos(1);
         pos(2);
-    }, 500);
+        tscrs.style.borderTop = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");
+        tscrs.style.borderBottom = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");
+    }, 400);
 });
