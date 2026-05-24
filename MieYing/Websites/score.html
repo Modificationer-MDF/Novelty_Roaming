@@ -1773,8 +1773,8 @@
                 container.classList.add('visible');
                 container.style.opacity = '1';
                 current_ord = ord;
-                document.title = `${ord} 的成绩`;
-                rz(`当前正在阅览${ord.includes('t') ? '分数线' : ' ' + ord + ' '}的成绩！`);
+                document.title = `成绩查询`;
+                noti(`当前正在阅览${ord.includes('t') ? '分数线' : ' ' + ord + ' '}的成绩！`);
 
                 if (v_highscore(ord)) {
                     highscore_placeholder(ord);

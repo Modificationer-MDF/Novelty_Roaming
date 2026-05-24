@@ -507,3 +507,89 @@
 .mb-gb {
     background-color: #8fbc22b0;
 }
+
+/* jg() 弹窗基础样式（复用现有毛玻璃风格） */
+.jg-mele {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    border-radius: 28px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.jg-square {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+    .jg-square img {
+        width: 28px;
+        height: 28px;
+        margin-right: 12px;
+        filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+    }
+
+.jg-okey {
+    background: #2c3e66;
+    color: white;
+    border: none;
+    margin: 20px 0 25px;
+    padding: 10px 32px;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+    .jg-okey:hover {
+        background: #1e2a4a;
+        transform: scale(0.96);
+    }
+
+/* 3D 进入动画：从前方翻转 + 缩放 */
+@keyframes jr_jg_3d {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2) rotateX(90deg);
+    }
+
+    40% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.08) rotateX(-5deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotateX(0deg);
+    }
+}
+
+/* 3D 退出动画：缩小并向后翻转 */
+@keyframes cc_jg_3d {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotateX(0deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2) rotateX(90deg);
+    }
+}

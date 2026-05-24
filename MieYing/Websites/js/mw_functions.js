@@ -1645,3 +1645,122 @@ async function mb(string, title, id) {
         };
     });
 }
+
+// 仿 alert() 对话框，带 3D 动画
+async function jg(string, title = "提示", id = "") {
+    return new Promise((resolve) => {
+        if (string == null || string == undefined) {
+            fail("不能输入空值！");
+            return resolve(false);
+        }
+        string = String(string);
+        let s_replaced = string.replace(/\s+/g, "");
+        if (s_replaced === "") {
+            warn("不能输入空字符串。");
+            return resolve(false);
+        }
+        if (title == null || title == undefined) title = "提示";
+        else {
+            title = String(title);
+            let t_replaced = title.replace(/\s+/g, "");
+            if (t_replaced === "") title = "提示";
+        }
+        if (id == null || id == undefined) id = "";
+
+        const mele = document.createElement("div");
+        const square = document.createElement("div");
+        const icon = document.createElement("img");
+        const txt = document.createElement("div");
+        const inf = document.createElement("div");
+        const okey = document.createElement("button");
+
+        mele.className = "jg-mele";
+        mele.id = id;
+        mele.style.height = "0px";
+        mele.style.transition = `height 0.2s ${easing}`;
+        square.className = "jg-square";
+        icon.src = "images/Info.png";   // 可更换为您的信息图标
+        icon.alt = "";
+        icon.style.opacity = 0;
+        icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+        txt.className = "fn-title";
+        txt.style.opacity = 0;
+        txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+        inf.className = "fn-inf";
+        inf.style.opacity = 0;
+        inf.style.textAlign = "center";
+        inf.style.minWidth = "30ch";
+        inf.style.transition = `all 0.2s ${easing}`;
+        okey.type = "button";
+        okey.className = "jg-okey";
+        okey.innerHTML = "确定";
+        okey.style.transition = `all 0.2s ${easing}`;
+        okey.style.opacity = 0;
+
+        create(mele);
+        document.body.appendChild(mele);
+
+        mele.appendChild(square);
+        square.appendChild(icon);
+        square.appendChild(txt);
+        mele.appendChild(inf);
+        mele.appendChild(okey);
+
+        // 使用 3D 旋转 + 缩放动画
+        mele.style.animation = `jr_jg_3d 0.4s forwards ${easing}`;
+        inf.innerHTML = string;
+        txt.innerHTML = title;
+
+        mele.addEventListener("animationend", () => {
+            inf.style.transform = "translateY(0)";
+            inf.style.opacity = 1;
+            icon.style.opacity = 1;
+            txt.style.opacity = 1;
+            okey.style.opacity = 1;
+            mele.style.width = "30ch";
+            mele.style.left = "calc(50% - 15ch)";
+            mele.style.right = "calc(50% + 15ch)";
+            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
+        });
+
+        okey.addEventListener("transitionend", () => {
+            okey.focus();
+        }, { once: true });
+
+        let square_height = hqgd(txt.innerHTML, "fn-title", "div");
+        square.style.height = square_height;
+        inf.style.marginTop = square_height;
+
+        // 键盘 Enter 触发确定
+        const keyHandler = (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                closeDialog();
+            }
+        };
+        document.addEventListener("keydown", keyHandler);
+
+        const closeDialog = () => {
+            document.removeEventListener("keydown", keyHandler);
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            okey.style.opacity = 0;
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                resolve(true);
+                square.style.height = "35px";
+                mele.style.animation = `cc_jg_3d 0.3s forwards ${fasing}`;
+                close(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                }, { once: true });
+            }, { once: true });
+        };
+
+        okey.onmouseover = () => { ld(okey, "75%"); };
+        okey.onmouseleave = () => { ld(okey, "100%"); };
+        okey.onclick = closeDialog;
+    });
+}
