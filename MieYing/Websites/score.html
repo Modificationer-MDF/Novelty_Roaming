@@ -1751,7 +1751,7 @@
             container.style.opacity = '0';
             await new Promise(resolve => setTimeout(resolve, 200));
             current_ord = ord;
-            rz(`当前正在阅览${ord.includes('t') ? '分数线' : ' ' + ord + ' '}的成绩！`);
+            ord.includes("t") ? inf("当前正在阅览分数线的成绩。") : suc(`${ord}，欢迎。`);
             if (v_highscore(ord)) {
                 highscore_placeholder(ord);
                 data_loaded = false;
@@ -1774,7 +1774,7 @@
                 container.style.opacity = '1';
                 current_ord = ord;
                 document.title = `成绩查询`;
-                noti(`当前正在阅览${ord.includes('t') ? '分数线' : ' ' + ord + ' '}的成绩！`);
+                ord.includes("t") ? inf("当前正在阅览分数线的成绩。") : suc(`${ord}，欢迎。`);
 
                 if (v_highscore(ord)) {
                     highscore_placeholder(ord);

@@ -167,8 +167,11 @@ function init_ui() {
 
     const lf1 = document.createElement("div");
     lf1.className = "lf1";
+    const lf1i = document.createElement("div");
+    lf1i.className = "lf1i";
 
     lw.appendChild(lf1);
+    lf1.appendChild(lf1i);
 
     const scs = document.createElement("btn");
     scs.className = "scs";
@@ -230,9 +233,9 @@ function init_ui() {
     share.onclick = () => {
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(() => {
-            cg("已将本页面网址复制到剪贴板！");
+            suc("已将本页面网址复制到剪贴板！");
         }).catch(() => {
-            fail("复制失败，请手动复制地址栏。");
+            err("复制失败，请手动复制地址栏。");
         });
     };
     const reportying = document.createElement("btn");
@@ -243,14 +246,25 @@ function init_ui() {
         let ls_1 = await inp("在此输入对应“蝇”信息的 CSS 选择器。", "输入", "rying");
         try {
             let ying = document.querySelector(ls_1);
-            mb(ying.textContent, "内容显示");
-            let con = await xz("该元素内容已显示在上一个窗口。确认无误后点击“是。”继续。", 1, ["是。", "否。"], "确认");
-            if (con[0] === "是。") {
+            mb(ying.textContent, "内容显示", "nrxs");
+            let con = await conf("该元素内容已显示在中部窗口。请确认。");
+            if (document.body.contains(document.getElementById("nrxs"))) {
+                const nrxs = document.getElementById("nrxs");
+                nrxs.style.opacity = 0;
+                nrxs.style.height = 0;
+                nrxs.style.animation = `out_mfn 0.3s forwards ${easing}`;
+
+                mclose(nrxs);
+                nrxs.addEventListener("transitionend", () => {
+                    if (document.body.contains(nrxs)) document.body.removeChild(nrxs);
+                }, { once: true });
+            }
+            if (con) {
                 await console.log(ying.textContent);
                 cg("你的举报已反馈到“Chanf 灭蝇组织”，感谢你的配合。");
             }
         } catch (e) {
-            fail(`未找到相关元素。`);
+            fail(`报错：${e}`);
         }
     };
     reportying.oncontextmenu = async (e) => {
@@ -299,8 +313,11 @@ function init_ui() {
 
     const lf2 = document.createElement("div");
     lf2.className = "lf2";
+    const lf2i = document.createElement("div");
+    lf2i.className = "lf2i";
 
     lw.appendChild(lf2);
+    lf2.appendChild(lf2i);
 
     const larea2 = document.createElement("div");
     larea2.className = "larea2";
@@ -317,14 +334,14 @@ function init_ui() {
     escrs.className = "on";
     escrs.innerHTML = "启用";
     escrs.onclick = () => {
-        rz("已启用元素捕获工具！");
+        inf("已启用元素捕获工具！");
         ofscrt = true;
     };
     const dscrs = document.createElement("btn");
     dscrs.className = "off";
     dscrs.innerHTML = "禁用";
     dscrs.onclick = () => {
-        rz("已禁用元素捕获工具！");
+        inf("已禁用元素捕获工具！");
         ofscrt = false;
     };
 
@@ -366,18 +383,21 @@ document.addEventListener("mousemove", function (event) {
     const lw = document.querySelector(".lw");
     const rw = document.querySelector(".rw");
     const lf1 = document.querySelector(".lf1");
+    const lf1i = document.querySelector(".lf1i");
     const larea1 = document.querySelector(".larea1");
     const tl1 = document.getElementById("tl1");
     const lf2 = document.querySelector(".lf2");
+    const lf2i = document.querySelector(".lf2i");
     const larea2 = document.querySelector(".larea2");
     const tl2 = document.getElementById("tl2");
 
     if (x <= 50 && y <= 50 && !lw_moved) {
         larea1.style.transition = `all 0.6s ${easing}`;
         larea2.style.transition = `all 0.6s ${easing}`;
-        lw.style.animation = `jr_lw 0.6s forwards ${easing}`;
+        lw.style.animation = `in_lw 0.6s forwards ${easing}`;
         setTimeout(() => {
-            lf1.style.animation = `jr_lf 0.6s forwards ${easing}`;
+            lf1.style.animation = `in_lf 0.6s forwards ${easing}`;
+            lf1i.style.left = "424px";
             setTimeout(() => {
                 let la1 = tl1.getBoundingClientRect().height + Number(getComputedStyle(larea1).top.replace("px", "")) + 10;
                 la1doms.forEach(dom => {
@@ -393,7 +413,8 @@ document.addEventListener("mousemove", function (event) {
                 });
 
                 setTimeout(() => {
-                    lf2.style.animation = `jr_lf 0.6s forwards ${easing}`;
+                    lf2.style.animation = `in_lf 0.6s forwards ${easing}`;
+                    lf2i.style.left = "424px";
                     setTimeout(() => {
                         let la2 = tl2.getBoundingClientRect().height + Number(getComputedStyle(larea2).top.replace("px", "")) + 10;
                         la2doms.forEach(dom => {
@@ -416,11 +437,13 @@ document.addEventListener("mousemove", function (event) {
             lw_moved = true;   
         }, { once: true });
     } else if (x > Number(getComputedStyle(lw).width.replace("px", "")) && lw_moved) {
-        lw.style.animation = `cc_lw 0.6s forwards ${fasing}`;
+        lw.style.animation = `out_lw 0.6s forwards ${fasing}`;
         larea1.style.transition = "all 0.6s cubic-bezier(0.33, 1, 0.68, 1)";
         setTimeout(() => {
-            lf1.style.animation = `cc_lf 0.6s forwards ${easing}`;
-            lf2.style.animation = `cc_lf 0.6s forwards ${easing}`;
+            lf1.style.animation = `out_lf 0.6s forwards ${easing}`;
+            lf1i.style.left = "-20px";
+            lf2.style.animation = `out_lf 0.6s forwards ${easing}`;
+            lf2i.style.left = "-20px";
             setTimeout(() => {
                 la1doms.forEach(dom => {
                     dom.style.opacity = 0;
@@ -441,13 +464,13 @@ document.addEventListener("mousemove", function (event) {
     }
     
     if (x >= window.innerWidth - 50 && y <= 50 && !rw_moved) {
-        rw.style.animation = `jr_rw 0.6s forwards ${easing}`;
+        rw.style.animation = `in_rw 0.6s forwards ${easing}`;
         rw.addEventListener("animationend", function () {
             rw_moved = true;
         }, { once: true });
     }
     else if (x < (window.innerWidth - Number(getComputedStyle(rw).width.replace("px", ""))) && rw_moved) {
-        rw.style.animation = `cc_rw 0.6s forwards ${fasing}`;
+        rw.style.animation = `out_rw 0.6s forwards ${fasing}`;
         rw.addEventListener("animationend", function () {
             rw_moved = false;
         }, { once: true });

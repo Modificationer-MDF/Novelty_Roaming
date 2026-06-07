@@ -1,4 +1,4 @@
-.fn-title {
+.mfn-title {
     text-align: right;
     font-size: 20px;
     padding: 5px;
@@ -10,7 +10,7 @@
     word-break: break-word;
 }
 
-.fn-timerdesc {
+.mfn-timerdesc {
     opacity: 0;
     width: 100%;
     z-index: 101;
@@ -20,7 +20,7 @@
     margin-bottom: 10px;
 }
 
-.fn-inf {
+.mfn-inf {
     text-align: center;
     transform: translateY(-10px);
     transition: all 0.3s ease;
@@ -35,7 +35,7 @@
     line-height: 1.4;
 }
 
-@keyframes jr_mfn {
+@keyframes in_mfn {
     from {
         transform: translateY(-20px);
         width: 0;
@@ -53,7 +53,7 @@
     }
 }
 
-@keyframes cc_mfn {
+@keyframes out_mfn {
     from {
         transform: translateY(0);
         width: 30ch;
@@ -68,31 +68,6 @@
         opacity: 0;
         left: 50%;
         right: 50%;
-    }
-}
-
-@keyframes jr_rfn {
-    from {
-        transform: translateX(-50vw);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes cc_rfn {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-
-    to {
-        transform: translateX(0);
-        transform: translateY(-200px);
-        opacity: 0;
     }
 }
 
@@ -121,7 +96,7 @@
     backdrop-filter: blur(14px) saturate(250%);
 }
 
-.rz-progressbar, .synchr-progressbar, .timer-progressbar {
+.rz-bar, .synchr-bar, .timer-bar {
     left: 0;
     width: 0;
     height: 15px;
@@ -159,7 +134,7 @@
 }
 
 .noti-okey {
-    background-color: #00dd99b0;
+    background-color: #20bb8cb0;
 }
 
 .cg-mele {
@@ -344,7 +319,7 @@
     background-color: #e11af149;
 }
 
-.synchr-progressbar {
+.synchr-bar {
     background-color: #b7359999;
 }
 
@@ -370,6 +345,7 @@
     color: white;
     position: relative;
     margin-bottom: 10px;
+    overflow-y: auto;
     background-color: #715213b0;
 }
 
@@ -405,7 +381,7 @@
     background-color: #ffffff49;
 }
 
-.timer-progressbar {
+.timer-bar {
     background-color: #d0d0d099;
 }
 
@@ -437,11 +413,11 @@
     word-break: break-word;
 }
 
-.rz-progressbar {
+.rz-bar {
     background-color: #706fbd99;
 }
 
-@keyframes jr_rz {
+@keyframes in_rz {
     0% {
         padding: 14px 0px;
         left: -250px;
@@ -467,7 +443,7 @@
     }
 }
 
-@keyframes cc_rz {
+@keyframes out_rz {
     0% {
         padding: 14px 25px;
         left: 10px;
@@ -506,90 +482,4 @@
 
 .mb-gb {
     background-color: #8fbc22b0;
-}
-
-/* jg() 弹窗基础样式（复用现有毛玻璃风格） */
-.jg-mele {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(20px);
-    border-radius: 28px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: all 0.2s ease;
-}
-
-.jg-square {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-    .jg-square img {
-        width: 28px;
-        height: 28px;
-        margin-right: 12px;
-        filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
-    }
-
-.jg-okey {
-    background: #2c3e66;
-    color: white;
-    border: none;
-    margin: 20px 0 25px;
-    padding: 10px 32px;
-    border-radius: 40px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-    .jg-okey:hover {
-        background: #1e2a4a;
-        transform: scale(0.96);
-    }
-
-/* 3D 进入动画：从前方翻转 + 缩放 */
-@keyframes jr_jg_3d {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.2) rotateX(90deg);
-    }
-
-    40% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.08) rotateX(-5deg);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1) rotateX(0deg);
-    }
-}
-
-/* 3D 退出动画：缩小并向后翻转 */
-@keyframes cc_jg_3d {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1) rotateX(0deg);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.2) rotateX(90deg);
-    }
 }

@@ -1,0 +1,154 @@
+.rfn-inf {
+    position: relative;
+    left: 40px;
+    text-align: left;
+    transition: all 0.3s ease;
+    font-size: 20px;
+    color: white;
+    flex-grow: 1;
+    word-break: break-word;
+    overflow-y: auto;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    max-width: 390px;
+    padding: 14px 25px;
+}
+
+@keyframes in_rfn {
+    from {
+        right: -500px;
+    }
+
+    to {
+        right: 7px;
+    }
+}
+
+@keyframes out_rfn {
+    from {
+        right: 7px;
+    }
+
+    to {
+        right: -500px;
+    }
+}
+
+.inf-mele, .suc-mele, .err-mele, .caut-mele, .conf-mele {
+    transition: all 0.3s ease;
+    z-index: 100;
+    display: flex;
+    position: fixed;
+    top: 3vh;
+    right: -500px;
+    flex-wrap: wrap;
+    width: 415px;
+    backdrop-filter: blur(14px) saturate(250%);
+}
+
+.inf-square, .suc-square, .err-square, .caut-square, .conf-square {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 50px;
+    height: 100%;
+    transition: all 0.3s ease;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(14px) saturate(250%);
+}
+
+.inf-bar, .suc-bar, .err-bar, .caut-bar {
+    z-index: 99;
+    left: 0;
+    width: 0;
+    height: 7px;
+    overflow: hidden;
+    transition: all 10ms ease;
+    position: fixed;
+    bottom: 0px;
+}
+
+.inf-mele {
+    background-color: #18a68999;
+    box-shadow: 0px 3px 7px #26c9a9;
+}
+
+.inf-square {
+    background-color: #26c9a949;
+}
+
+.inf-bar {
+    background-color: #2ad1cc99;
+}
+
+.suc-mele {
+    background-color: #1d583799;
+    box-shadow: 0px 3px 7px #204e30;
+}
+
+.suc-square {
+    background-color: #204e3049;
+}
+
+.suc-bar {
+    background-color: #30ac5899;
+}
+
+.err-mele {
+    background-color: #791e1d99;
+    box-shadow: 0px 3px 7px #5e2423;
+}
+
+.err-square {
+    background-color: #5e242349;
+}
+
+.err-bar {
+    background-color: #ff444499;
+}
+
+.caut-mele {
+    background-color: #84782999;
+    box-shadow: 0px 3px 7px #9c8d2c;
+}
+
+.caut-square {
+    background-color: #9c8d2c49;
+}
+
+.conf-mele {
+    background-color: #42424299;
+    box-shadow: 0px 3px 7px #2e2e2e;
+}
+
+.conf-square {
+    background-color: #1f1f1f49;
+}
+
+.conf-yes, .conf-no {
+    border: none;
+    font-size: 20px;
+    padding: 14px 25px;
+    text-align: center;
+    width: 100%;
+    backdrop-filter: blur(14px) saturate(250%);
+    cursor: pointer;
+    color: white;
+    position: relative;
+    margin-bottom: 20px;
+    white-space: nowrap;
+    height: 60px;
+    overflow: auto;
+}
+
+.conf-yes {
+    background-color: #003516b0;
+}
+
+.conf-no {
+    background-color: #740909b0;
+    margin-bottom: 10px;
+}

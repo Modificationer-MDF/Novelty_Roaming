@@ -128,22 +128,32 @@ function pos(p) {
     }
 }
 
-function create(window) { // 创建窗口。
-    if (window.className === "rz-mele") {
-        left_win.push(window);
-        pos(0);
-    } else if (midwins.includes(window.className)) {
-        mid_win.push(window);
-        pos(2);
-    }
+function lcreate(window) {
+    left_win.push(window);
+    pos(0);
 }
 
-function close(window) { // 关闭窗口。
-    if (window.className === "rz-mele") {
-        left_win = left_win.filter(win => win !== window);
-        pos(0);
-    } else if (midwins.includes(window.className)) {
-        mid_win = mid_win.filter(win => win !== window);
-        pos(2);
-    }
+function lclose(window) {
+    left_win = left_win.filter(win => win !== window);
+    pos(0);
+}
+
+function rcreate(window) {
+    right_win.push(window);
+    pos(1);
+}
+
+function rclose(window) {
+    right_win = right_win.filter(win => win !== window);
+    pos(1);
+}
+
+function mcreate(window) { // 创建窗口。
+    mid_win.push(window);
+    pos(2);
+}
+
+function mclose(window) {
+    mid_win = mid_win.filter(win => win !== window);
+    pos(2);
 }

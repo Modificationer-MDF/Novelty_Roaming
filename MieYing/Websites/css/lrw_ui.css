@@ -31,7 +31,7 @@
 }
 
 /* 左侧面板进入动画。 */
-@keyframes jr_lw {
+@keyframes in_lw {
     0% {
         left: -666px;
         width: 0px;
@@ -48,7 +48,7 @@
 }
 
 /* 左侧面板退出动画。 */
-@keyframes cc_lw {
+@keyframes out_lw {
     0% {
         left: 0;
         width: 444px;
@@ -61,7 +61,7 @@
 }
 
 /* 右侧面板进入动画。 */
-@keyframes jr_rw {
+@keyframes in_rw {
     0% {
         right: -666px;
         width: 0px;
@@ -78,7 +78,7 @@
 }
 
 /* 右侧面板退出动画。 */
-@keyframes cc_rw {
+@keyframes out_rw {
     0% {
         width: 444px;
         right: 0;
@@ -103,15 +103,31 @@
 }
 
 .lf1 {
-    background-color: #00ff1d99;
+    background-color: #00f7ff99;
 }
 
 .lf2 {
     margin-top: 20px;
-    background-color: #00f7ff99;
+    background-color: #00ff1d99;
 }
 
-@keyframes jr_lf {
+.lf1i, .lf2i {
+    position: relative;
+    left: -20px;
+    height: 100%;
+    width: 20px;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lf1i {
+    background-color: #37ffffc9;
+}
+
+.lf2i {
+    background-color: #34ff51c9;
+}
+
+@keyframes in_lf {
     0% {
         width: 0;
     }
@@ -121,7 +137,7 @@
     }
 }
 
-@keyframes cc_lf {
+@keyframes out_lf {
     0% {
         width: 100%;
     }
