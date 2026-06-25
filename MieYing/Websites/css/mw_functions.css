@@ -96,6 +96,18 @@
     backdrop-filter: blur(14px) saturate(250%);
 }
 
+.noti-count, .cg-count, .fail-count, .warn-count, .inp-count, .synchr-count, .xz-count, .lj-count, .zd-count, .timer-count, .wz-count, .mb-count {
+    position: absolute;
+    border-radius: 30px;
+    padding: 2px 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    backdrop-filter: blur(14px) saturate(250%);
+    transition: all 0.3s ease;
+    z-index: 102;
+}
+
 .rz-bar, .synchr-bar, .timer-bar {
     left: 0;
     width: 0;
@@ -133,6 +145,10 @@
     background-color: #26c9a949;
 }
 
+.noti-count {
+    background-color: #0b8e7499;
+}
+
 .noti-okey {
     background-color: #20bb8cb0;
 }
@@ -146,6 +162,10 @@
 
 .cg-square {
     background-color: #204e3049;
+}
+
+.cg-count {
+    background-color: #03491b99;
 }
 
 .cg-okey {
@@ -163,6 +183,10 @@
     background-color: #5e242349;
 }
 
+.fail-count {
+    background-color: #55010099;
+}
+
 .fail-lj {
     background-color: #b91a1899;
 }
@@ -178,6 +202,10 @@
     background-color: #9c8d2c49;
 }
 
+.warn-count {
+    background-color: #68660699;
+}
+
 .warn-zx {
     background-color: #ad9c2c99;
 }
@@ -191,6 +219,10 @@
 
 .inp-square {
     background-color: #4a556849;
+}
+
+.inp-count {
+    background-color: #062c6f99;
 }
 
 .inp-box, .zd-box {
@@ -225,6 +257,10 @@
 
 .xz-square {
     background-color: #6a339949;
+}
+
+.xz-count {
+    background-color: #39056599;
 }
 
 .xz-submit {
@@ -319,6 +355,10 @@
     background-color: #e11af149;
 }
 
+.synchr-count {
+    background-color: #86118f99;
+}
+
 .synchr-bar {
     background-color: #b7359999;
 }
@@ -332,6 +372,10 @@
 
 .lj-square {
     background-color: #9c501d49;
+}
+
+.lj-count {
+    background-color: #7d3e0f99;
 }
 
 .lj-link {
@@ -364,6 +408,10 @@
     background-color: #09060649;
 }
 
+.zd-count {
+    background-color: #14131399;
+}
+
 .zd-box {
     height: 60px;
     text-align: left;
@@ -379,6 +427,11 @@
 
 .timer-square {
     background-color: #ffffff49;
+}
+
+.timer-count {
+    background-color: #c4c4c499;
+    color: #000000;
 }
 
 .timer-bar {
@@ -478,6 +531,10 @@
 
 .mb-square {
     background-color: #176b2049;
+}
+
+.mb-count {
+    background-color: #085e2699;
 }
 
 .mb-gb {

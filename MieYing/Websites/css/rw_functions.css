@@ -11,6 +11,7 @@
     line-height: 1.4;
     overflow-wrap: break-word;
     max-width: 390px;
+    max-height: 250px;
     padding: 14px 25px;
 }
 
@@ -120,12 +121,12 @@
 }
 
 .conf-mele {
-    background-color: #42424299;
-    box-shadow: 0px 3px 7px #2e2e2e;
+    background-color: #07155c99;
+    box-shadow: 0px 3px 7px #0000ff;
 }
 
 .conf-square {
-    background-color: #1f1f1f49;
+    background-color: #0000ff49;
 }
 
 .conf-yes, .conf-no {
@@ -133,6 +134,7 @@
     font-size: 20px;
     padding: 14px 25px;
     text-align: center;
+    right: 0;
     width: 100%;
     backdrop-filter: blur(14px) saturate(250%);
     cursor: pointer;
@@ -145,10 +147,10 @@
 }
 
 .conf-yes {
-    background-color: #003516b0;
+    background-color: #003516d0;
 }
 
 .conf-no {
-    background-color: #740909b0;
+    background-color: #740909d0;
     margin-bottom: 10px;
 }

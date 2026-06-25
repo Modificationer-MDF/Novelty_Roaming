@@ -273,7 +273,7 @@ async function conf(string, id) {
         mele.className = "conf-mele";
         mele.id = id;
         square.className = "conf-square";
-        icon.src = "images/Sel.png";
+        icon.src = "images/Confirm.png";
         icon.alt = "";
         inf.className = "rfn-inf";
         yes.className = "conf-yes";

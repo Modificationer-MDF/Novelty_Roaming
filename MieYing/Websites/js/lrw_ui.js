@@ -141,7 +141,33 @@ function screenshot() {
                 cg("截图已复制。");
             }
         } catch (err) {
-            fail(`出现了错误：“${err.message}”。`);
+            if (err.message && err.message.includes("Failed to execute 'toBlob' on 'HTMLCanvasElement'")) {
+                fail("Canvas 导出失败：可能由于 Canvas 被污染（包含跨域内容）或浏览器限制。建议使用本地 HTTP 服务器打开页面（如 http://localhost）以避免 file:// 协议的限制。");
+            }
+            else if (err.message && err.message.includes("html2canvas") && err.message.includes("not a function")) {
+                fail("html2canvas 库未正确加载，请刷新页面后重试。");
+                let rq = await conf("是否刷新页面？");
+                if (rq) {
+                    window.location.reload();
+                }
+            }
+            else if (err.message && err.message.includes("Element is not attached to DOM")) {
+                fail("目标元素已从 DOM 中移除，请刷新页面后重试。");
+                let rq = await conf("是否刷新页面？");
+                if (rq) {
+                    window.location.reload();
+                }
+            }
+            else if (err.message && (err.message.includes("Maximum") || err.message.includes("size"))) {
+                fail("截图区域过大（超过浏览器能处理的最大尺寸），请尝试缩小截图范围或降低 scale 参数。");
+            }
+            else if (err.message && err.message.includes("timeout")) {
+                fail("截图超时，可能是页面过于复杂或网络问题，请简化页面后重试。");
+            }
+            else {
+                fail(`截图时发生错误：${err.message || err}。`);
+            }
+            console.error(`发生错误：${err}。`);
         }
     }
 }
@@ -246,19 +272,11 @@ function init_ui() {
         let ls_1 = await inp("在此输入对应“蝇”信息的 CSS 选择器。", "输入", "rying");
         try {
             let ying = document.querySelector(ls_1);
-            mb(ying.textContent, "内容显示", "nrxs");
-            let con = await conf("该元素内容已显示在中部窗口。请确认。");
-            if (document.body.contains(document.getElementById("nrxs"))) {
-                const nrxs = document.getElementById("nrxs");
-                nrxs.style.opacity = 0;
-                nrxs.style.height = 0;
-                nrxs.style.animation = `out_mfn 0.3s forwards ${easing}`;
+            let con = await conf(`
+            该元素内容已显示在分隔线下方。请确认。
+            <div style="background-color: #0437c6; width: 100%; height: 3px; margin-top: 10px; margin-bottom: 10px;"></div>
+            ${ying.textContent}`);
 
-                mclose(nrxs);
-                nrxs.addEventListener("transitionend", () => {
-                    if (document.body.contains(nrxs)) document.body.removeChild(nrxs);
-                }, { once: true });
-            }
             if (con) {
                 await console.log(ying.textContent);
                 cg("你的举报已反馈到“Chanf 灭蝇组织”，感谢你的配合。");

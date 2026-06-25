@@ -1,98 +1,24 @@
-// rz() 函数。
-async function rz(string, time) {
+// 全局存储当前显示的窗口信息。
+let winmaps = {};
+
+async function noti(str, tit, id) {
     return new Promise((resolve) => {
-        if (string == null) {
-            warn("这个值为 null。");
-            return;
-        } else if (string == undefined) {
-            warn("这个值为 undefined。");
-            return;
-        }
-        if (time == null || time == undefined) time = smarttime(string);
-
-        const mele = document.createElement("div");
-        mele.className = "rz-mele";
-        mele.style.opacity = 0;
-        const inf = document.createElement("div");
-        inf.className = "rz-inf";
-        inf.style.transition = `all 0.2s ${easing}`;
-        inf.innerHTML = string;
-        inf.style.opacity = 0;
-        const bar = document.createElement("div");
-        bar.className = "rz-bar";
-        let timeup = false;
-        let pro = 0;
-
-        lcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(inf);
-        mele.appendChild(bar);
-
-        mele.style.animation = `in_rz 0.5s forwards ${easing}`;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.opacity = 1;
-        }, { once: true });
-
-        mele.oncontextmenu = async () => {
-            inf.style.opacity = 0;
-            inf.addEventListener("transitionend", () => {
-                mele.style.animation = `out_rz 0.5s forwards ${easing}`;
-                mele.addEventListener("animationend", () => {
-                    if (document.body.contains(mele)) document.body.removeChild(mele);
-                    mclose(mele);
-                    resolve();
-                }, { once: true });
-            }, { once: true });
-        };
-
-        inf.addEventListener(("transitionend"), () => {
-            let i1 = setInterval(() => {
-                pro += 10 / (time / 100);
-                bar.style.width = `${pro}%`;
-                if (pro >= 100) {
-                    timeup = true;
-                    clearInterval(i1);
-                }
-            }, 10);
-        }, { once: true });
-
-        setInterval(() => {
-            if (timeup) {
-                inf.style.opacity = 0;
-                inf.addEventListener("transitionend", () => {
-                    mele.style.animation = `out_rz 0.5s forwards ${easing}`;
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                        lclose(mele);
-                        resolve();
-                    }, { once: true });
-                }, { once: true });
-            }
-        }, 25);
-    });
-}
-
-// noti() 函数。
-async function noti(string, title, id) {
-    return new Promise((resolve) => {
-        if (string == null || string == undefined) {
-            fail("不能输入空值！");
-            return "在 Noti() 函数中，string 参数不能为 null 或 undefined。";
-        }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            warn("不能输入空字符串。");
-            return "在 Noti() 函数中，string 参数不能为空。";
-        }
-        if (title == null || title == undefined) title = "通知";
-        else {
-            title = String(title);
-            let t_replaced = title.replace(/\s+/g, "");
-            if (t_replaced === "") title = "通知";
-        }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Noti() 函数中，string 参数不能为 null 或 undefined。"; }
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Noti() 函数中，string 参数不能为空。"; }
+        if (tit == null || tit == undefined) tit = "通知";
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "通知"; }
         if (id == null || id == undefined) id = "";
+
+        let key = `noti|${tit}|${str}`;
+        if (winmaps[key]) {
+            let win = winmaps[key];
+            win.cnt++;
+            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            win.waitlist.push(resolve);
+            return;
+        }
 
         const mele = document.createElement("div");
         const square = document.createElement("div");
@@ -100,6 +26,7 @@ async function noti(string, title, id) {
         const txt = document.createElement("div");
         const inf = document.createElement("div");
         const okey = document.createElement("button");
+        const count = document.createElement("div");
 
         mele.className = "noti-mele";
         mele.id = id;
@@ -123,19 +50,25 @@ async function noti(string, title, id) {
         okey.innerHTML = "知晓";
         okey.style.transition = `all 0.2s ${easing}`;
         okey.style.opacity = 0;
+        count.className = "noti-count";
+        count.innerText = "1";
+        count.style.opacity = 0;
 
         mcreate(mele);
         document.body.appendChild(mele);
-
         mele.appendChild(square);
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(okey);
+        square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
-        txt.innerHTML = title;
+        inf.innerHTML = str;
+        txt.innerHTML = tit;
+
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve] };
+        winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -143,68 +76,65 @@ async function noti(string, title, id) {
             icon.style.opacity = 1;
             txt.style.opacity = 1;
             okey.style.opacity = 1;
+            count.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
         });
 
-        okey.addEventListener(("transitionend"), () => {
-            okey.focus();
-        }, { once: true });
+        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        setInterval(() => {
-            okey.onmouseover = () => {
-                ld(okey, "75%");
-            };
-            okey.onmouseleave = () => {
-                ld(okey, "100%");
-            };
-            okey.onclick = () => {
-                inf.style.opacity = 0;
-                inf.style.transform = "translateY(-10px)";
-                okey.style.opacity = 0;
-                icon.style.opacity = 0;
-                txt.style.opacity = 0;
-                mele.style.height = "0px";
-                inf.addEventListener("transitionend", () => {
-                    resolve();
-                    square.style.height = "35px";
-                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                    mclose(mele);
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                    }, { once: true });
+        const close_win = () => {
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            okey.style.opacity = 0;
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            count.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                square.style.height = "35px";
+                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                mclose(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
                 }, { once: true });
-            };
-        }, 25);
+            }, { once: true });
+        };
+
+        okey.onmouseover = () => { ld(okey, "75%"); };
+        okey.onmouseleave = () => { ld(okey, "100%"); };
+        okey.onclick = () => {
+            close_win();
+            for (let r of win_obj.waitlist) r();
+        };
     });
 }
 
-// cg() 函数。
 async function cg(string, title, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
-            fail("不能输入空值！");
-            return "在 Cg() 函数中，string 参数不能为 null 或 undefined。";
-        }
+        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Cg() 函数中，string 参数不能为 null 或 undefined。"; }
         string = String(string);
         let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            warn("不能输入空字符串。");
-            return "在 Cg() 函数中，string 参数不能为空。";
-        }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Cg() 函数中，string 参数不能为空。"; }
         if (title == null || title == undefined) title = "完成";
-        else {
-            title = String(title);
-            let t_replaced = title.replace(/\s+/g, "");
-            if (t_replaced === "") title = "完成";
-        }
+        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "完成"; }
         if (id == null || id == undefined) id = "";
+
+        let key = `cg|${title}|${string}`;
+        if (winmaps[key]) {
+            let win = winmaps[key];
+            win.cnt++;
+            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            win.waitlist.push(resolve);
+            return;
+        }
 
         const mele = document.createElement("div");
         const square = document.createElement("div");
@@ -212,6 +142,7 @@ async function cg(string, title, id) {
         const txt = document.createElement("div");
         const inf = document.createElement("div");
         const okey = document.createElement("button");
+        const count = document.createElement("div");
 
         mele.className = "cg-mele";
         mele.id = id;
@@ -235,25 +166,32 @@ async function cg(string, title, id) {
         okey.innerHTML = "知晓";
         okey.style.transition = `all 0.2s ${easing}`;
         okey.style.opacity = 0;
+        count.className = "cg-count";
+        count.innerText = "1";
+        count.style.opacity = 0;
 
         mcreate(mele);
         document.body.appendChild(mele);
-
         mele.appendChild(square);
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(okey);
+        square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
         inf.innerHTML = string;
         txt.innerHTML = title;
+
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
             inf.style.opacity = 1;
             icon.style.opacity = 1;
             txt.style.opacity = 1;
+            count.style.opacity = 1;
             okey.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
@@ -261,62 +199,58 @@ async function cg(string, title, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
         });
 
-        okey.addEventListener(("transitionend"), () => {
-            okey.focus();
-        }, { once: true });
+        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        setInterval(() => {
-            okey.onmouseover = () => {
-                ld(okey, "75%");
-            };
-            okey.onmouseleave = () => {
-                ld(okey, "100%");
-            };
-            okey.onclick = () => {
-                inf.style.opacity = 0;
-                inf.style.transform = "translateY(-10px)";
-                okey.style.opacity = 0;
-                icon.style.opacity = 0;
-                txt.style.opacity = 0;
-                mele.style.height = "0px";
-                inf.addEventListener("transitionend", () => {
-                    resolve();
-                    square.style.height = "35px";
-                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                    mclose(mele);
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                    }, { once: true });
+        const close_win = () => {
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            okey.style.opacity = 0;
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            count.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                square.style.height = "35px";
+                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                mclose(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
                 }, { once: true });
-            };
-        }, 25);
+            }, { once: true });
+        };
+
+        okey.onmouseover = () => { ld(okey, "75%"); };
+        okey.onmouseleave = () => { ld(okey, "100%"); };
+        okey.onclick = () => {
+            close_win();
+            for (let r of win_obj.waitlist) r();
+        };
     });
 }
 
-// warn() 函数。
 async function warn(string, title, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
-            fail("不能输入空值！");
-            return "在 Warn() 函数中，string 参数不能为 null 或 undefined。";
-        }
+        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Warn() 函数中，string 参数不能为 null 或 undefined。"; }
         string = String(string);
         let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            warn("不能输入空字符串。");
-            return "在 Warn() 函数中，string 参数不能为空。";
-        }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Warn() 函数中，string 参数不能为空。"; }
         if (title == null || title == undefined) title = "注意";
-        else {
-            title = String(title);
-            let t_replaced = title.replace(/\s+/g, "");
-            if (t_replaced === "") title = "注意";
-        }
+        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "注意"; }
         if (id == null || id == undefined) id = "";
+
+        let key = `warn|${title}|${string}`;
+        if (winmaps[key]) {
+            let win = winmaps[key];
+            win.cnt++;
+            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            win.waitlist.push(resolve);
+            return;
+        }
 
         const mele = document.createElement("div");
         const square = document.createElement("div");
@@ -324,6 +258,7 @@ async function warn(string, title, id) {
         const txt = document.createElement("div");
         const inf = document.createElement("div");
         const okey = document.createElement("button");
+        const count = document.createElement("div");
 
         mele.className = "warn-mele";
         mele.id = id;
@@ -347,25 +282,32 @@ async function warn(string, title, id) {
         okey.innerHTML = "知晓";
         okey.style.transition = `all 0.2s ${easing}`;
         okey.style.opacity = 0;
+        count.className = "warn-count";
+        count.innerText = "1";
+        count.style.opacity = 0;
 
         mcreate(mele);
         document.body.appendChild(mele);
-
         mele.appendChild(square);
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(okey);
+        square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
         inf.innerHTML = string;
         txt.innerHTML = title;
+
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
             inf.style.opacity = 1;
             icon.style.opacity = 1;
             txt.style.opacity = 1;
+            count.style.opacity = 1;
             okey.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
@@ -373,62 +315,58 @@ async function warn(string, title, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
         });
 
-        okey.addEventListener(("transitionend"), () => {
-            okey.focus();
-        }, { once: true });
+        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        setInterval(() => {
-            okey.onmouseover = () => {
-                ld(okey, "75%");
-            };
-            okey.onmouseleave = () => {
-                ld(okey, "100%");
-            };
-            okey.onclick = () => {
-                inf.style.opacity = 0;
-                inf.style.transform = "translateY(-10px)";
-                okey.style.opacity = 0;
-                icon.style.opacity = 0;
-                txt.style.opacity = 0;
-                mele.style.height = "0px";
-                inf.addEventListener("transitionend", () => {
-                    resolve();
-                    square.style.height = "35px";
-                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                    mclose(mele);
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                    }, { once: true });
+        const close_win = () => {
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            okey.style.opacity = 0;
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            count.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                square.style.height = "35px";
+                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                mclose(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
                 }, { once: true });
-            };
-        }, 25);
+            }, { once: true });
+        };
+
+        okey.onmouseover = () => { ld(okey, "75%"); };
+        okey.onmouseleave = () => { ld(okey, "100%"); };
+        okey.onclick = () => {
+            close_win();
+            for (let r of win_obj.waitlist) r();
+        };
     });
 }
 
-// fail() 函数。
 async function fail(string, title, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
-            fail("不能输入空值！");
-            return "在 Fail() 函数中，string 参数不能为 null 或 undefined。";
-        }
+        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Fail() 函数中，string 参数不能为 null 或 undefined。"; }
         string = String(string);
         let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            warn("不能输入空字符串。");
-            return "在 Fail() 函数中，string 参数不能为空。";
-        }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Fail() 函数中，string 参数不能为空。"; }
         if (title == null || title == undefined) title = "错误";
-        else {
-            title = String(title);
-            let t_replaced = title.replace(/\s+/g, "");
-            if (t_replaced === "") title = "错误";
-        }
+        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "错误"; }
         if (id == null || id == undefined) id = "";
+
+        let key = `fail|${title}|${string}`;
+        if (winmaps[key]) {
+            let win = winmaps[key];
+            win.cnt++;
+            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            win.waitlist.push(resolve);
+            return;
+        }
 
         const mele = document.createElement("div");
         const square = document.createElement("div");
@@ -436,6 +374,7 @@ async function fail(string, title, id) {
         const txt = document.createElement("div");
         const inf = document.createElement("div");
         const okey = document.createElement("button");
+        const count = document.createElement("div");
 
         mele.className = "fail-mele";
         mele.id = id;
@@ -459,25 +398,32 @@ async function fail(string, title, id) {
         okey.innerHTML = "知晓";
         okey.style.transition = `all 0.2s ${easing}`;
         okey.style.opacity = 0;
+        count.className = "fail-count";
+        count.innerText = "1";
+        count.style.opacity = 0;
 
         mcreate(mele);
         document.body.appendChild(mele);
-
         mele.appendChild(square);
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(okey);
+        square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
         inf.innerHTML = string;
         txt.innerHTML = title;
+
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
             inf.style.opacity = 1;
             icon.style.opacity = 1;
             txt.style.opacity = 1;
+            count.style.opacity = 1;
             okey.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
@@ -485,62 +431,58 @@ async function fail(string, title, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
         });
 
-        okey.addEventListener(("transitionend"), () => {
-            okey.focus();
-        }, { once: true });
+        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        setInterval(() => {
-            okey.onmouseover = () => {
-                ld(okey, "75%");
-            };
-            okey.onmouseleave = () => {
-                ld(okey, "100%");
-            };
-            okey.onclick = () => {
-                inf.style.opacity = 0;
-                inf.style.transform = "translateY(-10px)";
-                icon.style.opacity = 0;
-                txt.style.opacity = 0;
-                okey.style.opacity = 0;
-                mele.style.height = "0px";
-                inf.addEventListener("transitionend", () => {
-                    resolve();
-                    square.style.height = "35px";
-                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                    mclose(mele);
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                    }, { once: true });
+        const close_win = () => {
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            okey.style.opacity = 0;
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            count.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                square.style.height = "35px";
+                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                mclose(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
                 }, { once: true });
-            };
-        }, 25);
+            }, { once: true });
+        };
+
+        okey.onmouseover = () => { ld(okey, "75%"); };
+        okey.onmouseleave = () => { ld(okey, "100%"); };
+        okey.onclick = () => {
+            close_win();
+            for (let r of win_obj.waitlist) r();
+        };
     });
 }
 
-// inp 函数。
 async function inp(string, title, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
-            fail("不能输入空值！");
-            return "在 Inp() 函数中，string 参数不能为 null 或 undefined。";
-        }
+        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Inp() 函数中，string 参数不能为 null 或 undefined。"; }
         string = String(string);
         let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            warn("不能输入空字符串。");
-            return "在 Inp() 函数中，string 参数不能为空。";
-        }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Inp() 函数中，string 参数不能为空。"; }
         if (title == null || title == undefined) title = "输入";
-        else {
-            title = String(title);
-            let t_replaced = title.replace(/\s+/g, "");
-            if (t_replaced === "") title = "输入";
-        }
+        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "输入"; }
         if (id == null || id == undefined) id = "";
+
+        let key = `inp|${title}|${string}`;
+        if (winmaps[key]) {
+            let win = winmaps[key];
+            win.cnt++;
+            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            win.waitlist.push(resolve);
+            return;
+        }
 
         const mele = document.createElement("div");
         const square = document.createElement("div");
@@ -548,6 +490,7 @@ async function inp(string, title, id) {
         const txt = document.createElement("div");
         const inf = document.createElement("div");
         const box = document.createElement("textarea");
+        const count = document.createElement("div");
 
         mele.className = "inp-mele";
         mele.id = id;
@@ -572,25 +515,32 @@ async function inp(string, title, id) {
         box.style.opacity = 0;
         box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         box.style.resize = "none";
+        count.className = "inp-count";
+        count.innerText = "1";
+        count.style.opacity = 0;
 
         mcreate(mele);
         document.body.appendChild(mele);
-
         mele.appendChild(square);
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(box);
+        square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
         inf.innerHTML = string;
         txt.innerHTML = title;
+
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
             inf.style.opacity = 1;
             icon.style.opacity = 1;
             txt.style.opacity = 1;
+            count.style.opacity = 1;
             box.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
@@ -598,59 +548,58 @@ async function inp(string, title, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + box.getBoundingClientRect().height}px + ${window.getComputedStyle(box).marginBottom})`;
         });
 
-        box.addEventListener(("transitionend"), () => {
-            box.focus();
-        }, { once: true });
+        box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
+        const close_win = (value) => {
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            box.style.opacity = 0;
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            count.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                square.style.height = "35px";
+                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                mclose(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
+                }, { once: true });
+            }, { once: true });
+            for (let r of win_obj.waitlist) r(value);
+        };
+
         box.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
                 const value = box.value;
-                inf.style.opacity = 0;
-                inf.style.transform = "translateY(-10px)";
-                box.style.opacity = 0;
-                icon.style.opacity = 0;
-                txt.style.opacity = 0;
-                mele.style.height = "0px";
-                inf.addEventListener("transitionend", () => {
-                    square.style.height = "35px";
-                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                    mclose(mele);
-                    resolve(value);
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                    }, { once: true });
-                }, { once: true });
+                close_win(value);
             }
         });
     });
 }
 
-// xz 函数。
 async function xz(string, n, names, title, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
-            fail("不能输入空值！");
-            return "在 Xz() 函数中，string 参数不能为 null 或 undefined。";
-        }
+        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Xz() 函数中，string 参数不能为 null 或 undefined。"; }
         string = String(string);
         let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            warn("不能输入空字符串。");
-            return "在 Xz() 函数中，string 参数不能为空。";
-        }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Xz() 函数中，string 参数不能为空。"; }
         if (title == null || title == undefined) title = "选择";
-        else {
-            title = String(title);
-            let t_replaced = title.replace(/\s+/g, "");
-            if (t_replaced === "") title = "选择";
-        }
+        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "选择"; }
         if (id == null || id == undefined) id = "";
-        if (n > names.length) {
-            fail("所给予的选项数量不足！");
+        if (n > names.length) { fail("所给予的选项数量不足！"); return; }
+
+        let key = `xz|${title}|${string}`;
+        if (winmaps[key]) {
+            let win = winmaps[key];
+            win.cnt++;
+            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            win.waitlist.push(resolve);
             return;
         }
 
@@ -661,6 +610,7 @@ async function xz(string, n, names, title, id) {
         const inf = document.createElement("div");
         const submit = document.createElement("button");
         const giveup = document.createElement("button");
+        const count = document.createElement("div");
 
         mele.className = "xz-mele";
         mele.id = id;
@@ -687,20 +637,23 @@ async function xz(string, n, names, title, id) {
         giveup.innerHTML = "放弃选择";
         giveup.style.opacity = 0;
         giveup.style.transition = `all 0.2s ${easing}`;
-
+        count.className = "xz-count";
+        count.innerText = "1";
+        count.style.opacity = 0;
+        
         const array = Array.from(names);
         const xz_items = [];
-        const btns = []; // 存储所有按钮。
+        const btns = [];
 
         mcreate(mele);
         document.body.appendChild(mele);
-
         mele.appendChild(square);
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(submit);
         mele.appendChild(giveup);
+        square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
         inf.innerHTML = string;
@@ -762,131 +715,127 @@ async function xz(string, n, names, title, id) {
                     xz_items.push(array[i]);
                 } else {
                     const index = xz_items.indexOf(array[i]);
-                    if (index > -1) {
-                        xz_items.splice(index, 1);
-                    }
+                    if (index > -1) xz_items.splice(index, 1);
                 }
             };
 
-            btn.onmouseover = () => {
-                ld(btn, "75%");
-            };
-            btn.onmouseleave = () => {
-                ld(btn, "100%");
-            };
+            btn.onmouseover = () => { ld(btn, "75%"); };
+            btn.onmouseleave = () => { ld(btn, "100%"); };
             btn.onclick = () => {
                 checkbox.checked = !checkbox.checked;
                 checkbox.dispatchEvent(new Event('change'));
             };
         }
 
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        winmaps[key] = win_obj;
+
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
             inf.style.opacity = 1;
             icon.style.opacity = 1;
             txt.style.opacity = 1;
+            count.style.opacity = 1;
             submit.style.opacity = 1;
             giveup.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + submit.getBoundingClientRect().height + giveup.getBoundingClientRect().height}px + ${window.getComputedStyle(submit).marginBottom} + ${window.getComputedStyle(giveup).marginBottom})`;
-
-            for (let btn of btns) { // 将所有选项按钮的 opacity 设为 1。
-                btn.style.opacity = 1;
-            }
+            for (let btn of btns) btn.style.opacity = 1;
         });
 
-        submit.addEventListener(("transitionend"), () => {
-            submit.focus();
-        }, { once: true });
+        submit.addEventListener("transitionend", () => { submit.focus(); }, { once: true });
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        setInterval(() => {
-            submit.onmouseover = () => {
-                ld(submit, "75%");
-            };
-            submit.onmouseleave = () => {
-                ld(submit, "100%");
-            };
-            submit.onclick = () => {
-                if (xz_items.length === 0) {
-                    warn("你还没有勾选！");
-                    mele.style.animation = `mfn_shake1 0.3s ${easing}`;
-                    submit.style.backgroundColor = "#ffff00b0";
-                    mele.addEventListener("animationend", () => {
-                        mele.style.animation = "";
-                        submit.style.backgroundColor = "#a700ffb0";
-                    }, { once: true });
-                    return;
-                } else {
-                    resolve(xz_items);
-                    submit.style.opacity = 0;
-                    giveup.style.opacity = 0;
-                    inf.style.opacity = 0;
-                    inf.style.transform = "translateY(-10px)";
-                    icon.style.opacity = 0;
-                    txt.style.opacity = 0;
-                    mele.style.height = "0px";
-                    inf.addEventListener("transitionend", () => {
-                        square.style.height = "35px";
-                        mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                        mclose(mele);
-                        mele.addEventListener("animationend", () => {
-                            if (document.body.contains(mele)) document.body.removeChild(mele);
-                        }, { once: true });
-                    }, { once: true });
-                }
-            };
-            giveup.onmouseover = () => {
-                ld(giveup, "75%");
-            };
-            giveup.onmouseleave = () => {
-                ld(giveup, "100%");
-            };
-            giveup.onclick = () => {
-                resolve(null);
-                submit.style.opacity = 0;
-                giveup.style.opacity = 0;
-                inf.style.opacity = 0;
-                inf.style.transform = "translateY(-10px)";
-                icon.style.opacity = 0;
-                txt.style.opacity = 0;
-                mele.style.height = "0px";
-                inf.addEventListener("transitionend", () => {
-                    square.style.height = "35px";
-                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                    mclose(mele);
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                    }, { once: true });
+        const close_win = (result) => {
+            submit.style.opacity = 0;
+            giveup.style.opacity = 0;
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            count.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                square.style.height = "35px";
+                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                mclose(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
                 }, { once: true });
-            };
-        }, 25);
+            }, { once: true });
+            for (let r of win_obj.waitlist) r(result);
+        };
+
+        submit.onmouseover = () => { ld(submit, "75%"); };
+        submit.onmouseleave = () => { ld(submit, "100%"); };
+        submit.onclick = () => {
+            if (xz_items.length === 0) {
+                warn("你还没有勾选！");
+                mele.style.animation = `mfn_shake1 0.3s ${easing}`;
+                submit.style.backgroundColor = "#ffff00b0";
+                mele.addEventListener("animationend", () => {
+                    mele.style.animation = "";
+                    submit.style.backgroundColor = "#a700ffb0";
+                }, { once: true });
+                return;
+            } else {
+                close_win(xz_items);
+            }
+        };
+
+        giveup.onmouseover = () => { ld(giveup, "75%"); };
+        giveup.onmouseleave = () => { ld(giveup, "100%"); };
+        giveup.onclick = () => { close_win(null); };
     });
 }
 
 async function synchr(string, title, id) {
-    if (string == null || string == undefined) {
-        fail("不能输入空值！");
-        return "在 Synchr() 函数中，string 参数不能为 null 或 undefined。";
-    }
+    if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Synchr() 函数中，string 参数不能为 null 或 undefined。"; }
     string = String(string);
     let s_replaced = string.replace(/\s+/g, "");
-    if (s_replaced === "") {
-        warn("不能输入空字符串。");
-        return "在 Synchr() 函数中，string 参数不能为空。";
-    }
+    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Synchr() 函数中，string 参数不能为空。"; }
     if (title == null || title == undefined) title = "同步";
-    else {
-        title = String(title);
-        let t_replaced = title.replace(/\s+/g, "");
-        if (t_replaced === "") title = "同步";
-    }
+    else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "同步"; }
     if (id == null || id == undefined) id = "";
+
+    let key = `synchr|${title}|${string}`;
+    if (winmaps[key]) {
+        let win = winmaps[key];
+        win.cnt++;
+        if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+        // 重置计时器
+        if (win.timeout_id) clearTimeout(win.timeout_id);
+        let dur = smarttime(string);
+        win.timeout_id = setTimeout(() => {
+            // 关闭窗口
+            let mele = win.dom;
+            let inf = mele.querySelector(".mfn-inf");
+            let icon = mele.querySelector("img");
+            let txt = mele.querySelector(".mfn-title");
+            let count = win.cnt_ele;
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            count.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                mclose(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
+                }, { once: true });
+            }, { once: true });
+        }, dur);
+        return;
+    }
 
     const mele = document.createElement("div");
     const square = document.createElement("div");
@@ -895,6 +844,7 @@ async function synchr(string, title, id) {
     const inf = document.createElement("div");
     const bar = document.createElement("div");
     const desc = document.createElement("div");
+    const count = document.createElement("div");
 
     mele.className = "synchr-mele";
     mele.id = id;
@@ -916,26 +866,33 @@ async function synchr(string, title, id) {
     bar.className = "synchr-bar";
     desc.className = "mfn-timerdesc";
     desc.innerHTML = "无任务";
+    count.className = "synchr-count";
+    count.innerText = "1";
+    count.style.opacity = 0;
 
     mcreate(mele);
     document.body.appendChild(mele);
-
     mele.appendChild(square);
     square.appendChild(icon);
     square.appendChild(txt);
     mele.appendChild(inf);
     mele.appendChild(bar);
     mele.appendChild(desc);
+    square.appendChild(count);
 
     mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
     inf.innerHTML = string;
     txt.innerHTML = title;
+
+    let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [] };
+    winmaps[key] = win_obj;
 
     mele.addEventListener("animationend", () => {
         inf.style.transform = "translateY(0)";
         inf.style.opacity = 1;
         icon.style.opacity = 1;
         txt.style.opacity = 1;
+        count.style.opacity = 1;
         mele.style.width = "30ch";
         mele.style.left = "calc(50% - 15ch)";
         mele.style.right = "calc(50% + 15ch)";
@@ -946,11 +903,13 @@ async function synchr(string, title, id) {
     square.style.height = square_height;
     inf.style.marginTop = square_height;
 
-    setTimeout(() => {
+    let dur = smarttime(string);
+    let tid = setTimeout(() => {
         inf.style.opacity = 0;
         inf.style.transform = "translateY(-10px)";
         icon.style.opacity = 0;
         txt.style.opacity = 0;
+        count.style.opacity = 0;
         mele.style.height = "0px";
         inf.addEventListener("transitionend", () => {
             square.style.height = "35px";
@@ -958,67 +917,50 @@ async function synchr(string, title, id) {
             mclose(mele);
             mele.addEventListener("animationend", () => {
                 if (document.body.contains(mele)) document.body.removeChild(mele);
+                delete winmaps[key];
             }, { once: true });
         }, { once: true });
-    }, smarttime(string));
+    }, dur);
+    win_obj.timeout_id = tid;
 }
 
 async function lj(string, url, title, id) {
-    if (string == null || string == undefined) {
-        fail("不能输入空值！");
-        return "在 Lj() 函数中，string 参数不能为 null 或 undefined。";
-    }
-    if (url == null || url == undefined) {
-        warn("无法跳转至 null 或 undefined。");
-        return "在 Lj() 函数中，url 参数不能为 null 或 undefined。";
-    }
+    if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Lj() 函数中，string 参数不能为 null 或 undefined。"; }
+    if (url == null || url == undefined) { warn("无法跳转至 null 或 undefined。"); return "在 Lj() 函数中，url 参数不能为 null 或 undefined。"; }
     string = String(string);
     url = String(url);
     let s_replaced = string.replace(/\s+/g, "");
-    if (s_replaced === "") {
-        warn("不能输入空字符串。");
-        return "在 Lj() 函数中，string 参数不能为空。";
-    }
+    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Lj() 函数中，string 参数不能为空。"; }
     let u_replaced = url.replace(/\s+/g, "");
-    if (u_replaced === "") {
-        warn("无法跳转至空地址。");
-        return "在 Lj() 函数中，url 参数不能为空。";
-    }
+    if (u_replaced === "") { warn("无法跳转至空地址。"); return "在 Lj() 函数中，url 参数不能为空。"; }
     if (title == null || title == undefined) title = (url.startsWith("mailto:") ? "邮件" : "链接");
-    else {
-        title = String(title);
-        let t_replaced = title.replace(/\s+/g, "");
-        if (t_replaced === "") title = "链接";
-    }
+    else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "链接"; }
     if (id == null || id == undefined) id = "";
 
     function urlcheck(u) {
         if (typeof u !== 'string') return false;
         const decoded = decodeURIComponent(u);
         const lower = decoded.toLowerCase();
-        // 内核路径特征黑名单。
         const kps = [
-            /\\device\\/i,
-            /\\condrv\\/i,
-            /globalroot/i,
-            /^\\.\\.*\\/,
-            /^\\\\\.\\/,
-            /kernelconnect/i,
-            /physicaldrive\d*/i,
-            /\\physicaldrive\d*/i,
-            /^\\\\\?\\/,
-            /^\\\\\.\\/,
+            /\\device\\/i, /\\condrv\\/i, /globalroot/i, /^\\.\\.*\\/, /^\\\\\.\\/,
+            /kernelconnect/i, /physicaldrive\d*/i, /\\physicaldrive\d*/i, /^\\\\\?\\/,
             /harddiskvolume\d*/i,
         ];
-        if (kps.some(p => p.test(lower))) {
-            return false;
-        }
+        if (kps.some(p => p.test(lower))) return false;
         return true;
     }
-
     if (!urlcheck(url)) {
         warn("出于安全策略考虑，已阻止该链接窗口弹出。");
         console.warn(`[安全策略] 已阻止打开危险链接: ${url}。`);
+        return;
+    }
+
+    let key = `lj|${title}|${string}|${url}`;
+    if (winmaps[key]) {
+        let win = winmaps[key];
+        win.cnt++;
+        if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+        // 无返回值，不需要等待队列
         return;
     }
 
@@ -1029,6 +971,7 @@ async function lj(string, url, title, id) {
     const inf = document.createElement("div");
     const link = document.createElement("button");
     const ignore = document.createElement("button");
+    const count = document.createElement("div");
 
     mele.className = "lj-mele";
     mele.id = id;
@@ -1055,26 +998,33 @@ async function lj(string, url, title, id) {
     ignore.innerHTML = "忽略";
     ignore.style.opacity = 0;
     ignore.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+    count.className = "lj-count";
+    count.innerText = "1";
+    count.style.opacity = 0;
 
     mcreate(mele);
     document.body.appendChild(mele);
-
     mele.appendChild(square);
     square.appendChild(icon);
     square.appendChild(txt);
     mele.appendChild(inf);
     mele.appendChild(link);
     mele.appendChild(ignore);
+    square.appendChild(count);
 
     mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
     inf.innerHTML = string;
     txt.innerHTML = title;
+
+    let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [] };
+    winmaps[key] = win_obj;
 
     mele.addEventListener("animationend", () => {
         inf.style.transform = "translateY(0)";
         inf.style.opacity = 1;
         icon.style.opacity = 1;
         txt.style.opacity = 1;
+        count.style.opacity = 1;
         link.style.opacity = 1;
         ignore.style.opacity = 1;
         mele.style.width = "30ch";
@@ -1083,30 +1033,20 @@ async function lj(string, url, title, id) {
         mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + link.getBoundingClientRect().height + ignore.getBoundingClientRect().height}px + ${window.getComputedStyle(link).marginBottom} + ${window.getComputedStyle(ignore).marginBottom})`;
     });
 
-    link.addEventListener(("transitionend"), () => {
-        ignore.focus();
-    }, { once: true });
+    link.addEventListener("transitionend", () => { ignore.focus(); }, { once: true });
 
     let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
     square.style.height = square_height;
     inf.style.marginTop = square_height;
 
-    link.onmouseover = () => {
-        ld(link, "75%");
-    };
-    link.onmouseleave = () => {
-        ld(link, "100%");
-    };
-    link.onclick = () => {
-        if (!open(url, "_blank", `width=${defwid}, height=${defhei}`)) {
-            warn("弹出的窗口被阻止。");
-        }
+    const close_win = () => {
         link.style.opacity = 0;
         ignore.style.opacity = 0;
         inf.style.opacity = 0;
         inf.style.transform = "translateY(-10px)";
         icon.style.opacity = 0;
         txt.style.opacity = 0;
+        count.style.opacity = 0;
         mele.style.height = "0px";
         inf.addEventListener("transitionend", () => {
             square.style.height = "35px";
@@ -1114,55 +1054,44 @@ async function lj(string, url, title, id) {
             mclose(mele);
             mele.addEventListener("animationend", () => {
                 if (document.body.contains(mele)) document.body.removeChild(mele);
+                delete winmaps[key];
             }, { once: true });
         }, { once: true });
     };
 
-    ignore.onmouseover = () => {
-        ld(ignore, "75%");
+    link.onmouseover = () => { ld(link, "75%"); };
+    link.onmouseleave = () => { ld(link, "100%"); };
+    link.onclick = () => {
+        if (!open(url, "_blank", `width=${defwid}, height=${defhei}`)) warn("弹出的窗口被阻止。");
+        close_win();
     };
-    ignore.onmouseleave = () => {
-        ld(ignore, "100%");
-    };
+
+    ignore.onmouseover = () => { ld(ignore, "75%"); };
+    ignore.onmouseleave = () => { ld(ignore, "100%"); };
     ignore.onclick = () => {
         rz("已忽略该链接。");
-        link.style.opacity = 0;
-        ignore.style.opacity = 0;
-        inf.style.opacity = 0;
-        inf.style.transform = "translateY(-10px)";
-        icon.style.opacity = 0;
-        txt.style.opacity = 0;
-        mele.style.height = "0px";
-        inf.addEventListener("transitionend", () => {
-            square.style.height = "35px";
-            mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-            mclose(mele);
-            mele.addEventListener("animationend", () => {
-                if (document.body.contains(mele)) document.body.removeChild(mele);
-            }, { once: true });
-        }, { once: true });
+        close_win();
     };
 }
 
 async function zd(string, title, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
-            fail("不能输入空值！");
-            return "在 Zd() 函数中，string 参数不能为 null 或 undefined。";
-        }
+        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Zd() 函数中，string 参数不能为 null 或 undefined。"; }
         string = String(string);
         let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            warn("不能输入空字符串。");
-            return "在 Zd() 函数中，string 参数不能为空。";
-        }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Zd() 函数中，string 参数不能为空。"; }
         if (title == null || title == undefined) title = "终端";
-        else {
-            title = String(title);
-            let t_replaced = title.replace(/\s+/g, "");
-            if (t_replaced === "") title = "终端";
-        }
+        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "终端"; }
         if (id == null || id == undefined) id = "";
+
+        let key = `zd|${title}|${string}`;
+        if (winmaps[key]) {
+            let win = winmaps[key];
+            win.cnt++;
+            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            win.waitlist.push(resolve);
+            return;
+        }
 
         const mele = document.createElement("div");
         const square = document.createElement("div");
@@ -1170,6 +1099,7 @@ async function zd(string, title, id) {
         const txt = document.createElement("div");
         const inf = document.createElement("div");
         const box = document.createElement("textarea");
+        const count = document.createElement("div");
 
         mele.className = "zd-mele";
         mele.id = id;
@@ -1193,19 +1123,25 @@ async function zd(string, title, id) {
         box.style.opacity = 0;
         box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         box.style.resize = "none";
+        count.className = "zd-count";
+        count.innerText = "1";
+        count.style.opacity = 0;
 
         mcreate(mele);
         document.body.appendChild(mele);
-
         mele.appendChild(square);
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(box);
+        square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
         inf.innerHTML = string;
         txt.innerHTML = title;
+
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -1213,19 +1149,38 @@ async function zd(string, title, id) {
             icon.style.opacity = 1;
             txt.style.opacity = 1;
             box.style.opacity = 1;
+            count.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + box.getBoundingClientRect().height}px + ${window.getComputedStyle(box).marginBottom})`;
         });
 
-        box.addEventListener(("transitionend"), () => {
-            box.focus();
-        }, { once: true });
+        box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
+
+        const close_win = (val) => {
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            box.style.opacity = 0;
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            count.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                square.style.height = "35px";
+                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                mclose(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
+                }, { once: true });
+            }, { once: true });
+            for (let r of win_obj.waitlist) r(val);
+        };
 
         box.addEventListener("keypress", async (event) => {
             if (event.key === "Enter" && !event.shiftKey) {
@@ -1244,13 +1199,13 @@ async function zd(string, title, id) {
                     let k = await eval(value);
                     if (k !== undefined && k !== null) {
                         rz(k);
-                        resolve(k);
+                        close_win(k);
                     } else if (k === undefined) {
                         rz("返回值为 undefined。");
-                        resolve();
+                        close_win();
                     } else if (k === null) {
                         rz("返回值为 null。");
-                        resolve();
+                        close_win();
                     }
                 } catch (error) {
                     mele.style.animation = `mfn_shake2 0.3s ${easing}`;
@@ -1270,11 +1225,8 @@ async function zd(string, title, id) {
                                 let token = "‘" + (error.message.split("Unexpected token '")[1].replace("'", "’"));
                                 fail(`意外的符号 ${token}。`);
                             } else if (error.message.includes("Invalid or unexpected token")) {
-                                if (value.includes("\\")) {
-                                    fail("无效的转义字符 “\\”。");
-                                } else {
-                                    fail("无效标识符。");
-                                }
+                                if (value.includes("\\")) fail("无效的转义字符 “\\”。");
+                                else fail("无效标识符。");
                             } else if (error.message.includes("Missing initializer in const declaration")) {
                                 fail("const 变量没有设置初始化值。");
                             } else if (error.message.includes("Invalid left-hand side in assignment")) {
@@ -1306,22 +1258,8 @@ async function zd(string, title, id) {
                             fail(error.message);
                             break;
                     }
-                    resolve();
+                    close_win();
                 }
-                inf.style.opacity = 0;
-                inf.style.transform = "translateY(-10px)";
-                box.style.opacity = 0;
-                icon.style.opacity = 0;
-                txt.style.opacity = 0;
-                mele.style.height = "0px";
-                inf.addEventListener("transitionend", () => {
-                    square.style.height = "35px";
-                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                    mclose(mele);
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                    }, { once: true });
-                }, { once: true });
             } else if (event.key === "Enter" && event.shiftKey) {
                 event.preventDefault();
                 box.value += "\n";
@@ -1334,34 +1272,26 @@ async function timer(string, time, title, id) {
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
-        if (string == null || string == undefined) {
-            fail("不能输入空值！");
-            return "在 Timer() 函数中，string 参数不能为 null 或 undefined。";
-        }
-        if (time == null || time == undefined) {
-            fail("null 或 undefined 不是有效的数字。");
-            return "在 Timer() 函数中，time 参数不能为 null 或 undefined。";
-        }
+        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Timer() 函数中，string 参数不能为 null 或 undefined。"; }
+        if (time == null || time == undefined) { fail("null 或 undefined 不是有效的数字。"); return "在 Timer() 函数中，time 参数不能为 null 或 undefined。"; }
         string = String(string);
         time = Number(time);
         let s_replaced = string.replace(/\s+/g, "");
         if (s_replaced === "") string = "";
         if (title == null || title == undefined) title = "计时";
-        else {
-            title = String(title);
-            let t_replaced = title.replace(/\s+/g, "");
-            if (t_replaced === "") title = "计时";
-        }
+        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "计时"; }
         if (id == null || id == undefined) id = "";
-        if (isNaN(time)) {
-            fail("time 参数必须为可识别的数字或纯数字字符串。");
-            return "在 Timer() 函数中，time 参数必须为可识别的数字或纯数字字符串。";
-        } else if (time < 1250) {
-            warn("time 的值过小，无法正常计时。");
-            return "在 Timer() 函数中，time 的值必须大于等于 1250。";
-        } else if (time > 3.15576e10 * 1.1568) {
-            warn("time 的值过大，无法正常计时。");
-            return "在 Timer() 函数中，time 的值必须小于等于 6.048e10。";
+        if (isNaN(time)) { fail("time 参数必须为可识别的数字或纯数字字符串。"); return "在 Timer() 函数中，time 参数必须为可识别的数字或纯数字字符串。"; }
+        else if (time < 1250) { warn("time 的值过小，无法正常计时。"); return "在 Timer() 函数中，time 的值必须大于等于 1250。"; }
+        else if (time > 3.15576e10 * 1.1568) { warn("time 的值过大，无法正常计时。"); return "在 Timer() 函数中，time 的值必须小于等于 6.048e10。"; }
+
+        let key = `timer|${title}|${string}`;
+        if (winmaps[key]) {
+            let win = winmaps[key];
+            win.cnt++;
+            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            win.waitlist.push(resolve);
+            return;
         }
 
         const mele = document.createElement("div");
@@ -1372,6 +1302,7 @@ async function timer(string, time, title, id) {
         const earlyend = document.createElement("button");
         const bar = document.createElement("div");
         const timerdesc = document.createElement("div");
+        const count = document.createElement("div");
 
         mele.className = "timer-mele";
         mele.id = id;
@@ -1402,10 +1333,12 @@ async function timer(string, time, title, id) {
         timerdesc.className = "mfn-timerdesc";
         timerdesc.color = "#000000";
         timerdesc.style.transition = `all 0.2s ${easing}`;
-        
+        count.className = "timer-count";
+        count.innerText = "1";
+        count.style.opacity = 0;
+
         mcreate(mele);
         document.body.appendChild(mele);
-
         mele.appendChild(square);
         square.appendChild(icon);
         square.appendChild(txt);
@@ -1413,25 +1346,53 @@ async function timer(string, time, title, id) {
         mele.appendChild(earlyend);
         mele.appendChild(bar);
         mele.appendChild(timerdesc);
+        square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
         txt.innerHTML = title;
 
-        setInterval(() => {
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        winmaps[key] = win_obj;
+
+        let interval_speed;
+        let interval_progress;
+        let interval_check;
+
+        const finish = () => {
+            if (ls_finish) return;
+            ls_finish = true;
+            if (interval_speed) clearInterval(interval_speed);
+            if (interval_progress) clearInterval(interval_progress);
+            if (interval_check) clearInterval(interval_check);
+            inf.style.opacity = 0;
+            inf.style.transform = "translateY(-10px)";
+            icon.style.opacity = 0;
+            txt.style.opacity = 0;
+            earlyend.style.opacity = 0;
+            timerdesc.style.opacity = 0;
+            timerdesc.style.transform = "translateX(25px)";
+            count.style.opacity = 0;
+            mele.style.height = "0px";
+            inf.addEventListener("transitionend", () => {
+                square.style.height = "35px";
+                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                mclose(mele);
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
+                }, { once: true });
+            }, { once: true });
+            for (let r of win_obj.waitlist) r(true);
+        };
+
+        interval_speed = setInterval(() => {
             passed_time += timer_speed * 10;
-            if (timer_speed > 1) {
-                inf.style.color = "#ff0000";
-            } else if (timer_speed < 1 && timer_speed > 0) {
-                inf.style.color = "#0000ff";
-            } else if (timer_speed === 0) {
-                inf.style.color = "#d00000";
-            } else if (timer_speed > -1 && timer_speed < 0) {
-                inf.style.color = "#d0d000";
-            } else if (timer_speed < -1) {
-                inf.style.color = "#d0d0d0";
-            } else {
-                inf.style.color = "#000000";
-            }
+            if (timer_speed > 1) inf.style.color = "#ff0000";
+            else if (timer_speed < 1 && timer_speed > 0) inf.style.color = "#0000ff";
+            else if (timer_speed === 0) inf.style.color = "#d00000";
+            else if (timer_speed > -1 && timer_speed < 0) inf.style.color = "#d0d000";
+            else if (timer_speed < -1) inf.style.color = "#d0d0d0";
+            else inf.style.color = "#000000";
         }, 10);
 
         mele.addEventListener("animationend", () => {
@@ -1439,6 +1400,7 @@ async function timer(string, time, title, id) {
             inf.style.opacity = 1;
             icon.style.opacity = 1;
             txt.style.opacity = 1;
+            count.style.opacity = 1;
             earlyend.style.opacity = 1;
             timerdesc.style.opacity = 1;
             timerdesc.style.transform = "translateX(0)";
@@ -1452,28 +1414,10 @@ async function timer(string, time, title, id) {
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        earlyend.onclick = () => {
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            earlyend.style.opacity = 0;
-            timerdesc.style.opacity = 0;
-            timerdesc.style.transform = "translateX(25px)";
-            mele.style.height = "0px";
-            resolve(true);
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
-                mele.addEventListener("animationend", () => {
-                    if (document.body.contains(mele)) document.body.removeChild(mele);
-                }, { once: true });
-            }, { once: true });
-        };
+        earlyend.onclick = () => { finish(); };
 
-        let pro = 0; // 进度条进度。
-        const interval = setInterval(() => {
+        let pro = 0;
+        interval_progress = setInterval(() => {
             let timer_backwards = timer_speed < 0;
             pro += timer_speed * 10 / (time / 100);
             bar.style.width = `${pro}%`;
@@ -1498,33 +1442,17 @@ async function timer(string, time, title, id) {
                 timerdesc.style.color = "#000000";
             }
             if (pro >= 100) {
-                clearInterval(interval);
-                ls_finish = true;
+                clearInterval(interval_progress);
+                finish();
             } else if (timer_backwards && passed_time <= 0) {
-                clearInterval(interval);
-                ls_finish = true;
+                clearInterval(interval_progress);
+                finish();
             }
         }, 10);
 
-        setInterval(() => {
+        interval_check = setInterval(() => {
             if (ls_finish) {
-                inf.style.opacity = 0;
-                inf.style.transform = "translateY(-10px)";
-                icon.style.opacity = 0;
-                txt.style.opacity = 0;
-                earlyend.style.opacity = 0;
-                timerdesc.style.opacity = 0;
-                timerdesc.style.transform = "translateX(25px)";
-                mele.style.height = "0px";
-                resolve(true);
-                inf.addEventListener("transitionend", () => {
-                    square.style.height = "35px";
-                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                    mclose(mele);
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                    }, { once: true });
-                }, { once: true });
+                clearInterval(interval_check);
             }
         }, 25);
     });
@@ -1542,12 +1470,22 @@ async function mb(string, title, id) {
         else title = String(title);
         if (id == null || id == undefined) id = "";
 
+        let key = `mb|${title}|${string}`;
+        if (winmaps[key]) {
+            let win = winmaps[key];
+            win.cnt++;
+            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            win.waitlist.push(resolve);
+            return;
+        }
+
         const mele = document.createElement("div");
         const square = document.createElement("div");
         const icon = document.createElement("img");
         const txt = document.createElement("div");
         const inf = document.createElement("div");
         const gb = document.createElement("button");
+        const count = document.createElement("div");
 
         mele.className = "mb-mele";
         mele.id = id;
@@ -1572,60 +1510,64 @@ async function mb(string, title, id) {
         gb.innerHTML = "关闭";
         gb.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         gb.style.opacity = 0;
+        count.className = "mb-count";
+        count.innerText = "1";
+        count.style.opacity = 0;
 
         mcreate(mele);
         document.body.appendChild(mele);
-
         mele.appendChild(square);
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(gb);
+        square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
 
         if (string.startsWith("[标签] ")) {
-            string = string.slice(5, string.length);
+            string = string.slice(5);
             if (string.toLowerCase().startsWith("li: ")) {
                 const li = document.createElement("li");
-                li.innerHTML = string.slice(4, string.length);
+                li.innerHTML = string.slice(4);
                 inf.appendChild(li);
             } else if (string.toLowerCase().startsWith("h1: ")) {
                 const h1 = document.createElement("h1");
-                h1.innerHTML = string.slice(4, string.length);
+                h1.innerHTML = string.slice(4);
                 inf.appendChild(h1);
             } else if (string.toLowerCase().startsWith("h2: ")) {
                 const h2 = document.createElement("h2");
-                h2.innerHTML = string.slice(4, string.length);
+                h2.innerHTML = string.slice(4);
                 inf.appendChild(h2);
             } else if (string.toLowerCase().startsWith("h3: ")) {
                 const h3 = document.createElement("h3");
-                h3.innerHTML = string.slice(4, string.length);
+                h3.innerHTML = string.slice(4);
                 inf.appendChild(h3);
             } else if (string.toLowerCase().startsWith("h4: ")) {
                 const h4 = document.createElement("h4");
-                h4.innerHTML = string.slice(4, string.length);
+                h4.innerHTML = string.slice(4);
                 inf.appendChild(h4);
             } else if (string.toLowerCase().startsWith("h5: ")) {
                 const h5 = document.createElement("h5");
-                h5.innerHTML = string.slice(4, string.length);
+                h5.innerHTML = string.slice(4);
+                inf.appendChild(h5);
             } else if (string.toLowerCase().startsWith("code: ")) {
                 const code = document.createElement("code");
-                code.innerHTML = string.slice(6, string.length);
+                code.innerHTML = string.slice(6);
                 inf.appendChild(code);
             } else if (string.toLowerCase().startsWith("img: ")) {
                 const img = document.createElement("img");
-                img.src = string.slice(5, string.length);
+                img.src = string.slice(5);
                 img.alt = "";
                 inf.appendChild(img);
             } else if (string.toLowerCase().startsWith("a: ")) {
                 const a = document.createElement("a");
-                a.href = string.slice(3, string.length);
-                a.innerHTML = string.slice(3, string.length);
+                a.href = string.slice(3);
+                a.innerHTML = string.slice(3);
                 inf.appendChild(a);
             } else if (string.toLowerCase().startsWith("div: ")) {
                 const div = document.createElement("div");
-                div.innerHTML = string.slice(5, string.length);
+                div.innerHTML = string.slice(5);
                 inf.appendChild(div);
             }
         } else {
@@ -1634,11 +1576,15 @@ async function mb(string, title, id) {
             inf.appendChild(p);
         }
 
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        winmaps[key] = win_obj;
+
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
             inf.style.opacity = 1;
             icon.style.opacity = 1;
             txt.style.opacity = 1;
+            count.style.opacity = 1;
             gb.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
@@ -1650,28 +1596,102 @@ async function mb(string, title, id) {
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        gb.onmouseover = () => {
-            ld(gb, "75%");
-        };
-        gb.onmouseleave = () => {
-            ld(gb, "100%");
-        };
-        gb.onclick = () => {
+        const close_win = () => {
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
             icon.style.opacity = 0;
             txt.style.opacity = 0;
             gb.style.opacity = 0;
+            count.style.opacity = 0;
             mele.style.height = "0px";
-            resolve("已确认。");
             inf.addEventListener("transitionend", () => {
                 square.style.height = "35px";
                 mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete winmaps[key];
+                }, { once: true });
+            }, { once: true });
+            for (let r of win_obj.waitlist) r("已确认。");
+        };
+
+        gb.onmouseover = () => { ld(gb, "75%"); };
+        gb.onmouseleave = () => { ld(gb, "100%"); };
+        gb.onclick = close_win;
+    });
+}
+
+async function rz(string, time) {
+    return new Promise((resolve) => {
+        if (string == null) {
+            warn("这个值为 null。");
+            return;
+        } else if (string == undefined) {
+            warn("这个值为 undefined。");
+            return;
+        }
+        if (time == null || time == undefined) time = smarttime(string);
+
+        const mele = document.createElement("div");
+        mele.className = "rz-mele";
+        mele.style.opacity = 0;
+        const inf = document.createElement("div");
+        inf.className = "rz-inf";
+        inf.style.transition = `all 0.2s ${easing}`;
+        inf.innerHTML = string;
+        inf.style.opacity = 0;
+        const bar = document.createElement("div");
+        bar.className = "rz-bar";
+        let timeup = false;
+        let pro = 0;
+
+        lcreate(mele);
+        document.body.appendChild(mele);
+        mele.appendChild(inf);
+        mele.appendChild(bar);
+
+        mele.style.animation = `in_rz 0.5s forwards ${easing}`;
+
+        mele.addEventListener("animationend", () => {
+            inf.style.opacity = 1;
+        }, { once: true });
+
+        mele.oncontextmenu = async () => {
+            inf.style.opacity = 0;
+            inf.addEventListener("transitionend", () => {
+                mele.style.animation = `out_rz 0.5s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    mclose(mele);
+                    resolve();
                 }, { once: true });
             }, { once: true });
         };
+
+        inf.addEventListener("transitionend", () => {
+            let i1 = setInterval(() => {
+                pro += 10 / (time / 100);
+                bar.style.width = `${pro}%`;
+                if (pro >= 100) {
+                    timeup = true;
+                    clearInterval(i1);
+                }
+            }, 10);
+        }, { once: true });
+
+        setInterval(() => {
+            if (timeup) {
+                inf.style.opacity = 0;
+                inf.addEventListener("transitionend", () => {
+                    mele.style.animation = `out_rz 0.5s forwards ${easing}`;
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        lclose(mele);
+                        resolve();
+                    }, { once: true });
+                }, { once: true });
+            }
+        }, 25);
     });
 }
