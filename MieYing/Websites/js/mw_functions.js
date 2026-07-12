@@ -3,19 +3,34 @@ let winmaps = {};
 
 async function noti(str, tit, id) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Noti() 函数中，string 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Noti() 函数中，str 参数不能为 null 或 undefined。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Noti() 函数中，string 参数不能为空。"; }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Noti() 函数中，str 参数不能为空。"; }
         if (tit == null || tit == undefined) tit = "通知";
         else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "通知"; }
         if (id == null || id == undefined) id = "";
 
         let key = `noti|${tit}|${str}`;
-        if (winmaps[key]) {
+        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
             let win = winmaps[key];
             win.cnt++;
-            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            let ele = win.cnt_ele;
+
+            if (win.anim_timer) {
+                clearTimeout(win.anim_timer);
+                win.anim_timer = null;
+            }
+
+            ele.style.transition = "opacity 0.1s ease";
+            ele.style.opacity = "0";
+
+            ele.addEventListener(("transitionend"), () => {
+                ele.innerText = win.cnt;
+                ele.style.opacity = "1";
+                win.anim_timer = null;
+            }, { once: true });
+
             win.waitlist.push(resolve);
             return;
         }
@@ -67,7 +82,7 @@ async function noti(str, tit, id) {
         inf.innerHTML = str;
         txt.innerHTML = tit;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve] };
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
@@ -117,21 +132,36 @@ async function noti(str, tit, id) {
     });
 }
 
-async function cg(string, title, id) {
+async function cg(str, tit, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Cg() 函数中，string 参数不能为 null 或 undefined。"; }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Cg() 函数中，string 参数不能为空。"; }
-        if (title == null || title == undefined) title = "完成";
-        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "完成"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Cg() 函数中，str 参数不能为 null 或 undefined。"; }
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Cg() 函数中，str 参数不能为空。"; }
+        if (tit == null || tit == undefined) tit = "完成";
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "完成"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `cg|${title}|${string}`;
-        if (winmaps[key]) {
+        let key = `cg|${tit}|${str}`;
+        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
             let win = winmaps[key];
             win.cnt++;
-            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            let ele = win.cnt_ele;
+
+            if (win.anim_timer) {
+                clearTimeout(win.anim_timer);
+                win.anim_timer = null;
+            }
+
+            ele.style.transition = "opacity 0.1s ease";
+            ele.style.opacity = "0";
+
+            ele.addEventListener(("transitionend"), () => {
+                ele.innerText = win.cnt;
+                ele.style.opacity = "1";
+                win.anim_timer = null;
+            }, { once: true });
+
             win.waitlist.push(resolve);
             return;
         }
@@ -180,10 +210,10 @@ async function cg(string, title, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
-        txt.innerHTML = title;
+        inf.innerHTML = str;
+        txt.innerHTML = tit;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
@@ -233,21 +263,36 @@ async function cg(string, title, id) {
     });
 }
 
-async function warn(string, title, id) {
+async function warn(str, tit, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Warn() 函数中，string 参数不能为 null 或 undefined。"; }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Warn() 函数中，string 参数不能为空。"; }
-        if (title == null || title == undefined) title = "注意";
-        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "注意"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Warn() 函数中，str 参数不能为 null 或 undefined。"; }
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Warn() 函数中，str 参数不能为空。"; }
+        if (tit == null || tit == undefined) tit = "注意";
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "注意"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `warn|${title}|${string}`;
-        if (winmaps[key]) {
+        let key = `warn|${tit}|${str}`;
+        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
             let win = winmaps[key];
             win.cnt++;
-            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            let ele = win.cnt_ele;
+
+            if (win.anim_timer) {
+                clearTimeout(win.anim_timer);
+                win.anim_timer = null;
+            }
+
+            ele.style.transition = "opacity 0.1s ease";
+            ele.style.opacity = "0";
+
+            ele.addEventListener(("transitionend"), () => {
+                ele.innerText = win.cnt;
+                ele.style.opacity = "1";
+                win.anim_timer = null;
+            }, { once: true });
+
             win.waitlist.push(resolve);
             return;
         }
@@ -296,10 +341,10 @@ async function warn(string, title, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
-        txt.innerHTML = title;
+        inf.innerHTML = str;
+        txt.innerHTML = tit;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
@@ -349,21 +394,36 @@ async function warn(string, title, id) {
     });
 }
 
-async function fail(string, title, id) {
+async function fail(str, tit, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Fail() 函数中，string 参数不能为 null 或 undefined。"; }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Fail() 函数中，string 参数不能为空。"; }
-        if (title == null || title == undefined) title = "错误";
-        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "错误"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Fail() 函数中，str 参数不能为 null 或 undefined。"; }
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Fail() 函数中，str 参数不能为空。"; }
+        if (tit == null || tit == undefined) tit = "错误";
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "错误"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `fail|${title}|${string}`;
-        if (winmaps[key]) {
+        let key = `fail|${tit}|${str}`;
+        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
             let win = winmaps[key];
             win.cnt++;
-            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            let ele = win.cnt_ele;
+
+            if (win.anim_timer) {
+                clearTimeout(win.anim_timer);
+                win.anim_timer = null;
+            }
+
+            ele.style.transition = "opacity 0.1s ease";
+            ele.style.opacity = "0";
+
+            ele.addEventListener(("transitionend"), () => {
+                ele.innerText = win.cnt;
+                ele.style.opacity = "1";
+                win.anim_timer = null;
+            }, { once: true });
+
             win.waitlist.push(resolve);
             return;
         }
@@ -412,10 +472,10 @@ async function fail(string, title, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
-        txt.innerHTML = title;
+        inf.innerHTML = str;
+        txt.innerHTML = tit;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
@@ -465,21 +525,36 @@ async function fail(string, title, id) {
     });
 }
 
-async function inp(string, title, id) {
+async function inp(str, tit, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Inp() 函数中，string 参数不能为 null 或 undefined。"; }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Inp() 函数中，string 参数不能为空。"; }
-        if (title == null || title == undefined) title = "输入";
-        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "输入"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Inp() 函数中，str 参数不能为 null 或 undefined。"; }
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Inp() 函数中，str 参数不能为空。"; }
+        if (tit == null || tit == undefined) tit = "输入";
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "输入"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `inp|${title}|${string}`;
-        if (winmaps[key]) {
+        let key = `inp|${tit}|${str}`;
+        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
             let win = winmaps[key];
             win.cnt++;
-            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            let ele = win.cnt_ele;
+
+            if (win.anim_timer) {
+                clearTimeout(win.anim_timer);
+                win.anim_timer = null;
+            }
+
+            ele.style.transition = "opacity 0.1s ease";
+            ele.style.opacity = "0";
+
+            ele.addEventListener(("transitionend"), () => {
+                ele.innerText = win.cnt;
+                ele.style.opacity = "1";
+                win.anim_timer = null;
+            }, { once: true });
+
             win.waitlist.push(resolve);
             return;
         }
@@ -529,10 +604,10 @@ async function inp(string, title, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
-        txt.innerHTML = title;
+        inf.innerHTML = str;
+        txt.innerHTML = tit;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
@@ -583,22 +658,37 @@ async function inp(string, title, id) {
     });
 }
 
-async function xz(string, n, names, title, id) {
+async function xz(str, n, names, tit, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Xz() 函数中，string 参数不能为 null 或 undefined。"; }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Xz() 函数中，string 参数不能为空。"; }
-        if (title == null || title == undefined) title = "选择";
-        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "选择"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Xz() 函数中，str 参数不能为 null 或 undefined。"; }
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Xz() 函数中，str 参数不能为空。"; }
+        if (tit == null || tit == undefined) tit = "选择";
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "选择"; }
         if (id == null || id == undefined) id = "";
         if (n > names.length) { fail("所给予的选项数量不足！"); return; }
 
-        let key = `xz|${title}|${string}`;
-        if (winmaps[key]) {
+        let key = `xz|${tit}|${str}`;
+        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
             let win = winmaps[key];
             win.cnt++;
-            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+            let ele = win.cnt_ele;
+
+            if (win.anim_timer) {
+                clearTimeout(win.anim_timer);
+                win.anim_timer = null;
+            }
+
+            ele.style.transition = "opacity 0.1s ease";
+            ele.style.opacity = "0";
+
+            ele.addEventListener(("transitionend"), () => {
+                ele.innerText = win.cnt;
+                ele.style.opacity = "1";
+                win.anim_timer = null;
+            }, { once: true });
+
             win.waitlist.push(resolve);
             return;
         }
@@ -656,8 +746,8 @@ async function xz(string, n, names, title, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
-        txt.innerHTML = title;
+        inf.innerHTML = str;
+        txt.innerHTML = tit;
 
         for (let i = 0; i < array.length; i++) {
             const container = document.createElement("div");
@@ -682,7 +772,7 @@ async function xz(string, n, names, title, id) {
             const tohex = (r, g, b) => {
                 const tohex_ = (value) => {
                     const hex = value.toString(16);
-                    return hex.length === 1 ? '0' + hex : hex;
+                    return hex.length === 1 ? "0" + hex : hex;
                 };
                 return `#${tohex_(r)}${tohex_(g)}${tohex_(b)}`;
             };
@@ -723,11 +813,11 @@ async function xz(string, n, names, title, id) {
             btn.onmouseleave = () => { ld(btn, "100%"); };
             btn.onclick = () => {
                 checkbox.checked = !checkbox.checked;
-                checkbox.dispatchEvent(new Event('change'));
+                checkbox.dispatchEvent(new Event("change"));
             };
         }
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
@@ -795,25 +885,43 @@ async function xz(string, n, names, title, id) {
     });
 }
 
-async function synchr(string, title, id) {
-    if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Synchr() 函数中，string 参数不能为 null 或 undefined。"; }
-    string = String(string);
-    let s_replaced = string.replace(/\s+/g, "");
-    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Synchr() 函数中，string 参数不能为空。"; }
-    if (title == null || title == undefined) title = "同步";
-    else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "同步"; }
+async function synchr(str, tit, id) {
+    if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Synchr() 函数中，str 参数不能为 null 或 undefined。"; }
+    str = String(str);
+    let s_replaced = str.replace(/\s+/g, "");
+    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Synchr() 函数中，str 参数不能为空。"; }
+    if (tit == null || tit == undefined) tit = "同步";
+    else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "同步"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `synchr|${title}|${string}`;
+    let key = `synchr|${tit}|${str}`;
+
     if (winmaps[key]) {
         let win = winmaps[key];
+        let ele = win.cnt_ele;
+
         win.cnt++;
         if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
-        // 重置计时器
+        // 重置计时器。
         if (win.timeout_id) clearTimeout(win.timeout_id);
-        let dur = smarttime(string);
+        let dur = smarttime(str);
+
+        if (win.anim_timer) {
+            clearTimeout(win.anim_timer);
+            win.anim_timer = null;
+        }
+
+        ele.style.transition = "opacity 0.1s ease";
+        ele.style.opacity = "0";
+
+        ele.addEventListener(("transitionend"), () => {
+            ele.innerText = win.cnt;
+            ele.style.opacity = "1";
+            win.anim_timer = null;
+        }, { once: true });
+
         win.timeout_id = setTimeout(() => {
-            // 关闭窗口
+            // 关闭窗口。
             let mele = win.dom;
             let inf = mele.querySelector(".mfn-inf");
             let icon = mele.querySelector("img");
@@ -881,10 +989,10 @@ async function synchr(string, title, id) {
     square.appendChild(count);
 
     mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-    inf.innerHTML = string;
-    txt.innerHTML = title;
+    inf.innerHTML = str;
+    txt.innerHTML = tit;
 
-    let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [] };
+    let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [] };
     winmaps[key] = win_obj;
 
     mele.addEventListener("animationend", () => {
@@ -903,7 +1011,7 @@ async function synchr(string, title, id) {
     square.style.height = square_height;
     inf.style.marginTop = square_height;
 
-    let dur = smarttime(string);
+    let dur = smarttime(str);
     let tid = setTimeout(() => {
         inf.style.opacity = 0;
         inf.style.transform = "translateY(-10px)";
@@ -924,21 +1032,21 @@ async function synchr(string, title, id) {
     win_obj.timeout_id = tid;
 }
 
-async function lj(string, url, title, id) {
-    if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Lj() 函数中，string 参数不能为 null 或 undefined。"; }
+async function lj(str, url, tit, id) {
+    if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Lj() 函数中，str 参数不能为 null 或 undefined。"; }
     if (url == null || url == undefined) { warn("无法跳转至 null 或 undefined。"); return "在 Lj() 函数中，url 参数不能为 null 或 undefined。"; }
-    string = String(string);
+    str = String(str);
     url = String(url);
-    let s_replaced = string.replace(/\s+/g, "");
-    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Lj() 函数中，string 参数不能为空。"; }
+    let s_replaced = str.replace(/\s+/g, "");
+    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Lj() 函数中，str 参数不能为空。"; }
     let u_replaced = url.replace(/\s+/g, "");
     if (u_replaced === "") { warn("无法跳转至空地址。"); return "在 Lj() 函数中，url 参数不能为空。"; }
-    if (title == null || title == undefined) title = (url.startsWith("mailto:") ? "邮件" : "链接");
-    else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "链接"; }
+    if (tit == null || tit == undefined) tit = (url.startsWith("mailto:") ? "邮件" : "链接");
+    else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "链接"; }
     if (id == null || id == undefined) id = "";
 
     function urlcheck(u) {
-        if (typeof u !== 'string') return false;
+        if (typeof u !== "str") return false;
         const decoded = decodeURIComponent(u);
         const lower = decoded.toLowerCase();
         const kps = [
@@ -955,12 +1063,27 @@ async function lj(string, url, title, id) {
         return;
     }
 
-    let key = `lj|${title}|${string}|${url}`;
+    let key = `lj|${tit}|${str}|${url}`;
     if (winmaps[key]) {
         let win = winmaps[key];
+        let ele = win.cnt_ele;
+
         win.cnt++;
         if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
-        // 无返回值，不需要等待队列
+
+        if (win.anim_timer) {
+            clearTimeout(win.anim_timer);
+            win.anim_timer = null;
+        }
+
+        ele.style.transition = "opacity 0.1s ease";
+        ele.style.opacity = "0";
+
+        ele.addEventListener(("transitionend"), () => {
+            ele.innerText = win.cnt;
+            ele.style.opacity = "1";
+            win.anim_timer = null;
+        }, { once: true });
         return;
     }
 
@@ -1013,10 +1136,10 @@ async function lj(string, url, title, id) {
     square.appendChild(count);
 
     mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-    inf.innerHTML = string;
-    txt.innerHTML = title;
+    inf.innerHTML = str;
+    txt.innerHTML = tit;
 
-    let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [] };
+    let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [] };
     winmaps[key] = win_obj;
 
     mele.addEventListener("animationend", () => {
@@ -1074,21 +1197,38 @@ async function lj(string, url, title, id) {
     };
 }
 
-async function zd(string, title, id) {
+async function zd(str, tit, id) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Zd() 函数中，string 参数不能为 null 或 undefined。"; }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Zd() 函数中，string 参数不能为空。"; }
-        if (title == null || title == undefined) title = "终端";
-        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "终端"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Zd() 函数中，str 参数不能为 null 或 undefined。"; }
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Zd() 函数中，str 参数不能为空。"; }
+        if (tit == null || tit == undefined) tit = "终端";
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "终端"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `zd|${title}|${string}`;
+        let key = `zd|${tit}|${str}`;
         if (winmaps[key]) {
             let win = winmaps[key];
             win.cnt++;
+            let ele = win.cnt_ele;
+
             if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+
+            if (win.anim_timer) {
+                clearTimeout(win.anim_timer);
+                win.anim_timer = null;
+            }
+
+            ele.style.transition = "opacity 0.1s ease";
+            ele.style.opacity = "0";
+
+            ele.addEventListener(("transitionend"), () => {
+                ele.innerText = win.cnt;
+                ele.style.opacity = "1";
+                win.anim_timer = null;
+            }, { once: true });
+
             win.waitlist.push(resolve);
             return;
         }
@@ -1137,10 +1277,10 @@ async function zd(string, title, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
-        txt.innerHTML = title;
+        inf.innerHTML = str;
+        txt.innerHTML = tit;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
@@ -1268,28 +1408,45 @@ async function zd(string, title, id) {
     });
 }
 
-async function timer(string, time, title, id) {
+async function timer(str, time, tit, id) {
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
-        if (string == null || string == undefined) { fail("不能输入空值！"); return "在 Timer() 函数中，string 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Timer() 函数中，str 参数不能为 null 或 undefined。"; }
         if (time == null || time == undefined) { fail("null 或 undefined 不是有效的数字。"); return "在 Timer() 函数中，time 参数不能为 null 或 undefined。"; }
-        string = String(string);
+        str = String(str);
         time = Number(time);
-        let s_replaced = string.replace(/\s+/g, "");
-        if (s_replaced === "") string = "";
-        if (title == null || title == undefined) title = "计时";
-        else { title = String(title); let t_replaced = title.replace(/\s+/g, ""); if (t_replaced === "") title = "计时"; }
+        let s_replaced = str.replace(/\s+/g, "");
+        if (s_replaced === "") str = "";
+        if (tit == null || tit == undefined) tit = "计时";
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "计时"; }
         if (id == null || id == undefined) id = "";
         if (isNaN(time)) { fail("time 参数必须为可识别的数字或纯数字字符串。"); return "在 Timer() 函数中，time 参数必须为可识别的数字或纯数字字符串。"; }
         else if (time < 1250) { warn("time 的值过小，无法正常计时。"); return "在 Timer() 函数中，time 的值必须大于等于 1250。"; }
         else if (time > 3.15576e10 * 1.1568) { warn("time 的值过大，无法正常计时。"); return "在 Timer() 函数中，time 的值必须小于等于 6.048e10。"; }
 
-        let key = `timer|${title}|${string}`;
+        let key = `timer|${tit}|${str}`;
         if (winmaps[key]) {
             let win = winmaps[key];
             win.cnt++;
+            let ele = win.cnt_ele;
+
             if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+
+            if (win.anim_timer) {
+                clearTimeout(win.anim_timer);
+                win.anim_timer = null;
+            }
+
+            ele.style.transition = "opacity 0.1s ease";
+            ele.style.opacity = "0";
+
+            ele.addEventListener(("transitionend"), () => {
+                ele.innerText = win.cnt;
+                ele.style.opacity = "1";
+                win.anim_timer = null;
+            }, { once: true });
+
             win.waitlist.push(resolve);
             return;
         }
@@ -1318,7 +1475,7 @@ async function timer(string, time, title, id) {
         txt.style.opacity = 0;
         txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         inf.className = "mfn-inf";
-        inf.innerHTML = string;
+        inf.innerHTML = str;
         inf.style.color = "black";
         inf.style.opacity = 0;
         inf.style.textAlign = "center";
@@ -1349,9 +1506,9 @@ async function timer(string, time, title, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        txt.innerHTML = title;
+        txt.innerHTML = tit;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
         let interval_speed;
@@ -1458,23 +1615,40 @@ async function timer(string, time, title, id) {
     });
 }
 
-async function mb(string, title, id) {
+async function mb(str, tit, id) {
     return new Promise((resolve) => {
-        string = String(string);
-        if (string.length === 0 || string.includes(null) || string.includes(undefined)) {
+        str = String(str);
+        if (str.length === 0 || str.includes(null) || str.includes(undefined)) {
             fail("不能输入空值！");
             resolve(39);
             return;
         }
-        if (title == null || title == undefined || String(title).replace(/\s+/g, "") === "") title = "面板";
-        else title = String(title);
+        if (tit == null || tit == undefined || String(tit).replace(/\s+/g, "") === "") tit = "面板";
+        else tit = String(tit);
         if (id == null || id == undefined) id = "";
 
-        let key = `mb|${title}|${string}`;
+        let key = `mb|${tit}|${str}`;
         if (winmaps[key]) {
             let win = winmaps[key];
             win.cnt++;
+            let ele = win.cnt_ele;
+
             if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+
+            if (win.anim_timer) {
+                clearTimeout(win.anim_timer);
+                win.anim_timer = null;
+            }
+
+            ele.style.transition = "opacity 0.1s ease";
+            ele.style.opacity = "0";
+
+            ele.addEventListener(("transitionend"), () => {
+                ele.innerText = win.cnt;
+                ele.style.opacity = "1";
+                win.anim_timer = null;
+            }, { once: true });
+
             win.waitlist.push(resolve);
             return;
         }
@@ -1497,7 +1671,7 @@ async function mb(string, title, id) {
         icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         icon.style.opacity = 0;
         txt.className = "mfn-title";
-        txt.innerHTML = title;
+        txt.innerHTML = tit;
         txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         txt.style.opacity = 0;
         inf.className = "mfn-inf";
@@ -1525,58 +1699,58 @@ async function mb(string, title, id) {
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
 
-        if (string.startsWith("[标签] ")) {
-            string = string.slice(5);
-            if (string.toLowerCase().startsWith("li: ")) {
+        if (str.startsWith("[标签] ")) {
+            str = str.slice(5);
+            if (str.toLowerCase().startsWith("li: ")) {
                 const li = document.createElement("li");
-                li.innerHTML = string.slice(4);
+                li.innerHTML = str.slice(4);
                 inf.appendChild(li);
-            } else if (string.toLowerCase().startsWith("h1: ")) {
+            } else if (str.toLowerCase().startsWith("h1: ")) {
                 const h1 = document.createElement("h1");
-                h1.innerHTML = string.slice(4);
+                h1.innerHTML = str.slice(4);
                 inf.appendChild(h1);
-            } else if (string.toLowerCase().startsWith("h2: ")) {
+            } else if (str.toLowerCase().startsWith("h2: ")) {
                 const h2 = document.createElement("h2");
-                h2.innerHTML = string.slice(4);
+                h2.innerHTML = str.slice(4);
                 inf.appendChild(h2);
-            } else if (string.toLowerCase().startsWith("h3: ")) {
+            } else if (str.toLowerCase().startsWith("h3: ")) {
                 const h3 = document.createElement("h3");
-                h3.innerHTML = string.slice(4);
+                h3.innerHTML = str.slice(4);
                 inf.appendChild(h3);
-            } else if (string.toLowerCase().startsWith("h4: ")) {
+            } else if (str.toLowerCase().startsWith("h4: ")) {
                 const h4 = document.createElement("h4");
-                h4.innerHTML = string.slice(4);
+                h4.innerHTML = str.slice(4);
                 inf.appendChild(h4);
-            } else if (string.toLowerCase().startsWith("h5: ")) {
+            } else if (str.toLowerCase().startsWith("h5: ")) {
                 const h5 = document.createElement("h5");
-                h5.innerHTML = string.slice(4);
+                h5.innerHTML = str.slice(4);
                 inf.appendChild(h5);
-            } else if (string.toLowerCase().startsWith("code: ")) {
+            } else if (str.toLowerCase().startsWith("code: ")) {
                 const code = document.createElement("code");
-                code.innerHTML = string.slice(6);
+                code.innerHTML = str.slice(6);
                 inf.appendChild(code);
-            } else if (string.toLowerCase().startsWith("img: ")) {
+            } else if (str.toLowerCase().startsWith("img: ")) {
                 const img = document.createElement("img");
-                img.src = string.slice(5);
+                img.src = str.slice(5);
                 img.alt = "";
                 inf.appendChild(img);
-            } else if (string.toLowerCase().startsWith("a: ")) {
+            } else if (str.toLowerCase().startsWith("a: ")) {
                 const a = document.createElement("a");
-                a.href = string.slice(3);
-                a.innerHTML = string.slice(3);
+                a.href = str.slice(3);
+                a.innerHTML = str.slice(3);
                 inf.appendChild(a);
-            } else if (string.toLowerCase().startsWith("div: ")) {
+            } else if (str.toLowerCase().startsWith("div: ")) {
                 const div = document.createElement("div");
-                div.innerHTML = string.slice(5);
+                div.innerHTML = str.slice(5);
                 inf.appendChild(div);
             }
         } else {
             const p = document.createElement("p");
-            p.innerHTML = string;
+            p.innerHTML = str;
             inf.appendChild(p);
         }
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: title, waitlist: [resolve] };
+        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
@@ -1622,16 +1796,16 @@ async function mb(string, title, id) {
     });
 }
 
-async function rz(string, time) {
+async function rz(str, time) {
     return new Promise((resolve) => {
-        if (string == null) {
+        if (str == null) {
             warn("这个值为 null。");
             return;
-        } else if (string == undefined) {
+        } else if (str == undefined) {
             warn("这个值为 undefined。");
             return;
         }
-        if (time == null || time == undefined) time = smarttime(string);
+        if (time == null || time == undefined) time = smarttime(str);
 
         const mele = document.createElement("div");
         mele.className = "rz-mele";
@@ -1639,7 +1813,7 @@ async function rz(string, time) {
         const inf = document.createElement("div");
         inf.className = "rz-inf";
         inf.style.transition = `all 0.2s ${easing}`;
-        inf.innerHTML = string;
+        inf.innerHTML = str;
         inf.style.opacity = 0;
         const bar = document.createElement("div");
         bar.className = "rz-bar";

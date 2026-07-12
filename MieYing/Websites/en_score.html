@@ -3,16 +3,17 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>成绩查询</title>
+    <title>Score Inquiry</title>
     <link rel="stylesheet" type="text/css" href="css/basic.css" />
     <link rel="stylesheet" type="text/css" href="css/mw_functions.css" />
-    <link rel="stylesheet" type="text/css" href="css/rw_functions.css" />
+    <link rel="stylesheet" type="text/css" href="css/sw_functions.css" />
     <link rel="stylesheet" type="text/css" href="css/lrw_ui.css" />
     <script src="js/mw_functions.js" defer></script>
-    <script src="js/rw_functions.js" defer></script>
+    <script src="js/sw_functions.js" defer></script>
     <script src="js/basic.js" defer></script>
     <script src="js/global.js" defer></script>
-    <script src="js/lrw_ui.js" defer></script>
+    <script src="js/en_lrw_ui.js" defer></script>
+    <script src="js/callout.js" defer></script>
     <style>
         * {
             margin: 0;
@@ -347,14 +348,14 @@
     <div class="score-container">
         <div class="header-area">
             <div class="input-zone">
-                <button id="ordinp">输入考生编号</button>
+                <button id="ordinp">Enter Examinee's Number</button>
             </div>
         </div>
 
         <!-- 科目栏。 -->
         <div class="tabbar"></div>
 
-        <!-- 分数容器。 -->
+        <!-- point(s)数容器。 -->
         <div class="content-wrapper">
             <div class="panetab"></div>
         </div>
@@ -1475,17 +1476,17 @@
         function sdiff(score, line_score) {
             let diff = score - line_score;
             if (diff > 0) {
-                return `<span style="color:#7cff7c;">+${diff} 分</span>`;
+                return `<span style="color:#7cff7c;">+${diff} point(s)</span>`;
             } else if (diff == 0) {
-                return `<span style="color:#ffff00;">刚好过线</span>`;
+                return `<span style="color:#ffff00;">Just on the point line</span>`;
             } else {
-                return `<span style="color:#ff7070;">${diff} 分</span>`;
+                return `<span style="color:#ff7070;">${diff} point(s)</span>`;
             }
         }
 
         const subjects = [
             {
-                key: "总分", iscomp: true,
+                key: "Total", iscomp: true,
                 res: (ord) => {
                     let ch = parseFloat(c_s[ord].split('/')[0]), ma = parseFloat(m_s[ord].split('/')[0]), en = parseFloat(e_s[ord].split('/')[0]), hi = parseFloat(h_s[ord].split('/')[0]), po = parseFloat(p_s[ord].split('/')[0]), geo = parseFloat(g_s[ord].split('/')[0]), ph = parseFloat(f_s[ord].split('/')[0]), chm = parseFloat(k_s[ord].split('/')[0]), bio = parseFloat(b_s[ord].split('/')[0]);
                     let max_ch = parseFloat(c_s[ord].split('/')[1]), max_ma = parseFloat(m_s[ord].split('/')[1]), max_en = parseFloat(e_s[ord].split('/')[1]), max_hi = parseFloat(h_s[ord].split('/')[1]), max_po = parseFloat(p_s[ord].split('/')[1]), max_geo = parseFloat(g_s[ord].split('/')[1]), max_ph = parseFloat(f_s[ord].split('/')[1]), max_chm = parseFloat(k_s[ord].split('/')[1]), max_bio = parseFloat(b_s[ord].split('/')[1]);
@@ -1496,7 +1497,7 @@
                 dataMap: null
             },
             {
-                key: "文综", iscomp: true,
+                key: "CEHPG", iscomp: true,
                 res: (ord) => {
                     let ch = parseFloat(c_s[ord].split('/')[0]), en = parseFloat(e_s[ord].split('/')[0]), hi = parseFloat(h_s[ord].split('/')[0]), po = parseFloat(p_s[ord].split('/')[0]), geo = parseFloat(g_s[ord].split('/')[0]);
                     let max_ch = parseFloat(c_s[ord].split('/')[1]), max_en = parseFloat(e_s[ord].split('/')[1]), max_hi = parseFloat(h_s[ord].split('/')[1]), max_po = parseFloat(p_s[ord].split('/')[1]), max_geo = parseFloat(g_s[ord].split('/')[1]);
@@ -1507,7 +1508,7 @@
                 dataMap: null
             },
             {
-                key: "理综", iscomp: true,
+                key: "MFKB", iscomp: true,
                 res: (ord) => {
                     let ma = parseFloat(m_s[ord].split('/')[0]), ph = parseFloat(f_s[ord].split('/')[0]), chm = parseFloat(k_s[ord].split('/')[0]), bio = parseFloat(b_s[ord].split('/')[0]);
                     let max_ma = parseFloat(m_s[ord].split('/')[1]), max_ph = parseFloat(f_s[ord].split('/')[1]), max_chm = parseFloat(k_s[ord].split('/')[1]), max_bio = parseFloat(b_s[ord].split('/')[1]);
@@ -1517,15 +1518,15 @@
                 },
                 dataMap: null
             },
-            { key: "语文", res: (ord) => c_s[ord], dataMap: c_s },
-            { key: "数学", res: (ord) => m_s[ord], dataMap: m_s },
-            { key: "英语", res: (ord) => e_s[ord], dataMap: e_s },
-            { key: "历史", res: (ord) => h_s[ord], dataMap: h_s },
-            { key: "政治", res: (ord) => p_s[ord], dataMap: p_s },
-            { key: "地理", res: (ord) => g_s[ord], dataMap: g_s },
-            { key: "物理", res: (ord) => f_s[ord], dataMap: f_s },
-            { key: "化学", res: (ord) => k_s[ord], dataMap: k_s },
-            { key: "生物", res: (ord) => b_s[ord], dataMap: b_s },
+            { key: "Chinese", res: (ord) => c_s[ord], dataMap: c_s },
+            { key: "Mathematics", res: (ord) => m_s[ord], dataMap: m_s },
+            { key: "English", res: (ord) => e_s[ord], dataMap: e_s },
+            { key: "History", res: (ord) => h_s[ord], dataMap: h_s },
+            { key: "Politics", res: (ord) => p_s[ord], dataMap: p_s },
+            { key: "Geography", res: (ord) => g_s[ord], dataMap: g_s },
+            { key: "Physics", res: (ord) => f_s[ord], dataMap: f_s },
+            { key: "Chemistry", res: (ord) => k_s[ord], dataMap: k_s },
+            { key: "Biology", res: (ord) => b_s[ord], dataMap: b_s },
         ];
 
         let current_ord = null;
@@ -1585,9 +1586,9 @@
         function linecards(ord, sub) {
             const is_jh = ord.startsWith('jh_');
             const line_keys = is_jh ? ['jh_t0', 'jh_t1', 'jh_t2', 'jh_t3', 'jh_t4', 'jh_t5', 'jh_t6'] : ['sh_t0', 'sh_t1', 'sh_t2', 'sh_t3', 'sh_t4', 'sh_t5', 'sh_t6'];
-            const line_names = ['提前批', '第一批', '第二批', '第三批', '第四批', '第五批', "第六批"];
+            const line_names = ['Prev batch', '1st batch', '2nd batch', '3rd batch', '4th batch', '5th batch', "6th batch"];
 
-            if (sub.key === "总分") {
+            if (sub.key === "Total") {
                 let total_score = parseFloat(sub.res(ord).split('/')[0]);
                 let cards = '';
                 for (let i = 0; i < line_keys.length; i++) {
@@ -1602,16 +1603,16 @@
                     cards += `
                                 <div class="rank-card">
                                     <div class="rank-label">${line_names[i]}</div>
-                                    <div class="rank-value" style="font-size:1.2rem;">${line_sum} 分</div>
+                                    <div class="rank-value" style="font-size:1.2rem;">${line_sum} point(s)</div>
                                     <div class="small-note" style="margin-top:8px;">${diff_html}</div>
                                 </div>
                             `;
                 }
                 return cards;
-            } else if (sub.key === "文综") {
+            } else if (sub.key === "CEHPG") {
                 let total_score = parseFloat(sub.res(ord).split('/')[0]);
                 let cards = '';
-                const cehpg_keys = ['语文', '英语', '历史', '政治', '地理'];
+                const cehpg_keys = ['Chinese', 'English', 'History', 'Politics', 'Geography'];
                 for (let i = 0; i < line_keys.length; i++) {
                     let line_sum = 0;
                     for (let s of subjects) {
@@ -1624,16 +1625,16 @@
                     cards += `
                                 <div class="rank-card">
                                     <div class="rank-label">${line_names[i]}</div>
-                                    <div class="rank-value" style="font-size:1.2rem;">${line_sum} 分</div>
+                                    <div class="rank-value" style="font-size:1.2rem;">${line_sum} point(s)</div>
                                     <div class="small-note" style="margin-top:8px;">${diff_html}</div>
                                 </div>
                             `;
                 }
                 return cards;
-            } else if (sub.key === "理综") {
+            } else if (sub.key === "MFKB") {
                 let total_score = parseFloat(sub.res(ord).split('/')[0]);
                 let cards = '';
-                const mfkb_keys = ['数学', '物理', '化学', '生物'];
+                const mfkb_keys = ['Mathematics', 'Physics', 'Chemistry', 'Biology'];
                 for (let i = 0; i < line_keys.length; i++) {
                     let line_sum = 0;
                     for (let s of subjects) {
@@ -1646,7 +1647,7 @@
                     cards += `
                                 <div class="rank-card">
                                     <div class="rank-label">${line_names[i]}</div>
-                                    <div class="rank-value" style="font-size:1.2rem;">${line_sum} 分</div>
+                                    <div class="rank-value" style="font-size:1.2rem;">${line_sum} point(s)</div>
                                     <div class="small-note" style="margin-top:8px;">${diff_html}</div>
                                 </div>
                             `;
@@ -1663,7 +1664,7 @@
                         cards += `
                                     <div class="rank-card">
                                         <div class="rank-label">${line_names[i]}</div>
-                                        <div class="rank-value" style="font-size:1.2rem;">${line_score} 分</div>
+                                        <div class="rank-value" style="font-size:1.2rem;">${line_score} point(s)</div>
                                         <div class="small-note" style="margin-top:8px;">${diff_html}</div>
                                     </div>
                                 `;
@@ -1684,7 +1685,7 @@
             const score_area = document.getElementById(`score_area_${idx}`);
             score_area.innerHTML = `
                                 <div class="score-number" style="color: ${color_style};">${score_str}</div>
-                                <div class="score-percent" style="color: ${color_style};">得分率 ${percent}%</div>
+                                <div class="score-percent" style="color: ${color_style};">Rating ${percent}%</div>
                             `;
             upd_bar(idx, s, max);
 
@@ -1700,7 +1701,7 @@
 
         function v_highscore(ord) {
             if (!ord.startsWith('jh_')) return false;
-            const total_subject = subjects.find(s => s.key === '总分');
+            const total_subject = subjects.find(s => s.key === 'Total');
             const total_str = total_subject.res(ord);
             const total_score = parseFloat(total_str.split('/')[0]);
             return total_score >= 679.5;
@@ -1729,18 +1730,18 @@
                 if (line_cards) line_cards.innerHTML = `<div class="rank-card" style="grid-column:1/-1; text-align:center;">不公布</div>`;
             }
             msc.style.color = "#ffaa66";
-            msc.innerHTML = "不公布考生信息";
+            msc.innerHTML = "The examinee's information is NOT to public.";
             msc.style.cursor = "pointer";
             msc.onclick = async () => {
                 if (verified) return;
-                let submit_code = await inp("请输入准考证号。", "确认");
+                let submit_code = await inp("Enter candidate number", "Confirming");
                 if (submit_code === candnum[current_ord]) {
                     s_highscore(current_ord);
                     msc.innerHTML = "Moshariny Combination";
                     msc.style.color = "#87f5a5";
                     msc.onclick = null;
                 } else {
-                    await fail("准考证号不匹配。");
+                    await fail("The candidate number does NOT match.");
                 }
             };
         }
@@ -1766,7 +1767,7 @@
             container.style.opacity = '0';
             await new Promise(resolve => setTimeout(resolve, 200));
             current_ord = ord;
-            ord.includes("t") ? inf("当前正在阅览分数线的成绩。") : suc(`${ord}，欢迎。`);
+            ord.includes("t") ? inf("You're viewing the score of the point line.") : suc(`${ord}, welcome.`);
             if (v_highscore(ord)) {
                 highscore_placeholder(ord);
                 data_loaded = false;
@@ -1788,8 +1789,8 @@
                 container.classList.add('visible');
                 container.style.opacity = '1';
                 current_ord = ord;
-                document.title = `成绩查询`;
-                ord.includes("t") ? inf("当前正在阅览分数线的成绩。") : suc(`${ord}，欢迎。`);
+                document.title = `Score Inquiry`;
+                ord.includes("t") ? inf("You're viewing the score of the point line.") : suc(`${ord}, welcome.`);
 
                 if (v_highscore(ord)) {
                     highscore_placeholder(ord);
@@ -1813,14 +1814,14 @@
 
             const ordinp = document.getElementById("ordinp");
             ordinp.onclick = async () => {
-                let user_ord = await inp("输入考生编号。");
+                let user_ord = await inp("Enter the examinee's number.");
                 if (!user_ord) return;
                 if ((!user_ord.startsWith("jh_") && !user_ord.startsWith("sh_"))) {
-                    await fail("编号必须以 jh_ 或 sh_ 开头，请重新输入。");
+                    await fail("The number must start with jh_ or sh_. Enter again.");
                     return;
                 }
                 if (!c_s[user_ord]) {
-                    await fail("此考生编号不存在，请检查后重新输入。");
+                    await fail("The number does NOT exist. Enter again after checking.");
                     return;
                 }
                 await init(user_ord);

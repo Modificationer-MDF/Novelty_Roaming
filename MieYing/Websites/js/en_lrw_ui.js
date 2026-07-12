@@ -115,11 +115,11 @@ function screenshot() {
 
     async function cac() {
         if (ofscrt) pickele("scr");
-        let ls2 = await inp("输入元素的 CSS 选择器字符串。", "输入", "scr");
+        let ls2 = await inp("Enter the CSS selector of the element.", "Enter", "scr");
         let sc = document.querySelector(ls2);
 
         if (!sc) {
-            fail("未找到元素。");
+            fail("The element was NOT found.");
             return;
         }
 
@@ -134,40 +134,40 @@ function screenshot() {
             const blob = await new Promise(resolve => canvas.toBlob(resolve));
             try {
                 await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
-                cg("截图已复制到剪贴板！");
+                cg("The screenshot has been copied to your clipboard!");
             } catch (err) {
                 console.warn(`刚才，尝试截图时发生了错误，以下是详细信息：“${err}”。`);
                 canvas.toDataURL();
-                cg("截图已复制。");
+                cg("The screenshot has been copied.");
             }
         } catch (err) {
             if (err.message && err.message.includes("Failed to execute 'toBlob' on 'HTMLCanvasElement'")) {
-                fail("Canvas 导出失败：可能由于 Canvas 被污染（包含跨域内容）或浏览器限制。建议使用本地 HTTP 服务器打开页面（如 http://localhost）以避免 file:// 协议的限制。");
+                fail("Canvas export failed: it may be due to Canvas pollution or browser limit. Using local HTTP server to view this page is advised, while avoids the limit of file:// protocol.");
             }
             else if (err.message && err.message.includes("html2canvas") && err.message.includes("not a function")) {
-                fail("html2canvas 库未正确加载，请刷新页面后重试。");
-                let rq = await conf("是否刷新页面？");
+                fail("html2canvas was loaded INCORRECTLY. Try again after refreshing the page.");
+                let rq = await conf("Refresh the page?");
                 if (rq) {
                     window.location.reload();
                 }
             }
             else if (err.message && err.message.includes("Element is not attached to DOM")) {
-                fail("目标元素已从 DOM 中移除，请刷新页面后重试。");
-                let rq = await conf("是否刷新页面？");
+                fail("The target element has been removed from DOM. Try again after refreshing the page.");
+                let rq = await conf("Refresh the page?");
                 if (rq) {
                     window.location.reload();
                 }
             }
             else if (err.message && (err.message.includes("Maximum") || err.message.includes("size"))) {
-                fail("截图区域过大（超过浏览器能处理的最大尺寸），请尝试缩小截图范围或降低 scale 参数。");
+                fail("Screenshotting area is too large. Please try to lessen the screenshotting area or decrease the value of scale.");
             }
             else if (err.message && err.message.includes("timeout")) {
-                fail("截图超时，可能是页面过于复杂或网络问题，请简化页面后重试。");
+                fail("Timeout. It may be caused by complex page or network problems. Try again after simplifying the page.");
             }
             else {
-                fail(`截图时发生错误：${err.message || err}。`);
+                fail(`Error occoured while screenshotting: ${err.message || err}。`);
             }
-            console.error(`发生错误：${err}。`);
+            console.error(`Error occoured: ${err}。`);
         }
     }
 }
@@ -177,14 +177,14 @@ function init_ui() {
     let lw = document.querySelector(".lw");
     if (!lw) {
         lw = document.createElement("div");
-        lw.className = "lw";
+        lw.classList.add("lw");
         document.body.appendChild(lw);
     }
     const lt = document.createElement("div");
-    lt.className = "t";
-    lt.innerHTML = "选项";
+    lt.classList.add("t");
+    lt.innerHTML = "Options";
     const li = document.createElement("img");
-    li.className = "i";
+    li.classList.add("i");
     li.src = "images/Options.png";
     li.alt = "";
 
@@ -192,16 +192,16 @@ function init_ui() {
     lt.appendChild(li);
 
     const lf1 = document.createElement("div");
-    lf1.className = "lf1";
+    lf1.classList.add("lf1");
     const lf1i = document.createElement("div");
-    lf1i.className = "lf1i";
+    lf1i.classList.add("lf1i");
 
     lw.appendChild(lf1);
     lf1.appendChild(lf1i);
 
     const scs = document.createElement("btn");
-    scs.className = "scs";
-    scs.innerHTML = "截图元素";
+    scs.classList.add("scs");
+    scs.innerHTML = "Screenshotting elements";
     scs.oncontextmenu = async (e) => {
         e.preventDefault();
         const qs = [
@@ -233,40 +233,40 @@ function init_ui() {
             default:
                 return;
         }
-        mb(lsans1, "解答");
+        mb(lsans1, "Answering");
     };
     scs.onclick = () => {
         screenshot();
     };
     const larea1 = document.createElement("div");
-    larea1.className = "larea1";
+    larea1.classList.add("larea1");
     const tl1 = document.createElement("div");
-    tl1.className = "tlarea";
-    tl1.innerHTML = "功能";
+    tl1.classList.add("tlarea");
+    tl1.innerHTML = "Functions";
     tl1.id = "tl1";
     const pr = document.createElement("btn");
-    pr.className = "pr";
-    pr.innerHTML = "打印本页";
+    pr.classList.add("pr");
+    pr.innerHTML = "Print this page";
     pr.onclick = async () => {
-        await noti("请在接下来的窗口中完成操作。");
+        await noti("Please continue in the following window.");
         setTimeout(() => {
             window.print();
         }, 1);
     };
     const share = document.createElement("btn");
-    share.className = "share";
-    share.innerHTML = "复制当前网址";
+    share.classList.add("share");
+    share.innerHTML = "Copy the string of the website";
     share.onclick = () => {
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(() => {
-            suc("已将本页面网址复制到剪贴板！");
+            suc("The string of the website has been copied to your clipboard.");
         }).catch(() => {
-            err("复制失败，请手动复制地址栏。");
+            err("Failed to copy. Please copy the string manually.");
         });
     };
     const reportying = document.createElement("btn");
-    reportying.className = "reportying";
-    reportying.innerHTML = "举报“蝇”信息";
+    reportying.classList.add("reportying");
+    reportying.innerHTML = 'Report "Ying" messages';
     reportying.onclick = async () => {
         pickele("rying");
         let ls_1 = await inp("在此输入对应“蝇”信息的 CSS 选择器。", "输入", "rying");
@@ -308,13 +308,13 @@ function init_ui() {
             default:
                 return;
         }
-        mb(lsans1, "解答");
+        mb(lsans1, "Answering");
     };
     const ter = document.createElement("btn");
-    ter.className = "ter";
-    ter.innerHTML = "打开终端";
+    ter.classList.add("ter");
+    ter.innerHTML = "Open command";
     ter.onclick = () => {
-        zd("请在此输入 JavaScript 代码。");
+        zd("Enter JavaScript code here.");
     };
 
     la1doms.push(scs);
@@ -330,36 +330,36 @@ function init_ui() {
     });
 
     const lf2 = document.createElement("div");
-    lf2.className = "lf2";
+    lf2.classList.add("lf2");
     const lf2i = document.createElement("div");
-    lf2i.className = "lf2i";
+    lf2i.classList.add("lf2i");
 
     lw.appendChild(lf2);
     lf2.appendChild(lf2i);
 
     const larea2 = document.createElement("div");
-    larea2.className = "larea2";
+    larea2.classList.add("larea2");
     const tl2 = document.createElement("div");
-    tl2.className = "tlarea";
-    tl2.innerHTML = "控制";
+    tl2.classList.add("tlarea");
+    tl2.innerHTML = "Control";
     tl2.id = "tl2";
 
     const tscrs = document.createElement("div");
-    tscrs.className = "la2t";
+    tscrs.classList.add("la2t");
     tscrs.id = "tscrs";
-    tscrs.innerHTML = "元素捕获工具";
+    tscrs.innerHTML = "Element capturing tools (ECT)";
     const escrs = document.createElement("btn");
-    escrs.className = "on";
-    escrs.innerHTML = "启用";
+    escrs.classList.add("on");
+    escrs.innerHTML = "Enable";
     escrs.onclick = () => {
-        inf("已启用元素捕获工具！");
+        inf("ECT has been enabled.");
         ofscrt = true;
     };
     const dscrs = document.createElement("btn");
-    dscrs.className = "off";
-    dscrs.innerHTML = "禁用";
+    dscrs.classList.add("off");
+    dscrs.innerHTML = "Disable";
     dscrs.onclick = () => {
-        inf("已禁用元素捕获工具！");
+        inf("ECT has been disabled.");
         ofscrt = false;
     };
 
@@ -374,14 +374,14 @@ function init_ui() {
     let rw = document.querySelector(".rw");
     if (!rw) {
         rw = document.createElement("div");
-        rw.className = "rw";
+        rw.classList.add("rw");
         document.body.appendChild(rw);
     }
     const rt = document.createElement("div");
-    rt.className = "t";
-    rt.innerHTML = "未读信息";
+    rt.classList.add("t");
+    rt.innerHTML = "Unread Messages";
     const ri = document.createElement("img");
-    ri.className = "i";
+    ri.classList.add("i");
     ri.src = "images/Unread Messages.png";
     ri.alt = "";
 
