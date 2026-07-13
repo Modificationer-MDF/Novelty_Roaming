@@ -5,6 +5,19 @@
 > 虽然 Chanf 1 年（2520 天）比地球 1 年（365.25 天）长得多，但年仅 16 岁（人的生长速度会放相对应地放慢，平均寿命仍为 75~80 岁）的青年已具有 110.40 年的阅历了。 \
 > 在 Chanf 生活 1 年可获得在地球生活 6.90 年的阅历。
 
+## 城市介绍
+> - 法纳（Fana）：Chanf 城市，为 Chanf 经济中心，也是 Chanf 首都。
+> - 维卡（Weika）：城市，为 Chanf 文化之都。
+> - 塔灿（Tacan）：Chanf 的郊区，主要是森林和乡村。
+> - 宗米（Zongmi）：Chanf 城镇，为 Chanf 人口最多的居住区。
+> - 龙宫（Loonggong）：Chanf 龙族自治区，生活着龙族居民，对人类友好。
+> - 珊瑚（Shanhu）：Chanf 海洋城市，为一线城市。
+> - 夜梦（Illusionary）：Chanf 海洋城市，以旅游闻名。
+> - 澄流（Chengliu）：Chanf 度假区。
+> - 藕莲（Oulian）：Chanf 一级农业区。
+> - 南苑（Nanyuan）：Chanf 二级农业区。
+> - 霞岚（Xialan）：Chanf 山地地区。
+
 > [!note]
 > ## 为什么 Chanf 历是这样的
 > 在 3991 年，人们的生长、发育和健康水平和现在完全不能比较。\
@@ -24,7 +37,7 @@
 
 ---
 
-# 主要角色
+# 主要角色 | Main Characters
 
 | 汉语名称 | 英语名称 | 缩写 | 身高（cm）| 体重（kg）| 生理年龄（Chanf 年）| 心理年龄（地球年）| 阅历年龄（地球年）| 16P（7 月 7 日前、7 月 7 日后）| BMI |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -73,10 +86,17 @@
 | 赤骁 | Chi Xiao | XIAO | 194 | 70 | 16 | 29 | 111.1 | ESTP-A | 18.60 |
 | 青苓 | Qing Ling | LING | 191 | 64 | 16 | 28 | 110.9 | ENFP-A | 17.54 |
 | 素望 | Su Wang | WANG | 190 | 61 | 16 | 30 | 112.8 | ISFP-A | 16.90 |
+| Kleri |
+| Sinderi |
+| Furai |
+| Huntun |
+
+> [!tip]
+> 末谛菥开玄那·纱檀来绨本就是末谛（雌）和纱檀（雄）的合体。一般情况下他们合二为一，只有特殊情况才分头行动。
 
 ---
 
-# 临时角色
+# 临时角色 | Temporary Characters
 
 | Pinyin | 生理年龄 | 心理年龄 | IP 属地 |
 | --- | --- | --- | --- | --- | --- |
@@ -91,7 +111,7 @@
 | Qik Wentian | 16 | 16 | 维卡 |
 | Lan Wenmeng | 15 | 15 | 维卡 |
 | Ding Saming | 13 | 14 | 宗米 |
-| Shangguan Yuxit | 12 | 14 | 塔灿 |
+| Shangguan Xuet | 12 | 14 | 珊瑚 |
 | Peng Sheng | 12 | 14 | 珊瑚 |
 | Shit Fakyou | 13 | 15 | 法纳 |
 | Sun Xixi | 12 | 14 | 藕莲 |
@@ -171,10 +191,11 @@
 | Yang Ziyang | 12 | 15 | 法纳 |
 | Liu Zhiyan | 13 | 17 | 宗米 |
 | Xuc Zhecheng | 14 | 17 | 宗米 |
+| Wang Mengyi | 16 | 19 | Jing
 
 ---
 
-# 组合
+# 组合 | Combinations
 
 > [!important]
 > 组合，一般都是**异性（Het）**组合。
