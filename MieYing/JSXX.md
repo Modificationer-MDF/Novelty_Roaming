@@ -86,13 +86,18 @@
 | 赤骁 | Chi Xiao | XIAO | 194 | 70 | 16 | 29 | 111.1 | ESTP-A | 18.60 |
 | 青苓 | Qing Ling | LING | 191 | 64 | 16 | 28 | 110.9 | ENFP-A | 17.54 |
 | 素望 | Su Wang | WANG | 190 | 61 | 16 | 30 | 112.8 | ISFP-A | 16.90 |
-| Kleri |
-| Sinderi |
-| Furai |
-| Huntun |
 
-> [!tip]
-> 末谛菥开玄那·纱檀来绨本就是末谛（雌）和纱檀（雄）的合体。一般情况下他们合二为一，只有特殊情况才分头行动。
+> [!note]
+> 所有机器人都是高度仿真的人形机器人。
+> Kleri、Sinderi、Furai 外观为少女。
+> Huntun 外观为少年。
+
+| 角色名 | 生理设定 | 高度（cm） | 零件质量（kg） | 诞生日期 |
+| --- | --- | --- | --- | --- | --- |
+| Kleri | 14 | 185 | 55 | 3991/1/1 | 
+| Sinderi | 15 | 187 | 60 | 3991/2/18 |
+| Furai | 15 | 184 | 58 | 3991/2/41 |
+| Huntun | 16 | 192 | 71 | 3991/3/32 |
 
 ---
 
@@ -116,7 +121,7 @@
 | Shit Fakyou | 13 | 15 | 法纳 |
 | Sun Xixi | 12 | 14 | 藕莲 |
 | Yek Jiahao | 12 | 13 | 维卡 |
-| Liu Jiaxin | 11 | 13 | 夜梦 |
+| Liu Jiaxin | 15 | 16 | 夜梦 |
 | She Haoxuan | 12 | 14 | 塔灿 |
 | Chen Junxuan | 12 | 13 | 珊瑚 |
 | Dongfang Junyu | 11 | 12 | 法纳 |
@@ -137,7 +142,7 @@
 | Chen Xinyi | 11 | 12 | 宗米 |
 | Lin Haoran | 12 | 14 | 法纳 |
 | Su Yuxuan | 11 | 13 | 维卡 |
-| He Zihao | 13 | 14 | 塔灿 |
+| He Zihao | 13 | 14 | 宗米 |
 | Tan Mingze | 12 | 14 | 宗米 |
 | Wei Zihan | 11 | 12 | 藕莲 |
 | Shen Yichen | 12 | 14 | 夜梦 |
@@ -198,15 +203,16 @@
 # 组合 | Combinations
 
 > [!important]
-> 组合，一般都是**异性（Het）**组合。
+> 组合，一般都是 **异性（Het）** 组合。
 
 | 组合名 | 组合角色——阳 | 组合角色——阴 |
 | --- | --- | --- |
-| 汐时 | Era | 林汐 |
-| 惟冬 |
-| 纤维 |
-| Sis |
-| 肆络 | 雨落 | 恰拉·略·肆格莅覆 |
+| NotJustColleagues | Era | 林汐 |
+| TPVCers |
+| SilentTalkers |
+| Enthusiastik! |
+| YourWarmie |
+| TheBANGS | 雨落 | 恰拉·略·肆格莅覆 |
 
 ---
 
