@@ -18,7 +18,6 @@
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: "hf";
         }
 
@@ -49,21 +48,22 @@
         .score-container {
             opacity: 0;
             visibility: hidden;
-            max-width: 1400px;
-            width: 100%;
-            background: #111317b9;
+            max-width: 88vw;
+            background: #111317ee;
             border-radius: 32px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
             overflow: hidden;
             transition: all 0.2s ease;
-            user-select: none; /* 避免拖动时误选文本。 */
+            user-select: none;
+            border-left: 5px solid #04483799;
+            border-right: 5px solid #04483799;
         }
 
         /* 头部区域。 */
         .header-area {
             padding: 20px 28px 12px 28px;
-            border-bottom: 1px solid #2a2e3a;
-            background: #0f1117;
+            border-bottom: 1px solid #2f778199;
+            background: #041110ee;
         }
 
         .title {
@@ -90,12 +90,11 @@
         }
 
         #ordinp {
-            background: #1e222c;
-            border: 1px solid #3a3f4b;
+            background-color: #03281fee;
+            border: 1px solid #091e19ee;
             color: white;
             padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 25px;
+            font-size: 23px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.14s cubic-bezier(0.17, 0.9, 0.4, 0.99);
@@ -115,8 +114,8 @@
             overflow-x: auto;
             gap: 7px;
             padding: 12px 24px 0 24px;
-            background: #0f1117;
-            border-bottom: 1px solid #262a33;
+            background: #09140b;
+            border-bottom: 1px solid #2f778199;
             scrollbar-width: auto;
         }
 
@@ -125,7 +124,7 @@
             }
 
         .tab-btn {
-            background: #191e26;
+            background: #192625ee;
             border: none;
             padding: 10px 24px;
             font-size: 22.5px;
@@ -156,11 +155,10 @@
 
         .content-wrapper {
             padding: 28px 30px 38px;
-            background: #0f1117;
+            background: #041110ee;
             transition: all 0.2s;
         }
 
-        /* 所有科目面板初始不可见，输入后渐显。 */
         .panetab {
             visibility: hidden;
             opacity: 0;
@@ -214,7 +212,7 @@
             align-items: baseline;
             flex-wrap: wrap;
             gap: 15px;
-            border: 1px solid #2a2f3c;
+            border: 1px solid #2f778199;
         }
 
         .score-number {
@@ -244,7 +242,7 @@
             border-radius: 24px;
             padding: 18px 16px;
             transition: 0.1s;
-            border: 1px solid #252d38;
+            border: 1px solid #2f778199;
         }
 
         .rank-label {
@@ -261,18 +259,27 @@
             word-break: break-word;
         }
 
-        .msc {
+        .msc, .si {
             text-align: center;
             padding: 14px 25px;
-            font-size: 20px;
-            border-top: 1px solid #1e232e;
-            color: #5c6e8c;
-            background: #0b0e13;
+            background-color: #041110ee;
             width: 100%;
             letter-spacing: 0.5px;
             cursor: pointer;
             transition: 0.2s;
             display: inline-block;
+        }
+
+        .msc {
+            font-size: 20px;
+            color: #0bb3d1;
+            border-top: 1px solid #2f778199;
+        }
+
+        .si {
+            font-size: 25px;
+            color: #1bf3cc;
+            border-bottom: 2px solid #2f778199;
         }
 
         .protected-badge {
@@ -307,7 +314,7 @@
             background: #1e232e;
             border-radius: 28px;
             padding: 16px 20px;
-            border: 1px solid #2a2f3c;
+            border: 1px solid #2f778199;
         }
 
         .progress-label {
@@ -346,6 +353,7 @@
     <div class="lw"></div>
     <div class="rw"></div>
     <div class="score-container">
+        <div class="si">Score Inquiry</div>
         <div class="header-area">
             <div class="input-zone">
                 <button id="ordinp">Enter Examinee's Number</button>
@@ -355,11 +363,10 @@
         <!-- 科目栏。 -->
         <div class="tabbar"></div>
 
-        <!-- point(s)数容器。 -->
         <div class="content-wrapper">
             <div class="panetab"></div>
         </div>
-        <div class="msc">Moshariny Combination</div>
+        <div class="msc">Moshariny Combination, 3991</div>
     </div>
 
     <script>
@@ -1714,10 +1721,6 @@
             verified = true;
             const active_idx = document.querySelector('.tab-btn.active')?.dataset.index;
             if (active_idx !== undefined) content_score(ord, parseInt(active_idx));
-            msc.style.color = "#5c6e8c";
-            msc.innerHTML = "Moshariny Combination";
-            msc.style.cursor = "default";
-            msc.onclick = null;
         }
 
         function highscore_placeholder(ord) {

@@ -11,147 +11,146 @@ import webbrowser as wb
 import keyboard as kb
 cs = Console()
 
-f_hp = [60, 66, 71, 77, 83, 90, 96, 102, 108, 114, 120, 124, 130, 135, 141, 150] # 凤灵诺提
+f_hp = [60, 66, 71, 77, 83, 90, 96, 102, 108, 114, 120, 124, 130, 135, 141, 150]
 f_energy = [30, 32, 35, 40, 43, 48, 52, 56, 60, 66, 70, 75, 79, 84, 90, 95] # 精力。
 f_fy = [2, 3, 4, 5, 6, 7, 8, 9, 8, 8, 9, 10, 12, 13, 15, 17] # 防御力。
 f_atk = [3, 3, 5, 7, 7, 8, 9, 10, 9, 10, 9, 10, 10, 11, 13, 15, 18, 22] # 攻击力。
 f_crit = [0.2, 0.21, 0.24, 0.27, 0.3, 0.33, 0.37, 0.4, 0.4, 0.42, 0.43, 0.45, 0.5, 0.5, 0.5, 0.55] # 暴击率。
 f_jc = [14, 14, 13, 12, 12, 11, 10, 9, 9, 8, 8, 8, 8, 8, 8, 8] # JC。
 
-w_hp = [57, 59, 62, 65, 69, 72, 75, 79, 83, 87, 90, 94, 97, 100, 103, 107] # 惟兹卡玹
+w_hp = [57, 59, 62, 65, 69, 72, 75, 79, 83, 87, 90, 94, 97, 100, 103, 107]
 w_energy = [34, 37, 40, 45, 50, 54, 60, 65, 70, 74, 78, 83, 90, 96, 102, 107]
 w_fy = [3, 4, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 17, 19, 22]
 w_atk = [2, 2, 3, 5, 5, 5, 5, 6, 7, 7, 7, 8, 9, 10, 11, 11]
 w_crit = [0.15, 0.15, 0.16, 0.19, 0.2, 0.22, 0.24, 0.25, 0.25, 0.27, 0.28, 0.28, 0.3, 0.3, 0.3, 0.3]
 w_jc = [13, 13, 12, 11, 10, 10, 10, 9, 9, 8, 8, 8, 8, 7, 7, 7]
 
-t_hp = [64, 70, 73, 81, 88, 93, 100, 104, 110, 114, 122, 128, 135, 143, 150, 161] # 千茶年又
+t_hp = [64, 70, 73, 81, 88, 93, 100, 104, 110, 114, 122, 128, 135, 143, 150, 161]
 t_energy = [25, 26, 28, 30, 33, 36, 41, 48, 50, 55, 60, 65, 73, 68, 73, 76]
 t_fy = [2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 15]
 t_atk = [5, 7, 7, 8, 8, 9, 9, 10, 11, 12, 12, 13, 14, 15, 18, 25]
 t_crit = [0.5, 0.52, 0.53, 0.54, 0.55, 0.58, 0.6, 0.62, 0.62, 0.65, 0.68, 0.7, 0.75, 0.65, 0.67, 0.7]
 t_jc = [16, 15, 14, 13, 13, 12, 12, 11, 11, 11, 10, 10, 10, 10, 10, 10]
 
-z_hp = [59, 62, 65, 68, 72, 76, 80, 84, 88, 93, 98, 102, 108, 113, 116, 120] # 梓柯萨·无布
+z_hp = [59, 62, 65, 68, 72, 76, 80, 84, 88, 93, 98, 102, 108, 113, 116, 120]
 z_energy = [28, 30, 33, 36, 41, 46, 50, 53, 58, 62, 69, 73, 78, 81, 85, 92]
 z_fy = [4, 5, 6, 6, 6, 7, 7, 8, 9, 10, 11, 11, 12, 13, 14, 17]
 z_atk = [3, 3, 5, 6, 7, 7, 8, 8, 9, 9, 10, 11, 11, 12, 14, 16]
 z_crit = [0.26, 0.27, 0.27, 0.3, 0.32, 0.33, 0.35, 0.37, 0.4, 0.4, 0.4, 0.4, 0.42, 0.44, 0.47, 0.5]
 z_jc = [15, 15, 13, 12, 12, 11, 11, 9, 9, 9, 9, 9, 9, 9, 9, 9]
 
-sk_hp = [61, 64, 69, 75, 82, 88, 94, 99, 103, 109, 114, 119, 126, 132, 138, 145] # 肆格莅覆
+sk_hp = [61, 64, 69, 75, 82, 88, 94, 99, 103, 109, 114, 119, 126, 132, 138, 145]
 sk_energy = [30, 32, 35, 40, 43, 48, 52, 56, 60, 66, 70, 75, 79, 84, 90, 95]
 sk_fy = [3, 5, 5, 6, 7, 8, 9, 10, 11, 11, 13, 14, 15, 16, 17, 18]
 sk_atk = [4, 5, 5, 6, 8, 8, 9, 9, 10, 11, 11, 12, 12, 12, 14, 15]
 sk_crit = [0.3, 0.32, 0.33, 0.36, 0.39, 0.4, 0.43, 0.44, 0.47, 0.5, 0.51, 0.54, 0.56, 0.58, 0.6, 0.6]
 sk_jc = [15, 15, 14, 14, 14, 13, 13, 12, 11, 10, 9, 9, 9, 8, 8, 8]
 
-ir_hp = [58, 63, 67, 72, 78, 84, 89, 95, 100, 106, 111, 118, 127, 134, 141, 147] # 雨落
+ir_hp = [58, 63, 67, 72, 78, 84, 89, 95, 100, 106, 111, 118, 127, 134, 141, 147]
 ir_energy = [27, 29, 32, 35, 38, 42, 47, 51, 55, 61, 67, 70, 76, 81, 86, 93]
 ir_fy = [4, 5, 6, 6, 7, 9, 9, 10, 10, 11, 13, 14, 15, 15, 17, 18]
 ir_atk = [3, 4, 5, 5, 6, 7, 7, 8, 9, 11, 12, 14, 15, 17, 18, 19]
 ir_crit = [0.24, 0.26, 0.29, 0.31, 0.34, 0.38, 0.4, 0.42, 0.43, 0.44, 0.46, 0.47, 0.49, 0.5, 0.52, 0.54]
 ir_jc = [14, 13, 13, 13, 13, 12, 12, 11, 11, 11, 10, 10, 10, 9, 9, 9]
 
-lin_xi_hp = [62, 65, 70, 74, 80, 86, 91, 97, 102, 105, 109, 116, 121, 127, 133, 140] # 林汐
+lin_xi_hp = [62, 65, 70, 74, 80, 86, 91, 97, 102, 105, 109, 116, 121, 127, 133, 140]
 lin_xi_energy = [29, 31, 34, 37, 42, 49, 50, 55, 58, 62, 67, 72, 75, 79, 84, 90]
 lin_xi_fy = [6, 8, 9, 9, 10, 12, 13, 13, 14, 16, 17, 17, 18, 20, 21, 22]
 lin_xi_atk = [1, 3, 5, 6, 7, 8, 9, 10, 11, 11, 12, 13, 13, 14, 15, 16]
 lin_xi_crit = [0.2, 0.21, 0.23, 0.25, 0.27, 0.29, 0.3, 0.32, 0.33, 0.35, 0.37, 0.38, 0.4, 0.42, 0.44, 0.45]
 lin_xi_jc = [14, 14, 14, 13, 13, 13, 12, 12, 11, 11, 11, 11, 10, 10, 9, 9]
 
-m_hp = [429, 768, 1022, 1444, 1888, 2367, 3025, 3778, 4400, 5123, 5907, 6666, 7288, 8311, 9298, 10000] # 末谛菥开玄那和纱檀来绨
+m_hp = [429, 768, 1022, 1444, 1888, 2367, 3025, 3778, 4400, 5123, 5907, 6666, 7288, 8311, 9298, 10000]
 m_energy = [250, 399, 681, 879, 1000, 1555, 1899, 2467, 3478, 4181, 4777, 5123, 5786, 6539, 7311, 8000]
 m_fy = [50, 60, 72, 87, 99, 116, 132, 148, 166, 180, 199, 219, 240, 263, 285, 310]
 m_atk = [39, 47, 58, 69, 80, 94, 106, 124, 139, 156, 173, 190, 210, 230, 252, 270]
 m_crit = [0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 m_jc = [3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
-x_hp = [188, 267, 381, 495, 599, 708, 826, 934, 1024, 1111, 1209, 1345, 1474, 1589, 1700, 1840] # 絮苏紫叶
+x_hp = [188, 267, 381, 495, 599, 708, 826, 934, 1024, 1111, 1209, 1345, 1474, 1589, 1700, 1840]
 x_energy = [100, 172, 260, 345, 412, 578, 665, 781, 887, 989, 1090, 1154, 1291, 1401, 1500, 1646]
 x_fy = [28, 38, 49, 61, 70, 82, 91, 100, 110, 120, 131, 143, 155, 167, 180, 195]
 x_atk = [20, 28, 39, 50, 62, 71, 79, 88, 98, 107, 119, 132, 145, 159, 174, 190]
 x_crit = [0.71, 0.74, 0.76, 0.79, 0.81, 0.81, 0.83, 0.85, 0.87, 0.87, 0.9, 0.9, 0.92, 0.93, 0.94, 0.95]
 x_jc = [6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 3, 3]
 
-aka_f_hp = [108] # 赤枫
+aka_f_hp = [108]
 aka_f_energy = [66]
 aka_f_fy = [12]
 aka_f_atk = [11]
 aka_f_crit = [0.44]
 aka_f_jc = [10]
 
-aka_k_hp = [106] # 赤火
+aka_k_hp = [106]
 aka_k_energy = [65]
 aka_k_fy = [10]
 aka_k_atk = [12]
 aka_k_crit = [0.58]
 aka_k_jc = [12]
 
-aka_y_hp = [113] # 赤艳
+aka_y_hp = [113]
 aka_y_energy = [72]
 aka_y_fy = [11]
 aka_y_atk = [10]
 aka_y_crit = [0.48]
 aka_y_jc = [11]
 
-aoi_sa_hp = [103] # 青飒
+aoi_sa_hp = [103]
 aoi_sa_energy = [67]
 aoi_sa_fy = [11]
 aoi_sa_atk = [12]
 aoi_sa_crit = [0.42]
 aoi_sa_jc = [11]
 
-aoi_sh_hp = [123] # 青水
+aoi_sh_hp = [123]
 aoi_sh_energy = [81]
 aoi_sh_fy = [14]
 aoi_sh_atk = [13]
 aoi_sh_crit = [0.66]
 aoi_sh_jc = [9]
 
-aoi_l_hp = [107] # 青兰
+aoi_l_hp = [107]
 aoi_l_energy = [65]
 aoi_l_fy = [11]
 aoi_l_atk = [11]
 aoi_l_crit = [0.48]
 aoi_l_jc = [12]
 
-bei_hp = [101] # 蓓花
+bei_hp = [101]
 bei_energy = [66]
 bei_fy = [11]
 bei_atk = [13]
 bei_crit = [0.51]
 bei_jc = [12]
 
-era_hp = [333] # 时
+era_hp = [333]
 era_energy = [233]
 era_fy = [16]
 era_atk = [23]
 era_crit = [0.33]
 era_jc = [10]
 
-ert_hp = [99] # Ert
+ert_hp = [99]
 ert_energy = [68]
 ert_fy = [10]
 ert_atk = [11]
 ert_crit = [0.49]
 ert_jc = [12]
 
-he_hp = [94] # Hello14
+he_hp = [94]
 he_energy = [56]
 he_fy = [9]
 he_atk = [9]
 he_crit = [0.36]
 he_jc = [10]
 
-ichi_hp = [105] # 一琉
+ichi_hp = [105]
 ichi_energy = [65]
 ichi_fy = [11]
 ichi_atk = [11]
 ichi_crit = [0.41]
 ichi_jc = [11]
 
-# 林华
 lin_hua_hp = [104]
 lin_hua_energy = [70]
 lin_hua_fy = [13]
@@ -159,7 +158,6 @@ lin_hua_atk = [10]
 lin_hua_crit = [0.51]
 lin_hua_jc = [12]
 
-# 通撤
 n_hp = [404]
 n_energy = [404]
 n_fy = [24]
@@ -167,7 +165,6 @@ n_atk = [40]
 n_crit = [0.80]
 n_jc = [8]
 
-# 机会
 o_hp = [139]
 o_energy = [92]
 o_fy = [16]
@@ -175,7 +172,6 @@ o_atk = [18]
 o_crit = [0.76]
 o_jc = [9]
 
-# 角绎
 jy_hp = [109]
 jy_energy = [74]
 jy_fy = [13]
@@ -202,30 +198,30 @@ people_grade = [
 ]
 
 all_names = [
-    "凤灵诺提",
-    "惟兹卡玹",
-    "千茶年又",
-    "梓柯萨·无布",
-    "肆格莅覆",
-    "雨落",
-    "林汐",
-    "末谛菥开玄那和纱檀来绨",
-    "絮苏紫叶",
-    "赤枫",
-    "赤火",
-    "赤艳",
-    "青飒",
-    "青水",
-    "青兰",
-    "蓓花",
-    "时",
+    "Fn",
+    "Wzkx",
+    "Tcny",
+    "Zw",
+    "Cls",
+    "Ir",
+    "Lx",
+    "MdfSt",
+    "Xszy",
+    "Cf",
+    "Ch",
+    "Cy",
+    "Qs",
+    "Qsh",
+    "Ql",
+    "Cbmd",
+    "Era",
     "Ert",
-    "Hello14",
-    "一琉",
-    "林华",
-    "通撤",
-    "机会",
-    "角绎",
+    "He",
+    "Icr",
+    "Lh",
+    "NoWi",
+    "Oj",
+    "K",
 ]
 
 color = {
@@ -446,13 +442,13 @@ try:
                 var = zf("请重新输入一个浮点数：", "error")
 
     def pronoun(char):
-        if char == "惟兹卡玹" or char == "雨落" or char == "赤火" or char == "青飒" or char == "Ert" or char == "Hello14" or char == "林华" or char == "角绎":
+        if char == "Wzkx" or char == "Ir" or char == "Ch" or char == "Qs" or char == "Ert" or char == "He" or char == "Lh" or char == "K":
             return "他"
-        elif char == "凤灵诺提" or char == "千茶年又" or char == "梓柯萨·无布" or char == "肆格莅覆" or char == "林汐" or char == "絮苏紫叶" or char == "赤枫" or char == "赤艳" or char == "青水" or char == "青兰" or char == "蓓花" or char == "一琉" or char == "机会":
+        elif char == "Fn" or char == "Tcny" or char == "Zw" or char == "Cls" or char == "Lx" or char == "Xszy" or char == "Cf" or char == "Cy" or char == "Qsh" or char == "Ql" or char == "Cbmd" or char == "Icr" or char == "Oj":
             return "她"
-        elif char == "末谛菥开玄那和纱檀来绨":
+        elif char == "MdfSt":
             return "他们"
-        elif char == "时" or char == "通撤":
+        elif char == "Era" or char == "NoWi":
             return "祂"
         else:
             return "其"
@@ -602,7 +598,7 @@ try:
                 print()
                 for k in range(z_amount):
                     z_damage.append(randint(6, 9) + zj_atk[k])
-                    if z_name[k] == "末谛菥开玄那和纱檀来绨" or z_name[k] == "絮苏紫叶":
+                    if z_name[k] == "MdfSt" or z_name[k] == "Xszy":
                         z_acc.append(5)
                         zf(f"{k} - {z_name[k]} 打出了精准的一招，这对{pronoun(z_name[k])}来说并不是什么难事。", "甲")
                         z_damage[k] *= (1 + zj_crit[k] / 10)
@@ -619,7 +615,7 @@ try:
                 print()
                 for l in range(d_amount):
                     d_damage.append(randint(6, 9) + d_atk[l])
-                    if d_name[l] == "末谛菥开玄那和纱檀来绨" or d_name[l] == "絮苏紫叶":
+                    if d_name[l] == "MdfSt" or d_name[l] == "Xszy":
                         d_acc.append(5)
                         zf(f"{l} - {d_name[l]} 打出了精准的一招，这对{pronoun(d_name[l])}来说并不是什么难事。", "癸")
                         d_damage[l] *= (1 + d_crit[l] / 10)
@@ -876,10 +872,10 @@ try:
 
     elif pz == 2:
         os.system("cls")
-        ls_mcn = xz("主角的名字是什么？", ["角绎 / Kêrekter。", "我将自行输入。", "使用系统用户名。"])
+        ls_mcn = xz("主角的名字是什么？", ["Kêrekter。", "我将自行输入。", "使用系统用户名。"])
         match ls_mcn:
             case 1:
-                major_character_name = "角绎"
+                major_character_name = "Kêrekter"
             case 2:
                 major_character_name = zf("请输入主角的名字：", "inp")
             case 3:
@@ -908,31 +904,30 @@ try:
         if d_sz == 1:
             zf("""
         敌人列表：
-        （注：使用英文注名的角色的中文名还未决定）
-        1 - 凤灵诺缔；
-        2 - 惟兹卡玹；
-        3 - 千茶年又；
-        4 - 梓柯萨·无布；
-        5 - 肆格莅覆；
-        6 - 雨落；
-        7 - 林汐；
-        8 - 末谛菥开玄那和纱檀来绨；
-        9 - 絮苏紫叶；
-        10 - 赤枫；
-        11 - 赤火；
-        12 - 赤艳；
-        13 - 青飒；
-        14 - 青水；
-        15 - 青兰；
-        16 - 蓓花；
-        17 - 时；
+        1 - Fn；
+        2 - Wzkx；
+        3 - Tcny；
+        4 - Zw；
+        5 - Cls；
+        6 - Ir；
+        7 - Lx；
+        8 - MdfSt；
+        9 - Xszy；
+        10 - Cf；
+        11 - Ch；
+        12 - Cy；
+        13 - Qs；
+        14 - Qsh；
+        15 - Ql；
+        16 - Cbmd；
+        17 - Era；
         18 - Ert；
-        19 - Hello14；
-        20 - 一琉；
-        21 - 林华；
-        22 - 通撤；
-        23 - 机会；
-        24 - 角绎。
+        19 - He；
+        20 - Icr；
+        21 - Lh；
+        22 - NoWi；
+        23 - Oj；
+        24 - K。
     """, "text")
 
             d_amount = zf("请输入敌人数量：（该数值上限为 9）", "inp")
@@ -1210,31 +1205,30 @@ try:
             zf("角色的 HP 、 JC 、 攻击力、防御力等将随 ML 而变化。", "text")
             zf(r"""
         角色列表：
-        （注：使用英文注名的角色的中文名还未决定）
-        1 - Feng_Noti；
-        2 - 惟兹卡玹；
-        3 - 千茶年又；
-        4 - 梓柯萨·无布；
-        5 - 肆格莅覆；
-        6 - 雨落；
-        7 - 林汐；
-        8 - 末谛菥开玄那和纱檀来绨；
-        9 - 絮苏紫叶；
-        10 - 赤枫；
-        11 - 赤火；
-        12 - 赤艳；
-        13 - 青飒；
-        14 - 青水；
-        15 - 青兰；
-        16 - 蓓花；
-        17 - 时；
+        1 - Fn；
+        2 - Wzkx；
+        3 - Tcny；
+        4 - Zw；
+        5 - Cls；
+        6 - Ir；
+        7 - Lx；
+        8 - MdfSt；
+        9 - Xszy；
+        10 - Cf；
+        11 - Ch；
+        12 - Cy；
+        13 - Qs；
+        14 - Qsh；
+        15 - Ql；
+        16 - Cbmd；
+        17 - Era；
         18 - Ert；
-        19 - Hello14；
-        20 - 一琉；
-        21 - 林华；
-        22 - 通撤；
-        23 - 机会；
-        24 - Ricky Nanmuzhi。
+        19 - He；
+        20 - Icr；
+        21 - Lh；
+        22 - NoWi；
+        23 - Oj；
+        24 - K。
     """, "text")
 
             z_amount = zf("请输入角色数量：（该数值上限为 9）", "inp")
@@ -1525,7 +1519,7 @@ try:
                 hushenfu_ord = zf(f"请为{pronoun(z_name[i])}选择合适的护身符：", "inp")
                 hushenfu_ord = zs(hushenfu_ord, 0, 20)
                 if (ls_zord == 36):
-                    if z_name[i] == "末谛菥开玄那和纱檀来绨" or z_name[i] == "絮苏紫叶":
+                    if z_name[i] == "MdfSt" or z_name[i] == "Xszy":
                         ls_wuqi = randint(21, 127)
                     else:
                         ls_wuqi = randint(1, 20)
@@ -1535,7 +1529,7 @@ try:
                     zf(f"这会使{pronoun(z_name[i])}的 JC 增加 5。", "text")
                     z_jc[i] += 5
                 elif (hushenfu_ord == 20):
-                    if z_name[i] == "末谛菥开玄那和纱檀来绨" or z_name[i] == "絮苏紫叶":
+                    if z_name[i] == "MdfSt" or z_name[i] == "Xszy":
                         ls_hushenfu = randint(21, 127)
                     else:
                         ls_hushenfu = randint(1, 20)
@@ -1553,7 +1547,7 @@ try:
                 hushenfu_ord = zf(f"请为{pronoun(d_name[j])}选择合适的护身符：", "inp")
                 hushenfu_ord = zs(hushenfu_ord, 0, 20)
                 if (ls_dord == 36):
-                    if d_name[j] == "末谛菥开玄那和纱檀来绨" or d_name[j] == "絮苏紫叶":
+                    if d_name[j] == "MdfSt" or d_name[j] == "Xszy":
                         ls_wuqi = randint(21, 127)
                     else:
                         ls_wuqi = randint(1, 20)
@@ -1563,7 +1557,7 @@ try:
                     zf(f"这会使{pronoun(d_name[j])}的 JC 增加 5。", "text")
                     d_jc[j] += 5
                 elif (hushenfu_ord == 20):
-                    if d_name[j] == "末谛菥开玄那和纱檀来绨" or d_name[j] == "絮苏紫叶":
+                    if d_name[j] == "MdfSt" or d_name[j] == "Xszy":
                         ls_hushenfu = randint(21, 127)
                     else:
                         ls_hushenfu = randint(1, 20)
@@ -1629,38 +1623,38 @@ try:
     while jd != 3 :
         if (turns >= 7 and police_join == True):
             os.system("cls")
-            zf("“你们不要再打了，最好束手就擒！” 机会带领着警方团队出现，拉起了警戒线，驱散观众离开。", "癸")
+            zf("“你们不要再打了，最好束手就擒！” Oj 带领着警方团队出现，拉起了警戒线，驱散观众离开。", "癸")
             for b in range(z_amount):
-                if z_name[b] == "末谛菥开玄那和纱檀来绨":
-                    zf("末谛菥开玄那和纱檀来绨拿出终端，敲击了一下，瞬间消失。", "text")
+                if z_name[b] == "MdfSt":
+                    zf("MdfSt 瞬间消失。", "text")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
-                elif z_name[b] == "絮苏紫叶":
-                    zf("絮苏紫叶见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。机会点了点头，放她走了。", "text")
+                elif z_name[b] == "Xszy":
+                    zf("Xszy 见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。Oj 点了点头，放她走了。", "text")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
-                elif z_name[b] == "机会":
-                    zf("你看了看四周，发现机会不站在身边，而是站在警察前面。", "癸")
+                elif z_name[b] == "Oj":
+                    zf("你看了看四周，发现 Oj 不站在身边，而是站在警察前面。", "癸")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
                 else:
                     police_caught.append(z_name[b])
             for c in range(d_amount):
-                if d_name[c] == "末谛菥开玄那和纱檀来绨":
-                    zf("末谛菥开玄那和纱檀来绨拿出终端，敲击了一下，瞬间消失。", "癸")
+                if d_name[c] == "MdfSt":
+                    zf("MdfSt 瞬间消失。", "癸")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
-                elif d_name[c] == "絮苏紫叶":
-                    zf("絮苏紫叶见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。机会点了点头，放她走了。", "癸")
+                elif d_name[c] == "Xszy":
+                    zf("Xszy 见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。Oj 点了点头，放她走了。", "癸")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
-                elif d_name[c] == "机会":
-                    zf("你看了看四周，发现机会不站在对面，而是站在警察前面。", "癸")
+                elif d_name[c] == "Oj":
+                    zf("你看了看四周，发现 Oj 不站在对面，而是站在警察前面。", "癸")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
@@ -1668,10 +1662,10 @@ try:
                     police_caught.append(d_name[c])
             
             pc_string = "、".join(police_caught)
-            zf(f"“{pc_string}，你们被逮捕了！” 机会严肃地通知你们。", "癸")
+            zf(f"“{pc_string}，你们被逮捕了！” Oj 严肃地通知你们。", "癸")
 
             print()
-            zf("模拟结束。未完待续。", "text")
+            zf("模拟结束。", "text")
             sys.exit(0)
         turns += 1
         zf(f"第 {turns} 回合。", "text")

@@ -13,7 +13,7 @@ function selector(el) {
     while (cur && cur !== document.body) {
         let sel = cur.tagName.toLowerCase();
         if (cur.className && typeof cur.className === "string") {
-            let classes = cur.className.trim().split(/\s+/);
+            let classes = cur.className.trim().split(/\s+/).filter(cls => cls !== 'phl');
             if (classes.length) sel += "." + classes.join(".");
         }
         let parent = cur.parentElement;
@@ -96,6 +96,11 @@ function finishpick() {
         document.removeEventListener("click", window.picklisteners.click, { capture: true });
         window.picklisteners = null;
     }
+
+    if (prevp) {
+        prevp.classList.remove("phl");
+        prevp = null;
+    }
 }
 
 function screenshot() {
@@ -124,14 +129,29 @@ function screenshot() {
         }
 
         try {
+            const oofx = sc.style.overflowX; // 原始 Overflow-X。
+            const oofy = sc.style.overflowY; // 原始 Overflow-Y。
+            const oof = sc.style.overflow; // 原始 Overflow。
+
+            if (sc.scrollWidth > sc.clientWidth) sc.style.overflowX = "visible";
+            if (sc.scrollHeight > sc.clientHeight) sc.style.overflowY = "visible";
+            if (sc.scrollWidth > sc.clientWidth || sc.scrollHeight > sc.clientHeight) {
+                sc.style.overflow = "visible";
+            }
+
+            const dpr = window.devicePixelRatio || 1;
             const canvas = await html2canvas(sc, {
-                scale: 2,
-                logging: false,
+                scale: dpr * 2.5,
                 useCORS: true,
-                windowWidth: sc.scrollWidth,
-                windowHeight: sc.scrollHeight
+                backgroundColor: null,
+                logging: false,
             });
-            const blob = await new Promise(resolve => canvas.toBlob(resolve));
+
+            sc.style.overflowX = oofx;
+            sc.style.overflowY = oofy;
+            sc.style.overflow = oof;
+
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
             try {
                 await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
                 cg("The screenshot has been copied to your clipboard!");
@@ -142,21 +162,17 @@ function screenshot() {
             }
         } catch (err) {
             if (err.message && err.message.includes("Failed to execute 'toBlob' on 'HTMLCanvasElement'")) {
-                fail("Canvas export failed: it may be due to Canvas pollution or browser limit. Using local HTTP server to view this page is advised, while avoids the limit of file:// protocol.");
+                fail("Canvas export failed: it may be due to Canvas pollution or browser limit. Using local HTTP server to view this page is advised.");
             }
             else if (err.message && err.message.includes("html2canvas") && err.message.includes("not a function")) {
                 fail("html2canvas was loaded INCORRECTLY. Try again after refreshing the page.");
                 let rq = await conf("Refresh the page?");
-                if (rq) {
-                    window.location.reload();
-                }
+                if (rq) window.location.reload();
             }
             else if (err.message && err.message.includes("Element is not attached to DOM")) {
                 fail("The target element has been removed from DOM. Try again after refreshing the page.");
                 let rq = await conf("Refresh the page?");
-                if (rq) {
-                    window.location.reload();
-                }
+                if (rq) window.location.reload();
             }
             else if (err.message && (err.message.includes("Maximum") || err.message.includes("size"))) {
                 fail("Screenshotting area is too large. Please try to lessen the screenshotting area or decrease the value of scale.");

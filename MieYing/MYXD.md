@@ -138,7 +138,7 @@
 > （纱檀扎好 “灭蝇” 红色头带后离开了家。末谛随即开始制作宣传视频。）
 
 > [!note]
-> ### v1677678（“灭 ‘蝇’ 行动正式启动！”）——[@灭蝇组织](hfnets://user/y1425)于 3991 年 3 月 32 日 14：34 发起
+> ### v1677678（“灭 ‘蝇’ 行动正式启动！”）——[@灭蝇组织](hfnets://user/y1139)于 3991 年 3 月 32 日 14：34 发起
 > *（截至 14：50，播放量已达 883.17 万，转发量 491.21 万。）*
 > - *0：00 ~ 0：03：大家好，我们是 ‘灭蝇组织’！*
 > - *0：04 ~ 0：07：（显示整个 Chanf 地图）我们无处不在，只为守护互联网的安全。*
@@ -152,12 +152,12 @@
 > > （14：36）\
 > > Hello14（IP 属地：宗米）：“那个……灭蝇是什么意思呀？是灭什么？🥺” \
 > > 月下誓言ovo（IP 属地：宗米）：“[@Hello14](hfnets://user/y14)，就是消灭苍蝇啊！可能某人家里苍蝇太多，来网上喊救命了😏” \
-> > 月下誓言ovo（IP 属地：宗米）：“[@灭蝇组织](hfnets://user/y1425)，楼下的垃圾桶旁边全是蝇，你们可以去那里灭捏。” \
+> > 月下誓言ovo（IP 属地：宗米）：“[@灭蝇组织](hfnets://user/y1139)，楼下的垃圾桶旁边全是蝇，你们可以去那里灭捏。” \
 > > 灭蝇组织（IP 属地：宗米）：“[@月下誓言ovo](hfnets://user/y66654188)，你好！[有关 ‘蝇’ 的解释请看这里。](hfnets://article/wz127861)” \
 > > （14：37）\
 > > 清净使者（IP 属地：澄流）：“[@Hello14](hfnets://user/y14)，别理他们，我看了那篇文章，这群人就是想剥夺我们的言论自由！” \
 > > 月下誓言ovo（IP 属地：宗米）：“666 还‘蝇’，我看宁就是一群蝇捏🤣🤣🤣！” \
-> > 月下誓言ovo（IP 属地：宗米）：“[@灭蝇组织](hfnets://user/y1425)，你们要不要团购点苍蝇拍？我认识个批发商，可以打折哦😏” \
+> > 月下誓言ovo（IP 属地：宗米）：“[@灭蝇组织](hfnets://user/y1139)，你们要不要团购点苍蝇拍？我认识个批发商，可以打折哦😏” \
 > > HF丶霸（IP 属地：法纳）：“乐乐乐🤣🤣🤣你们是不是还要灭蚊、灭蟑螂啊？干脆改名叫‘杀虫剂有限公司’得了🤣” \
 > > （14：38）\
 > > 月下誓言ovo（IP 属地：宗米）：“[@HF丶霸](hfnets://user/y250250250)，老铁带派！杀虫剂有限公司，专业灭蝇二十年！🤣🤣” \
@@ -166,15 +166,15 @@
 > > 月下誓言ovo（IP 属地：宗米）：“[@守护最好的槿](hfnets://user/y182671656)，你舔你主子舔得可真欢，他给你发工资吗？乐死我了🤣” \
 > > pjb（IP 属地：澄流）：“前排围观，看看这次能吵几页🍉。” \
 > > （14：39）\
-> > HF丶战神（IP 属地：夜梦）：“111 绝绝子！所谓 [@灭蝇组织](hfnets://user/y1425)就是 [@开发者_末纱](hfnets://user/y0)！666 这波属于是亲自下场？🤣🤣🤣 #末纱滥用职权” \
+> > HF丶战神（IP 属地：夜梦）：“111 绝绝子！所谓 [@灭蝇组织](hfnets://user/y1139)就是 [@开发者_末纱](hfnets://user/y0)！666 这波属于是亲自下场？🤣🤣🤣 #末纱滥用职权” \
 > > 月下誓言ovo（IP 属地：宗米）：“+1 [@开发者_末纱](hfnets://user/y0)，滚出来！🙂#末纱滥用职权” \
 > > HF丶霸（IP 属地：法纳）：“同，IP 虽然是宗米，但就是 ms。[@开发者_末纱](hfnets://user/y0)，🐶出来！😡#末纱滥用职权” \
-> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1425) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
-> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1425) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
+> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1139) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
+> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1139) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
 > > ahs2172563（IP 属地：维卡）：“[@开发者_末纱](hfnets://user/y0)！你倒是说句话啊，是不是你？” \
-> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1425) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
-> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1425) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
-> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1425) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
+> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1139) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
+> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1139) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
+> > Candy_Princess（IP 属地：藕莲）：“真相曝光😮😮😮！！！[@灭蝇组织](hfnets://user/y1139) = [@开发者_末纱](hfnets://user/y0)！！！[@开发者_末纱](hfnets://user/y0) 快从🐶洞里出来！🤣🤣🤣” \
 > > （14：40）\
 > > pjb（IP 属地：夜梦）：“哦？管理员亲自下场？这下有意思了🍉。” \
 > > 月下誓言ovo（IP 属地：宗米）：“[@开发者_末纱](hfnets://user/y0)，快点给劳资滚出来！照照镜子看看自己的🐶脸捏！#末纱滥用职权” \
@@ -238,7 +238,7 @@
 > > 暗夜の雪（IP 属地：维卡）：“说实话，我觉得 [@开发者_末纱](hfnets://user/y0) 搞这个灭蝇，初衷是好的。但是你们管理员下场，确实容易让人觉得是官方在打压。” \
 > > 守护最好的槿（IP 属地：维卡）：“支持 [@开发者_末纱](hfnets://user/y0)！那些喷子天天开盒骂人，早该管管了！” \
 > > 清净使者_原（IP 属地：珊瑚）：“[@守护最好的槿](hfnets://user/y182671656)，说得好听；但要是魔批们把我们这些正常聊天都删了呢？🤣🤣” \
-> > Lumine（IP 属地：法纳）：“[@清净使者_原](hfnets://user/y999)，所以才需要大家讨论制定规则，不是一刀切。” \
+> > Lumine（IP 属地：法纳）：“[@清净使者_原](hfnets://user/y142857)，所以才需要大家讨论制定规则，不是一刀切。” \
 > > HF丶战神（IP 属地：夜梦）：“你看他们那臭口气还有商量的余地吗？😅” \
 > > （14：51）\
 > > 月下誓言ovo（IP 属地：宗米）：“依旧最支持的一级。👏👏👏” \
@@ -248,7 +248,7 @@
 > > dapC（IP 属地：龙宫）：“[@Hello14](hfnets://user/y14)，你说得对，但有时候好好说话没人听。我觉得双方都需要冷静一下。” \
 > > （14：52）\
 > > HF丶冽（IP 属地：龙宫）：“[@dapC](hfnets://user/l2)，他们根本不想冷静。放弃吧，我们换个话题。” \
-> > 暗夜の雪（IP 属地：维卡）：“[@清净使者_原](hfnets://user/y999)、[@HF丶战神](hfnets://user/y3535421)，既然你们觉得这件事不妥，那你们有什么解决方案？你觉得您们做的就一定正确吗？” \
+> > 暗夜の雪（IP 属地：维卡）：“[@清净使者_原](hfnets://user/y142857)、[@HF丶战神](hfnets://user/y3535421)，既然你们觉得这件事不妥，那你们有什么解决方案？你觉得您们做的就一定正确吗？” \
 > > 清净使者_原（IP 属地：珊瑚）：“[@暗夜の雪](hfnets://user/y57232)，我不知道你是在装唐还是在干嘛？你要是连这种小儿科的是非观念都没有就滚去幼儿园吧。🤣🤣” \
 > > HF丶战神（IP 属地：夜梦）：“依旧唐人。😅” \
 > > pjb（IP 属地：澄流）：“‘清净’这波发言，堪比讪骂仙人👏👏👏。” \
@@ -283,7 +283,7 @@
 > > 守护者_千茶年又（IP 属地：法纳）：“你们能不能清静点？再骂信不信我把你们的桌子都掀了？”
 > > 清净使者_原（IP 属地：珊瑚）：“卧槽某人怒了！我好怕怕啊😱😱😱😱” \
 > > （14：57）\
-> > 月下誓言ovo（IP 属地：宗米）：“最支持 [@清净使者_原](hfnets://user/y999)的一集。#反对管理员霸权” \
+> > 月下誓言ovo（IP 属地：宗米）：“最支持 [@清净使者_原](hfnets://user/y142857)的一集。#反对管理员霸权” \
 > > HF丶战神（IP 属地：夜梦）：“+1 #反对管理员霸权。[@Hello14](hfnets://user/y14)，一起发！” \
 > > Hello14（IP 属地：宗米）：“+1……？” \
 > > Candy_Princess（IP 属地：藕莲）：“+1” \
@@ -316,9 +316,9 @@
 > （青花茉莉猛地抬头，手机差点从手中滑落。她后退了半步，一脸警惕。）\
 > 青花茉莉：“你……你怎么知道我的网名？你是谁？我没惹过你吧？你别AT我啊！😰” \
 > 纱檀：“不是不是！我是纱檀，就是那个灭蝇组织的。” \
-> （青花茉莉愣了一下，上下打量他——2.14 m 的身高让她不得不仰起头才能看到他的脸。她眨了眨眼。）\
+> （青花茉莉愣了一下，上下打量他。她眨了眨眼。）\
 > （14：30）\
-> 青花茉莉：“你就是那个……在HF留言板上发灭蝇消息的人？我刚才收到了。” \
+> 青花茉莉：“你就是那个……在 HF 留言板上发灭蝇消息的人？我刚才收到了。” \
 > （她把自己的手机屏幕转过来给他看。上面确实躺着那条灭蝇宣传：“警惕网络上的苍蝇：人肉搜索、人身攻击、KY，共同维护HF Net环境。”）\
 > 纱檀：“对，就是我发的。你感兴趣吗？” \
 > （青花茉莉盯着那条消息沉默了几秒，小声问。） \
@@ -484,7 +484,7 @@
 ---
 
 > [!note]
-> ### [第一部分] q6666888（“清净地带官方 1 群”）——[@清净使者_原](hfnets://user/y999)于 3991 年 3 月 32 日 14：56 创建
+> ### [第一部分] q6666888（“清净地带官方 1 群”）——[@清净使者_原](hfnets://user/y142857)于 3991 年 3 月 32 日 14：56 创建
 > > （3 月 36 日 13：20）\
 > > 清净使者_原（IP 属地：珊瑚）：“大瓜啊！[兄弟们速戳。](hfnets://file/网站存根t1678001_399103321217.html)” \
 > > 月下誓言ovo（IP 属地：宗米）：“已阅。评价：唐人SSS+🤣🤣🤣。” \
@@ -595,7 +595,7 @@
 ## 1.4
 
 > [!note]
-> ### [第二部分] q6668888（“清净地带官方 1 群”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)于 3991 年 3 月 32 日 14：56 创建
+> ### [第二部分] q6668888（“清净地带官方 1 群”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)于 3991 年 3 月 32 日 14：56 创建
 > > （3 月 41 日 14：25）\
 > > *本群（q6668888）因屡次涉及人身攻击、辱骂、人肉搜索和造谣等行为，已被系统监测并限制功能，将于 100 秒后强制解散。* \
 > > 清净使者_ZhuangChuangshuangguang（IP 属地：珊瑚）：“[@所有人](terminal://at_everyone_q6668888)，系统发力了😱😱😱。速度撤离！！！” \
@@ -634,17 +634,17 @@
 ---
 
 > [!tip]
-> > `direct(y999, tight = true);` \
-> > `if (newq(y999)) {` \
+> > `direct(y142857, tight = true);` \
+> > `if (newq(y142857)) {` \
 > > `   waitfor(random.randint(40, 200));` \
 > > `   int time1 = random.randint(14, 100);` \
-> > `   noti(f"本群（${getnewq(y999).qnum}）因涉及“${hfcheck(getnewq(y999).illegalinf)}”行为，已被系统监测并限制功能，将于 {time1} 秒后强制解散。");` \
+> > `   noti(f"本群（${getnewq(y142857).qnum}）因涉及“${hfcheck(getnewq(y142857).illegalinf)}”行为，已被系统监测并限制功能，将于 {time1} 秒后强制解散。");` \
 > > `   waitfor(time1);` \
-> > `   eraseq(getnewq(y999).qnum);` \
+> > `   eraseq(getnewq(y142857).qnum);` \
 > > `}`
 
 > [!note]
-> ### q7362535（“清净地带官方 2 群”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)于 3991 年 3 月 41 日 14：25 创建
+> ### q7362535（“清净地带官方 2 群”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)于 3991 年 3 月 41 日 14：25 创建
 > > （14：26）\
 > > 清净使者_ZhuangChuangshuangguang（IP 属地：珊瑚）：“XDM 安全抵达！新群已就位，大家先别急着开麦！！！” \
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“1。这波操作，就说彳亍不彳亍😀” \
@@ -669,7 +669,7 @@
 > > *本群（q8924789）因涉及“恶意规避平台监管”行为，已被系统监测并限制功能，将于 60 秒后强制解散。* \
 > > （14：30）\
 > > 清净使者_ShitFakyou（IP 属地：法纳）：“我操？一语成谶？[@Hello14](hfnets://user/y14)，是不是你搞的鬼？” \
-> > 清净使者_ShitFakyou（IP 属地：法纳）：“妈的，我就说有内鬼！！！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999) 内鬼已找到，现在立刻处置！！！” \
+> > 清净使者_ShitFakyou（IP 属地：法纳）：“妈的，我就说有内鬼！！！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857) 内鬼已找到，现在立刻处置！！！” \
 > > 清净使者_ZhuangChuangshuangguang（IP 属地：珊瑚）：“？？？他喵的又来？！[@清净使者_ShitFakyou](hfnets://user/y2716253) 先别管那么多。兄弟们快撤！！！👉[新避难所](hfnets://chat/q33152413)” \
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“666 这波真是倒反天罡了！系统追着我们杀是吧！” \
 > > 清净使者_YinQinmot（IP 属地：法纳）：“仁济系统。😡” \
@@ -685,7 +685,7 @@
 ---
 
 > [!note]
-> ### q33152413（“灭蝇组织官方群聊”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)于 3991 年 3 月 41 日 14：30 创建
+> ### q33152413（“灭蝇组织官方群聊”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)于 3991 年 3 月 41 日 14：30 创建
 > > （14：30）\
 > > 清净使者_ZhuangChuangshuangguang（IP 属地：珊瑚）：“安全抵达的扣个 1。” \
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“1” \
@@ -714,7 +714,7 @@
 ---
 
 > [!note]
-> ### t1726351（“魔批傻批惨无人道！/(ㄒoㄒ)/~~”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999) 于 3991 年 3 月 41 日 14：32 创建
+> ### t1726351（“魔批傻批惨无人道！/(ㄒoㄒ)/~~”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857) 于 3991 年 3 月 41 日 14：32 创建
 > > （14：33）\
 > > pjb（IP 属地：澄流）：“🍉，顺便抢个沙发[doge]。” \
 > > aus126723（IP 属地：法纳）：“+1” \
@@ -785,7 +785,7 @@
 > > 清净使者_LiuJiaxin（IP 属地：藕莲）：“y14 住址：宗米市沧澜区沿海大道 1417。” \
 > > *（14：40：09，守护者_雨落已关闭并删除该帖子。）* \
 > > *（14：40：12，清净使者_LiuJiaxin 被守护者_恰拉略肆格莅覆 1 天。）*
-> ### t3918276（“XDM 速来！！！”）——[@清净使者_LanWenmeng](hfnets://user/y999) 于 3991 年 3 月 41 日 14：39 创建
+> ### t3918276（“XDM 速来！！！”）——[@清净使者_LanWenmeng](hfnets://user/y917813) 于 3991 年 3 月 41 日 14：39 创建
 > > （14：39）\
 > > 清净使者_LanWenmeng（IP 属地：法纳）：“XDM 有无加入清净地带一起干魔批傻批的扣 1。” \
 > > xja19286152（IP 属地：宗米）：“1。” \
@@ -809,66 +809,51 @@
 
 ## 1.5
 
-“清净地带”的迅速扩张，引起了灭蝇组织及许多互联网用户的不满和愤怒。
-3991 年 4 月 1 日，末纱、凤灵诺缔、惟兹奎玹、千茶年又、梓柯萨·无不及其拥护者前往法纳云中街。
+“清净地带”的迅速扩张，引起了灭蝇组织及许多互联网用户的不满和愤怒。\
+3991 年 4 月 1 日，法纳发生了一次大型的游行活动。
 
-> [!tip]
-> - 0 for Mosha's
-> - 1 for Feng Noti's
-> - 2 for Weizi Kuixuan's
-> - 3 for Tsiancha Nianyou's
-> - 4 for Zyxa Wvub's
-> - 5 for Chala Lüe Sklif's
-> - 6 for It Rains'
+### *Declaration of MieYing*
 
-### Main
-
-> （0、1、2、3、4、5、6）Breaking through, where *Ying* shadows feed their lies. (*Weng* *Weng* *Weng*）\
-> （0）MONOPOLIZE? （0、1、2、3、4、5、6）That's NOT what I aim to do! (*Weng* *Weng* *Weng* *Weng*) \
-> （0、1、2、3、4、5、6）March forward, whether with courage or in fear. (*Weng* *Weng* *Weng*) \
-> （0）SACRIFICE? （0、1、2、3、4、5、6）... That's the price for breaking through. \
+> Breaking through, where *Ying* shadows feed their lies. (*Weng* *Weng* *Weng*）\
+> MONOPOLIZE? That's NOT what I aim to do! (*Weng* *Weng* *Weng* *Weng*) \
+> Exposing, real faces behind disguises. (*Weng* *Weng* *Weng*) \
+> SACRIFICE? ... That's the price for breaking through. \
 > ……\
-> （0、1、2、3、4、5、6）Persevere, where each digital life depends. (*Weng* *Weng* *Weng*) \
-> （0）CONFUSION? （0、1、2、3、4、5、6）That's JUST what THEY're driving to! (*Weng* *Weng* *Weng* *Weng*) \
-> （0、1、2、3、4、5、6）Insist on, the harmony of our OWN peers! (*Weng* *Weng* *Weng*) \
-> （0）RETRACTION? （0、1、2、3、4、5、6）That's JUST what I'll NEVER do!
+> March forward, whether with courage or in fear. (*Weng* *Weng* *Weng*) \
+> CONFUSION? That's JUST what THEY're driving to! (*Weng* *Weng* *Weng* *Weng*) \
+> Persevere, where each digital life depends. (*Weng* *Weng* *Weng*) \
+> RETRACTION? That's JUST what I'll NEVER do!
 
 ### Rap 
 
-> Shang Lixi： \
 > Yo! Yo! Yo! \
 > "Never recoil", 'cuz ya own the code. \
 > By one click, our posts get folded.
 
-> Suo Ling：\
-> Seriously, *nie*? Who hosts the net? \
+> Seriously, *捏*? Who hosts the net? \
 > Open your eyes and see the "threat"!
 
-> Lai Liulian：\
 > Chanting "harmony", but we all see greed! \
 > Key by key, ruining our IDs!
 
-> Shi Lili：\
 > "Live" started? Just see it reversedly! \
 > Call it justice? What a self-directed comedy!
 
-> Lie Wenxi：\
 > Yao! Yao! Check it check it out! \
 > *QingJing-baji*, get it on and yell out: \
 > "Join QingJing, get those *Mopi*s knocked out!" \
-> One for 0.42 CHY(this), hurry up! Gonna be sold out!
-
-> Ban Manghun：\
-> You are just? What a huge suck. \
-> I'm indifferent? Well, [my phone just stuck.](hfnets://systemnotifications/n277846) \
-> Neither side's worth a single buck. \
-> Guess if I'm really gonna give a fuck?
+> One for 0.42 CHY(this), hurry up! Gonna be sold out! \
+> Don't like it? No worries but let it go! \
+> We got the flow and we also run the show. \
+> (Whispering) *One like please? We need bucks to grow!* \
+> *(Sound of receiving one like.)* \
+> (Loud) **ありがとうございます！**Just watch the *mopi*s BLOW!!! \
 
 > [!tip]
-> - *nie* 意为“捏”，前文在网络帖子中已反复提及。
 > - **live 反过来写是 evil。**
 > - *QingJing-baji* 意为“清净使者吧唧”。“吧唧”在网络用语中即“徽章”（budget）的意思。
 > - *Mopi* 意为“魔批”（对末谛的蔑称，类似的还有“傻批”——指代纱檀）。
+> - **ありがとうございます！**这句用必应翻译的朗读音频而非角色说话。
 
 ---
 
@@ -1144,7 +1129,7 @@
 ---
 
 > [!note]
-> ### a983781（“声明与注意”）——@清净地带官方于 3991 年 4 月 8 日 20：08 发布
+> ### a983781（“声明与注意”）——[@清净地带官方](y4444444)于 3991 年 4 月 8 日 20：08 发布
 > 近日，我方察觉到不少冒充清净地带的账号在网络上发表不实言论，包括但不限于倡导自由限制、肆意封禁账号的内容。\
 > 在此，我方在此郑重声明：本账号（[@清净地带官方](y4444444)）为清净地带官方账号，任何其他账号均非官方账号。\
 > **任何涉及清净地带的言论，请以本账号发布的内容为准。** \
@@ -1325,7 +1310,67 @@
 # 灯塔
 ## 3.0
 
-自清净地带成立以来，灭蝇组织都在被动消灭“蝇”。但是，“野火烧不尽，春风吹又生”。如果不能营造一个良好的环境，再多努力也是徒劳。\
+> [!tip]
+> - “髹”读作 xiū（音同“修”）。 
+> > 名词用法：指赤黑色的漆。在古代，“髹”是一种颜色为红黑色特定的漆料。
+> > 动词用法：指用漆涂刷在器物上，也就是“以漆漆物”的意思。
+
+自清净地带成立以来，灭蝇组织都在被动消灭“蝇”。但是，“野火烧不尽，春风吹又生”。如果不能营造一个良好的环境，再多努力也是徒劳。
+
+---
+
+> [!note]
+> ### n23864287（“Chanf 教育部：增强文化保护意识，将传统文化创新、渗入生活”）——[@Chanf教育部](hfnets://user/y700) 于 3991 年 4 月 17 日 19：00 通告
+> 为贯彻落实[《Chanf 文化促进法》](hfnets://gov/chanf文化促进法)第三十九条精神，进一步推动优秀传统文化在青少年群体中的传播与认同，现就有关事项通知如下：
+>
+> 一、充分认识文化保护与创新的重要性。\
+> 文化是一个社会最深层的精神力量。近期，教育部注意到社会上部分青少年对本土文化认同感出现波动，对非遗项目了解不足，传统文化在数字化传播中存在断层风险。\
+> 为此，各级部门应高度重视文化保护的**紧迫性**，将其作为教育工作的重要组成内容。
+>
+> 二、鼓励将传统文化以创新方式融入日常生活。\
+> 支持学校、社区和青少年文化组织在遵守相关法律法规的前提下，开展形式多样的文化创新活动。包括但不限于：组织非遗体验活动、鼓励文化创意产品开发、推动传统艺术与数字技术的融合。\
+> 教育部将为符合条件的项目提供必要的政策和资源支持。
+>
+> 三、发挥青少年文化组织的积极作用。\
+> 青少年是文化传承与创新的主要力量。教育部鼓励各地教育部门、学校和社会力量，支持和引导青少年自发成立文化类社团组织，开展健康、积极、具有文化内涵的线上线下活动。\
+> 对在文化传播中表现突出的组织和个人，将予以表彰和宣传。
+>
+> 四、加强文化内容审核与引导。\
+> 各单位在开展文化相关活动时，应注重内容质量，*避免低俗化、庸俗化倾向*。鼓励以传统文化为核心，吸收其他文化中的有益元素，但应保持文化主体的明确导向。
+>
+> 请各地结合实际，认真组织落实。相关工作进展请及时报送教育部文化促进工作办公室。
+>
+> 特此通告。
+>
+> ——Chanf 教育部
+> 3991 年 4 月 17 日
+> > *（截至 4 月 19 日 19：00，该新闻阅读量已达 746.36 万次，转发量已达 253.31 万次。）*
+> ### t1283783（“去他妈的非遗，害得劳资又挂了！”）——[@vledir](hfnets://user/y4927367) 于 3991 年 4 月 19 日 20：01 发布
+> > （20：01）\
+> > vledir（IP 属地：维卡）：“兄弟们！不得不吐槽今天的煞笔维卡全市期中统考了。” \
+> > vledir（IP 属地：维卡）：“语文，阅读题讲非遗漆器，给了三段文言文，要分析‘漆器匠人的文化精神’。‘髹’字何意味？分析尼玛！” \
+> > （20：02）\
+> > 169__（IP 属地：维卡）：“笑死，我直接空着。” \
+> > LYX赛高（IP 属地：维卡）：“同，我也不知道自己在写什么。” \
+> > vledir（IP 属地：维卡）：“问题是，我考前刚刷到[教育部那条新闻](hfnets://news/n23864287)。‘将传统文化创新、渗入生活’——666 合着‘渗入生活’就是在考卷里塞生僻字？” \
+> > （20：03）\
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“六百六十六经典自己脑残怪题🤣🤣🤣这楼全唐完了乐死了🤣🤣🤣。” \
+> > vledir（IP 属地：维卡）：“[@清净使者_WangYuexiak](hfnets://user/y66654188)，你谁啊？要不你试试做那套题？” \
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“哦非常抱歉捏，又不是我去考试🤣🤣🤣🤣🤣。” \
+> > 169__（IP 属地：维卡）：“[@清净使者_WangYuexiak](hfnets://user/y66654188)，那你在这叫尼玛呢？” \
+> > （20：04）\
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“[@169__](hfnets://user/y6316235)，经典急了就骂😓。” \
+> > vledir（IP 属地：维卡）：“再这样我关了。” \
+> > LYX赛高（IP 属地：维卡）：“[@清净使者_WangYuexiak](hfnets://user/y66654188)，这样吧，你去看看网上的解析，对这次命题的评价再回来说话。” \
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“[@LYX赛高](hfnets://user/y6426251)，我凭什么要听你们这些唐人的话呐？🤣🤣🤣🤣🤣” \
+> > *（20：05，vledir 关闭了该帖子。）*
+> ### v18275321（“3991 年维卡第一次期中考试数学试卷解析和评价”）——[@LiXiongyi老师](hfnets://user/y6615624) 于 3991 年 4 月 19 日 20：20 发布
+> 
+
+---
+
+> （4 月 20 日，宗米）
+
 4 月 20 日（谷雨），惟兹向末纱提议——我们可以用良好文化滋养网民，这样他们就会主动参与灭蝇，而不显得被动。\
 末纱批准了惟兹的请求，并迅速联络龙宫文化厅和维卡办公室，集结成员，在当天于维卡成立了 “青文效会”（TPVC，Teenagers' Power of Various Culture）。\
 青文效会的工作比灭蝇组织简单多了——传播文化，从 Chanf 非遗到流行的优秀文化，让民众拥抱更高雅的爱好。这何尝不是一种事半功倍的 “灭蝇”？
@@ -1552,7 +1597,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > [!note]
 > ### t8921345（“灭蝇方是恐怖分子！支持 Zhuang 总！”）——[@我是Weikian](hfnets://user/y4826612) 于 3991 年 6 月 20 日 6：17 发起
 > > （6：17）\
-> > 我是Weikian（IP 属地：维卡）：“刚看了[新闻](hfnets://news/n28787172)，灭蝇方居然主动袭击网络控制局？这不是恐怖分子是什么？[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)！Zhuang 总快把他们全抓起来！#支持清净地带” \
+> > 我是Weikian（IP 属地：维卡）：“刚看了[新闻](hfnets://news/n28787172)，灭蝇方居然主动袭击网络控制局？这不是恐怖分子是什么？[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)！Zhuang 总快把他们全抓起来！#支持清净地带” \
 > > （6：18）\
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“111 支持 [@我是Weikian](hfnets://user/y4826612)！魔批傻批等🐶受制裁吧！” \
 > > 清净使者_YinQinmot（IP 属地：法纳）：“最支持的一集。只想对魔批们说句：‘受着呗’🤣🤣🤣！” \
@@ -2031,14 +2076,13 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > “坐下。” \
 >（众人落座。）\
 > 青珑：“被告人，是否听清判决？” \
-> 众被告人：（沉默片刻，机悦代表回答）“听清了。” \
+> 众被告人：“……听清了。” \
 > （14：33）\
 > 青珑：“是否提起上诉？” \
 > …… \
-> （14：34）\
 > 众被告人：“上诉。” \
 > 青珑：“上诉权利你们依法享有。但仍需*审核*，需要数日。” \
-> *Kuan Qianzhi（小声）：“这些傻逼还想找活路？”*
+> *Kuan Qianzhi（小声）：“这些傻逼还想找活路？”* \
 > 青珑：“退庭。将被告人带出法庭。” \
 > （青珑敲了法槌。）
 
@@ -2102,7 +2146,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > （17：17）\
 > > 清净使者_YinQinmot（IP 属地：法纳）：“？？？？666 死鬼又出来了！！！😱😱😱” \
 > > 清净使者_YuFangyik（IP 属地：夜梦）：“尊嘟假嘟？灭蝇方还有残余❓woc 还有管理员在线！🤬🤬🤬” \
-> > 清净使者_YinQinmot（IP 属地：法纳）：“管他什么死鬼，敢禁我们的人，[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，快把他揪出来！” \
+> > 清净使者_YinQinmot（IP 属地：法纳）：“管他什么死鬼，敢禁我们的人，[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，快把他揪出来！” \
 > > *（清净使者_YinQinmot 已被清净使者_ZhuangChuangshuangguang 禁言 10 小时。）* \
 > > 清净使者_YuFangyik（IP 属地：夜梦）：“卧槽！Zhuang 总亲自下手？” \
 > > 清净使者_JinJiaxib（IP 属地：法纳）：“zcsg 你禁 yqm 干嘛？他又没违规。” \
@@ -2116,7 +2160,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > （17：19）\
 > > 守护最好的槿（IP 属地：维卡）：“我怀疑是灭蝇方的人干的，他们不是进去了吗？” \
 > > *（守护最好的槿 已被 ~~默观者_Normallie~~ 禁言 2 分钟。）* \
-> > 清净使者_LiYingbip（IP 属地：澄流）：“又来！所以，[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999) 我知道你很忙，但你到底管不管？” \
+> > 清净使者_LiYingbip（IP 属地：澄流）：“又来！所以，[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857) 我知道你很忙，但你到底管不管？” \
 > > 清净使者_ZhuangChuangshuangguang（IP 属地：维卡）：“劳资现在忙死了！被禁了就受着呗。” \
 > > IAMYOURGOD（IP 属地：宗米）：“不是哥们你倒是查啊！我们这边一直有人被禁！！！” \
 > > *（IAMYOURGOD 已被清净使者_ZhuangChuangshuangguang 禁言 1 天。）* \
@@ -2152,9 +2196,9 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > Sebast（IP 属地：法纳）：“又一个进去的，死鬼太狠了。” \
 > > 绿茶hhh（IP 属地：南苑）：“现在只剩下几个还在坚持的了。” \
 > > （17：29）\
-> > Tyong7（IP 属地：法纳）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，[@清净使者_ShangguanXuet](hfnets://user/y3716142)，[@清净使者_LiJunyu](hfnets://user/y582721)，你们能不能把那个幽灵揪出来？好烦人啊😡😡😡！” \
-> > Tyong7（IP 属地：法纳）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，[@清净使者_ShangguanXuet](hfnets://user/y3716142)，[@清净使者_LiJunyu](hfnets://user/y582721)，你们能不能把那个幽灵揪出来？好烦人啊😡😡😡！” \
-> > Tyong7（IP 属地：法纳）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，[@清净使者_ShangguanXuet](hfnets://user/y3716142)，[@清净使者_LiJunyu](hfnets://user/y582721)，你们能不能把那个幽灵揪出来？好烦人啊😡😡😡！” \
+> > Tyong7（IP 属地：法纳）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，[@清净使者_ShangguanXuet](hfnets://user/y3716142)，[@清净使者_LiJunyu](hfnets://user/y582721)，你们能不能把那个幽灵揪出来？好烦人啊😡😡😡！” \
+> > Tyong7（IP 属地：法纳）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，[@清净使者_ShangguanXuet](hfnets://user/y3716142)，[@清净使者_LiJunyu](hfnets://user/y582721)，你们能不能把那个幽灵揪出来？好烦人啊😡😡😡！” \
+> > Tyong7（IP 属地：法纳）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，[@清净使者_ShangguanXuet](hfnets://user/y3716142)，[@清净使者_LiJunyu](hfnets://user/y582721)，你们能不能把那个幽灵揪出来？好烦人啊😡😡😡！” \
 > > Sakura·Dansu（IP 属地：夜梦）：“不是你们人呢？😓下班喝茶去了？” \
 > > Sakura·Dansu（IP 属地：夜梦）：“等等话说回来，卧槽！我看那个死鬼我看是精准打击，专挑支持我们的人下手。” \
 > > *（Tyong7 已被清净使者_LiJunyu 禁言 23 小时。）* \
@@ -2191,12 +2235,12 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > *（1_1_4 已被 ~~默观者_Normallie~~ 禁言 3 分钟。）* \
 > > HF丶暗影（IP 属地：维卡）：“666 [@1_1_4](hfnets://user/y3114588) 也被禁了！幽灵你到底站哪边的？” \
 > > Pinki（IP 属地：维卡）：“[@1_1_4](hfnets://user/y3114588)，叫你话多。” \
-> > HF丶狂人（IP 属地：夜梦）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，[@清净使者_ShangguanXuet](hfnets://user/y3716142)，[@清净使者_LiJunyu](hfnets://user/y582721) 管不管？幽灵在视频区乱整！” \
+> > HF丶狂人（IP 属地：夜梦）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，[@清净使者_ShangguanXuet](hfnets://user/y3716142)，[@清净使者_LiJunyu](hfnets://user/y582721) 管不管？幽灵在视频区乱整！” \
 > > （17：33）\
 > > 清净使者_ZhuangChuangshuangguang（IP 属地：维卡）：“说过多少次了，劳资现在超他妈忙！！！！被禁了，就受着！” \
-> > wsn282347（IP 属地：宗米）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999) 不是，你倒是查啊！这死鬼都出现多少次了？你们有没有在查啊！？” \
+> > wsn282347（IP 属地：宗米）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857) 不是，你倒是查啊！这死鬼都出现多少次了？你们有没有在查啊！？” \
 > > *（wsn282347 已被清净使者_ZhuangChuangshuangguang 1260 天。）* \
-> > Tyong7（IP 属地：法纳）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)” \
+> > Tyong7（IP 属地：法纳）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)” \
 > > 清净使者_ZhuangChuangshuangguang（IP 属地：维卡）：“妈的劳资现在抽不过身还跟你们在这磨嘴？？？” \
 > > （17：34）\
 > > __烈焰战神__（IP 属地：法纳）：“老 Zhuang 今天杀疯了，连自己人都禁。” \
@@ -2533,8 +2577,8 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > Chanflover（IP 属地：塔灿）：“[@Rationality](hfnets://user/y45142)，你就是被毒害的！电子鸦片吃多了！” \
 > > （20：00）\
 > > Rationality（IP 属地：维卡）：“……行，你们继续，我撤了。” \
-> > xinxin妈妈求助（IP 属地：宗米）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，Zhuang 总救救我的女儿吧！每天沉迷于外国游戏无法自拔，成绩下滑严重，天天扒手机。管管游戏，救救孩子！” \
-> > 求Zhuang总封杀动漫（IP 属地：宗米）：“我儿子今年 11 岁，天天看那些日本动漫，房间里贴满了海报，嘴里说的都是我听不懂的日本话。前几天还因为我说他两句，跟我吵着要砸我新买的手机。这些日本动漫就是精神毒品！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)！[@Chanf教育部](hfnets://user/y700)！求求你们管管！” \
+> > xinxin妈妈求助（IP 属地：宗米）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，Zhuang 总救救我的女儿吧！每天沉迷于外国游戏无法自拔，成绩下滑严重，天天扒手机。管管游戏，救救孩子！” \
+> > 求Zhuang总封杀动漫（IP 属地：宗米）：“我儿子今年 11 岁，天天看那些日本动漫，房间里贴满了海报，嘴里说的都是我听不懂的日本话。前几天还因为我说他两句，跟我吵着要砸我新买的手机。这些日本动漫就是精神毒品！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)！[@Chanf教育部](hfnets://user/y700)！求求你们管管！” \
 > > 大好人救救孩子（IP 属地：夜梦）：“建议 Zhuang 总禁止心智不成熟人游玩任何网络游戏，还要禁止外国漫画和动漫。” \
 > > 清净地带救救我儿（IP 属地：宗米）：“支持！我儿子也是，看那些东西成绩一落千丈。” \
 > > （20：01）\
@@ -2552,18 +2596,18 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > 清净使者_YuFangyik（IP 属地：夜梦）：“[@HF丶冽](hfnets://user/l3)，宁以为宁很在理吗？😜😜😜” \
 > > HF丶冽（IP 属地：龙宫）：“行，我懒得跟你们废话。” \
 > > （20：03）\
-> > 清净使者_HongChenxi（IP 属地：法纳）：“我勒个豆！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，速戳！！！” \
-> > 清净使者_QuYifan（IP 属地：塔灿）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999) 快来看啊！！\^o^/” \
-> > 清净使者_ChenMengyid（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
-> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
-> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
-> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
-> > 清净使者_ChenMengyid（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
-> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
+> > 清净使者_HongChenxi（IP 属地：法纳）：“我勒个豆！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，速戳！！！” \
+> > 清净使者_QuYifan（IP 属地：塔灿）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857) 快来看啊！！\^o^/” \
+> > 清净使者_ChenMengyid（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
+> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
+> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
+> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
+> > 清净使者_ChenMengyid（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
+> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
 > > 默观者_Normallie（IP 属地：塔灿）：“你们能不能清静点啊😭😭😭！” \
-> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
-> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
-> > 清净使者_ChenMengyid（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
+> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
+> > 清净使者_SunXixi（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
+> > 清净使者_ChenMengyid（IP 属地：藕莲）：“大餐开始！🍴🍴🍴[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)、[@所有人](terminal://at_everyone/t3476518) 速来！！！” \
 > > *（20：04，该帖子已 ~~由 默观者_Normallie~~ 关闭。）*
 > ### q3438783（“111”）——[@清净使者_LiYingbip](hfnets://user/y1783999) 于 3991 年 6 月 21 日 20：00 创建
 > > （20：06）\
@@ -2576,7 +2620,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > 清净使者_DongfangJunyu（IP 属地：法纳）：“哦哦哦抱歉👉TPh046761298233”
 > ### t3482765（“我儿子看日漫看傻了，谁来管管？”）——[@HF丶HJ爸爸](hfnets://user/y84888212)于 3991 年 6 月 22 日 0：47 发起
 > > （0：47）\
-> > HF丶HJ爸爸（IP 属地：宗米）：“我儿子 hongjia 今年才 10 岁，天天抱着手机看那些日本动漫，嘴里念叨什么‘纳尼’‘八嘎’，连母语都说不利索了！前天他玩手机，连作业都没写完！昨天中午我教训了他一顿，打算卖他的平板，他却顶嘴，还离家出走！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)！[@Chanf教育部](hfnets://user/y700)！你们到底管不管？这些外国动画就是精神鸦片，必须全面下架！” \
+> > HF丶HJ爸爸（IP 属地：宗米）：“我儿子 hongjia 今年才 10 岁，天天抱着手机看那些日本动漫，嘴里念叨什么‘纳尼’‘八嘎’，连母语都说不利索了！前天他玩手机，连作业都没写完！昨天中午我教训了他一顿，打算卖他的平板，他却顶嘴，还离家出走！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)！[@Chanf教育部](hfnets://user/y700)！你们到底管不管？这些外国动画就是精神鸦片，必须全面下架！” \
 > > Hello14（IP 属地：宗米）：“叔叔……您别生气，看动漫不一定都是坏事，我看了《工作细胞》还学会了人体知识呢……🥺” \
 > > HF丶HJ爸爸（IP 属地：宗米）：“[@Hello14](hfnets://user/y14)，你这名字……？一看就是看外国动画看傻了！什么细胞不细胞的，就是打着科普旗号骗小孩！” \
 > > Kiong（IP 属地：法纳）：“哈哈哈哈，[@HF丶HJ爸爸](hfnets://user/y84888212)你太逗了，摔手机有啥用？你儿子现在肯定在同学家继续看。管孩子要从根上管，建议你学学隔壁老 li 家，直接把网线全部烧了就好了😏。” \
@@ -2595,7 +2639,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > （0：50）\
 > > HF丶HJ爸爸（IP 属地：宗米）：“[@Kiong](hfnets://user/y38817)，你少在这装懂！你那套‘看腻了就好’的理论，就是你们这些被电子鸦片毒害的人给自己找的借口！谁支持外国动漫谁就是文化谐奸！” \
 > > pjb（IP 属地：澄流）：“大半夜的吵什么吵🍉……那位家长，您儿子看的可能是《进击的巨人》？那番确实有点血腥，但你也不能一棍子打死所有日漫啊。” \
-> > HF丶HJ爸爸（IP 属地：宗米）：“[@pjb](hfnets://user/y75773)，你这名字就仨字母，装什么神秘？还发个西瓜表情，一看就是那种只会吃瓜看戏的冷血动物！你这种人，就是被电子鸦片毒害的典型！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，管理员呢？出来管管这些精日分子！” \
+> > HF丶HJ爸爸（IP 属地：宗米）：“[@pjb](hfnets://user/y75773)，你这名字就仨字母，装什么神秘？还发个西瓜表情，一看就是那种只会吃瓜看戏的冷血动物！你这种人，就是被电子鸦片毒害的典型！[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，管理员呢？出来管管这些精日分子！” \
 > > *（pjb 此时愤怒值开始累积。）* \
 > > （0：51）\
 > > 小MU妈妈话（IP 属地：藕莲）：“[@HF丶HJ爸爸](hfnets://user/y84888212)，别理他们，这些人都被洗脑了。咱们家长得联合起来，去教育部联名上书！” \
@@ -2828,7 +2872,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > Sebast（IP 属地：法纳）：“哈哈哈哈！终于被死鬼禁了！笑死！” \
 > > （10：07）\
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“妈的你老冯飞了！！！” \
-> > 小MU妈妈话（IP 属地：藕莲）：“这平台怎么乱七八糟的？[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，你管管这些匿名管理员！” \
+> > 小MU妈妈话（IP 属地：藕莲）：“这平台怎么乱七八糟的？[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，你管管这些匿名管理员！” \
 > > ……
 
 ---
@@ -2838,7 +2882,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 趁着防沉迷风波和文化争端，TPVC 残余成员趁机活动，希望用自己的文化来扭转局面。
 
 > [!note]
-> ### i8267134（“The TPVCer #1”）——[@TPVC_wzkxtracker](hfnets://user/y23) 于 3991 年 6 月 25 日 7：57 绘制
+> ### i8267134（“The TPVCer #1”）——[@k3r3kter](hfnets://user/y23) 于 3991 年 6 月 25 日 7：57 绘制
 > - *描述：WZKX+DAPC！！！*
 > - *简介：ヽ(✿ﾟ▽ﾟ)ノ*
 >
@@ -2857,7 +2901,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > [!note]
 > ### t1326541（“出分了啊啊啊！”）——[@111大哥丶](hfnets://user/y11172616)于 3991 年 6 月 26 日 7：32 发起
 > > （7：32）\
-> > 111大哥丶（IP 属地：宗米）：“兄弟们我回来了！[中考分数出了！](./y11172616-score.png)我爹终于不用砸我手机了！！！” \
+> > 111大哥丶（IP 属地：宗米）：“兄弟们我回来了！[中考分数出了！](./jh_677613-score.png)我爹终于不用砸我手机了！！！” \
 > > （7：33）\
 > > Cookies_are_relieves（IP 属地：夜梦）：“恭喜恭喜，未来可期！🍉” \
 > > jiaxin妈妈_Anni（IP 属地：珊瑚）：“625.75？这肯定是下过功夫的。” \
@@ -2877,10 +2921,10 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > ……
 > ### t1326558（“差 0.5 分上第一批，复核有用吗？”）——[@nm10192862](hfnets://user/y10192862) 于 3991 年 6 月 26 日 7：32 发起
 > > （7：32）\
-> > nm10192862（IP 属地：维卡）：“呃……[我差 0.5 分上一批](./y10192862-score.png)，复核有用吗？” \
+> > nm10192862（IP 属地：维卡）：“呃……[我差 0.25 分上一批](./jh_756455-score.png)，复核有用吗？” \
 > > （7：33）\
-> > Cookies_are_relieves（IP 属地：维卡）：“哎……0.5 分是真的可惜。但复核一般是查有没有加错分，不重新阅卷。🍉” \
-> > 清净使者_BaiXingyu（IP 属地：宗米）：“633？把你看动漫玩旮旯给木的时间都加起来不能换那 0.5 分？😀😀” \
+> > Cookies_are_relieves（IP 属地：维卡）：“哎……0.25 分是真的可惜。但复核一般是查有没有加错分，不重新阅卷。🍉” \
+> > 清净使者_BaiXingyu（IP 属地：宗米）：“633.25？把你看动漫玩旮旯给木的时间都加起来不能换那 0.25？😀😀” \
 > > （7：34）\
 > > nm10192862（IP 属地：维卡）：“呃……我不知道您在说什么。” \
 > > 清净使者_BaiXingyu（IP 属地：宗米）：“那你是真傻 OK？🤣🤣🤣乐死我了哈哈哈。” \
@@ -2901,11 +2945,27 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > 清净使者_LiuJiaxin（IP 属地：夜梦）：“[@清净使者_LanHaoyu](hfnets://user/y6098817) 咋啦？眼红？受着呗🤣🤣🤣。” \
 > > 清净使者_LiuJiaxin（IP 属地：夜梦）：“至少在我看来，没有人比我高捏🙂🙂🙂。” \
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“宁扯牛魔的淡哪？[@清净使者_LiuJiaxin](hfnets://user/y24162541)，宁连高保都无还好意思说宁最夯？🤣🤣🤣” \
+> > （7：36）\
 > > 清净使者_LiuJiaxin（IP 属地：夜梦）：“[@清净使者_WangYuexiak](hfnets://user/y66654188) 那咋啦？宁有证据？🤣🤣🤣” \
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“就算没有，最高分也肯定不是宁捏🤣🤣🤣” \
 > > 清净使者_LiuJiaxin（IP 属地：夜梦）：“666 骂不过就急🤣” \
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“到底谁急了我不说捏😓” \
-> > ……
+> > （7：37）\
+> > 清净使者_LinHaoran（IP 属地：宗米）：“你为什么把你的编号涂掉了？” \
+> > 清净使者_LiuJiaxin（IP 属地：夜梦）：“[@清净使者_LinHaoran](hfnets://user/y10382126) 那咋了？你管得着吗？？？🤣🤣🤣🤣🤣🤣” \
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“666 P 图谁不会捏？🤣👉🤡[@清净使者_LiuJiaxin](hfnets://user/y24162541)” \
+> > 清净使者_LiuJiaxin（IP 属地：夜梦）：“六百六十六你没急吧😅？[@清净使者_WangYuexiak](hfnets://user/y66654188)” \
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“[@清净使者_LiuJiaxin](hfnets://user/y24162541) 乐，有本事把编号露出来。” \
+> > （7：38）\
+> > 清净使者_LiuJiaxin（IP 属地：夜梦）：“[@清净使者_WangYuexiak](hfnets://user/y66654188) 我为什么要告诉你？？？” \
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“那就只能是 p 的捏。🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣” \
+> > 清净使者_LiuJiaxin（IP 属地：夜梦）：“[@清净使者_WangYuexiak](hfnets://user/y66654188) nmsl！” \
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“你看🐒又急了🙂。” \
+> > 清净使者_LiuJiaxin（IP 属地：夜梦）：“[@清净使者_WangYuexiak](hfnets://user/y66654188) 你骂谁呢😡？” \
+> > （7：39）\
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“[@清净使者_LiuJiaxin](hfnets://user/y24162541) 我为什么要告诉宁捏？？？🤣🤣🤣受着呗。” \
+> > 清净使者_LiuJiaxin（IP 属地：夜梦）：“好好好，XDM 给我发帖骂这个🐶👉[@清净使者_WangYuexiak](hfnets://user/y66654188)！！！” \
+> > 清净使者_WangYuexiak（IP 属地：宗米）：“你看又急😓。”
 > ### t6235012（“暑假提分班，限时 6 折！状元同款课程！😊😊😊”）——[@XH智慧未来](hfnets://user/y226162)于 3991 年 6 月 26 日 7：38 发起
 > > （7：38）\
 > > XH智慧未来（IP 属地：法纳）：“[中考失利？暑假弯道超车！前 100 名报名享 6 折优惠！](hfnets://edu/xhsmfuture)” \
@@ -2985,7 +3045,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > （10：02：23）\
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“哈哈哈完蛋啦！！😂😂😂[@清净使者_LiYingbip](hfnets://user/y1783999)，你说呢？” \
 > > （10：02：27）\
-> > 清净使者_LiYingbip（IP 属地：澄流）：“红红火火恍恍惚惚！！！🤣👉🤡：[@灭蝇组织](hfnets://user/y1425)”
+> > 清净使者_LiYingbip（IP 属地：澄流）：“红红火火恍恍惚惚！！！🤣👉🤡：[@灭蝇组织](hfnets://user/y1139)”
 >
 > …… \
 > （10：03：08）\
@@ -2995,7 +3055,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > （10：04：36）\
 > > 小jia妈妈求助（IP 属地：宗米）：“快关掉！给我去学习！现在不是你可以玩游戏的时间！现在还没到晚上八点！” \
 > > （10：04：38）\
-> > HF丶HJ爸爸（IP 属地：宗米）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999)，求求你关掉网络游戏——你看孩子们都上瘾了！！！”
+> > HF丶HJ爸爸（IP 属地：宗米）：“[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857)，求求你关掉网络游戏——你看孩子们都上瘾了！！！”
 >
 > （10：04：41）\
 > Kang Yongyuan：“就是！你 6 月 23 日也发[公告](hfnets://announcement/a72487)说要全面实施防沉迷，怎么现在都中考结束了还没实施呢？我家孩子，就是因为中考前玩网络游戏，[考得一落千丈](./ls1.png)！”
@@ -3133,7 +3193,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > 清净使者_ChenMengyid（IP 属地：藕莲）：“震惊😮😮😮！DSM 突然被禁言😱😱😱！这是什么原因？🤔🤔🤔” \
 > > 清净使者_SunXixi（IP 属地：藕莲）：“震惊😮😮😮！DSM 突然被禁言😱😱😱！这是什么原因？🤔🤔🤔” \
 > *（4：44，清净使者_ShangguanXuet 已关闭该帖子。）*
-> ### t1738762（“关于 [@清净使者_DingSaming](hfnets://user/y182726) 造谣事件的处理决定”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y999) 于 3991 年 6 月 30 日 4：50 发布
+> ### t1738762（“关于 [@清净使者_DingSaming](hfnets://user/y182726) 造谣事件的处理决定”）——[@清净使者_ZhuangChuangshuangguang](hfnets://user/y142857) 于 3991 年 6 月 30 日 4：50 发布
 > > （4：50）\
 > > 清净使者_ZhuangChuangshuangguang（IP 属地：珊瑚）：“XDM 刚刚获悉，好像某🐕在造谣是不是呐？[@清净使者_DingSaming](hfnets://user/y182726)”\
 > > 清净使者_WangYuexiak（IP 属地：宗米）：“addd” \

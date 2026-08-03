@@ -13,7 +13,7 @@ function selector(el) {
     while (cur && cur !== document.body) {
         let sel = cur.tagName.toLowerCase();
         if (cur.className && typeof cur.className === "string") {
-            let classes = cur.className.trim().split(/\s+/);
+            let classes = cur.className.trim().split(/\s+/).filter(cls => cls !== 'phl');
             if (classes.length) sel += "." + classes.join(".");
         }
         let parent = cur.parentElement;
@@ -96,6 +96,11 @@ function finishpick() {
         document.removeEventListener("click", window.picklisteners.click, { capture: true });
         window.picklisteners = null;
     }
+
+    if (prevp) {
+        prevp.classList.remove("phl");
+        prevp = null;
+    }
 }
 
 function screenshot() {
@@ -115,7 +120,7 @@ function screenshot() {
 
     async function cac() {
         if (ofscrt) pickele("scr");
-        let ls2 = await inp("输入元素的 CSS 选择器字符串。", "输入", "scr");
+        let ls2 = await inp("输入该元素的 CSS 选择器字符串。", "输入", "scr");
         let sc = document.querySelector(ls2);
 
         if (!sc) {
@@ -124,14 +129,29 @@ function screenshot() {
         }
 
         try {
+            const oofx = sc.style.overflowX; // 原始 Overflow-X。
+            const oofy = sc.style.overflowY; // 原始 Overflow-Y。
+            const oof = sc.style.overflow; // 原始 Overflow。
+
+            if (sc.scrollWidth > sc.clientWidth) sc.style.overflowX = "visible";
+            if (sc.scrollHeight > sc.clientHeight) sc.style.overflowY = "visible";
+            if (sc.scrollWidth > sc.clientWidth || sc.scrollHeight > sc.clientHeight) {
+                sc.style.overflow = "visible";
+            }
+
+            const dpr = window.devicePixelRatio || 1;
             const canvas = await html2canvas(sc, {
-                scale: 2,
-                logging: false,
+                scale: dpr * 2.5,
                 useCORS: true,
-                windowWidth: sc.scrollWidth,
-                windowHeight: sc.scrollHeight
+                backgroundColor: null,
+                logging: false,
             });
-            const blob = await new Promise(resolve => canvas.toBlob(resolve));
+
+            sc.style.overflowX = oofx;
+            sc.style.overflowY = oofy;
+            sc.style.overflow = oof;
+
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
             try {
                 await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
                 cg("截图已复制到剪贴板！");
