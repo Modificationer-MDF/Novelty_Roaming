@@ -49,18 +49,18 @@ let ofscrt = true; // 是否启用截图工具。
 
 document.addEventListener("DOMContentLoaded", function () {
     var start = performance.now();
-    var font1 = new FontFace("hf", 'url("fonts/Harfash.woff2")');
+    var font1 = new FontFace("hf", 'url("fonts/ReHarfash Light.woff2")');
     var font2 = new FontFace("lan", 'url("fonts/Lanubu Light.woff2")');
     font1.load().then(function (f) {
         var end = performance.now();
         document.fonts.add(f);
-        console.log(`成功加载字体：Harfash。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
+        console.log(`成功加载字体：ReHarfash。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
     }).catch(() => {
-        var by_font1 = new FontFace("mhmts", 'url("fonts/Harfash.otf")');
+        var by_font1 = new FontFace("mhmts", 'url("fonts/ReHarfash Light.otf")');
         by_font1.load().then(function (f) {
             var end = performance.now();
             document.fonts.add(f);
-            console.log(`成功加载字体：Harfash。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
+            console.log(`成功加载字体：ReHarfash。用时 ${((end - start) / 1000).toFixed(2)} 秒。`);
         }).catch(function (error) {
             switch (error.name) {
                 case "NetworkError":
