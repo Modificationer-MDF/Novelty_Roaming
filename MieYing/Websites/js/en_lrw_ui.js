@@ -328,7 +328,7 @@ function init_ui() {
     };
     const ter = document.createElement("btn");
     ter.classList.add("ter");
-    ter.innerHTML = "Open command";
+    ter.innerHTML = "Open terminal";
     ter.onclick = () => {
         zd("Enter JavaScript code here.");
     };
