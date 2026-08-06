@@ -1197,8 +1197,149 @@ async function lj(str, url, tit, id) {
     };
 }
 
+// 主函数
 async function zd(str, tit, id) {
+    function errorres(error, input) {
+        const msg = error.message;
+        const name = error.name;
+
+        // ReferenceError。
+        if (name === 'ReferenceError') {
+            if (msg.includes(' is not defined')) {
+                let varName = msg.split(' is not defined')[0].trim();
+                return `引用了未定义的变量或函数 “${varName}”。`;
+            }
+            if (msg.includes('Cannot access')) {
+                let varName = msg.split("'")[1] || '变量';
+                return `无法在初始化前访问 “${varName}”。`;
+            }
+            return `引用错误：“${msg}”。`;
+        }
+
+        // SyntaxError。
+        if (name === 'SyntaxError') {
+            if (msg.includes('Missing initializer in const declaration')) {
+                return "const 变量没有设置初始化值。";
+            }
+            if (msg.includes(' has already been declared')) {
+                let varName = msg.split("Identifier '")[1]?.split("'")[0] || '未知';
+                return `标识符 “${varName}” 已经声明过。`;
+            }
+            if (msg.includes('Unexpected token')) {
+                // 提取具体的非法符号
+                let token = msg.split("Unexpected token '")[1]?.split("'")[0] || msg.split("Unexpected token")[1]?.trim() || '非法符号';
+                if (token === 'end of input') return '意外的代码结束，输入不完整。';
+                return `意外的符号 “${token}”。`;
+            }
+            if (msg.includes('Unexpected identifier')) {
+                let token = msg.split("Unexpected identifier '")[1]?.split("'")[0] || '';
+                return `“${token}” 不是有效的标识符（Identifier）。`;
+            }
+            if (msg.includes('Unexpected end of input')) {
+                return "缺少必要的符号。";
+            }
+            if (msg.includes('Invalid or unexpected token')) {
+                if (input.includes('\\')) return "无效的转义字符 “\\”。";
+                if (input.includes('`')) return "模板字符串中可能缺少闭合反引号。";
+                return "无效的标识符或意外的符号。";
+            }
+            if (msg.includes('Invalid left-hand side in assignment')) {
+                return "赋值操作中左侧表达式无效。<br />不能给常量、字面量或只读属性赋值。";
+            }
+            if (msg.includes('Cannot use import statement outside a module')) {
+                return "无法在此上下文中使用 import 语句。";
+            }
+            if (msg.includes('Illegal return statement')) {
+                return "return 语句在函数外部无效。";
+            }
+            if (msg.includes('Missing ) after argument list')) {
+                return "参数列表缺少闭合括号 “)”。";
+            }
+            if (msg.includes('Missing } after function body')) {
+                return "函数体缺少闭合花括号 “}”。"
+            } "。";
+        }
+        if (msg.includes('Missing formal parameter')) {
+            return "箭头函数或函数声明中缺少形参。";
+        }
+        if (msg.includes('Unterminated string literal')) {
+            return "字符串缺少结束引号。";
+        }
+        else {
+            return `语法错误：“${msg}”。`;
+        }
+
+        // TypeError。
+        if (name === 'TypeError') {
+            if (msg.includes('Assignment to constant variable')) {
+                return "const 变量不可重新赋值。";
+            }
+            if (msg.includes('Cannot assign to read only property')) {
+                return "无法为只读属性赋值。";
+            }
+            if (msg.includes('is not a function')) {
+                let varName = msg.split(' is not a function')[0].trim();
+                return `“${varName}” 不是函数。`;
+            }
+            if (msg.includes('is not iterable')) {
+                let varName = msg.split(' is not iterable')[0].trim();
+                return `“${varName}” 不可迭代。`;
+            }
+            if (msg.includes('Cannot read properties of')) {
+                let parts = msg.split("Cannot read properties of ")[1];
+                let val = parts.includes('null') ? 'null' : 'undefined';
+                let prop = parts.split("(reading '")[1]?.split("')")[0] || '未知属性';
+                return `无法读取 “${prop}” 的属性，其值为 “${val}”。`;
+            }
+            if (msg.includes('Cannot set properties of')) {
+                let parts = msg.split("Cannot set properties of ")[1];
+                let val = parts.includes('null') ? 'null' : 'undefined';
+                return `无法设置属性，其值为 “${val}”。`;
+            }
+            if (msg.includes('cannot be used as a constructor')) {
+                let varName = msg.split(' is not a constructor')[0].trim();
+                return `“${varName}” 不能作为构造函数使用。`;
+            }
+            if (msg.includes('Cannot destructure property')) {
+                let prop = msg.split("Cannot destructure property '")[1]?.split("'")[0] || '';
+                return `解构赋值失败，无法从 undefined 或 null 中读取 “${prop}”。`;
+            }
+            if (msg.includes('Invalid array length')) {
+                return "数组长度无效。";
+            }
+            if (msg.includes('Cyclic object value')) {
+                return "循环引用的对象值无法序列化。";
+            }
+            return `类型错误：“${msg}”。`;
+        }
+
+        // 4. 范围错误 (RangeError) 
+        if (name === 'RangeError') {
+            if (msg.includes('Maximum call stack size exceeded')) {
+                return "超出最大调用栈大小（可能陷入了死循环或递归）。";
+            }
+            if (msg.includes('Invalid date')) {
+                return "日期格式无效。";
+            }
+            if (msg.includes('Precision is out of range')) {
+                return "数字精度超出范围。";
+            }
+            return `范围错误：“${msg}”。`;
+        }
+
+        // 5. 其他错误 (EvalError, URIError 等)
+        if (name === 'URIError') {
+            return `URI 格式错误：“${msg}”。`;
+        }
+        if (name === 'EvalError') {
+            return `Eval 安全错误：“${msg}”。`;
+        }
+
+        return `意外 ${error.name} 错误：“${error.message}”。`;
+    }
+
     return new Promise((resolve) => {
+        // 初始校验
         if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Zd() 函数中，str 参数不能为 null 或 undefined。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
@@ -1336,6 +1477,7 @@ async function zd(str, tit, id) {
                     return;
                 }
                 try {
+                    // 支持执行异步代码 (使用 await eval)
                     let k = await eval(value);
                     if (k !== undefined && k !== null) {
                         rz(k);
@@ -1350,54 +1492,9 @@ async function zd(str, tit, id) {
                 } catch (error) {
                     mele.style.animation = `mfn_shake2 0.3s ${easing}`;
                     box.style.backgroundColor = "#ff000099";
-                    switch (error.name) {
-                        case "ReferenceError":
-                            let vof = error.message.split(" is not defined");
-                            fail(`引用了未定义的变量或函数 ‘${vof[0]}’。`);
-                            break;
-                        case "SyntaxError":
-                            if (error.message.includes("Unexpected identifier")) {
-                                let err = "‘" + (error.message.split("Unexpected identifier '")[1].replace("'", "’"));
-                                fail(`${err} 不是有效的标识符（Identifier）。`);
-                            } else if (error.message.includes("Unexpected end of input")) {
-                                fail("缺少必要的符号。");
-                            } else if (error.message.includes("Unexpected token")) {
-                                let token = "‘" + (error.message.split("Unexpected token '")[1].replace("'", "’"));
-                                fail(`意外的符号 ${token}。`);
-                            } else if (error.message.includes("Invalid or unexpected token")) {
-                                if (value.includes("\\")) fail("无效的转义字符 “\\”。");
-                                else fail("无效标识符。");
-                            } else if (error.message.includes("Missing initializer in const declaration")) {
-                                fail("const 变量没有设置初始化值。");
-                            } else if (error.message.includes("Invalid left-hand side in assignment")) {
-                                fail("赋值操作中左侧表达式无效。");
-                            } else if (error.message.includes("has already been declared") && error.message.includes("Identifier")) {
-                                let err = error.message.replace("Identifier '", "").replace("' has already been declared", "").replace("'", "’");
-                                fail(`标识符 ‘${err}’ 已经声明过。`);
-                            } else {
-                                fail(`语法错误：${error.message}。`);
-                            }
-                            break;
-                        case "TypeError":
-                            if (error.message.includes("is not a function")) {
-                                let err = error.message.replace(" is not a function", "").replace("'", "’");
-                                fail(`‘${err}’ 不是函数。`);
-                            } else if (error.message.includes("Cannot read properties")) {
-                                let err1 = error.message.split("Cannot read properties of ")[1].replace(" (reading '", "").replace("')", "");
-                                let err2 = (err1.includes("null") ? "null" : "undefined");
-                                err1 = err1.split(err2)[1];
-                                fail(`‘${err1}’ 不能用于含 ‘${err2}’ 的对象上。`);
-                            } else {
-                                fail(`类型错误：${error.message}。`);
-                            }
-                            break;
-                        case "RangeError":
-                            fail(`数值超出范围：${error.message}。`);
-                            break;
-                        default:
-                            fail(error.message);
-                            break;
-                    }
+
+                    let error_msg = errorres(error, value);
+                    fail(error_msg);
                     close_win();
                 }
             } else if (event.key === "Enter" && event.shiftKey) {
