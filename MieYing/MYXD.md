@@ -1391,8 +1391,82 @@
 ---
 
 > [!note]
-> ### t23742812（“Tom 我恨你”）——[@Ptw我的](hfnets://user/y938325) 于 3991 年 4 月 18 日 19：47 发起
+> ## VII. Material Writing
+> ### 阅读下列材料并按要求作文。
+> ---
+> Dear Li Hua,
 >
+> Greetings!
+>
+> Our school is going to hold a Cultural Exhibition next month. Each student needs to choose a traditional festival or custom from another country and make a presentation *（展示）* about it.
+>
+> I really want to choose something from China, because I know you've told me about the Spring Festival before. However, to be honest, I still haven’t fully understood what makes it so special and how you celebrate it in your daily life. I really don’t want to say "people eat dumplings and set off firecrackers" **since I've heard them for tons of times** — I'd like to tell my classmates something that makes them feel the festival **instead of just having a taste of it!**
+>
+> Could you please describe one specific *（具体的）* Spring Festival experience that you remember most clearly? It could be something you did with your family, something you saw, or even something you felt. Please tell me a great story. It may include:
+>
+> 1. When and where did it happen?
+> 2. What did you do?
+> 3. How did you feel during that moment?
+> 4. Something more about it.
+>
+> I’m really looking forward to your reply — I can't wait to give a different Spring Festival presentation!
+>
+> Best wishes, \
+> Tom
+
+> [!tip]
+> Dear Tom,
+>
+> Greetings.
+>
+> Thanks for your email — and for asking something specific instead of just "tell me about Spring Festival". \
+> Now, let me share some interesting and real stories with you!
+>
+> Last year, on the evening of the Eve of Spring Festival, I went back to my grandmother's house in the countryside. It's a small village, much quieter than the city. 
+> My grandmother was busy making sticky rice cakes in the kitchen, and I sat beside her, watching her hands move quickly and steadily. She didn't teach me any "skills" — she just let me watch, and occasionally handed me a piece to taste.
+>
+> I was in the lukewarm room which was filled with steam and the sweet smell of rice. Firecrackers were echoing from the village. But inside, it was peacefully quiet. My grandmother just smiled and said, "Another year has passed."
+>
+> Though I didn't feel excitement that night, I felt something closer to peace — the kind that doesn't need to be explained. 
+> That moment, which is more than any reunion dinner or red envelope, is what I will never forget.
+>
+> Best wishes, \
+> Li Hua
+
+> [!caution]
+> ~~Dear Tom~~ To the Marker,
+>
+> ~~Greetings.~~ No, you are not worth my greetings.
+>
+> I really don't want to send an email back. \
+> Firstly, if I were Tom, I wouldn't have to write an email, which was put in the English examination, to ask for what to say next month. \
+> I should have known and felt it from ~~animations~~ donghua, ~~comics~~ manhua, which brought me much pleasure. \
+> However, these ways of cultural promotion **DID NOT AND DO NOT** even exist. \
+> Thus, my answer is: "No worries, just talk about that old-fashioned topic, using cliche! Your classmates won't be amazed!" \
+> Secondly, I can't even count how many times I have written this kind of article. \
+> Every time I finished one, I got punched by the reality — Tom **DID NOT AND DOES NOT** exist at all. \
+> Every time I got bored of this game, I **WAS MADE** to accept the reality — I had to and have to accept a virtual Tom. (or Peter, Mike? Who knows?) \
+> And every time I tried to express my true stories about ~~Spring Festival~~ Chunjie, I was talking to the void — **404 TOM NOT FOUND**. \
+> It's clear that you aim to promote ICH which is of a good purpose, but how could you do it by adding it to the English examination, which caused pain and pressure to all the students? \
+> Is that all true? \
+> There's no more time to answer — the available time of an examination is limited, and you **DON'T have the right to answer**. No matter how you quibble, **the answer is DEFINITELY "yes".** \
+> **Bad bye or never.**
+>
+> ~~Best Wishes,~~ Worst curses, \
+> ~~Li Hua~~ CXZ
+>
+> ---
+>
+> Also, to the Marker in front of the screen, the following content is two words that I didn't dare to write on the paper before. \
+> Now I think it's fundamental to do this.
+> # FUCK YOU.
+> I ~~hope~~ wish that my words can be seen or heard, instead of being a piece of questionable ashes.
+
+---
+
+> [!note]
+> ### t23742812（“Tom 我恨你”）——[@Ptw我的](hfnets://user/y938325) 于 3991 年 4 月 18 日 19：47 发起
+> 
 
 ---
 
