@@ -1,4 +1,8 @@
 # 在此之前说明
+
+> [!tip]
+> 在 Visual Studio 中，按 Ctrl + M 和 Ctrl + L 折叠所有块，按 Ctrl + M 和 Ctrl + M 折叠当前块，按 Ctrl + M 和 Ctrl + O 展开所有块。
+
 ## Chanf 历
 > Chanf 历中，1 年有 60 月，1 月有 42 天。\
 > Chanf 1 年 ≈ 地球 6.90 年。\
@@ -578,42 +582,20 @@
 
 | 组合名 | 甲 | 乙 | 丙 | 丁 | 戊 |
 | --- | --- | --- | --- | --- | --- |
-| NotJustColleaguesHaha | er | lx |
-| TPVCers | wk | da |
-| SilentTalkers | wk | qh |
-| Enthusiastik! | wk | tc |
-| YourWarmie | wk | fn |
-| TheBANGS | ir | cl |
-| MadDonotDISTURB | ll | hs |
-| HUOMaple | ch | cf |
-| SaShui | qa | qs |
+| ShiXi（Era 是“时代”的意思，所以取的这个名 hhh）| er | lx |
+| WenAmb（以防你不知道 Amb 是 Ambassador 的缩写 hhh）| wk | da |
+| MoW（不觉得 M 和 W 刚好是倒过来的吗？）| wk | qh |
+| Enthusiasik!（“嗯，你这组合名依旧来自 enthusiastic。”“闭嘴！我可有创意了！”）| wk | tc |
+| Lukewarmie（是的，lukewarm）| wk | fn |
+| Crain（不知道谁取得名字，反正觉得蛮好听的）| ir | cl |
+| LieHan（lie 不是谎的意思！！！）| ll | hs |
+| HuoFeng（枫与火的相生相克之术！）| ch | cf |
+| SaShui（“英姿飒爽”“静如止水”）| qa | qs |
 | HFie | cx | qg | sw |
 | Intelligences'Power | Kleri | Sinderi | Furai | Huntun | Psaikede |
 
 ---
 
-> [!tip]
 > ## 临时名生成
-> 从以下音素中选取以创建新临时名字。
-> | 韵母类别 | 原始开音节 | 附加 **-p** | 附加 **-t** | 附加 **-k** |
-> | :--- | :--- | :--- | :--- | :--- |
-> | **-i** (舌尖) | zhi, chi, shi, ri, zi, ci, si | zhip, chip, ship, rip, zip, cip, sip | zhit, chit, shit, rit, zit, cit, sit | zhik, chik, shik, rik, zik, cik, sik |
-> | **a** | a, ba, pa, ma, fa, da, ta, na, la, ga, ka, ha, zha, cha, sha, za, ca, sa | ap, bap, pap, map, fap, dap, tap, nap, lap, gap, kap, hap, zhap, chap, shap, zap, cap, sap | at, bat, pat, mat, fat, dat, tat, nat, lat, gat, kat, hat, zhat, chat, shat, zat, cat, sat | ak, bak, pak, mak, fak, dak, tak, nak, lak, gak, kak, hak, zhak, chak, shak, zak, cak, sak |
-> | **o** | o, bo, po, mo, fo | op, bop, pop, mop, fop | ot, bot, pot, mot, fot | ok, bok, pok, mok, fok |
-> | **e** | e, me, de, te, ne, le, ge, ke, he, zhe, che, she, re, ze, ce, se | ep, mep, dep, tep, nep, lep, gep, kep, hep, zhep, chep, shep, rep, zep, cep, sep | et, met, det, tet, net, let, get, ket, het, zhet, chet, shet, ret, zet, cet, set | ek, mek, dek, tek, nek, lek, gek, kek, hek, zhek, chek, shek, rek, zek, cek, sek |
-> | **ai** | ai, bai, pai, mai, dai, tai, nai, lai, gai, kai, hai, zhai, chai, shai, zai, cai, sai | aip, baip, paip, maip, daip, taip, naip, laip, gaip, kaip, haip, zhaip, chaip, shaip, zaip, caip, saip | ait, bait, pait, mait, dait, tait, nait, lait, gait, kait, hait, zhait, chait, shait, zait, cait, sait | aik, baik, paik, maik, daik, taik, naik, laik, gaik, kaik, haik, zhaik, chaik, shaik, zaik, caik, saik |
-> | **ei** | ei, bei, pei, mei, fei, dei, nei, lei, gei, hei, zhei, shei, zei | eip, beip, peip, meip, feip, deip, neip, leip, geip, heip, zheip, sheip, zeip | eit, beit, peit, meit, feit, deit, neit, leit, geit, heit, zheit, sheit, zeit | eik, beik, peik, meik, feik, deik, neik, leik, geik, heik, zheik, sheik, zeik |
-> | **ao** | ao, bao, pao, mao, dao, tao, nao, lao, gao, kao, hao, zhao, chao, shao, rao, zao, cao, sao | aop, baop, paop, maop, daop, taop, naop, laop, gaop, kaop, haop, zhaop, chaop, shaop, raop, zaop, caop, saop | aot, baot, paot, maot, daot, taot, naot, laot, gaot, kaot, haot, zhaot, chaot, shaot, raot, zaot, caot, saot | aok, baok, paok, maok, daok, taok, naok, laok, gaok, kaok, haok, zhaok, chaok, shaok, raok, zaok, caok, saok |
-> | **ou** | ou, pou, mou, fou, dou, tou, nou, lou, gou, kou, hou, zhou, chou, shou, rou, zou, cou, sou | oup, poup, moup, foup, doup, toup, noup, loup, goup, koup, houp, zhoup, choup, shoup, roup, zoup, coup, soup | out, pout, mout, fout, dout, tout, nout, lout, gout, kout, hout, zhout, chout, shout, rout, zout, cout, sout | ouk, pouk, mouk, fouk, douk, touk, nouk, louk, gouk, kouk, houk, zhouk, chouk, shouk, rouk, zouk, couk, souk |
-> | **i** | yi, bi, pi, mi, di, ti, ni, li, ji, qi, xi | yip, bip, pip, mip, dip, tip, nip, lip, jip, qip, xip | yit, bit, pit, mit, dit, tit, nit, lit, jit, qit, xit | yik, bik, pik, mik, dik, tik, nik, lik, jik, qik, xik |
-> | **ia** | ya, lia, jia, qia, xia | yap, liap, jiap, qiap, xiap | yat, liat, jiat, qiat, xiat | yak, liak, jiak, qiak, xiak |
-> | **ie** | ye, bie, pie, mie, die, tie, nie, lie, jie, qie, xie | yep, biep, piep, miep, diep, tiep, niep, liep, jiep, qiep, xiep | yet, biet, piet, miet, diet, tiet, niet, liet, jiet, qiet, xiet | yek, biek, piek, miek, diek, tiek, niek, liek, jiek, qiek, xiek |
-> | **iao** | yao, biao, piao, miao, diao, tiao, niao, liao, jiao, qiao, xiao | yaop, biaop, piaop, miaop, diaop, tiaop, niaop, liaop, jiaop, qiaop, xiaop | yaot, biaot, piaot, miaot, diaot, tiaot, niaot, liaot, jiaot, qiaot, xiaot | yaok, biaok, piaok, miaok, diaok, tiaok, niaok, liaok, jiaok, qiaok, xiaok |
-> | **iu** | you, miu, diu, niu, liu, jiu, qiu, xiu | youp, miup, diup, niup, liup, jiup, qiup, xiup | yout, miut, diut, niut, liut, jiut, qiut, xiut | youk, miuk, diuk, niuk, liuk, jiuk, qiuk, xiuk |
-> | **u** | wu, bu, pu, mu, fu, du, tu, nu, lu, gu, ku, hu, zhu, chu, shu, ru, zu, cu, su | wup, bup, pup, mup, fup, dup, tup, nup, lup, gup, kup, hup, zhup, chup, shup, rup, zup, cup, sup | wut, but, put, mut, fut, dut, tut, nut, lut, gut, kut, hut, zhut, chut, shut, rut, zut, cut, sut | wuk, buk, puk, muk, fuk, duk, tuk, nuk, luk, guk, kuk, huk, zhuk, chuk, shuk, ruk, zuk, cuk, suk |
-> | **ua** | wa, gua, kua, hua, zhua, chua, shua | wap, guap, kuap, huap, zhuap, chuap, shuap | wat, guat, kuat, huat, zhuat, chuat, shuat | wak, guak, kuak, huak, zhuak, chuak, shuak |
-> | **uo** | wo, duo, tuo, nuo, luo, guo, kuo, huo, zhuo, chuo, shuo, ruo, zuo, cuo, suo | wop, duop, tuop, nuop, luop, guop, kuop, huop, zhuop, chuop, shuop, ruop, zuop, cuop, suop | wot, duot, tuot, nuot, luot, guot, kuot, huot, zhuot, chuot, shuot, ruot, zuot, cuot, suot | wok, duok, tuok, nuok, luok, guok, kuok, huok, zhuok, chuok, shuok, ruok, zuok, cuok, suok |
-> | **uai** | wai, guai, kuai, huai, zhuai, chuai, shuai | waip, guaip, kuaip, huaip, zhuaip, chuaip, shuaip | wait, guait, kuait, huait, zhuait, chuait, shuait | waik, guaik, kuaik, huaik, zhuaik, chuaik, shuaik |
-> | **ui** | wei, dui, tui, gui, kui, hui, zhui, chui, shui, rui, zui, cui, sui | weip, duip, tuip, guip, kuip, huip, zhuip, chuip, shuip, ruip, zuip, cuip, suip | weit, duit, tuit, guit, kuit, huit, zhuit, chuit, shuit, ruit, zuit, cuit, suit | weik, duik, tuik, guik, kuik, huik, zhuik, chuik, shuik, ruik, zuik, cuik, suik |
-> | **ü** | yu, nü, lü, ju, qu, xu | yup, nüp, lüp, jup, qup, xup | yut, nüt, lüt, jut, qut, xut | yuk, nük, lük, juk, quk, xuk |
-> | **üe** | yue, nüe, lüe, jue, que, xue | yuep, nüep, lüep, juep, quep, xuep | yuet, nüet, lüet, juet, quet, xuet | yuek, nüek, lüek, juek, quek, xuek |
+> 原需手动复制、粘贴表格中的内容并调整部分拼写，过程繁琐；现已自动化。表格已删除。\
+> 请运行[本 Python 文件](CharGen.py)直接生成。
