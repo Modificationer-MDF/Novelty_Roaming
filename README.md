@@ -79,7 +79,7 @@ Additionally, in order to protect both the original author and derivative author
 > > Correct example: Made derivative works for illustrations, music compositions for TPVC. \
 > > Incorrect examples: (sorted in severity growing up)
 > > - A: `"Modified some content"`;
-> > - B: `"Made derivative works for content I like"`;
+> > - B: `"Made derivative works of content that I like"`;
 > > - C: *`(Leave blanks)`*;
 > > - D: *`(Any conduct which includes noting that the derivative work is the original work in the derivative work)`*.
 > - Each author is independently responsible for the content they create, **and should not shift their responsibility to other authors in the SignDesc.** If an author is involved with other authors in the process *(including but not limited to creation process, publication process, or promotion process)*, and such involvement relates to the content they are responsible for, they may still bear corresponding liability. \
