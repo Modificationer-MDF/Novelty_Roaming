@@ -45,7 +45,9 @@ def extract_dialogs(filepath, debug=False):
         # 去掉行首的 > 和可能的空格
         line = raw_line.lstrip()
         if line.startswith(">"):
-            line = line[1:].lstrip()  # 去掉 > 和后续空格
+            line = line[1:].lstrip()
+        # 去掉行尾的反斜杠（Markdown 换行符）
+        line = re.sub(r"\\\s*$", "", line)
 
         if debug:
             print(f"Processing: {line[:50]}...")
