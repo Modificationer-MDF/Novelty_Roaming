@@ -62,7 +62,7 @@ Additionally, in order to protect both the original author and derivative author
 > [!note]
 > 1. Please clearly mark your work as "Fanwork", "Derivative Work", "2nd Creation", "3rd Creation", or similar terms in a prominent place (e.g., title or description) to distinguish it from the original work.
 > 2. Derivative works (including higher-order creations) must be distributed under the same CC license (CC BY-NC-SA 4.0), and this must be clearly stated in the description or another prominent location.
-> 3. Derivative works must include a credit log (hereinafter referred to as the "SignDesc") in the following format.
+> 3. Derivative works must include a credit log (hereinafter referred to as the "SignDesc", abbreviation for "Signature Description") in the following format.
 
 > [!note]
 > CARF, abbreviation of "Content that the Author should be Responsible For".
