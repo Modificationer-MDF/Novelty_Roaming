@@ -24,12 +24,12 @@
 > [!caution]
 > - 多人合作的二创作品，应将创作团队写在一层署名楼内，可以用顿号分隔团队内每一位作者的名字。例如，`二创：@example1、@example2、@example3`。
 > - 负责内容可以简要概括，但是**不可遗漏**。
-> > 正确示例：二创了青文效会的插画、音乐作品内容。\
+> > 正确示例：`“二创了青文效会的插画、音乐作品内容”`。\
 > > 错误示例（按严重性从小到大排行）：
-> > - 甲：修改了部分内容；
-> > - 乙：二创了我喜欢的内容；
-> > - 丙：*（空填）*；
-> > - 丁：*（任何在二创作品中注明二创作品是原作的行为。）*。
+> > - 甲：`“修改了部分内容”`；
+> > - 乙：`“二创了我喜欢的内容”`；
+> > - 丙：*`（空填）`*；
+> > - 丁：*`（任何在二创作品中注明二创作品是原作的行为。）`*。
 > - 各层作者须为自己创作的内容独立承担责任，**不应将自身责任转嫁给署名楼内其他作者。**如果某层作者在创作、发布或推广过程中与其他作者存在关联*（包括但不限于制作过程、上传过程、推广过程）*，且这些关联的内容涉及该层作者所负责的部分，则仍可能因此承担相应责任。\
 > 对于多人合作完成的作品，合作各方不得以内部责任划分为由，拒绝向原作者或受损方承担整体责任。合作各方可在内部约定各自责任份额，**但该约定不能作为拒绝承担整体责任的借口。**\
 > 以上规则适用于二创作品（含多次创作作品）。对于粉丝行为及其他与本作品无关的第三方行为，作者不因本规则而支持或认可其行为。作者无法也无权管控任何第三方的言行举止，相关责任应由该行为的发起方（包括但不限于个人、单位或群体）承担。***作者不支持任何网络暴力或煽动网络暴力的行为。***
@@ -78,10 +78,10 @@ Additionally, in order to protect both the original author and derivative author
 > - The CARF field may be summarized briefly, **but it must not be omitted**.
 > > Correct example: Made derivative works for illustrations, music compositions for TPVC. \
 > > Incorrect examples: (sorted in severity growing up)
-> > - A: Modified some content;
-> > - B: Made derivative works for content I like;
-> > - C: *(Leave blanks)*;
-> > - D：*(Any conduct which includes noting that the derivative work is the original work in the derivative work)*.
+> > - A: `"Modified some content"`;
+> > - B: `"Made derivative works for content I like"`;
+> > - C: *`(Leave blanks)`*;
+> > - D: *`(Any conduct which includes noting that the derivative work is the original work in the derivative work)`*.
 > - Each author is independently responsible for the content they create, **and should not shift their responsibility to other authors in the SignDesc.** If an author is involved with other authors in the process *(including but not limited to creation process, publication process, or promotion process)*, and such involvement relates to the content they are responsible for, they may still bear corresponding liability. \
 > For collaborative works, the co-authors may not refuse to bear overall responsibility to the original author or affected parties on the grounds of internal division of responsibility. Co-authors may agree on internal responsibility shares, **but such agreements may not be used as a pretext to evade overall responsibility.** \
 > The above rules apply to derivative works (including higher-order creations). For fan behavior or other third-party actions unrelated to this work, this document does not constitute the author's endorsement or recognition of such behavior. The author cannot and does not have the authority to control any third-party conduct. Relevant liability shall be borne by the initiator of such behavior (including but not limited to individuals, organizations, or groups). ***The author does not support any form of cyberbullying or any conduct that incites cyberbullying.***
