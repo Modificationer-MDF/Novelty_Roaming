@@ -843,7 +843,7 @@
 > Yao! Yao! Check it check it out! \
 > *QingJing-baji*, get it on and yell out: \
 > "Join QingJing, get those *Mopi*s knocked out!" \
-> One for F¥ 0.42 (this), hurry up! Gonna be sold out! \
+> One for 42 cF¥ (this), hurry up! Gonna be sold out! \
 > Don't like it? No worries but let it go! \
 > We got the flow and we also run the show. \
 > (Whispering) *One like please? We need bucks to grow!* \
@@ -2487,7 +2487,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > （18：03：17）\
 > > **（追捕者们分开行动避免撞在一起并提速到 9 m/s，但是他们速度仍然不够。）** \
 > > （18：03：29）\
-> > （赤蓓牡丹到达入站口后，迅速停下来，选定目的地——塔灿辽森区，用指纹支付了 F￥0.29（588.6 km 路程）后迅速登车离开了）\
+> > （赤蓓牡丹到达入站口后，迅速停下来，选定目的地——塔灿辽森区，用指纹支付了 F¥0.29（588.6 km 路程）后迅速登车离开了）\
 > > （19：03：40，列车以 7.9 km/s 的速度向塔灿方向开去，一溜烟就没影了）\
 > > （19：03：41）\
 > > Li Yingbip：“不好！让她跑了！” \
@@ -2684,7 +2684,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > [!note]
 > ### s12987892（“Harmony Fashion 二手平板售卖”）——[@HF丶HJ爸爸](hfnets://user/y84888212)于 3991 年 6 月 21 日 14：02 开张
 > 此平板为二手平板，可流畅使用，Harmony Fashion OS 版本为 1.1.1.1。\
-> 现在特地以 F￥77 贱卖。赚到的钱为儿子买教训。
+> 现在特地以 F¥77 贱卖。赚到的钱为儿子买教训。
 > > *（截至当日 18 时，本店已有 1901 人光顾。）*
 > ### t3476158（“啊！电子鸦片！”）——[@老liang说文化](hfnets://user/y38126712)于 3991 年 6 月 21 日 19：57 发起
 > > （19：58）\
@@ -2774,7 +2774,7 @@ Zhuang Chuangshuangguang 旗下的 “清净地带” 也趁机煽动媒体指�
 > > （0：52）\
 > > Hello14（IP 属地：宗米）：“叔叔，您别骂人了……大家都好好说话不行吗……😭” \
 > > Kiong（IP 属地：法纳）：“[@Hello14](hfnets://user/y14)，你别管了。[@HF丶HJ爸爸](hfnets://user/y84888212)，你继续骂呗，我看你能骂到几点。” \
-> > HF丶HJ爸爸（IP 属地：宗米）：“[@Kiong](hfnets://user/y38817)，[@Morn](hfnets://user/y81828)，[@pjb](hfnets://user/y75773)，[@Algebraic](hfnets://user/y22891)，你们几个我一个都不放过！起的名字一个个不是外文就是中二，全是电子鸦片吸多了的！明天我就去网信办实名举报！还有那个 [@Hello14](hfnets://user/y14)，取这种异想天开的名字，动画片看傻了，最后可能连每年 F￥3 的网费都交不起！” \
+> > HF丶HJ爸爸（IP 属地：宗米）：“[@Kiong](hfnets://user/y38817)，[@Morn](hfnets://user/y81828)，[@pjb](hfnets://user/y75773)，[@Algebraic](hfnets://user/y22891)，你们几个我一个都不放过！起的名字一个个不是外文就是中二，全是电子鸦片吸多了的！明天我就去网信办实名举报！还有那个 [@Hello14](hfnets://user/y14)，取这种异想天开的名字，动画片看傻了，最后可能连每年 F¥3 的网费都交不起！” \
 > > （0：53）\
 > > *（青花茉莉此时正准备放下手机，但她看到本贴中 Hello14 被攻击后，迅速点了进来。）* \
 > > 默观者_Normallie（IP 属地：塔灿）：“……叔叔，您这话过分了，怎么能诅咒小孩子😰？” \
@@ -3459,7 +3459,7 @@ Zhuang Chuangshuangguang 本想揍雨落一拳，却被 Kleri 和 Sinderi 用磁
 > ### a3267784（“HFYD 在 8 月 42 日前将停止工作”）——[@开发者_末纱](hfnets://user/y0) 联合 @编码者_絮苏紫叶于 3991 年 7 月 7 日 9：17 发布
 > 在此之前，为刚才的 HFYD 故障向所有用户道歉。\
 > @Dhshwahng（正在追究责任中）负责了 HFYD 屏蔽功能的开发，但当初我们没有审查，才导致了刚才的混乱。
-> @Dhshwahng 昨天申请从 “灭蝇组织” 退出，我们随后失去了他的行踪。如果有任何人能为我们提供宝贵线索，感激不尽！我们将以 F￥600000 悬赏 @Dhshwahng。 \
+> @Dhshwahng 昨天申请从 “灭蝇组织” 退出，我们随后失去了他的行踪。如果有任何人能为我们提供宝贵线索，感激不尽！我们将以 F¥600000 悬赏 @Dhshwahng。 \
 > 1 分钟后，我们将解禁所有的账号。在 HFYD 停运期间，我们将抢修漏洞。*但请放蝇人不要猖狂，因为所有灭蝇方管理员将全部上阵，直到 HFYD 恢复运营。* \
 > 再次为造成的不便深表歉意！
 >
