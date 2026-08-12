@@ -24,7 +24,7 @@
 > [!caution]
 > - 多人合作的二创作品，应将创作团队写在一层署名楼内，可以用顿号分隔团队内每一位作者的名字。例如，`二创：@example1、@example2、@example3`。
 > - 负责内容可以简要概括，但是**不可遗漏**。
-> > 正确示例：二创了青文效会的插画、音乐作品内容。
+> > 正确示例：二创了青文效会的插画、音乐作品内容。\
 > > 错误示例（按严重性从小到大排行）：
 > > - 甲：修改了部分内容；
 > > - 乙：二创了我喜欢的内容；
@@ -75,8 +75,8 @@ Additionally, in order to protect both the original author and derivative author
 > [!caution]
 > - For collaborative derivative works, all co-authors could be listed in the same SignDesc entry, separated by commas. For example: `2nd Author: @example1, @example2, @example3`.
 > - The CARF field may be summarized briefly, **but it must not be omitted**.
-> > Correct example: Made derivative works for illustrations, music compositions for TPVC.
-> > Incorrect example: (sorted in severity growing up)
+> > Correct example: Made derivative works for illustrations, music compositions for TPVC. \
+> > Incorrect examples: (sorted in severity growing up)
 > > - A: Modified some content;
 > > - B: Made derivative works for content I like;
 > > - C: *(Leave blanks)*.
