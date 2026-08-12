@@ -1,3 +1,4 @@
+# Mosha Huyan, under CC BY-NC-SA 4.0, 2026.
 import random as rd
 import os
 

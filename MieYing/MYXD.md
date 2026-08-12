@@ -843,7 +843,7 @@
 > Yao! Yao! Check it check it out! \
 > *QingJing-baji*, get it on and yell out: \
 > "Join QingJing, get those *Mopi*s knocked out!" \
-> One for 0.42 CHY(this), hurry up! Gonna be sold out! \
+> One for F¥ 0.42 (this), hurry up! Gonna be sold out! \
 > Don't like it? No worries but let it go! \
 > We got the flow and we also run the show. \
 > (Whispering) *One like please? We need bucks to grow!* \
@@ -1212,7 +1212,7 @@
 > > （同时）\
 > > “不过别急，家人们——让我们听听 Shangguan Xuet 怎么回答同一个问题！” \
 > > （19：46：07）\
-> > *（镜头切换至 Shangguan Xuet。他迅速收起了刚才暴露出来的笑容。）* \
+> > *（镜头切换至 Shangguan Xuet。她迅速收起了刚才暴露出来的笑容。）* \
 > > （19：46：08）\
 > > Shangguan Xuet：“定义权不能被任何组织垄断。必须公开源代码，每 42 天由全体网民投票重写。否则今天灭‘蝇’，明天就灭‘异议’——这才是最大的风险。” \
 > > （19：46：21）\

@@ -1,4 +1,5 @@
-﻿import os
+﻿# Mosha Huyan, under CC BY-NC-SA 4.0, 2026.
+import os
 import sys
 
 def calc():

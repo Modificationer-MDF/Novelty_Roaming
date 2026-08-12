@@ -7,7 +7,6 @@ import os
 import time
 import sys
 import math
-import webbrowser as wb
 import keyboard as kb
 cs = Console()
 

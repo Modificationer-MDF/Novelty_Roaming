@@ -1,4 +1,4 @@
-# Chang，2026/8/7。
+# Mosha Huyan, under CC BY-NC-SA 4.0, 2026.
 import random as rd
 import os
 import sys
@@ -62,6 +62,12 @@ syl = [
     "yue", "nüe", "lüe", "jue", "que", "xue"
 ]
 
+def cls():
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
+
 def gen(f, l): # f：姓需要多少个音节；l：名需要多少个音节。
     name = ""
     final = ""
@@ -84,21 +90,41 @@ def gen(f, l): # f：姓需要多少个音节；l：名需要多少个音节。
 
     return final
 
+def prog(cur, tot, pre="", suf="", blen=40):
+    per = cur / tot * 100
+    flen = int(blen * per / 100)
+    bar = '#' * flen + '-' * (blen - flen)
+    
+    # \r 回到行首，flush 强制终端刷新。
+    sys.stdout.write(f"\r{pre}|{bar}| {cur} / {tot}（{per:.3f}%） {suf}")
+    sys.stdout.flush()
+
+    if cur == tot:
+        sys.stdout.write("\n")
+
 if __name__ == "__main__":
     amount = int(input("数量？"))
     fam = int(input("姓音节数？"))
     nam = int(input("名音节数？"))
 
-    os.system("cls")
+    cls()
 
     st = time.time()
 
+    ns = []
+    
     for i in range(amount):
-        print(fr"{i + 1} / {amount}（{((i + 1) / amount * 100):.3f} %）")
-        with open("generated.txt", "a", encoding="utf-8") as f:
-            f.write(gen(fam, nam) + "\n")
+        ls_n = gen(fam, nam)
+        ns.append(ls_n + "\n")
+        
+        prog(i + 1, amount, "进度：", f"当前生成：“{ls_n.ljust(25)}”")
+        
+        time.sleep(0.000003)
+
+    with open("generated.txt", "a", encoding="utf-8") as f:  
+        f.writelines(ns)
 
     et = time.time()
 
-    os.system("cls")
-    print(fr"完成。耗时 {(et - st):.3f} 秒。")
+    cls()
+    print(f"全部完成。耗时 {(et - st):.3f} 秒。")

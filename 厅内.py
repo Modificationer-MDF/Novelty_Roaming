@@ -7,6 +7,7 @@ import time
 import sys
 import math
 import keyboard as kb
+os.environ["SDL_AUDIODRIVER"] = "dummy"
 import pygame as pgm
 
 cs = Console()
@@ -133,6 +134,12 @@ class D: # 敌人属性。
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
+def cls():
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
+
 def output_structure(text, cl, bl):
     if not isinstance(text, str):
         text = str(text)
@@ -190,7 +197,7 @@ def zf(text, cl):
 
 def fin():
     global player_escaped
-    os.system("cls")
+    cls()
     bf("Res.mp3", -1)
     zf("结束。", "text")
 
@@ -359,7 +366,7 @@ def gj(z_group, d_group):
     if not z_group or not d_group:
         return
 
-    os.system("cls")
+    cls()
     print("战斗开始！")
     print()
     for z in z_group:
@@ -375,7 +382,7 @@ def gj(z_group, d_group):
 
     # 我方攻击阶段（按编号顺序）。
     # 记录每个 Z 选中的目标 D。
-    os.system("cls")
+    cls()
     z_targets = {}
     for z in z_group[:]:  # 使用副本，因为可能死亡删除。
         if not z_sx[z].exist:
@@ -448,7 +455,7 @@ def gj(z_group, d_group):
             monitor_existing -= 1
 
     # 敌方反击阶段。
-    os.system("cls")
+    cls()
     d_targets = {}
     for d in d_group[:]:
         if not d_sx[d].exist:
@@ -533,7 +540,7 @@ def gj(z_group, d_group):
             player_existing -= 1
 
     # 结束状态显示。
-    os.system("cls")
+    cls()
     print("结束状态。")
     print()
     for z in z_group:
@@ -553,7 +560,7 @@ def gj(z_group, d_group):
         for d in d_group:
             if d_sx[d].exist: d_sx[d].zdz = []
     # 如果未全灭，则战斗未结束，zdz 保持，下一轮主循环会再次触发 gj。
-    os.system("cls")
+    cls()
 
 def dm(z_ord, hitdmg_single): # 躲避弹幕。
     bw = (20 if not ls_crit else 15) # 宽度。
@@ -577,7 +584,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
             z_sx[z_ord].hp -= z_sx[z_ord].thp * 0.007
             z_sx[z_ord].kr -= 1
             if z_sx[z_ord].hp <= 0:
-                os.system("cls")
+                cls()
                 return hitcount
 
         if current_time >= next_spawn_time and len(bullets) < 20:
@@ -634,7 +641,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
                     hitcost = max(0, hitdmg_single * (uniform(0.5, 0.7) if not ls_crit else uniform(1.1, 1.9)))
                     z_sx[z_ord].hp -= hitcost
                     if z_sx[z_ord].hp <= 0:
-                        os.system("cls")
+                        cls()
                         return hitcount
                     continue 
 
@@ -644,7 +651,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
         
         bullets = surviving_bullets
 
-        os.system("cls")
+        cls()
         print("按方向键躲避弹幕。")
         print()
         for y in range(bh):
@@ -681,7 +688,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
             
         time.sleep(0.05)
 
-    os.system("cls")
+    cls()
     return hitcount
 
 def zs(var, p, q):
@@ -727,7 +734,7 @@ def mz(me, enemy):
     global fz_lsstring, ls_range, t_playerattack
 
     t_playerattack += 1
-    os.system("cls")
+    cls()
     print(fr"""      攻方                                防方""")
     cl_print(f"""      {me}                               {enemy}""", "yellow", "")
     print(r"""
@@ -793,7 +800,7 @@ def mz(me, enemy):
     return l
 
 if __name__ == "__main__":
-    os.system("cls")
+    cls()
     pgm.mixer.init()
 
     zf("…………", "aqua")
@@ -916,7 +923,7 @@ if __name__ == "__main__":
             else:
                 d_sx[k].tenergy = zs(zf(f"第 {k + 1} 位看守者的起始精力？", "inp"), 1, float("inf"))
         d_sx[k].energy = d_sx[k].tenergy
-    os.system("cls")
+    cls()
 
     if sf_zwz == "1":
         for ls in range(z_amount): # 随机分配角色的位置。
@@ -1281,7 +1288,7 @@ def z_move(num):
     for i in range(2):
         turn_index += 1
 
-        os.system("cls")
+        cls()
 
         if qj_intro == False:
             print("""| Z | 表示你的位置，| D | 表示看守者的位置，| . | 表示空格子，| Z , D | 表示你和看守者在同一格子内；| ; | 表示障碍物，不可通行；
@@ -1371,7 +1378,7 @@ def z_move(num):
             continue
 
 def d_move(num):
-    os.system("cls")
+    cls()
     x_change = True
     ls_caughtzf = ""
     ls_slipped = ""
@@ -1677,7 +1684,7 @@ except KeyboardInterrupt:
     fin()
     sys.exit(1)
 
-os.system("cls")
+cls()
 if ls_crit:
     bf("Dodged.wav", 1)
 
