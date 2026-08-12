@@ -81,7 +81,7 @@ Additionally, in order to protect both the original author and derivative author
 > > - A: Modified some content;
 > > - B: Made derivative works for content I like;
 > > - C: *(Leave blanks)*;
-> > - D：*(Any conduct that includes noting that the derivative work is the original work in the derivative work)*.
+> > - D：*(Any conduct which includes noting that the derivative work is the original work in the derivative work)*.
 > - Each author is independently responsible for the content they create, **and should not shift their responsibility to other authors in the SignDesc.** If an author is involved with other authors in the process *(including but not limited to creation process, publication process, or promotion process)*, and such involvement relates to the content they are responsible for, they may still bear corresponding liability. \
 > For collaborative works, the co-authors may not refuse to bear overall responsibility to the original author or affected parties on the grounds of internal division of responsibility. Co-authors may agree on internal responsibility shares, **but such agreements may not be used as a pretext to evade overall responsibility.** \
 > The above rules apply to derivative works (including higher-order creations). For fan behavior or other third-party actions unrelated to this work, this document does not constitute the author's endorsement or recognition of such behavior. The author cannot and does not have the authority to control any third-party conduct. Relevant liability shall be borne by the initiator of such behavior (including but not limited to individuals, organizations, or groups). ***The author does not support any form of cyberbullying or any conduct that incites cyberbullying.***
