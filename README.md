@@ -43,9 +43,9 @@
 > [!important]
 > This work is under a CC BY-NC-SA 4.0 License. The main terms are as follows.
 
-> I. When quoting this work, you must give credit to the original author @Modificationer. For third or higher-order derivative works, credit must be given to all previous authors.
-> II. Derivative works must be distributed under the same CC license (CC BY-NC-SA 4.0).
-> III. **Any commercial use of this work is PROHIBITED.**
+> - When quoting this work, you must give credit to the original author @Modificationer. For third or higher-order derivative works, credit must be given to all previous authors.
+> - Derivative works must be distributed under the same CC license (CC BY-NC-SA 4.0).
+> - **Any commercial use of this work is PROHIBITED.**
 
 > [!note]
 > For more details about the CC license, please refer to the following website.
