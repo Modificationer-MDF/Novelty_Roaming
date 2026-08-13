@@ -1,0 +1,32 @@
+<PC user name>,
+	Hello!
+	"Harmony Fashion OS", also called "HF OS" (Hereinafter referred to as "HF"), is an OS in Novelty Roaming.
+        Now HF is V. 1.1.3.9.
+	Here are some notices you must notice.
+	- Notice -
+	
+	This OS is developed by Modificationer, Shatelliti, Xusu Ziye and other HF-Devs. And you're in, too!
+	
+	Then, let's introduce the functions in This OS.	
+	- Functions -
+	
+	1. Account login
+	You have to type in your account name and your password.
+	(Notice: After settings, the encrypted information of the account will be saved to your game path with a file about how to decrypt it.)
+	2. Tools box
+	It's the 1st app in the OS. You can open the calculator, calendar, clock, timer, command, etc. Those tools maybe help you.
+	3. Phone call
+	You don't even need an SIM card! HF can make SIM-less phone calls. But it's not free - it will cost your money (from ￥0.01 to ￥0.05, for specific details, check out your TPh supplier)!
+	4. HF Net
+	It's an application that you can explore the HF Net. Don't worry about your mobile data. You only need to pay ￥90 in a year.
+	5. Feedback
+	It's the app that you can feedback.
+	6. Map
+	It's just as its name suggests. You can use it for navigation or locating.
+
+	There're also many other functions in HF.  As an HF-ian, if you meet any problems, please feedback.
+	We hope you have a good time using Harmony Fashion OS!
+	
+Best Regards,
+	Modificationer
+	3991.7/7

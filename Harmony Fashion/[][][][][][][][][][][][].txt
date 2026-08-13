@@ -1,0 +1,24 @@
+33196,
+    Greetings.
+    It seems that you have known the notices in last text document. Now let's just get to the point.
+    If you have read the text above, type "A" in the following textbox. (Only a character, no blanks.)
+    [A / a]
+    Understood.
+    Now, let's have a examination then.
+
+    - Question 1 - (10')
+    How many notices are there in the "Introduction.txt"?
+    [4]
+
+    - Question 2 - (10')
+    How many functions were mentioned in "Introduction.txt"?
+    [5]
+
+    - Question 3 - (10')
+    Who sent "Introduction.txt" to you?
+    [Modificationer]
+
+    Excellent. You just passed the examination.
+    I'll allow you to get into the RECOVERY SYSTEM.
+
+['Modificationer']
