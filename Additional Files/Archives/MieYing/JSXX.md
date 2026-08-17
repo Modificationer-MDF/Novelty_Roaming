@@ -1,41 +1,41 @@
-# 在此之前说明
+# 在此之前说明 | Note Before Reading
 
-> [!tip]
-> 在 Visual Studio 中，按 Ctrl + M 和 Ctrl + L 折叠所有块，按 Ctrl + M 和 Ctrl + M 折叠当前块，按 Ctrl + M 和 Ctrl + O 展开所有块。
+## 城市介绍 | Introduction to Cities
+| 名称 | Latin Names | 行政区划 · Administrative Divisions |
+| -------------------- | ----------------- | ------------------------------ |
+| 法纳 | Fana | **首都、经济和政治中心** |
+| 维卡 | Weika | **文化中心**、第二经济中心 |
+| 塔灿 | Tacan | 郊区、森林、河流 |
+| 宗米 | Zongmi | 城镇、居民区 |
+| 龙宫 | Loonggong | 龙族自治区 |
+| 茂英 | Maoying | 草原 |
+| 澄流 | Chengliu | 沙滩 |
+| 夜梦 | Illusionary | 海底城市、旅游中心 |
+| 珊瑚 | Shanhu | 海底城市、**“网络文化工厂”** |
+| 霞岚 | Xialan | 山区、丘陵 |
+| 黛洛 | Dailuo | 高原、河流 |
+| 南苑 | Nanyuan | 一级农业区 |
+| 藕莲 | Oulian | 二级农业区 |
+| 琼珀 | Qiongpo | 矿山、机械工作区 |      
 
-## Chanf 历
+## Chanf 历 | Chanf Calendar
 > Chanf 历中，1 年有 60 月，1 月有 42 天。\
 > Chanf 1 年 ≈ 地球 6.90 年。\
 > 虽然 Chanf 1 年（2520 天）比地球 1 年（365.25 天）长得多，但年仅 16 岁（人的生长速度会放相对应地放慢，平均寿命仍为 75~80 岁）的青年已具有 110.40 年的阅历了。 \
 > 在 Chanf 生活 1 年可获得在地球生活 6.90 年的阅历。
 
-## 城市介绍
-> - 法纳（Fana）：Chanf 经济中心、首都、政治中心。
-> - 维卡（Weika）：Chanf 文化之都。
-> - 塔灿（Tacan）：Chanf 森林和乡村。
-> - 宗米（Zongmi）：Chanf 人口最多的城镇。
-> - 龙宫（Loonggong）：Chanf 龙族自治区。
-> - 珊瑚（Shanhu）：Chanf 海洋城市一线城市。
-> - 夜梦（Illusionary）：Chanf 海洋旅游城市。
-> - 澄流（Chengliu）：Chanf 度假区。
-> - 藕莲（Oulian）：Chanf 一级农业区。
-> - 南苑（Nanyuan）：Chanf 二级农业区。
-> - 霞岚（Xialan）：Chanf 山地地区。
-> - 黛洛（Dailuo）：Chanf 草地和平原地区。
-> - 琼珀（Qiongpo）：Chanf 矿山区域。
-
 > [!note]
-> ## 为什么 Chanf 历是这样的
+> ## 为什么 Chanf 历是这样的？
 > 人们的生长、发育和健康水平和现在完全不能比较。\
 > 若用现在的标准去看待那时人们的生长状况，那么每个人都可以活到 600 岁。
 > > （3970 年 1 月 1 日，8：00）\
 > > 甲者：“1 年 2520 天？你认真的？” \
-> > 乙者：“不是我不想回到 30/31 天那样的历法。Unie 计算机从 3969 年 1 月 1 日 0：00：00 到 3969 年 12 月 31 日 23：59：59 测量秒数，最终得出 217727999 秒。这属实荒诞。之前测出的结果一直都是约 31536000。” \
+> > 乙者：“不是我不想回到 30/31 天那样的历法。`Uniks` 计算机从 3969 年 1 月 1 日 0：00：00 到 3969 年 12 月 31 日 23：59：59 测量秒数，最终得出 217727999 秒。这属实荒诞。之前测出的结果一直都是约 31536000。” \
 > > 甲者：“再测。估计是计算机的原因。这次用 40 个计算机同时开始计时。” \
 > > …… \
 > > （3971 年 1 月 1 日，8：15）\
 > > 乙者：“结果出来了。这次给出的结果如下。”
-> > | 编号 | 结果 |
+> > | 编号 · Order | 结果 · Result |
 > > | --- | --- |
 > > | 0 | 217728000.142 |
 > > | 1 | 217727999.182 |
@@ -85,7 +85,7 @@
 > > …… \
 > > （3972 年 1 月 1 日 8：31）\
 > > 乙者：“结果……出来了。” \
-> > | 编号 | 结果 |
+> > | 编号 · Order | 结果 · Result |
 > > | --- | --- |
 | 0 | 217728000.645 |
 | 1 | 217728000.670 |
@@ -404,7 +404,7 @@
 > - 1 天有 24 小时。
 > - 24 和 60 的算术平均数是 42。
 > - 宇宙的终极答案。
-> - 1970 年是 Unix 时间周期点。那么加两千应该？
+> - 1970 年是 Unix 时间轴起点。那么加两千应该？
 
 ---
 
@@ -413,18 +413,20 @@
 > - 若需要换算，可以使用以下公式。
 > > - 心智成熟人（Chanf 龄 ≥ 13 岁）：心理年龄 ≈ Chanf 龄 × 1 ~ 2.5
 > > - 心智不成熟人（Chanf 龄 < 13 岁）：心理年龄 ≈ Chanf 龄 × 1 ~ 1.33
+>
+> **有些人的心理年龄可能比生理年龄还要低。**
 > - 不同人心理成长速度不同。
-> - “16P” 摘自原设定集，仅作为参考，很可能会有 OOC。
+> - “16P” 摘自原设定集，仅作为参考，很可能会有 OOC；因此不完全可信。
 > - 年龄格式：生理年龄（Chanf 年）/ 心理年龄（地球年）/ 阅历年龄（地球年）。其中，生理年龄和心理年龄向下精确到整数（floor()），阅历年龄精确到一位小数（round()）。
 
 # 主要角色 | Main Characters
 
-| 汉语名称 | 英语名称 | 缩写 | 身高（cm）| 体重（kg）| 年龄（截止至 3991/3/31）| 年龄（截止至 3991/7/7）| 16P（7 月 7 日前、7 月 7 日后）| BMI |
+| 名称 | Latin Names | 缩写 · Abbreviations | 身高 · Height（cm）| 体重 · Weight（kg）| 年龄 · Age（截止至 3991/3/31）| 年龄 · Age（截止至 3991/7/7）| 16P | BMI（kg/㎡） |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 凤灵诺缔 | Feng Noti | fn | 184 | 58 | 14/26/103.2 | 15/26/103.6 | ENFP-A | 17.13 |
 | 惟兹奎玹 | Weizi Kuixuan | wk | 179 | 54 | 13/20/96.1 | 13/20/96.5 | INFP-T、INFP-A | 16.85 |
 | 千茶年又 | Tsiancha Nianyou | tc | 193 | 66 | 15/28/110.0 | 16/28/110.4 | ESTP-A | 17.72 |
-| 梓柯萨·无不 | Zyxa Wvub Tsrc Qpod Nmle Kjif Hg (Zyxa Wvub) | zw | 186 | 59 | 14/24/102.4 | 14/24/102.8 | ENFJ-A | 17.05 |
+| 梓柯萨·无不·滋恪·珀德·谟·期福·格（梓柯萨·无不）| Zyxa Wvub Tsrc Qpod Nmle Kjif Hg (Zyxa Wvub) | zw | 186 | 59 | 14/24/102.4 | 14/24/102.8 | ENFJ-A | 17.05 |
 | 恰拉·略·肆格莅覆 | Chala Lüe Sklif | cl | 184 | 57 | 13/19/95.1 | 13/20/95.5 | ISTJ-T | 16.83 |
 | 雨落 | It Rains | ir | 186 | 64 | 14/23/102.6 | 14/23/103.0 | INTP-A | 18.50 |
 | 末谛菥开玄那·纱檀来绨 | Modificationer Shatelliti | ms | 214 | 77.4557 | 14/27/103.2 | 15/27/103.6 | ENTP-T、ENTP-A | 16.91 |
@@ -438,7 +440,7 @@
 | Era | Era | er | 183 | 61 | 13/21/95.6 | 13/21/96.0 | ISTP-A | 18.21 |
 | 机悦 | Opportunity Joyousness | oj | 222 | 91 | 20/33/144.2 | 20/33/144.5 | ENTJ-A | 18.46 |
 | 絮苏紫叶 | Xusu Ziye | xz | 214 | 77 | 14/26/103.2 | 15/26/103.6 | INTJ-A | 16.81 |
-| [无数据] | [NO CONTENT] | ∅∈{∅} | ∅ | ∅ | ∅ | ∅ | ∅ | {∅}⊆{∅} |
+| ~~通知·撤除（通撤）~~ | ~~Notification Withdrawor~~ | ~~NoWi~~ | ~~189~~ | ~~60~~ | ~~（2011 ~ 2025?）~~ | ~~（2011 ~ 2025?）~~ | ~~?~~ | ~~16.80~~ |
 | 东涟 | Dong Lian | dl | 197 | 75 | 14/23/96.8 | 14/23/97.2 | ESFP-A | 19.33 |
 | 西漪 | Xi Yi | xy | 193 | 68 | 14/23/103.1 | 15/23/103.5 | INFJ-A | 18.26 |
 | 南流 | Nan Liu | nl | 188 | 57 | 14/22/103.0 | 14/22/103.4 | ISFP-A | 16.23 |
@@ -466,7 +468,7 @@
 > Kleri、Sinderi、Furai 外观为少女。
 > Huntun、Psaikede 外观为少年。
 
-| 角色名 | 生理设定 | 高度（cm） | 零件质量（kg） | 诞生日期 |
+| 名称 · Names | 生理设定 · Set Physical Ages | 高度 · Height（cm） | 机械零件质量 · Weight of Mechanic Parts（kg） | 诞生日期 · Birthday |
 | --- | --- | --- | --- | --- | --- |
 | Kleri | 14 | 185 | 55 | 3991/1/1 | 
 | Sinderi | 15 | 187 | 60 | 3991/2/18 |
@@ -478,57 +480,57 @@
 
 # 临时角色 | Temporary Characters
 
-| Pinyin | 生理年龄 | 心理年龄 | IP 属地 |
+| Pinyin | 生理年龄 · Physical Age | 心理年龄 · Psychological Age | IP 属地 · IP Address |
 | --- | --- | --- | --- | --- | --- |
-| Wang Yuexiak | 11 | 12 | 宗米 |
-| Yin Qinmot | 12 | 13 | 法纳 |
-| Jin Jiaxib | 11 | 13 | 法纳 |
-| Chen Mengyid | 12 | 14 | 藕莲 |
-| Li Yingbip | 11 | 13 | 宗米 |
-| Yu Fangyik | 12 | 14 | 夜梦 |
+| Wang Yuexiak | 11 | 9 | 宗米 |
+| Yin Qinmot | 12 | 10 | 法纳 |
+| Jin Jiaxib | 11 | 10 | 法纳 |
+| Chen Mengyid | 12 | 11 | 藕莲 |
+| Li Yingbip | 11 | 10 | 宗米 |
+| Yu Fangyik | 12 | 12 | 夜梦 |
 | Zhuang Chuangshuangguang | 15 | 16 | 珊瑚 |
-| Kuan Qianzhi | 16 | 16 | 维卡 |
-| Qik Wentian | 16 | 16 | 维卡 |
-| Lan Wenmeng | 15 | 15 | 维卡 |
-| Ding Saming | 13 | 14 | 宗米 |
+| Kuan Qianzhi | 16 | 14 | 维卡 |
+| Qik Wentian | 16 | 15 | 维卡 |
+| Lan Wenmeng | 15 | 11 | 维卡 |
+| Ding Saming | 13 | 12 | 宗米 |
 | Shangguan Xuet | 12 | 14 | 珊瑚 |
-| Peng Sheng | 12 | 14 | 珊瑚 |
-| Shit Fakyou | 13 | 15 | 法纳 |
-| Sun Xixi | 12 | 14 | 藕莲 |
-| Yek Jiahao | 12 | 13 | 维卡 |
-| Liu Jiaxin | 15 | 16 | 夜梦 |
-| She Haoxuan | 12 | 14 | 塔灿 |
-| Chen Junxuan | 12 | 13 | 珊瑚 |
-| Dongfang Junyu | 11 | 12 | 法纳 |
-| Wu Yuchen | 12 | 14 | 宗米 |
-| Na Zeyu | 11 | 13 | 藕莲 |
-| Guo Muchen | 12 | 14 | 宗米 |
-| Bai Xingyu | 11 | 12 | 宗米 |
-| Pei Yuxuan | 12 | 14 | 维卡 |
-| Lan Haoyu | 12 | 14 | 宗米 |
+| Peng Sheng | 12 | 12 | 珊瑚 |
+| Shit Fakyou | 13 | 13 | 法纳 |
+| Sun Xixi | 12 | 15 | 藕莲 |
+| Yek Jiahao | 12 | 16 | 维卡 |
+| Liu Jiaxin | 15 | 13 | 夜梦 |
+| She Haoxuan | 12 | 10 | 塔灿 |
+| Chen Junxuan | 12 | 12 | 珊瑚 |
+| Dongfang Junyu | 11 | 13 | 法纳 |
+| Wu Yuchen | 12 | 10 | 宗米 |
+| Na Zeyu | 11 | 8 | 藕莲 |
+| Guo Muchen | 12 | 9 | 宗米 |
+| Bai Xingyu | 11 | 11 | 宗米 |
+| Pei Yuxuan | 12 | 10 | 维卡 |
+| Lan Haoyu | 12 | 12 | 宗米 |
 | Mo Zixuan | 11 | 13 | 宗米 |
 | Mo Zihan | 12 | 13 | 宗米 |
 | Chen Yixuan | 11 | 12 | 法纳 |
-| Piao Chenxi | 12 | 14 | 维卡 |
-| Zhuge Yifan | 12 | 14 | 法纳 |
+| Piao Chenxi | 12 | 11 | 维卡 |
+| Zhuge Yifan | 12 | 10 | 法纳 |
 | Zhut Zeyu | 11 | 13 | 珊瑚 |
-| Liu Zheyu | 12 | 14 | 夜梦 |
-| Shi Jiaming | 12 | 14 | 澄流 |
-| Chen Xinyi | 11 | 12 | 宗米 |
-| Lin Haoran | 12 | 14 | 法纳 |
+| Liu Zheyu | 12 | 15 | 夜梦 |
+| Shi Jiaming | 12 | 12 | 澄流 |
+| Chen Xinyi | 11 | 10 | 宗米 |
+| Lin Haoran | 12 | 12 | 法纳 |
 | Su Yuxuan | 11 | 13 | 维卡 |
-| He Zihao | 13 | 14 | 宗米 |
-| Tan Mingze | 12 | 14 | 宗米 |
-| Wei Zihan | 11 | 12 | 藕莲 |
-| Shen Yichen | 12 | 14 | 夜梦 |
-| Gu Yixuan | 11 | 13 | 珊瑚 |
+| He Zihao | 13 | 15 | 宗米 |
+| Tan Mingze | 12 | 10 | 宗米 |
+| Wei Zihan | 11 | 8 | 藕莲 |
+| Shen Yichen | 12 | 9 | 夜梦 |
+| Gu Yixuan | 11 | 10 | 珊瑚 |
 | Fang Chenxi | 12 | 14 | 澄流 |
 | Lu Haoyu | 13 | 15 | 法纳 |
 | Jiang Yifan | 11 | 12 | 维卡 |
-| Mao Zixuan | 12 | 13 | 塔灿 |
-| Dai Yutong | 11 | 13 | 宗米 |
-| Ren Siyuan | 12 | 14 | 藕莲 |
-| Qin Yihan | 11 | 12 | 南苑 |
+| Mao Zixuan | 12 | 12 | 塔灿 |
+| Dai Yutong | 11 | 10 | 宗米 |
+| Ren Siyuan | 12 | 11 | 藕莲 |
+| Qin Yihan | 11 | 13 | 南苑 |
 | Yao Junyu | 12 | 14 | 夜梦 |
 | Kong Zihan | 11 | 13 | 珊瑚 |
 | Zhu Chenyu | 12 | 14 | 法纳 |
@@ -562,16 +564,15 @@
 | Yun Yifan | 12 | 14 | 宗米 |
 | Lan Xihan | 11 | 13 | 藕莲 |
 | Yu Yuetong | 12 | 14 | 宗米 |
-| Jiang Chenxi | 11 | 12 | 夜梦 |
-| Liu Yixuan | 12 | 14 | 珊瑚 |
-| Shi Yichen | 11 | 13 | 法纳 |
-| Chen Yifan | 12 | 14 | 宗米 |
-| Qih Yinuo | 13 | 16 | 法纳 |
-| Shi Zihan | 12 | 15 | 法纳 |
+| Jiang Chenxi | 11 | 11 | 夜梦 |
+| Liu Yixuan | 12 | 13 | 珊瑚 |
+| Shi Yichen | 11 | 11 | 法纳 |
+| Chen Yifan | 12 | 12 | 宗米 |
+| Qih Yinuo | 13 | 13 | 法纳 |
+| Shi Zihan | 12 | 12 | 法纳 |
 | Yang Ziyang | 12 | 15 | 法纳 |
-| Liu Zhiyan | 13 | 17 | 宗米 |
-| Xuc Zhecheng | 14 | 17 | 宗米 |
-| Wang Mengyi | 16 | 19 | Jing
+| Liu Zhiyan | 13 | 16 | 宗米 |
+| Xuc Zhecheng | 13 | 15 | 宗米 |
 
 ---
 
@@ -580,22 +581,31 @@
 > [!note]
 > - 以下排列了尽量多的组合。
 
-| 组合名 | 甲 | 乙 | 丙 | 丁 | 戊 |
-| --- | --- | --- | --- | --- | --- |
+| 名称 · Names | 甲 · 1 | 乙 · 2 | 丙 · 3 | 丁 · 4 | 戊 · 5 | 己 · 6 | 庚 · 7 | 辛 · 8 | 壬 · 9 | 癸 · 10 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ShiXi（Era 是“时代”的意思，所以取的这个名 hhh）| er | lx |
 | WenAmb（以防你不知道 Amb 是 Ambassador 的缩写 hhh）| wk | da |
 | MoW（不觉得 M 和 W 刚好是倒过来的吗？）| wk | qh |
 | Enthusiasik!（“嗯，你这组合名依旧来自 enthusiastic。”“闭嘴！我可有创意了！”）| wk | tc |
 | Lukewarmie（是的，lukewarm）| wk | fn |
-| Crain（不知道谁取得名字，反正觉得蛮好听的）| ir | cl |
+| Lukewarmie #2（是的，lukewarm #2）| wk | zw |
+| Crain（不知道谁取的名字，反正觉得蛮好听的）| ir | cl |
 | LieHan（lie 不是谎的意思！！！）| ll | hs |
 | HuoFeng（枫与火的相生相克之术！）| ch | cf |
 | SaShui（“英姿飒爽”“静如止水”）| qa | qs |
 | HFie | cx | qg | sw |
 | Intelligences'Power | Kleri | Sinderi | Furai | Huntun | Psaikede |
+| WoM（hq 是 qh 的黑化版本）| hq | wk |
+| 棋逢对手 | Li Junyu | cb |
+| 刷屏 princesses | Chen Mengyid | Sun Xixi |
+| “工具” | Zhuang Chuangshuangguang | Ding Saming |
+| 非工具也 | Shangguan Xuet | Ding Saming |
+| 粉丝们最~~不~~喜欢看的组合 | cd | cx | qg | sw |
+| “骨折” | Ding Saming | Furai |
+| “暴走” | Kleri | Li Yingbip | She Haoxuan | Guo Muchen | Mo Zixuan | Chen Junxuan | Na Zeyu | Wu Yuchen |
 
 ---
 
-> ## 临时名生成
-> 原需手动复制、粘贴表格中的内容并调整部分拼写，过程繁琐；现已自动化。表格已删除。\
-> 请运行[本 Python 文件](CharGen.py)直接生成。
+# 临时名生成 | Generate Temporary Names
+原需手动复制、粘贴表格中的内容并调整部分拼写，过程繁琐；现已自动化。表格已删除。\
+请运行[本 Python 文件](CharGen.py)直接生成。
