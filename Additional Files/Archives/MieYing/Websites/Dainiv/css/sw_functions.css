@@ -10,7 +10,7 @@
     overflow-y: auto;
     line-height: 1.4;
     overflow-wrap: break-word;
-    max-width: 390px;
+    max-width: 27ch;
     max-height: 250px;
     padding: 14px 25px;
 }

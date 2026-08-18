@@ -9,7 +9,7 @@ function ld(el, percent) { // 控制亮度。
 
 function xzsj() { // 获取现在时间。
     const now = new Date();
-    return `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+    return `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日 ${now.getHours()} 时 ${now.getMinutes().toString().padStart(2, '0')} 分 ${now.getSeconds().toString().padStart(2, '0')} 秒`;
 }
 
 function fhsj(time) { // 返回带正确单位的时间。
@@ -156,4 +156,25 @@ function mcreate(window) { // 创建窗口。
 function mclose(window) {
     mid_win = mid_win.filter(win => win !== window);
     pos(2);
+}
+
+function mwactive(id) {
+    // 检查 DOM 元素是否存在。
+    const element = document.getElementById(id);
+    if (element) {
+        // 检查元素是否可见且动画已完成。
+        const rect = element.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+            return true;
+        }
+    }
+
+    // 检查 winmaps 中是否有对应 key。
+    for (const [key, win] of Object.entries(winmaps)) {
+        if (win.dom && win.dom.id === id) {
+            return true;
+        }
+    }
+
+    return false;
 }

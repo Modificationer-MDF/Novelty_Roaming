@@ -7,7 +7,6 @@ import time
 import sys
 import math
 import keyboard as kb
-os.environ["SDL_AUDIODRIVER"] = "dummy"
 import pygame as pgm
 
 cs = Console()
@@ -135,10 +134,8 @@ dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
 def cls():
-    if os.name == "nt":
-        os.system("cls")
-    else:
-        os.system("clear")
+    os.system("cls")
+
 
 def output_structure(text, cl, bl):
     if not isinstance(text, str):
@@ -255,7 +252,7 @@ def fin():
     elif qj_rank <= 0:
         bf("Twisted Victory.wav", 1)
         zf("如果实在不会玩，可以修改源代码。建议修改 dm() 和 gj() 处计算逻辑。", "cyan")
-        zf("打开 Visual Studio（Visual Code）或记事本，按下 Ctrl+F（或者 Ctrl+H，慎用替换） 打开查找与替换，键入 “def dm(” 或 “def gj(” 后修改关键变量。（例如 duration、hitcost）", "cyan")
+        zf("打开 Visual Studio（或者 VS Code）或记事本，按下 Ctrl+F（或者 Ctrl+H，慎用替换） 打开查找与替换，键入 “def dm(” 或 “def gj(” 后修改关键变量。（例如 duration、hitcost）", "cyan")
 
 def xz(text, array):
     ls_str = ""

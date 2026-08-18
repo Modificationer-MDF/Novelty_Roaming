@@ -20,7 +20,7 @@ async function inf(string, id) {
         mele.className = "inf-mele";
         mele.id = id;
         square.className = "inf-square";
-        icon.src = "images/Notification.png";
+        icon.src = "Dainiv/images/Notification.png";
         icon.alt = "";
         inf.className = "rfn-inf";
         bar.className = "inf-bar";
@@ -83,7 +83,7 @@ async function suc(string, id) {
         mele.className = "suc-mele";
         mele.id = id;
         square.className = "suc-square";
-        icon.src = "images/Suc.png";
+        icon.src = "Dainiv/images/Suc.png";
         icon.alt = "";
         inf.className = "rfn-inf";
         bar.className = "suc-bar";
@@ -146,7 +146,7 @@ async function err(string, id) {
         mele.className = "err-mele";
         mele.id = id;
         square.className = "err-square";
-        icon.src = "images/Err.png";
+        icon.src = "Dainiv/images/Err.png";
         icon.alt = "";
         inf.className = "rfn-inf";
         bar.className = "err-bar";
@@ -209,7 +209,7 @@ async function caut(string, id) {
         mele.className = "caut-mele";
         mele.id = id;
         square.className = "caut-square";
-        icon.src = "images/Exc.png";
+        icon.src = "Dainiv/images/Exc.png";
         icon.alt = "";
         inf.className = "rfn-inf";
         bar.className = "caut-bar";
@@ -273,7 +273,7 @@ async function conf(string, id) {
         mele.className = "conf-mele";
         mele.id = id;
         square.className = "conf-square";
-        icon.src = "images/Confirm.png";
+        icon.src = "Dainiv/images/Confirm.png";
         icon.alt = "";
         inf.className = "rfn-inf";
         yes.className = "conf-yes";

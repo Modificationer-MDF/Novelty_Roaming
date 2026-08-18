@@ -201,7 +201,7 @@ function init_ui() {
     lt.innerHTML = "Options";
     const li = document.createElement("img");
     li.classList.add("i");
-    li.src = "images/Options.png";
+    li.src = "Dainiv/images/Options.png";
     li.alt = "";
 
     lw.appendChild(lt);
@@ -290,7 +290,7 @@ function init_ui() {
             let ying = document.querySelector(ls_1);
             let con = await conf(`
             该元素内容已显示在分隔线下方。请确认。
-            <div style="background-color: #0437c6; width: 100%; height: 3px; margin-top: 10px; margin-bottom: 10px;"></div>
+            <div style="background-color: #0437c6b9; width: 100%; height: 3px; margin-top: 10px; margin-bottom: 10px;"></div>
             ${ying.textContent}`);
 
             if (con) {
@@ -398,7 +398,7 @@ function init_ui() {
     rt.innerHTML = "Unread Messages";
     const ri = document.createElement("img");
     ri.classList.add("i");
-    ri.src = "images/Unread Messages.png";
+    ri.src = "Dainiv/images/Unread Messages.png";
     ri.alt = "";
 
     rw.appendChild(rt);

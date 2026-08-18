@@ -1,4 +1,8 @@
-﻿.fd-warn-mele,
+﻿.fd-toga {
+    display: inline-block;
+}
+
+.fd-warn-mele,
 .fd-caut-mele {
     transition: all 0.3s ease;
     z-index: 100;
@@ -22,6 +26,7 @@
 
 .fd-warn-square {
     width: 100%;
+    height: 30px;
     transition: all 0.3s ease;
     z-index: 101;
     display: flex;
@@ -37,6 +42,9 @@
     width: 100%;
     font-size: 20px;
     transition: all 0.3s ease;
+    word-break: break-word;
+    max-width: 100%;
+    box-sizing: border-box;
     z-index: 102;
     display: flex;
     align-items: center;
@@ -62,6 +70,10 @@
     position: relative;
     height: 60px;
     overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
 .fd-warn-toggle {

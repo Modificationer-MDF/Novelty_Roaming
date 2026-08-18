@@ -291,3 +291,43 @@ button {
         opacity: 1;
     }
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 20px;
+    line-height: 1.6;
+    background: #090b0e99;
+    overflow: hidden;
+}
+
+td {
+    padding: 6px 12px;
+    border-bottom: 1px solid #ffffff22;
+    text-align: left;
+    word-break: break-all;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.label {
+    color: #8b949e;
+    font-weight: 500;
+    width: 80px;
+    white-space: nowrap;
+}
+
+.value {
+    color: #e6edf3;
+}
+
+    .value code {
+        background: #1e1e2eb9;
+        padding: 1px 8px;
+        border-radius: 4px;
+        color: #83bd11;
+        font-size: 17px;
+        word-break: break-all;
+    }

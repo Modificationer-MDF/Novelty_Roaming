@@ -16,6 +16,7 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
+
     .lw::-webkit-scrollbar, .rw::-webkit-scrollbar {
         display: none;
     }
@@ -181,7 +182,8 @@
     transition: all 0.2s;
 }
 
-.scs, .share, .pr, .reportying, .ter, .on, .off, .lw14, .lw15, .lw16, .lw17, .lw18, .lw19, .lw20, .rw1, .rw2, .rw3, .rw4, .rw5 {
+.scs, .share, .pr, .reportying, .ter, .on, .off,
+.fingerprint, .trace, .snapshot, .block, .immersive {
     position: relative;
     opacity: 0;
     color: #ffffff;
@@ -194,10 +196,28 @@
     cursor: pointer;
     text-align: center;
     backdrop-filter: blur(14px) saturate(250%);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.phl {}
+    .scs:hover, .share:hover, .pr:hover, .reportying:hover, .ter:hover,
+    .on:hover, .off:hover,
+    .fingerprint:hover, .trace:hover, .snapshot:hover, .block:hover, .immersive:hover {
+        filter: brightness(1.25);
+        transform: scale(1.02);
+        box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+    }
+
+    /* 点击效果。 */
+    .scs:active, .share:active, .pr:active, .reportying:active, .ter:active,
+    .on:active, .off:active,
+    .fingerprint:active, .trace:active, .snapshot:active, .block:active, .immersive:active {
+        transform: scale(0.96);
+        filter: brightness(0.85);
+    }
+
+.phl {
+    z-index: 999;
+}
 
 .rw1, .rw2, .rw3, .rw4, .rw5 {
     transition: width 0.2s ease-in-out;
@@ -224,41 +244,24 @@
     background-color: #00000099;
 }
 
-.on {
-    background-color: #008e0099;
+.fingerprint {
+    background-color: #8e44ad99;
 }
 
-.off {
-    background-color: #8e000099;
+.trace {
+    background-color: #2980b999;
 }
 
-
-.lw14 {
-    background-color: #3d869a99;
+.snapshot {
+    background-color: #d3540099;
 }
 
-.lw15 {
-    background-color: #4c90a899;
+.block {
+    background-color: #c0392b99;
 }
 
-.lw16 {
-    background-color: #5b99b699;
-}
-
-.lw17 {
-    background-color: #6aa3c499;
-}
-
-.lw18 {
-    background-color: #79adcf99;
-}
-
-.lw19 {
-    background-color: #88b7d899;
-}
-
-.lw20 {
-    background-color: #97c1e099;
+.immersive {
+    background-color: #2c3e5099;
 }
 
 .larea1, .larea2 { /* 左侧窗口第一部分。 */
@@ -283,4 +286,31 @@
 
 .larea2 {
     background-color: #0e410299;
+}
+
+.immersive-mode .lw,
+.immersive-mode .rw,
+.immersive-mode .fd-warn-mele,
+.immersive-mode .fd-caut-mele {
+    display: none !important;
+}
+
+.immersive-mode * {
+    max-width: 80ch !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.immersive-mode img,
+.immersive-mode video,
+.immersive-mode iframe {
+    max-width: 100% !important;
+}
+
+.on {
+    background-color: #008e0099;
+}
+
+.off {
+    background-color: #8e000099;
 }
