@@ -1,12 +1,12 @@
 > [!important]
-> 本作品遵循《署名—非商业性使用—相同方式共享 4.0 协议》（CC BY-NC-SA 4.0 协议）。主要内容如下。
+> 本作品遵循《知识共享 署名—非商业性使用—相同方式共享 4.0 协议》（CC BY-NC-SA 4.0 协议）。主要内容如下。
 
 > - 一、引用作品时需要署名原作者 @Modificationer。对于三次或多次创作作品，需要署名之前的所有创作者。
 > - 二、引用本作品时，需要遵循相同的 CC 协议（CC BY-NC-SA 4.0）。
 > - **三、本作品禁止任何形式的商业使用。**
 
 > [!note]
-> 对于更多有关 CC 协议的内容，请参见以下网站。
+> 对于更多有关知识共享协议（CC 协议）的内容，请参见以下网站。
 > [CC BY-NC-SA 4.0 官方页面（中文）](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans)
 
 此外，为了保护作者自身和二创作者，明确每个部分的责任归属，在二次创作本作品时，应注意以下几点。
@@ -54,7 +54,7 @@
 > - **Any commercial use of this work is PROHIBITED.**
 
 > [!note]
-> For more details about the CC license, please refer to the following website.
+> For more details about the Creative Commons License (CC license), please refer to the following website.
 > [CC BY-NC-SA 4.0 Official Page (English)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 Additionally, in order to protect both the original author and derivative authors, and to clarify the responsibility of each party, please note the following when creating derivative works based on this work.

@@ -843,11 +843,11 @@
 > Chanting "harmony", but we all see greed! \
 > Key by key, ruining our IDs!
 
-> "Live" started? Just see it reversedly! \
+> New "Live" started? Just see it reversedly! \
 > Call it justice? What a self-directed comedy!
 
 > Yao! Yao! Check it check it out! \
-> *QingJing-baji*, get it on and yell out: \
+> *QingJing-baji*, put it on and yell out: \
 > "Join QingJing, get those *Mopi*s knocked out!" \
 > One for 42 cF¥ (this), hurry up! Gonna be sold out! \
 > Don't like it? No worries but let it go! \
