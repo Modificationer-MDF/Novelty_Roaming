@@ -215,9 +215,7 @@
         filter: brightness(0.85);
     }
 
-.phl {
-    z-index: 999;
-}
+.phl {}
 
 .rw1, .rw2, .rw3, .rw4, .rw5 {
     transition: width 0.2s ease-in-out;
