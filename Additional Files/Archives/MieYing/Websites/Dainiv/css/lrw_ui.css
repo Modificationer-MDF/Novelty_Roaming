@@ -91,7 +91,7 @@
     }
 }
 
-.lf1, .lf2 { /* 分割线。*/
+.lf1, .lf2, .rf1 { /* 分割线。*/
     position: relative;
     overflow-x: hidden;
     top: 30px;
@@ -112,7 +112,11 @@
     background-color: #00ff1d99;
 }
 
-.lf1i, .lf2i {
+.rf1 {
+    background-color: #4a79fb99;
+}
+
+.lf1i, .lf2i, .rf1i {
     position: relative;
     left: -20px;
     height: 100%;
@@ -128,7 +132,12 @@
     background-color: #34ff51c9;
 }
 
-@keyframes in_lf {
+.rf1i {
+    left: 484px;
+    background-color: #5d8dffc9;
+}
+
+@keyframes in_f { /* 分割线入场动画。*/
     0% {
         width: 0;
     }
@@ -138,7 +147,7 @@
     }
 }
 
-@keyframes out_lf {
+@keyframes out_f { /* 分割线出场动画。*/
     0% {
         width: 100%;
     }
@@ -335,25 +344,25 @@
 }
 
     .rw-block-item:hover {
-        background: #ffffff25 !important;
+        background-color: #ffffff25 !important;
     }
 
     .rw-block-item .selector {
-        font-size: 14px;
+        font-size: 18px;
         word-break: break-all;
         flex: 1;
         font-family: monospace;
     }
 
 .rw-unblock-btn {
-    background: #2ecc71;
+    transition: all 0.2s ease;
+    background: #158f35b9;
     border: none;
     color: white;
-    padding: 4px 12px;
+    padding: 11px 19px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 13px;
-    transition: background 0.2s;
+    font-size: 18px;
 }
 
     .rw-unblock-btn:hover {
@@ -363,5 +372,9 @@
 .rw-empty-msg {
     color: #ffffff;
     text-align: center;
-    margin-top: 40px;
+    padding: 40px 20px;
+    font-size: 23px;
+    background-color: #070608b9;
+    border-radius: 8px;
+    transition: all 0.2s ease;
 }

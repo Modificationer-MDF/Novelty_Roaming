@@ -1,5 +1,6 @@
-let la1doms = [];
-let la2doms = [];
+let la1doms = []; // “功能” 元素。
+let la2doms = []; // “控制” 元素。
+let ra1doms = []; // “屏蔽管理” 元素。
 let activep = false;
 let phl = null; // 创建高亮层（半透明覆盖）。
 let nowp = null; // 当前高亮元素。
@@ -402,16 +403,15 @@ function init_ui() {
         try {
             const el = document.querySelector(selectorStr);
             if (!el) { fail("未找到元素。"); return; }
-            el.style.transition = `all 0.3s ${easing}`;
+            el.style.transition = `all 0.2s ${easing}`;
             el.style.opacity = 0;
             el.addEventListener("transitionend", () => {
                 el.style.display = "none";
             }, { once: true });
             ble.push(selectorStr);
-            suc(`已屏蔽：“${selectorStr}”。`);
-            render_bl();  // 刷新右侧列表
+            render_bl();
         } catch (e) {
-            fail(`错误：“${e}”。`);
+            fail(`发生了错误：“${e}”。`);
         }
     };
 
@@ -512,18 +512,38 @@ function init_ui() {
     rw.appendChild(rt);
     rt.appendChild(ri);
 
+    const rf1 = document.createElement("div");
+    rf1.classList.add("rf1");
+    const rf1i = document.createElement("div");
+    rf1i.classList.add("rf1i");
+
+    rw.appendChild(rf1);
+    rf1.appendChild(rf1i);
+
     const blocked = document.createElement("div");
     blocked.className = "rw-blocked";
 
     rw.appendChild(blocked);
 
-    function render_bl() {
-        const items = window.ble || [];
+    function render_bl(immediate) {
+        const items = ble || [];
+        blocked.innerHTML = '';
+
         if (items.length === 0) {
-            blocked.innerHTML = `<div class="rw-empty-msg">暂无屏蔽内容</div>`;
+            const emsg = document.createElement('div');
+            emsg.className = 'rw-empty-msg';
+            emsg.textContent = '暂无屏蔽内容。';
+            emsg.style.opacity = '0';
+            emsg.style.transition = `opacity 0.2s ${easing}`;
+            blocked.appendChild(emsg);
+            requestAnimationFrame(() => {
+                emsg.style.opacity = '1';
+            });
+            ra1doms = [];
             return;
         }
-        let html = "";
+
+        let html = '';
         items.forEach((selector, index) => {
             html += `
             <div class="rw-block-item" data-index="${index}">
@@ -534,6 +554,32 @@ function init_ui() {
         });
         blocked.innerHTML = html;
 
+        ra1doms = Array.from(blocked.querySelectorAll('.rw-block-item'));
+
+        if (immediate) {
+            ra1doms.forEach(dom => {
+                dom.style.opacity = '1';
+                dom.style.transform = 'translateY(0)';
+                dom.style.transition = 'none';
+            });
+        } else if (rw_moved) {
+            ra1doms.forEach((dom, idx) => {
+                dom.style.opacity = '0';
+                dom.style.transform = 'translateY(-20px)';
+                dom.style.transition = `all 0.2s ${easing}`;
+                setTimeout(() => {
+                    dom.style.opacity = '1';
+                    dom.style.transform = 'translateY(0)';
+                }, idx * 70);
+            });
+        } else {
+            ra1doms.forEach(dom => {
+                dom.style.opacity = '0';
+                dom.style.transform = 'translateY(-20px)';
+                dom.style.transition = `all 0.2s ${easing}`;
+            });
+        }
+
         blocked.querySelectorAll('.rw-unblock-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -543,23 +589,43 @@ function init_ui() {
         });
     }
 
-    function unblock(index) { // 恢复被屏蔽的元素。
-        const items = window.ble || [];
+    function unblock(index) {
+        const items = ble || [];
         if (index < 0 || index >= items.length) return;
+
         const selector = items[index];
-        try {
-            const el = document.querySelector(selector);
-            if (el) {
-                el.style.display = "";
-                el.style.opacity = "";
-            }
+
+        const el = document.querySelector(selector);
+        if (!el) {
+            fail(`未找到要恢复的元素，选择器：“${selector}”。`);
             items.splice(index, 1);
-            render_bl();
-            suc(`已恢复：“${selector}”。`);
-        } catch (e) {
-            fail(`恢复失败：“${e.message}”。`);
+            render_bl(true);
+            return;
+        }
+
+        el.style.display = '';
+        el.style.opacity = '';
+        el.style.transition = '';
+
+        const targetEl = ra1doms[index];
+        if (targetEl) {
+            targetEl.style.transition = `all 0.2s ${easing}`;
+            targetEl.style.opacity = '0';
+            targetEl.style.transform = 'translateY(-30px)';
+            targetEl.style.height = '0';
+            targetEl.style.padding = '0 12px';
+            targetEl.style.marginBottom = '0';
+            targetEl.style.overflow = 'hidden';
+            setTimeout(() => {
+                items.splice(index, 1);
+                render_bl(true);
+            }, 200);
+        } else {
+            items.splice(index, 1);
+            render_bl(true);
         }
     }
+    render_bl(true);
 }
 
 let lw_moved = false;
@@ -581,13 +647,15 @@ document.addEventListener("mousemove", function (event) {
     const lf2i = document.querySelector(".lf2i");
     const larea2 = document.querySelector(".larea2");
     const tl2 = document.getElementById("tl2");
+    const rf1 = document.querySelector(".rf1");
+    const rf1i = document.querySelector(".rf1i");
 
-    if (x <= 50 && y <= 50 && !lw_moved) {
+    if (x <= 50 && y <= 50 && !lw_moved) { // 移动到左上角。
         larea1.style.transition = `all 0.6s ${easing}`;
         larea2.style.transition = `all 0.6s ${easing}`;
         lw.style.animation = `in_lw 0.6s forwards ${easing}`;
         setTimeout(() => {
-            lf1.style.animation = `in_lf 0.6s forwards ${easing}`;
+            lf1.style.animation = `in_f 0.6s forwards ${easing}`;
             lf1i.style.left = "424px";
             setTimeout(() => {
                 let la1 = tl1.getBoundingClientRect().height + Number(getComputedStyle(larea1).top.replace("px", "")) + 10;
@@ -604,7 +672,7 @@ document.addEventListener("mousemove", function (event) {
                 });
 
                 setTimeout(() => {
-                    lf2.style.animation = `in_lf 0.6s forwards ${easing}`;
+                    lf2.style.animation = `in_f 0.6s forwards ${easing}`;
                     lf2i.style.left = "424px";
                     setTimeout(() => {
                         let la2 = tl2.getBoundingClientRect().height + Number(getComputedStyle(larea2).top.replace("px", "")) + 10;
@@ -631,9 +699,9 @@ document.addEventListener("mousemove", function (event) {
         lw.style.animation = `out_lw 0.6s forwards ${fasing}`;
         larea1.style.transition = "all 0.6s cubic-bezier(0.33, 1, 0.68, 1)";
         setTimeout(() => {
-            lf1.style.animation = `out_lf 0.6s forwards ${easing}`;
+            lf1.style.animation = `out_f 0.6s forwards ${easing}`;
             lf1i.style.left = "-20px";
-            lf2.style.animation = `out_lf 0.6s forwards ${easing}`;
+            lf2.style.animation = `out_f 0.6s forwards ${easing}`;
             lf2i.style.left = "-20px";
             setTimeout(() => {
                 la1doms.forEach(dom => {
@@ -656,12 +724,34 @@ document.addEventListener("mousemove", function (event) {
     
     if (x >= window.innerWidth - 50 && y <= 50 && !rw_moved) {
         rw.style.animation = `in_rw 0.6s forwards ${easing}`;
+        rf1.style.animation = `in_f 0.6s forwards ${easing}`;
+        rf1i.style.left = 0;
+
         rw.addEventListener("animationend", function () {
             rw_moved = true;
+
+            if (ra1doms.length > 0) {
+                ra1doms.forEach((dom, idx) => {
+                    dom.style.transition = `all 0.2s ${easing}`;
+                    setTimeout(() => {
+                        dom.style.opacity = '1';
+                        dom.style.transform = 'translateY(20px)';
+                    }, idx * 70);
+                });
+            }
         }, { once: true });
     }
     else if (x < (window.innerWidth - Number(getComputedStyle(rw).width.replace("px", ""))) && rw_moved) {
         rw.style.animation = `out_rw 0.6s forwards ${fasing}`;
+        rf1.style.animation = `out_f 0.6s forwards ${easing}`;
+        rf1i.style.left = "484px";
+
+        ra1doms.forEach(dom => {
+            dom.style.opacity = 0;
+            dom.style.right = "-100%";
+            dom.style.transform = "translateY(0)";
+        });
+
         rw.addEventListener("animationend", function () {
             rw_moved = false;
         }, { once: true });
