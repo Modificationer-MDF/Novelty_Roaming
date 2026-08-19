@@ -215,7 +215,16 @@
         filter: brightness(0.85);
     }
 
-.phl {}
+/* 高亮层。 */
+.phl-highlight {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+    background-color: #55b15549;
+    border: 2px solid #7db155b9;
+    border-radius: 4px;
+    transition: all 0.1s ease-in-out;
+}
 
 .rw1, .rw2, .rw3, .rw4, .rw5 {
     transition: width 0.2s ease-in-out;
@@ -311,4 +320,48 @@
 
 .off {
     background-color: #8e000099;
+}
+
+.rw-block-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    background: #ffffff15;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+    .rw-block-item:hover {
+        background: #ffffff25 !important;
+    }
+
+    .rw-block-item .selector {
+        font-size: 14px;
+        word-break: break-all;
+        flex: 1;
+        font-family: monospace;
+    }
+
+.rw-unblock-btn {
+    background: #2ecc71;
+    border: none;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+    .rw-unblock-btn:hover {
+        background: #27ae60 !important;
+    }
+
+.rw-empty-msg {
+    color: #ffffff;
+    text-align: center;
+    margin-top: 40px;
 }

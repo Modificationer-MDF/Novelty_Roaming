@@ -5,6 +5,7 @@ let phl = null; // 创建高亮层（半透明覆盖）。
 let nowp = null; // 当前高亮元素。
 let prevp = null; // 上一个元素。
 let pickover = false;
+let ble = []; // 屏蔽列表
 
 function selector(el) {
     if (el.id) return "#" + el.id;
@@ -35,13 +36,11 @@ function pickele(v) {
     if (activep) return;
     activep = true;
     phl = document.createElement("div");
-    phl.style.position = "absolute";
-    phl.style.pointerEvents = "none";
-    phl.style.zIndex = "100";
-    phl.style.backgroundColor = "#55b15549";
-    phl.style.border = "2px solid #7db155b9";
-    phl.style.borderRadius = "4px";
-    phl.style.transition = "all 0.1s ease-in-out";
+    phl.classList.add("phl-highlight");
+    phl.style.left = "0px";
+    phl.style.top = "0px";
+    phl.style.width = "0px";
+    phl.style.height = "0px";
     document.body.appendChild(phl);
 
     const move_handler = (e) => {
@@ -377,7 +376,7 @@ function init_ui() {
         mb(`
         <table>
             <tr><td class="label">URL</td><td class="value"><code>${url}</code></td></tr>
-            <tr><td class="label">时间</td><td class="value">${xzsj()}</td></tr>
+            <tr><td class="label">本地时间</td><td class="value">${xzsj()}</td></tr>
             <tr><td class="label">来源</td><td class="value">${referrer}</td></tr>
             <tr><td class="label">用户代理</td><td class="value">${ua}</td></tr>
         </table>
@@ -396,17 +395,20 @@ function init_ui() {
 
     const block = document.createElement("btn");
     block.classList.add("block");
-    block.innerHTML = "临时屏蔽";
     block.onclick = async () => {
         pickele("block");
-        const selectorStr = await inp("请选择要临时屏蔽的元素。", "输入");
+        const selectorStr = await inp("请选择要临时屏蔽的元素。", "输入", "block");
         try {
             const el = document.querySelector(selectorStr);
             if (!el) { fail("未找到元素。"); return; }
-            el.style.display = "none";
-            if (!window._blockedElements) window._blockedElements = [];
-            window._blockedElements.push(selectorStr);
-            cg(`已临时屏蔽：“${selectorStr}”。`);
+            el.style.transition = `all 0.3s ${easing}`;
+            el.style.opacity = 0;
+            el.addEventListener("transitionend", () => {
+                el.style.display = "none";
+            }, { once: true });
+            ble.push(selectorStr);
+            suc(`已临时屏蔽：“${selectorStr}”。`);
+            render_bl();  // 刷新右侧列表
         } catch (e) {
             fail(`错误：“${e}”。`);
         }
@@ -500,14 +502,63 @@ function init_ui() {
     }
     const rt = document.createElement("div");
     rt.classList.add("t");
-    rt.innerHTML = "未读信息";
+    rt.innerHTML = "屏蔽管理";
     const ri = document.createElement("img");
     ri.classList.add("i");
-    ri.src = "Dainiv/images/Unread Messages.png";
+    ri.src = "Dainiv/images/Shield.png";
     ri.alt = "";
 
     rw.appendChild(rt);
     rt.appendChild(ri);
+
+    const blocked = document.createElement("div");
+    blocked.className = "rw-blocked";
+
+    rw.appendChild(blocked);
+
+    function render_bl() {
+        const items = window.ble || [];
+        if (items.length === 0) {
+            blocked.innerHTML = `<div class="rw-empty-msg">暂无屏蔽内容</div>`;
+            return;
+        }
+        let html = "";
+        items.forEach((selector, index) => {
+            html += `
+            <div class="rw-block-item" data-index="${index}">
+                <span class="selector">${selector}</span>
+                <button class="rw-unblock-btn" data-index="${index}">恢复</button>
+            </div>
+        `;
+        });
+        blocked.innerHTML = html;
+
+        blocked.querySelectorAll('.rw-unblock-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const idx = parseInt(btn.dataset.index);
+                unblock(idx);
+            });
+        });
+    }
+
+    function unblock(index) { // 恢复被屏蔽的元素。
+        const items = window.ble || [];
+        if (index < 0 || index >= items.length) return;
+        const selector = items[index];
+        try {
+            const el = document.querySelector(selector);
+            if (el) {
+                el.style.display = "";
+                el.style.opacity = "";
+            }
+            items.splice(index, 1);
+            render_bl();
+            suc(`已恢复：“${selector}”。`);
+        } catch (e) {
+            fail(`恢复失败：“${e.message}”。`);
+        }
+    }
 }
 
 let lw_moved = false;
