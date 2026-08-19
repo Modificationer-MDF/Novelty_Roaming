@@ -653,7 +653,7 @@ document.addEventListener("mousemove", function (event) {
         larea2.style.transition = `all 0.6s ${easing}`;
         lw.style.animation = `in_lw 0.6s forwards ${easing}`;
         setTimeout(() => {
-            lf1.style.animation = `in_f 0.6s forwards ${easing}`;
+            lf1.style.animation = `in_lf 0.6s forwards ${easing}`;
             lf1i.style.left = "424px";
             setTimeout(() => {
                 let la1 = tl1.getBoundingClientRect().height + Number(getComputedStyle(larea1).top.replace("px", "")) + 10;
@@ -670,7 +670,7 @@ document.addEventListener("mousemove", function (event) {
                 });
 
                 setTimeout(() => {
-                    lf2.style.animation = `in_f 0.6s forwards ${easing}`;
+                    lf2.style.animation = `in_lf 0.6s forwards ${easing}`;
                     lf2i.style.left = "424px";
                     setTimeout(() => {
                         let la2 = tl2.getBoundingClientRect().height + Number(getComputedStyle(larea2).top.replace("px", "")) + 10;
@@ -697,9 +697,9 @@ document.addEventListener("mousemove", function (event) {
         lw.style.animation = `out_lw 0.6s forwards ${fasing}`;
         larea1.style.transition = "all 0.6s cubic-bezier(0.33, 1, 0.68, 1)";
         setTimeout(() => {
-            lf1.style.animation = `out_f 0.6s forwards ${easing}`;
+            lf1.style.animation = `out_lf 0.6s forwards ${easing}`;
             lf1i.style.left = "-20px";
-            lf2.style.animation = `out_f 0.6s forwards ${easing}`;
+            lf2.style.animation = `out_lf 0.6s forwards ${easing}`;
             lf2i.style.left = "-20px";
             setTimeout(() => {
                 la1doms.forEach(dom => {
@@ -722,8 +722,7 @@ document.addEventListener("mousemove", function (event) {
     
     if (x >= window.innerWidth - 50 && y <= 50 && !rw_moved) {
         rw.style.animation = `in_rw 0.6s forwards ${easing}`;
-        rf1.style.animation = `in_f 0.6s forwards ${easing}`;
-        rf1i.style.left = 0;
+        rf1.style.animation = `in_rf 0.6s forwards ${easing}`;
 
         rw.addEventListener("animationend", function () {
             rw_moved = true;
@@ -741,8 +740,7 @@ document.addEventListener("mousemove", function (event) {
     }
     else if (x < (window.innerWidth - Number(getComputedStyle(rw).width.replace("px", ""))) && rw_moved) {
         rw.style.animation = `out_rw 0.6s forwards ${fasing}`;
-        rf1.style.animation = `out_f 0.6s forwards ${easing}`;
-        rf1i.style.left = "484px";
+        rf1.style.animation = `out_rf 0.6s forwards ${easing}`;
 
         ra1doms.forEach(dom => {
             dom.style.opacity = 0;

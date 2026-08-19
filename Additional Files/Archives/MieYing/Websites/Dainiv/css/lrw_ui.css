@@ -114,6 +114,7 @@
 
 .rf1 {
     background-color: #4a79fb99;
+    width: 200%;
 }
 
 .lf1i, .lf2i, .rf1i {
@@ -133,11 +134,11 @@
 }
 
 .rf1i {
-    left: 484px;
+    left: 0;
     background-color: #5d8dffc9;
 }
 
-@keyframes in_f { /* 分割线入场动画。*/
+@keyframes in_lf { /* 左侧面板分割线入场动画。*/
     0% {
         width: 0;
     }
@@ -147,13 +148,33 @@
     }
 }
 
-@keyframes out_f { /* 分割线出场动画。*/
+@keyframes out_lf { /* 左侧面板分割线出场动画。*/
     0% {
         width: 100%;
     }
 
     100% {
         width: 0;
+    }
+}
+
+@keyframes in_rf { /* 右侧面板分割线入场动画。*/
+    0% {
+        left: 484px;
+    }
+
+    100% {
+        left: 0px;
+    }
+}
+
+@keyframes out_rf { /* 右侧面板分割线出场动画。*/
+    0% {
+        left: 0px;
+    }
+
+    100% {
+        left: 484px;
     }
 }
 
