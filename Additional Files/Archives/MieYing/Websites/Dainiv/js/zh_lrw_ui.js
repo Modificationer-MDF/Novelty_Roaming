@@ -71,29 +71,43 @@ function pickele(v) {
                 const box = document.getElementById(v)?.querySelector(".inp-box");
                 if (!box) {
                     console.warn("输入框未找到。");
+                    finishpick();
                     return;
                 }
                 // 如果选区为空，不填充。
                 if (sele && sele.trim() !== "") {
                     box.value = sele;
                     box.focus();
-                    // 移除之前绑定的监听器，避免重复。
                     box.removeEventListener("keypress", finishpick);
-                    box.addEventListener("keypress", (event) => {
-                        if (event.key === "Enter") finishpick();
+                    box.addEventListener("keypress", (e) => {
+                        if (e.key === "Enter") finishpick();
                     });
                 } else {
-                    // 选区为空时，只聚焦，不填充。
                     box.focus();
                 }
             }, 1);
         } catch (err) {
             console.warn(`发生了错误：“${err}”。`);
+            finishpick();
         }
     };
+
+    const esc_handler = (e) => {
+        if (e.key === "Escape") {
+            finishpick();
+            inf("已退出元素捕获模式。");
+        }
+    };
+
     document.addEventListener("mousemove", move_handler);
     document.addEventListener("click", click_handler, { capture: true });
-    window.picklisteners = { move: move_handler, click: click_handler };
+    document.addEventListener("keydown", esc_handler);
+
+    window.picklisteners = {
+        move: move_handler,
+        click: click_handler,
+        esc: esc_handler
+    };
 }
 
 function finishpick() {
@@ -302,7 +316,7 @@ function init_ui() {
     reportying.classList.add("reportying");
     reportying.innerHTML = "举报“蝇”信息";
     reportying.onclick = async () => {
-        pickele("rying");
+        if (ofscrt) pickele("rying");
         let ls_1 = await inp("在此输入对应“蝇”信息的 CSS 选择器。", "输入", "rying");
         try {
             let ying = document.querySelector(ls_1);
@@ -398,8 +412,12 @@ function init_ui() {
     block.classList.add("block");
     block.innerHTML = "屏蔽";
     block.onclick = async () => {
-        pickele("block");
-        const selectorStr = await inp("请选择要屏蔽的元素。", "输入", "block");
+        if (ofscrt) pickele("block");
+        const selectorStr = await inp("在此输入要屏蔽元素的 CSS 选择器。", "输入", "block");
+        if (!selectorStr) {
+            finishpick();
+            return;
+        }
         try {
             const el = document.querySelector(selectorStr);
             if (!el) { fail("未找到元素。"); return; }
@@ -412,6 +430,7 @@ function init_ui() {
             render_bl();
         } catch (e) {
             fail(`发生了错误：“${e}”。`);
+            finishpick();
         }
     };
 
@@ -467,29 +486,9 @@ function init_ui() {
         ofscrt = false;
     };
 
-    const imsrs = document.createElement("div");
-    imsrs.classList.add("la2t");
-    imsrs.id = "imsrs";
-    imsrs.innerHTML = "沉浸阅读";
-    const eim = document.createElement("btn");
-    eim.classList.add("on");
-    eim.innerHTML = "启用";
-    eim.onclick = () => {
-        document.body.classList.add("immersive-mode");
-        inf("已进入沉浸阅读模式。");
-    };
-    const dim = document.createElement("btn");
-    dim.classList.add("off");
-    dim.innerHTML = "禁用";
-    dim.onclick = () => {
-        document.body.classList.remove("immersive-mode");
-        inf("已退出沉浸阅读模式。");
-    };
-
     lw.appendChild(larea2);
     larea2.appendChild(tl2);
     la2doms.push(tscrs, escrs, dscrs);
-    la2doms.push(imsrs, eim, dim);
     la2doms.forEach(dom => {
         larea2.appendChild(dom);
     });
@@ -559,8 +558,7 @@ function init_ui() {
         if (immediate) {
             ra1doms.forEach(dom => {
                 dom.style.opacity = '1';
-                dom.style.transform = 'translateY(0)';
-                dom.style.transition = 'none';
+                dom.style.transform = 'translateY(25px)';
             });
         } else if (rw_moved) {
             ra1doms.forEach((dom, idx) => {
@@ -569,7 +567,7 @@ function init_ui() {
                 dom.style.transition = `all 0.2s ${easing}`;
                 setTimeout(() => {
                     dom.style.opacity = '1';
-                    dom.style.transform = 'translateY(0)';
+                    dom.style.transform = 'translateY(25px)';
                 }, idx * 70);
             });
         } else {
@@ -607,15 +605,15 @@ function init_ui() {
         el.style.opacity = '';
         el.style.transition = '';
 
-        const targetEl = ra1doms[index];
-        if (targetEl) {
-            targetEl.style.transition = `all 0.2s ${easing}`;
-            targetEl.style.opacity = '0';
-            targetEl.style.transform = 'translateY(-30px)';
-            targetEl.style.height = '0';
-            targetEl.style.padding = '0 12px';
-            targetEl.style.marginBottom = '0';
-            targetEl.style.overflow = 'hidden';
+        const tel = ra1doms[index]; // 目标元素。
+        if (tel) {
+            tel.style.transition = `all 0.2s ${easing}`;
+            tel.style.opacity = '0';
+            tel.style.transform = 'translateY(-30px)';
+            tel.style.height = '0';
+            tel.style.padding = '0 12px';
+            tel.style.marginBottom = '0';
+            tel.style.overflow = 'hidden';
             setTimeout(() => {
                 items.splice(index, 1);
                 render_bl(true);

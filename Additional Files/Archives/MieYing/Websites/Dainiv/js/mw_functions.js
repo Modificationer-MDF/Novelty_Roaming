@@ -652,7 +652,8 @@ async function inp(str, tit, id) {
         box.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
                 const value = box.value;
-                close_win(value);
+                // 空字符串时返回 null。
+                close_win(value.trim() === "" ? null : value);
             }
         });
     });

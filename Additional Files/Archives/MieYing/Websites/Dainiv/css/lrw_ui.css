@@ -192,7 +192,7 @@
 }
 
 .scs, .share, .pr, .reportying, .ter, .on, .off,
-.fingerprint, .trace, .snapshot, .block, .immersive {
+.fingerprint, .trace, .snapshot, .block {
     position: relative;
     opacity: 0;
     color: #ffffff;
@@ -210,7 +210,7 @@
 
     .scs:hover, .share:hover, .pr:hover, .reportying:hover, .ter:hover,
     .on:hover, .off:hover,
-    .fingerprint:hover, .trace:hover, .snapshot:hover, .block:hover, .immersive:hover {
+    .fingerprint:hover, .trace:hover, .snapshot:hover, .block:hover {
         filter: brightness(1.25);
         transform: scale(1.02);
         box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
@@ -219,7 +219,7 @@
     /* 点击效果。 */
     .scs:active, .share:active, .pr:active, .reportying:active, .ter:active,
     .on:active, .off:active,
-    .fingerprint:active, .trace:active, .snapshot:active, .block:active, .immersive:active {
+    .fingerprint:active, .trace:active, .snapshot:active, .block:active {
         transform: scale(0.96);
         filter: brightness(0.85);
     }
@@ -276,10 +276,6 @@
     background-color: #c0392b99;
 }
 
-.immersive {
-    background-color: #2c3e5099;
-}
-
 .larea1, .larea2 { /* 左侧窗口第一部分。 */
     position: relative;
     overflow: hidden;
@@ -302,25 +298,6 @@
 
 .larea2 {
     background-color: #0e410299;
-}
-
-.immersive-mode .lw,
-.immersive-mode .rw,
-.immersive-mode .fd-warn-mele,
-.immersive-mode .fd-caut-mele {
-    display: none !important;
-}
-
-.immersive-mode * {
-    max-width: 80ch !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-
-.immersive-mode img,
-.immersive-mode video,
-.immersive-mode iframe {
-    max-width: 100% !important;
 }
 
 .on {
