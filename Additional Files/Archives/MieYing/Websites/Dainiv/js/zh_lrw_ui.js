@@ -395,9 +395,10 @@ function init_ui() {
 
     const block = document.createElement("btn");
     block.classList.add("block");
+    block.innerHTML = "屏蔽";
     block.onclick = async () => {
         pickele("block");
-        const selectorStr = await inp("请选择要临时屏蔽的元素。", "输入", "block");
+        const selectorStr = await inp("请选择要屏蔽的元素。", "输入", "block");
         try {
             const el = document.querySelector(selectorStr);
             if (!el) { fail("未找到元素。"); return; }
@@ -407,7 +408,7 @@ function init_ui() {
                 el.style.display = "none";
             }, { once: true });
             ble.push(selectorStr);
-            suc(`已临时屏蔽：“${selectorStr}”。`);
+            suc(`已屏蔽：“${selectorStr}”。`);
             render_bl();  // 刷新右侧列表
         } catch (e) {
             fail(`错误：“${e}”。`);
