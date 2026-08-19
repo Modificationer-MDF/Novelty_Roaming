@@ -505,7 +505,7 @@ function init_ui() {
     rt.innerHTML = "屏蔽管理";
     const ri = document.createElement("img");
     ri.classList.add("i");
-    ri.src = "Dainiv/images/Shield.png";
+    ri.src = "Dainiv/images/Blocking Management.png";
     ri.alt = "";
 
     rw.appendChild(rt);
