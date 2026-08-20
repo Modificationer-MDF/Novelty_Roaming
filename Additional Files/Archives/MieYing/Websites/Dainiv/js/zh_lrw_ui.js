@@ -249,7 +249,7 @@ function init_ui() {
 
     const scs = document.createElement("btn");
     scs.classList.add("scs");
-    scs.innerHTML = "截图元素";
+    scs.innerHTML = "截图";
     scs.oncontextmenu = async (e) => {
         e.preventDefault();
         const qs = [
@@ -259,29 +259,29 @@ function init_ui() {
             "截图失败怎么办？",
             "CSS 选择器是什么？"
         ];
-        const lsxz1 = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
-        if (!lsxz1) return;
-        let lsans1 = "";
-        switch (lsxz1[0]) {
+        const lsxz = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
+        if (!lsxz) return;
+        let lsans = "";
+        switch (lsxz[0]) {
             case "如何查看元素的 id？":
-                lsans1 = "1. 按 F12 打开开发者工具。<br />2. 点击左上角的“选择元素”图标（箭头）。<br />3. 点击页面上的目标区域。<br />4. 在 Elements 面板中看该元素有没有 id=“xxx” 属性。<br />5. 或者右键元素 → 检查 → 直接查看高亮行的 id 属性。";
+                lsans = "1. 按 F12 打开开发者工具。<br />2. 点击左上角的“选择元素”图标（箭头）。<br />3. 点击页面上的目标区域。<br />4. 在 Elements 面板中看该元素有没有 id=“xxx” 属性。<br />5. 或者右键元素 → 检查 → 直接查看高亮行的 id 属性。";
                 break;
             case "如何打开开发者工具？":
-                lsans1 = "按 F12 键（部分笔记本需按 Fn+F12）。<br />或者右键页面空白处 → 检查。<br />或者浏览器菜单 → 更多工具 → 开发者工具。";
+                lsans = "按 F12 键（部分笔记本需按 Fn+F12）。<br />或者右键页面空白处 → 检查。<br />或者浏览器菜单 → 更多工具 → 开发者工具。";
                 break;
             case "如何输入？":
-                lsans1 = "输入 CSS 选择器字符串。<br />例如：.score-container  或   #main  或   div.header<br />支持.class、#id、标签名、属性选择器等。";
+                lsans = "输入 CSS 选择器字符串。<br />例如：.score-container  或   #main  或   div.header<br />支持.class、#id、标签名、属性选择器等。";
                 break;
             case "截图失败怎么办？":
-                lsans1 = "1. 尝试刷新页面后重试。<br />2. 检查是否包含跨域图片（可先将图片替换或隐藏）。<br />3. 改用浏览器自带截图（Ctrl+Shift+S 或 Windows 截图工具）。<br />4. 如果持续失败，可尝试复制页面链接到其他浏览器。";
+                lsans = "1. 尝试刷新页面后重试。<br />2. 检查是否包含跨域图片（可先将图片替换或隐藏）。<br />3. 改用浏览器自带截图（Ctrl+Shift+S 或 Windows 截图工具）。<br />4. 如果持续失败，可尝试复制页面链接到其他浏览器。";
                 break;
             case "CSS 选择器是什么？":
-                lsans1 = "CSS 选择器是一种用特定语法定位页面元素的模式。<br />• .class 选择类名<br />• #id 选择 id<br />• div 选择所有 div 标签<br />• .container .item 选择后代元素<br />更多用法可搜索“CSS 选择器参考”。";
+                lsans = "CSS 选择器是一种用特定语法定位页面元素的模式。<br />• .class 选择类名<br />• #id 选择 id<br />• div 选择所有 div 标签<br />• .container .item 选择后代元素<br />更多用法可搜索“CSS 选择器参考”。";
                 break;
             default:
                 return;
         }
-        mb(lsans1, "解答");
+        mb(lsans, "解答");
     };
     scs.onclick = () => {
         screenshot();
@@ -340,23 +340,23 @@ function init_ui() {
             "为什么要灭“蝇”？",
             "举报结果将向谁发送？",
         ];
-        const lsxz1 = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
-        if (!lsxz1) noti("无论您是否参与，请您记住，灭“蝇”就是守护生命！");
-        let lsans1 = "";
-        switch (lsxz1[0]) {
+        const lsxz = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
+        if (!lsxz) noti("无论您是否参与，请您记住，灭“蝇”就是守护生命。");
+        let lsans = "";
+        switch (lsxz[0]) {
             case "“蝇”是什么？":
-                lsans1 = "“蝇”是指在网络上传播的人身攻击、开盒、KY、低龄言论等不良信息。它们像苍蝇一样令人反感，故称“蝇”。";
+                lsans = "“蝇”是指在网络上传播的人身攻击、开盒、KY、低龄言论等不良信息。它们像苍蝇一样令人反感，故称“蝇”。";
                 break;
             case "为什么要灭“蝇”？":
-                lsans1 = "灭“蝇”是为了净化 HF Net。请您记住，灭“蝇”就是守护生命！";
+                lsans = "灭“蝇”是为了净化 HF Net。请您记住，灭“蝇”就是守护生命。";
                 break;
             case "举报结果将向谁发送？":
-                lsans1 = "您的举报将直接提交至“Chanf 灭蝇组织”后台，由管理员核实后将进行惩罚措施，包括但不限于删除原信息、封禁放蝇者（发送“蝇”信息的用户）若干时长等处罚。";
+                lsans = "您的举报将直接提交至“Chanf 灭蝇组织”后台，由管理员核实后将进行惩罚措施，包括但不限于删除原信息、封禁放蝇者（发送“蝇”信息的用户）若干时长等处罚。";
                 break;
             default:
                 return;
         }
-        mb(lsans1, "解答");
+        mb(lsans, "解答");
     };
 
     const fingerprint = document.createElement("btn");
@@ -402,31 +402,72 @@ function init_ui() {
         cg(`页面已存档，存档编号：<code>cd-${snapshotId}</code>。`);
     };
 
-    const block = document.createElement("btn");
-    block.classList.add("block");
-    block.innerHTML = "屏蔽";
-    block.onclick = async () => {
+    async function blocking() {
         if (ofscrt) pickele("block");
-        const selectorStr = await inp("在此输入要屏蔽元素的 CSS 选择器。", "输入", "block");
-        if (!selectorStr) {
+        const sel = await inp("在此输入要屏蔽元素的 CSS 选择器。", "输入", "block");
+        if (!sel) {
             finishpick();
-            return;
+            resolve();
         }
         try {
-            const el = document.querySelector(selectorStr);
-            if (!el) { fail("未找到元素。"); return; }
+            const el = document.querySelector(sel);
+            if (!el) { fail("未找到元素。"); }
             el.style.transition = `all 0.2s ${easing}`;
             el.style.opacity = 0;
             el.addEventListener("transitionend", () => {
                 el.style.display = "none";
             }, { once: true });
-            ble.push(selectorStr);
+            ble.push(sel);
             render_bl();
         } catch (e) {
             fail(`发生了错误：“${e}”。`);
             finishpick();
         }
-    };
+    }
+
+    const block = document.createElement("btn");
+    block.classList.add("block");
+    block.innerHTML = "屏蔽";
+    block.onclick = async () => { blocking() };
+    block.oncontextmenu = async (e) => {
+        e.preventDefault();
+        let ls_multi = false;
+        const qs = [
+            "如何屏蔽？",
+            "屏蔽后的效果？",
+            "屏蔽后可以在哪里恢复？",
+            "我想批量屏蔽。",
+        ];
+        const lsxz = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
+        switch (lsxz[0]) {
+            case "如何屏蔽？":
+                lsans = "请点击屏蔽按钮，随后选择或手动输入所要屏蔽元素的 CSS 选择器。";
+                break;
+            case "屏蔽后的效果？":
+                lsans = "元素被屏蔽后，将从 DOM 中“消失”。但这不代表它被移除，它只是隐藏了。";
+                break;
+            case "屏蔽后可以在哪里恢复？":
+                lsans = "请将鼠标滑动到网页的右上角以访问“屏蔽管理”。在那里可以恢复被屏蔽的元素。";
+                break;
+            case "我想批量屏蔽。":
+                ls_multi = true;
+                break;
+            default:
+                return;
+        }
+        if (ls_multi) {
+            let ls_amount = await inp("请输入要屏蔽元素的数量。");
+            ls_amount = Number(ls_amount)
+            if (isNaN(ls_amount)) fail("无效输入。");
+            else {
+                for (let i = 1; i <= ls_amount; i++) {
+                    await blocking();
+                }
+            }
+        } else {
+            mb(lsans, "解答");
+        }
+    }
 
     const ter = document.createElement("btn");
     ter.classList.add("ter");
@@ -531,7 +572,7 @@ function init_ui() {
 
         if (items.length === 0) {
             const emsg = document.createElement("div");
-            emsg.className = "rw-empty-msg";
+            emsg.className = "rw-empty";
             emsg.textContent = "暂无屏蔽内容。";
             emsg.style.opacity = 0;
             emsg.style.transition = `opacity 0.2s ${easing}`;
@@ -543,18 +584,16 @@ function init_ui() {
             return;
         }
 
-        let html = "";
         items.forEach((selector, index) => {
-            html += `
-            <div class="rw-block-item" data-index="${index}">
+            blocked.innerHTML += `
+            <div class="rw-blockitem" data-index="${index}">
                 <span class="selector">${selector}</span>
-                <button class="rw-unblock-btn" data-index="${index}">恢复</button>
+                <button class="rw-unblocker" data-index="${index}">恢复</button>
             </div>
         `;
         });
-        blocked.innerHTML = html;
 
-        ra1doms = Array.from(blocked.querySelectorAll(".rw-block-item"));
+        ra1doms = Array.from(blocked.querySelectorAll(".rw-blockitem"));
 
         if (immediate) {
             ra1doms.forEach(dom => {
@@ -579,7 +618,7 @@ function init_ui() {
             });
         }
 
-        blocked.querySelectorAll(".rw-unblock-btn").forEach(btn => {
+        blocked.querySelectorAll(".rw-unblocker").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 const idx = parseInt(btn.dataset.index);
@@ -715,6 +754,7 @@ document.addEventListener("mousemove", function (event) {
                 larea2.style.height = 0;
             }, 100);
         }, 100);
+
         lw.addEventListener("animationend", function () {
             lw_moved = false;
         }, { once: true });
@@ -722,31 +762,39 @@ document.addEventListener("mousemove", function (event) {
     
     if (x >= window.innerWidth - 50 && y <= 50 && !rw_moved) {
         rw.style.animation = `in_rw 0.6s forwards ${easing}`;
-        rf1.style.animation = `in_rf 0.6s forwards ${easing}`;
 
         setTimeout(() => {
-            rw_moved = true;
-
-            if (ra1doms.length > 0) {
-                ra1doms.forEach((dom, idx) => {
-                    dom.style.transition = `all 0.2s ${easing}`;
-                    setTimeout(() => {
-                        dom.style.opacity = 1;
-                        dom.style.transform = "translateY(20px)";
-                    }, idx * 70);
-                });
-            }
+            rf1.style.animation = `in_rf 0.6s forwards ${easing}`;
+            setTimeout(() => {
+                if (ra1doms.length > 0) {
+                    ra1doms.forEach((dom, idx) => {
+                        dom.style.transition = `all 0.2s ${easing}`;
+                        setTimeout(() => {
+                            dom.style.opacity = 1;
+                            dom.style.transform = "translateY(20px)";
+                        }, idx * 70);
+                    });
+                }
+            }, 100);
         }, 100);
+
+        rw.addEventListener("animationend", () => {
+            rw_moved = true;
+        }, { once: true });
     }
     else if (x < (window.innerWidth - Number(getComputedStyle(rw).width.replace("px", ""))) && rw_moved) {
         rw.style.animation = `out_rw 0.6s forwards ${fasing}`;
-        rf1.style.animation = `out_rf 0.6s forwards ${easing}`;
 
-        ra1doms.forEach(dom => {
-            dom.style.opacity = 0;
-            dom.style.right = "-100%";
-            dom.style.transform = "translateY(0)";
-        });
+        setTimeout(() => {
+            rf1.style.animation = `out_rf 0.6s forwards ${easing}`;
+            setTimeout(() => {
+                ra1doms.forEach(dom => {
+                    dom.style.opacity = 0;
+                    dom.style.right = "-100%";
+                    dom.style.transform = "translateY(0)";
+                });
+            }, 100);
+        }, 100);
 
         rw.addEventListener("animationend", function () {
             rw_moved = false;

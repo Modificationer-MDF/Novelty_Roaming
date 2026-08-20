@@ -135,12 +135,12 @@
     overflow: auto;
 }
 
-.noti-mele {
-    background-color: #18a68999;
-    border-left: 5px solid #1b7163c9;
-    border-right: 5px solid #1b7163c9;
-    box-shadow: 0px 3px 7px #26c9a9;
-}
+    .noti-mele {
+        background-color: #18a68999;
+        border-left: 5px solid #1b7163c9;
+        border-right: 5px solid #1b7163c9;
+        box-shadow: 0px 3px 7px #26c9a9;
+    }
 
 .noti-square {
     background-color: #26c9a949;

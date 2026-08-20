@@ -16,6 +16,10 @@ body {
             background-color: #828282;
         }
 
+button:focus, textarea:focus {
+    outline: 3px solid #ffffffc9;
+}
+
 h1 h2 {
     color: white;
     font-weight: 100;

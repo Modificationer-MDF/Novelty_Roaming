@@ -114,6 +114,7 @@
 .rf1 {
     background-color: #4a79fb99;
     width: 200%;
+    right: -100%;
 }
 
 .lf1i, .lf2i, .rf1i {
@@ -248,7 +249,7 @@
 
     .scs:hover, .share:hover, .pr:hover, .reportying:hover, .ter:hover,
     .on:hover, .off:hover,
-    .fingerprint:hover, .trace:hover, .snapshot:hover, .block:hover {
+    .fingerprint:hover, .trace:hover, .snapshot:hover, .block:hover, .rw-unblocker:hover {
         filter: brightness(1.25);
         transform: scale(1.02);
         box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
@@ -257,7 +258,7 @@
     /* 点击效果。 */
     .scs:active, .share:active, .pr:active, .reportying:active, .ter:active,
     .on:active, .off:active,
-    .fingerprint:active, .trace:active, .snapshot:active, .block:active {
+    .fingerprint:active, .trace:active, .snapshot:active, .block:active, .rw-unblocker:active {
         transform: scale(0.96);
         filter: brightness(0.85);
     }
@@ -346,50 +347,44 @@
     background-color: #8e000099;
 }
 
-.rw-block-item {
+.rw-blockitem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
-    margin-bottom: 6px;
+    padding: 11px 17px;
+    margin-bottom: 7px;
     background: #ffffff15;
-    border-radius: 6px;
+    border-radius: 11px;
     cursor: pointer;
     transition: background 0.2s;
 }
 
-    .rw-block-item:hover {
-        background-color: #ffffff25 !important;
+    .rw-blockitem:hover {
+        background-color: #ffffff29 !important;
     }
 
-    .rw-block-item .selector {
+    .rw-blockitem .selector {
         font-size: 18px;
         word-break: break-all;
         flex: 1;
         font-family: monospace;
     }
 
-.rw-unblock-btn {
+.rw-unblocker {
     transition: all 0.2s ease;
-    background: #158f35b9;
+    background: #0c3998b9;
     border: none;
     color: white;
-    padding: 11px 19px;
-    border-radius: 4px;
+    padding: 14px 25px;
+    border-radius: 14px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
 }
 
-    .rw-unblock-btn:hover {
-        background: #27ae60 !important;
-    }
-
-.rw-empty-msg {
+.rw-empty {
     color: #ffffff;
     text-align: center;
-    padding: 40px 20px;
-    font-size: 23px;
-    background-color: #070608b9;
-    border-radius: 8px;
+    margin-top: 60px;
+    font-size: 22px;
     transition: all 0.2s ease;
 }
