@@ -1229,8 +1229,8 @@ async function zd(str, tit, id) {
             if (msg.includes('Unexpected token')) {
                 // 提取具体的非法符号
                 let token = msg.split("Unexpected token '")[1]?.split("'")[0] || msg.split("Unexpected token")[1]?.trim() || '非法符号';
-                if (token === 'end of input') return '意外的代码结束，输入不完整。';
-                return `意外的符号 “${token}”。`;
+                if (token === 'end of input') return '意外代码结束，输入不完整。';
+                return `意外符号 “${token}”。`;
             }
             if (msg.includes('Unexpected identifier')) {
                 let token = msg.split("Unexpected identifier '")[1]?.split("'")[0] || '';
@@ -1240,9 +1240,9 @@ async function zd(str, tit, id) {
                 return "缺少必要的符号。";
             }
             if (msg.includes('Invalid or unexpected token')) {
-                if (input.includes('\\')) return "无效的转义字符 “\\”。";
+                if (input.includes('\\')) return "无效转义字符 “\\”。";
                 if (input.includes('`')) return "模板字符串中可能缺少闭合反引号。";
-                return "无效的标识符或意外的符号。";
+                return "无效标识符或意外符号。";
             }
             if (msg.includes('Invalid left-hand side in assignment')) {
                 return "赋值操作中左侧表达式无效。<br />不能给常量、字面量或只读属性赋值。";

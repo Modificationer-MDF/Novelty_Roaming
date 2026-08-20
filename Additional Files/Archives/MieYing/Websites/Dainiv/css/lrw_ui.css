@@ -1,5 +1,6 @@
 /* 左侧面板 lw 和右侧面板 rw 的样式。 */
 .lw, .rw {
+    border-radius: 25px;
     position: fixed;
     top: 0;
     width: 0px;
@@ -23,12 +24,10 @@
 
 .lw {
     left: -500px;
-    border-radius: 25px;
 }
 
 .rw {
     right: -500px;
-    border-radius: 25px;
 }
 
 /* 左侧面板进入动画。 */
@@ -178,7 +177,7 @@
     }
 }
 
-.t { /* 标题。 */
+.t { 
     color: #ffffff;
     position: relative;
     top: 30px;
@@ -187,6 +186,8 @@
     font-size: 30px;
     width: 384px;
 }
+
+/* 标题。 */
 
 .tlarea, .la2t {
     color: #ffffff;
@@ -205,11 +206,27 @@
     font-size: 25px;
 }
 
-.i { /* 图标。 */
+.ft { /* 功能区文字。*/
+    position: relative;
+    color: #ffffff;
+    text-align: left;
+    right: 40px;
+    font-size: 25px;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.i, .fi { /* 图标。 */
     position: absolute;
-    right: 0px;
     opacity: 1;
     transition: all 0.2s;
+}
+
+.i {
+    right: 0px;
+}
+
+.fi {
+    left: 2px;
 }
 
 .scs, .share, .pr, .reportying, .ter, .on, .off,

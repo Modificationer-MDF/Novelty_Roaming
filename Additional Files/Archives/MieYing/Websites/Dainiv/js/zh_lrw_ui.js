@@ -15,7 +15,7 @@ function selector(el) {
     while (cur && cur !== document.body) {
         let sel = cur.tagName.toLowerCase();
         if (cur.className && typeof cur.className === "string") {
-            let classes = cur.className.trim().split(/\s+/).filter(cls => cls !== 'phl');
+            let classes = cur.className.trim().split(/\s+/).filter(cls => cls !== "phl");
             if (classes.length) sel += "." + classes.join(".");
         }
         let parent = cur.parentElement;
@@ -358,12 +358,6 @@ function init_ui() {
         }
         mb(lsans1, "解答");
     };
-    const ter = document.createElement("btn");
-    ter.classList.add("ter");
-    ter.innerHTML = "打开终端";
-    ter.onclick = () => {
-        zd("请在此输入 JavaScript 代码。");
-    };
 
     const fingerprint = document.createElement("btn");
     fingerprint.classList.add("fingerprint");
@@ -432,6 +426,13 @@ function init_ui() {
             fail(`发生了错误：“${e}”。`);
             finishpick();
         }
+    };
+
+    const ter = document.createElement("btn");
+    ter.classList.add("ter");
+    ter.innerHTML = "打开终端";
+    ter.onclick = () => {
+        zd("请在此输入 JavaScript 代码。");
     };
 
     la1doms.push(scs);
@@ -526,23 +527,23 @@ function init_ui() {
 
     function render_bl(immediate) {
         const items = ble || [];
-        blocked.innerHTML = '';
+        blocked.innerHTML = "";
 
         if (items.length === 0) {
-            const emsg = document.createElement('div');
-            emsg.className = 'rw-empty-msg';
-            emsg.textContent = '暂无屏蔽内容。';
-            emsg.style.opacity = '0';
+            const emsg = document.createElement("div");
+            emsg.className = "rw-empty-msg";
+            emsg.textContent = "暂无屏蔽内容。";
+            emsg.style.opacity = 0;
             emsg.style.transition = `opacity 0.2s ${easing}`;
             blocked.appendChild(emsg);
             requestAnimationFrame(() => {
-                emsg.style.opacity = '1';
+                emsg.style.opacity = 1;
             });
             ra1doms = [];
             return;
         }
 
-        let html = '';
+        let html = "";
         items.forEach((selector, index) => {
             html += `
             <div class="rw-block-item" data-index="${index}">
@@ -553,33 +554,33 @@ function init_ui() {
         });
         blocked.innerHTML = html;
 
-        ra1doms = Array.from(blocked.querySelectorAll('.rw-block-item'));
+        ra1doms = Array.from(blocked.querySelectorAll(".rw-block-item"));
 
         if (immediate) {
             ra1doms.forEach(dom => {
-                dom.style.opacity = '1';
-                dom.style.transform = 'translateY(25px)';
+                dom.style.opacity = 1;
+                dom.style.transform = "translateY(25px)";
             });
         } else if (rw_moved) {
             ra1doms.forEach((dom, idx) => {
-                dom.style.opacity = '0';
-                dom.style.transform = 'translateY(-20px)';
+                dom.style.opacity = 0;
+                dom.style.transform = "translateY(-20px)";
                 dom.style.transition = `all 0.2s ${easing}`;
                 setTimeout(() => {
-                    dom.style.opacity = '1';
-                    dom.style.transform = 'translateY(25px)';
+                    dom.style.opacity = 1;
+                    dom.style.transform = "translateY(25px)";
                 }, idx * 70);
             });
         } else {
             ra1doms.forEach(dom => {
-                dom.style.opacity = '0';
-                dom.style.transform = 'translateY(-20px)';
+                dom.style.opacity = 0;
+                dom.style.transform = "translateY(-20px)";
                 dom.style.transition = `all 0.2s ${easing}`;
             });
         }
 
-        blocked.querySelectorAll('.rw-unblock-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+        blocked.querySelectorAll(".rw-unblock-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 const idx = parseInt(btn.dataset.index);
                 unblock(idx);
@@ -601,19 +602,19 @@ function init_ui() {
             return;
         }
 
-        el.style.display = '';
-        el.style.opacity = '';
-        el.style.transition = '';
+        el.style.display = "";
+        el.style.opacity = "";
+        el.style.transition = "";
 
         const tel = ra1doms[index]; // 目标元素。
         if (tel) {
             tel.style.transition = `all 0.2s ${easing}`;
-            tel.style.opacity = '0';
-            tel.style.transform = 'translateY(-30px)';
-            tel.style.height = '0';
-            tel.style.padding = '0 12px';
-            tel.style.marginBottom = '0';
-            tel.style.overflow = 'hidden';
+            tel.style.opacity = 0;
+            tel.style.transform = "translateY(-30px)";
+            tel.style.height = 0;
+            tel.style.padding = "0 12px";
+            tel.style.marginBottom = 0;
+            tel.style.overflow = "hidden";
             setTimeout(() => {
                 items.splice(index, 1);
                 render_bl(true);
@@ -646,7 +647,6 @@ document.addEventListener("mousemove", function (event) {
     const larea2 = document.querySelector(".larea2");
     const tl2 = document.getElementById("tl2");
     const rf1 = document.querySelector(".rf1");
-    const rf1i = document.querySelector(".rf1i");
 
     if (x <= 50 && y <= 50 && !lw_moved) { // 移动到左上角。
         larea1.style.transition = `all 0.6s ${easing}`;
@@ -724,19 +724,19 @@ document.addEventListener("mousemove", function (event) {
         rw.style.animation = `in_rw 0.6s forwards ${easing}`;
         rf1.style.animation = `in_rf 0.6s forwards ${easing}`;
 
-        rw.addEventListener("animationend", function () {
+        setTimeout(() => {
             rw_moved = true;
 
             if (ra1doms.length > 0) {
                 ra1doms.forEach((dom, idx) => {
                     dom.style.transition = `all 0.2s ${easing}`;
                     setTimeout(() => {
-                        dom.style.opacity = '1';
-                        dom.style.transform = 'translateY(20px)';
+                        dom.style.opacity = 1;
+                        dom.style.transform = "translateY(20px)";
                     }, idx * 70);
                 });
             }
-        }, { once: true });
+        }, 100);
     }
     else if (x < (window.innerWidth - Number(getComputedStyle(rw).width.replace("px", ""))) && rw_moved) {
         rw.style.animation = `out_rw 0.6s forwards ${fasing}`;
