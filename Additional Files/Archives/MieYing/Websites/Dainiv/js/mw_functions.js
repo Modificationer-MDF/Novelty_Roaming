@@ -1198,9 +1198,8 @@ async function lj(str, url, tit, id) {
     };
 }
 
-// 主函数
 async function zd(str, tit, id) {
-    function errorres(error, input) {
+    function errorres(error, input) { // 处理错误。
         const msg = error.message;
         const name = error.name;
 
@@ -1643,7 +1642,7 @@ async function timer(str, time, tit, id) {
             passed_time += timer_speed * 10;
             if (timer_speed > 1) inf.style.color = "#ff0000";
             else if (timer_speed < 1 && timer_speed > 0) inf.style.color = "#0000ff";
-            else if (timer_speed === 0) inf.style.color = "#d00000";
+            else if (timer_speed === 0) inf.style.color = "#d000d0";
             else if (timer_speed > -1 && timer_speed < 0) inf.style.color = "#d0d000";
             else if (timer_speed < -1) inf.style.color = "#d0d0d0";
             else inf.style.color = "#000000";
@@ -1677,22 +1676,22 @@ async function timer(str, time, tit, id) {
             bar.style.width = `${pro}%`;
             timerdesc.innerHTML = `${timer_speed === 0 ? "停滞" : String(timer_speed) + " 倍速"} | ${passed_time > 0 ? fhsj(passed_time) : fhsj(0)} / ${fhsj(time)} | ${pro > 0 ? pro.toFixed(2) : 0}%`;
             if (timer_speed > 1) {
-                bar.style.backgroundColor = "#ff000099";
+                bar.style.backgroundColor = "#ff000049";
                 timerdesc.style.color = "#ff0000";
             } else if (timer_speed < 1 && timer_speed > 0) {
-                bar.style.backgroundColor = "#0000ff99";
+                bar.style.backgroundColor = "#0000ff49";
                 timerdesc.style.color = "#0000ff";
             } else if (timer_speed === 0) {
-                bar.style.backgroundColor = "#d0000099";
-                timerdesc.style.color = "#d00000";
+                bar.style.backgroundColor = "#d000d049";
+                timerdesc.style.color = "#d000d0";
             } else if (timer_speed > -1 && timer_speed < 0) {
-                bar.style.backgroundColor = "#d0d00099";
+                bar.style.backgroundColor = "#d0d00049";
                 timerdesc.style.color = "#d0d000";
             } else if (timer_speed < -1) {
-                bar.style.backgroundColor = "#d0d0d099";
+                bar.style.backgroundColor = "#d0d0d049";
                 timerdesc.style.color = "#d0d0d0";
             } else {
-                bar.style.backgroundColor = "#00000099";
+                bar.style.backgroundColor = "#00000049";
                 timerdesc.style.color = "#000000";
             }
             if (pro >= 100) {

@@ -361,7 +361,7 @@
 }
 
 .synchr-bar {
-    background-color: #b7359999;
+    background-color: #b7359949;
 }
 
 .lj-mele {
@@ -414,7 +414,8 @@
 }
 
 .zd-box {
-    height: 60px;
+    height: 80px;
+    font-family: "Consolas", 'Cascadia Code', "lan", "hf";
     text-align: left;
     background-color: #22222299;
 }
@@ -436,7 +437,7 @@
 }
 
 .timer-bar {
-    background-color: #d0d0d099;
+    background-color: #d0d0d049;
 }
 
 .timer-earlyend {
@@ -468,7 +469,7 @@
 }
 
 .rz-bar {
-    background-color: #706fbd99;
+    background-color: #706fbd49;
 }
 
 @keyframes in_rz {
