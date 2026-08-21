@@ -129,7 +129,7 @@ def xz(text, array):
         return False
 
 """
-rejected
+rejected function
 
 def jdt(current, total, ch, typ, srt, unit, bw = 100):
     column = [
