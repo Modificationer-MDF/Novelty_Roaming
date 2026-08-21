@@ -34,8 +34,9 @@ function selector(el) {
 }
 
 function pickele(v) {
-    if (activep) return;
+    if (activep) finishpick(); // 强制清理。
     activep = true;
+
     phl = document.createElement("div");
     phl.classList.add("phl-highlight");
     phl.style.left = "0px";
@@ -44,6 +45,7 @@ function pickele(v) {
     phl.style.height = "0px";
     document.body.appendChild(phl);
 
+    // 移动处理。
     const move_handler = (e) => {
         if (!activep) return;
         const el = e.target;
@@ -54,79 +56,87 @@ function pickele(v) {
         phl.style.top = rect.top + window.scrollY + "px";
         phl.style.width = rect.width + "px";
         phl.style.height = rect.height + "px";
-        // 移除旧高亮类，添加新高亮类。
         if (prevp) prevp.classList.remove("phl");
         el.classList.add("phl");
         prevp = el;
     };
-    const click_handler = async (e) => {
+
+    const click_handler = (e) => {
         if (!activep) return;
+        const el = e.target;
+        if (el === phl) return;
         e.preventDefault();
         e.stopPropagation();
-        let el = e.target;
-        if (el === phl) return;
-        let sele = selector(el);
-        try {
-            setTimeout(() => {
-                const box = document.getElementById(v)?.querySelector(".inp-box");
-                if (!box) {
-                    console.warn("输入框未找到。");
-                    finishpick();
-                    return;
-                }
-                // 如果选区为空，不填充。
-                if (sele && sele.trim() !== "") {
-                    box.value = sele;
-                    box.focus();
-                    box.removeEventListener("keypress", finishpick);
-                    box.addEventListener("keypress", (e) => {
-                        if (e.key === "Enter") finishpick();
-                    });
-                } else {
-                    box.focus();
-                }
-            }, 1);
-        } catch (err) {
-            console.warn(`发生了错误：“${err}”。`);
+
+        const box = document.getElementById(v)?.querySelector(".inp-box");
+        if (!box) {
+            console.warn("输入框未找到。");
+            finishpick();
+            return;
+        }
+        const sele = selector(el);
+        if (sele && sele.trim() !== "") {
+            box.value = sele;
+            box.focus();
+            // 移除旧的监听器，避免重复绑定。
+            box.removeEventListener("keydown", enter_handler);
+            box.addEventListener("keydown", enter_handler);
+        } else {
+            box.focus();
+        }
+    };
+
+    const enter_handler = (e) => {
+        if (e.key === "Enter") {
             finishpick();
         }
     };
 
-    const esc_handler = (e) => {
+    const f1_handler = (e) => { // 聚焦。
+        if (e.key === "F1") {
+            e.preventDefault();
+            const box = document.getElementById(v)?.querySelector(".inp-box");
+            box.focus();
+        }
+    }
+
+    document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
             finishpick();
             inf("已退出元素捕获模式。");
         }
-    };
+    }, { once: true });
 
     document.addEventListener("mousemove", move_handler);
-    document.addEventListener("click", click_handler, { capture: true });
-    document.addEventListener("keydown", esc_handler);
+    document.addEventListener("click", click_handler);
+    document.addEventListener("keydown", f1_handler);
 
     window.picklisteners = {
         move: move_handler,
         click: click_handler,
-        esc: esc_handler
+        f1: f1_handler,
     };
 }
 
 function finishpick() {
     if (!activep) return;
     activep = false;
+
     if (phl) {
         phl.remove();
         phl = null;
     }
     if (window.picklisteners) {
         document.removeEventListener("mousemove", window.picklisteners.move);
-        document.removeEventListener("click", window.picklisteners.click, { capture: true });
+        document.removeEventListener("click", window.picklisteners.click);
+        document.removeEventListener("f1", window.picklisteners.f1);
         window.picklisteners = null;
     }
-
     if (prevp) {
         prevp.classList.remove("phl");
         prevp = null;
     }
+    nowp = null;
 }
 
 function screenshot() {
@@ -402,16 +412,23 @@ function init_ui() {
         cg(`页面已存档，存档编号：<code>cd-${snapshotId}</code>。`);
     };
 
-    async function blocking() {
+    async function blocking(j) {
+        if (activep) finishpick(); // 清理。
+
         if (ofscrt) pickele("block");
-        const sel = await inp("在此输入要屏蔽元素的 CSS 选择器。", "输入", "block");
-        if (!sel) {
-            finishpick();
-            resolve();
-        }
+
+        const sel = await inp(`在此输入第 ${j} 个要屏蔽元素的 CSS 选择器。`, "输入", "block");
+
+        if (activep) finishpick(); // 再清理。
+
+        if (!sel) return;
+
         try {
             const el = document.querySelector(sel);
-            if (!el) { fail("未找到元素。"); }
+            if (!el) {
+                err("未找到元素。");
+                return;
+            }
             el.style.transition = `all 0.2s ${easing}`;
             el.style.opacity = 0;
             el.addEventListener("transitionend", () => {
@@ -421,14 +438,15 @@ function init_ui() {
             render_bl();
         } catch (e) {
             fail(`发生了错误：“${e}”。`);
-            finishpick();
         }
     }
-
     const block = document.createElement("btn");
     block.classList.add("block");
     block.innerHTML = "屏蔽";
-    block.onclick = async () => { blocking() };
+    block.onclick = async () => {
+        if (activep) finishpick();
+        blocking(1);
+    };
     block.oncontextmenu = async (e) => {
         e.preventDefault();
         let ls_multi = false;
@@ -439,6 +457,7 @@ function init_ui() {
             "我想批量屏蔽。",
         ];
         const lsxz = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
+        if (!lsxz) return;
         switch (lsxz[0]) {
             case "如何屏蔽？":
                 lsans = "请点击屏蔽按钮，随后选择或手动输入所要屏蔽元素的 CSS 选择器。";
@@ -458,10 +477,11 @@ function init_ui() {
         if (ls_multi) {
             let ls_amount = await inp("请输入要屏蔽元素的数量。");
             ls_amount = Number(ls_amount)
-            if (isNaN(ls_amount)) fail("无效输入。");
+            if (isNaN(ls_amount)) fail("无效输入。请输入纯数字。");
             else {
+                if (ls_amount <= 0) fail("所输入的数字需要大于 0。");
                 for (let i = 1; i <= ls_amount; i++) {
-                    await blocking();
+                    await blocking(i);
                 }
             }
         } else {

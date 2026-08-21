@@ -267,7 +267,7 @@
 .phl-highlight {
     position: absolute;
     pointer-events: none;
-    z-index: 100;
+    z-index: 32767;
     background-color: #55b15549;
     border: 2px solid #7db155b9;
     border-radius: 4px;
