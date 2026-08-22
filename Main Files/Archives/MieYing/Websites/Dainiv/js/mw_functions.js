@@ -1866,7 +1866,7 @@ async function mb(str, tit, id) {
         let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "面板";
-        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "通知"; }
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "面板"; }
         if (id == null || id == undefined) id = "";
 
         let key = `mb|${tit}|${str}`;
