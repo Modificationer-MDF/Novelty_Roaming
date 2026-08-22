@@ -1,4 +1,4 @@
-﻿async function fd_warn(cont, title = "不宜内容警告") {
+async function fd_warn(cont, title = "不宜内容警告") {
     return new Promise((resolve) => {
         const mele = document.createElement("div");
         const square = document.createElement("div");

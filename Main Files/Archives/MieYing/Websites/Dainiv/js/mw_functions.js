@@ -1046,24 +1046,6 @@ async function lj(str, url, tit, id) {
     else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "链接"; }
     if (id == null || id == undefined) id = "";
 
-    function urlcheck(u) {
-        if (typeof u !== "str") return false;
-        const decoded = decodeURIComponent(u);
-        const lower = decoded.toLowerCase();
-        const kps = [
-            /\\device\\/i, /\\condrv\\/i, /globalroot/i, /^\\.\\.*\\/, /^\\\\\.\\/,
-            /kernelconnect/i, /physicaldrive\d*/i, /\\physicaldrive\d*/i, /^\\\\\?\\/,
-            /harddiskvolume\d*/i,
-        ];
-        if (kps.some(p => p.test(lower))) return false;
-        return true;
-    }
-    if (!urlcheck(url)) {
-        warn("出于安全策略考虑，已阻止该链接窗口弹出。");
-        console.warn(`[安全策略] 已阻止打开危险链接：${url}。`);
-        return;
-    }
-
     let key = `lj|${tit}|${str}|${url}`;
     if (winmaps[key]) {
         let win = winmaps[key];
