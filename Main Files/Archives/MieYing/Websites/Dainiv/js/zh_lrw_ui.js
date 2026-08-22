@@ -607,7 +607,7 @@ function init_ui() {
         items.forEach((selector, index) => {
             blocked.innerHTML += `
             <div class="rw-blockitem" data-index="${index}">
-                <span class="selector">${selector}</span>
+                <code class="selector">${selector}</code>
                 <button class="rw-unblocker" data-index="${index}">恢复</button>
             </div>
         `;

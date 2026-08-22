@@ -3,10 +3,10 @@ let winmaps = {};
 
 async function noti(str, tit, id) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Noti() 函数中，str 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Noti() 函数中，str 参数不能为空。"; }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "通知";
         else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "通知"; }
         if (id == null || id == undefined) id = "";
@@ -151,10 +151,10 @@ async function noti(str, tit, id) {
 
 async function cg(str, tit, id) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Cg() 函数中，str 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Cg() 函数中，str 参数不能为空。"; }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "完成";
         else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "完成"; }
         if (id == null || id == undefined) id = "";
@@ -298,10 +298,10 @@ async function cg(str, tit, id) {
 
 async function warn(str, tit, id) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Warn() 函数中，str 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Warn() 函数中，str 参数不能为空。"; }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "注意";
         else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "注意"; }
         if (id == null || id == undefined) id = "";
@@ -444,10 +444,10 @@ async function warn(str, tit, id) {
 
 async function fail(str, tit, id) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Fail() 函数中，str 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Fail() 函数中，str 参数不能为空。"; }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "错误";
         else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "错误"; }
         if (id == null || id == undefined) id = "";
@@ -590,10 +590,10 @@ async function fail(str, tit, id) {
 
 async function inp(str, tit, id) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Inp() 函数中，str 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Inp() 函数中，str 参数不能为空。"; }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "输入";
         else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "输入"; }
         if (id == null || id == undefined) id = "";
@@ -739,10 +739,10 @@ async function inp(str, tit, id) {
 
 async function xz(str, n, names, tit, id) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Xz() 函数中，str 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Xz() 函数中，str 参数不能为空。"; }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "选择";
         else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "选择"; }
         if (id == null || id == undefined) id = "";
@@ -984,10 +984,10 @@ async function xz(str, n, names, tit, id) {
 }
 
 async function synchr(str, tit, id) {
-    if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Synchr() 函数中，str 参数不能为 null 或 undefined。"; }
+    if (str == null || str == undefined) { fail("不能输入空值！"); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
     str = String(str);
     let s_replaced = str.replace(/\s+/g, "");
-    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Synchr() 函数中，str 参数不能为空。"; }
+    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为空。"; }
     if (tit == null || tit == undefined) tit = "同步";
     else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "同步"; }
     if (id == null || id == undefined) id = "";
@@ -1123,6 +1123,10 @@ async function synchr(str, tit, id) {
 
     let dur = smarttime(str);
     let tid = setTimeout(() => {
+        if (win_obj.rb) {
+            win_obj.rb.disconnect();
+            win_obj.rb = null;
+        }
         inf.style.opacity = 0;
         inf.style.transform = "translateY(-10px)";
         icon.style.opacity = 0;
@@ -1143,12 +1147,12 @@ async function synchr(str, tit, id) {
 }
 
 async function lj(str, url, tit, id) {
-    if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Lj() 函数中，str 参数不能为 null 或 undefined。"; }
+    if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Lj() 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
     if (url == null || url == undefined) { warn("无法跳转至 null 或 undefined。"); return "在 Lj() 函数中，url 参数不能为 null 或 undefined。"; }
     str = String(str);
     url = String(url);
     let s_replaced = str.replace(/\s+/g, "");
-    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Lj() 函数中，str 参数不能为空。"; }
+    if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Lj() 函数中，<code>str</code> 不能为空。"; }
     let u_replaced = url.replace(/\s+/g, "");
     if (u_replaced === "") { warn("无法跳转至空地址。"); return "在 Lj() 函数中，url 参数不能为空。"; }
     if (tit == null || tit == undefined) tit = (url.startsWith("mailto:") ? "邮件" : "链接");
@@ -1248,6 +1252,21 @@ async function lj(str, url, tit, id) {
         mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + link.getBoundingClientRect().height + ignore.getBoundingClientRect().height}px + ${window.getComputedStyle(link).marginBottom} + ${window.getComputedStyle(ignore).marginBottom})`;
     });
 
+    let rb = new ResizeObserver(() => {
+        const squareH = square.getBoundingClientRect().height;
+        const infH = inf.getBoundingClientRect().height;
+        const linkH = link.getBoundingClientRect().height;
+        const linkMargin = parseFloat(window.getComputedStyle(link).marginBottom) || 0;
+        const ignoreH = ignore.getBoundingClientRect().height;
+        const ignoreMargin = parseFloat(window.getComputedStyle(ignore).marginBottom) || 0;
+        mele.style.height = `${squareH + infH + linkH + linkMargin + ignoreH + ignoreMargin}px`;
+    }); // 监测高度变化。
+    rb.observe(square);
+    rb.observe(inf);
+    rb.observe(link);
+    rb.observe(ignore);
+    win_obj.rb = rb;
+
     link.addEventListener("transitionend", () => { ignore.focus(); }, { once: true });
 
     let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
@@ -1255,6 +1274,10 @@ async function lj(str, url, tit, id) {
     inf.style.marginTop = square_height;
 
     const close_win = () => {
+        if (win_obj.rb) {
+            win_obj.rb.disconnect();
+            win_obj.rb = null;
+        }
         link.style.opacity = 0;
         ignore.style.opacity = 0;
         inf.style.opacity = 0;
@@ -1295,145 +1318,145 @@ async function zd(str, tit, id) {
         const name = error.name;
 
         // ReferenceError。
-        if (name === 'ReferenceError') {
-            if (msg.includes(' is not defined')) {
-                let varName = msg.split(' is not defined')[0].trim();
-                return `引用了未定义的变量或函数 “${varName}”。`;
+        if (name === "ReferenceError") {
+            if (msg.includes(" is not defined")) {
+                let var_name = msg.split(" is not defined")[0].trim();
+                return `引用了未定义的变量或函数 “<code>${var_name}</code>”。`;
             }
-            if (msg.includes('Cannot access')) {
-                let varName = msg.split("'")[1] || '变量';
-                return `无法在初始化前访问 “${varName}”。`;
+            if (msg.includes("Cannot access")) {
+                let var_name = msg.split("'")[1] || "变量";
+                return `无法在初始化前访问 “<code>${var_name}</code>”。`;
             }
-            return `引用错误：“${msg}”。`;
+            return `引用错误：“<code style="background-color: #5f1b1b99;">${msg}</code>”。`;
         }
 
         // SyntaxError。
-        if (name === 'SyntaxError') {
-            if (msg.includes('Missing initializer in const declaration')) {
-                return "const 变量没有设置初始化值。";
+        if (name === "SyntaxError") {
+            if (msg.includes("Missing initializer in const declaration")) {
+                return "<code>const</code> 常量没有设置初始化值。";
             }
-            if (msg.includes(' has already been declared')) {
-                let varName = msg.split("Identifier '")[1]?.split("'")[0] || '未知';
-                return `标识符 “${varName}” 已经声明过。`;
+            if (msg.includes(" has already been declared")) {
+                let var_name = msg.split("Identifier '")[1]?.split("'")[0] || "未知";
+                return `标识符 “<code>${var_name}</code>” 已经声明过。`;
             }
-            if (msg.includes('Unexpected token')) {
+            if (msg.includes("Unexpected token")) {
                 // 提取具体的非法符号
-                let token = msg.split("Unexpected token '")[1]?.split("'")[0] || msg.split("Unexpected token")[1]?.trim() || '非法符号';
-                if (token === 'end of input') return '意外代码结束，输入不完整。';
-                return `意外符号 “${token}”。`;
+                let token = msg.split("Unexpected token '")[1]?.split("'")[0] || msg.split("Unexpected token")[1]?.trim() || "非法符号";
+                if (token === "end of input") return "意外代码结束，输入不完整。";
+                return `意外符号 “<code>${token}</code>”。`;
             }
-            if (msg.includes('Unexpected identifier')) {
-                let token = msg.split("Unexpected identifier '")[1]?.split("'")[0] || '';
-                return `“${token}” 不是有效的标识符（Identifier）。`;
+            if (msg.includes("Unexpected identifier")) {
+                let token = msg.split("Unexpected identifier '")[1]?.split("'")[0] || "";
+                return `“<code>${token}</code>” 不是有效的标识符<code>（Identifier）</code>。`;
             }
-            if (msg.includes('Unexpected end of input')) {
+            if (msg.includes("Unexpected end of input")) {
                 return "缺少必要的符号。";
             }
-            if (msg.includes('Invalid or unexpected token')) {
-                if (input.includes('\\')) return "无效转义字符 “\\”。";
-                if (input.includes('`')) return "模板字符串中可能缺少闭合反引号。";
+            if (msg.includes("Invalid or unexpected token")) {
+                if (input.includes("\\")) return "无效转义字符 “\\”。";
+                if (input.includes("`")) return "模板字符串中可能缺少闭合反引号。";
                 return "无效标识符或意外符号。";
             }
-            if (msg.includes('Invalid left-hand side in assignment')) {
+            if (msg.includes("Invalid left-hand side in assignment")) {
                 return "赋值操作中左侧表达式无效。<br />不能给常量、字面量或只读属性赋值。";
             }
-            if (msg.includes('Cannot use import statement outside a module')) {
-                return "无法在此上下文中使用 import 语句。";
+            if (msg.includes("Cannot use import statement outside a module")) {
+                return "无法在此上下文中使用 <code>import</code> 语句。";
             }
-            if (msg.includes('Illegal return statement')) {
-                return "return 语句在函数外部无效。";
+            if (msg.includes("Illegal return statement")) {
+                return "<code>return</code> 语句在函数外部无效。";
             }
-            if (msg.includes('Missing ) after argument list')) {
-                return "参数列表缺少闭合括号 “)”。";
+            if (msg.includes("Missing ) after argument list")) {
+                return "参数列表缺少闭合括号 “<code>)</code>”。";
             }
-            if (msg.includes('Missing } after function body')) {
-                return "函数体缺少闭合花括号 “}”。"
+            if (msg.includes("Missing } after function body")) {
+                return "函数体缺少闭合花括号 “<code>}</code>”。"
             } "。";
         }
-        if (msg.includes('Missing formal parameter')) {
+        if (msg.includes("Missing formal parameter")) {
             return "箭头函数或函数声明中缺少形参。";
         }
-        if (msg.includes('Unterminated string literal')) {
+        if (msg.includes("Unterminated string literal")) {
             return "字符串缺少结束引号。";
         }
         else {
-            return `语法错误：“${msg}”。`;
+            return `语法错误：“<code style="background-color: #5f1b1b99;">${msg}</code>”。`;
         }
 
         // TypeError。
-        if (name === 'TypeError') {
-            if (msg.includes('Assignment to constant variable')) {
+        if (name === "TypeError") {
+            if (msg.includes("Assignment to constant variable")) {
                 return "const 变量不可重新赋值。";
             }
-            if (msg.includes('Cannot assign to read only property')) {
+            if (msg.includes("Cannot assign to read only property")) {
                 return "无法为只读属性赋值。";
             }
-            if (msg.includes('is not a function')) {
-                let varName = msg.split(' is not a function')[0].trim();
-                return `“${varName}” 不是函数。`;
+            if (msg.includes("is not a function")) {
+                let var_name = msg.split(" is not a function")[0].trim();
+                return `“<code>${var_name}</code>” 不是函数。`;
             }
-            if (msg.includes('is not iterable')) {
-                let varName = msg.split(' is not iterable')[0].trim();
-                return `“${varName}” 不可迭代。`;
+            if (msg.includes("is not iterable")) {
+                let var_name = msg.split(" is not iterable")[0].trim();
+                return `“<code>${var_name}</code>” 不可迭代。`;
             }
-            if (msg.includes('Cannot read properties of')) {
+            if (msg.includes("Cannot read properties of")) {
                 let parts = msg.split("Cannot read properties of ")[1];
-                let val = parts.includes('null') ? 'null' : 'undefined';
-                let prop = parts.split("(reading '")[1]?.split("')")[0] || '未知属性';
-                return `无法读取 “${prop}” 的属性，其值为 “${val}”。`;
+                let val = parts.includes("null") ? "null" : "undefined";
+                let prop = parts.split("(reading '")[1]?.split("')")[0] || "未知属性";
+                return `无法读取 “<code>${prop}</code>” 的属性，其值为 “<code>${val}</code>”。`;
             }
-            if (msg.includes('Cannot set properties of')) {
+            if (msg.includes("Cannot set properties of")) {
                 let parts = msg.split("Cannot set properties of ")[1];
-                let val = parts.includes('null') ? 'null' : 'undefined';
-                return `无法设置属性，其值为 “${val}”。`;
+                let val = parts.includes("null") ? "null" : "undefined";
+                return `无法设置属性，其值为 “<code>${val}</code>”。`;
             }
-            if (msg.includes('cannot be used as a constructor')) {
-                let varName = msg.split(' is not a constructor')[0].trim();
-                return `“${varName}” 不能作为构造函数使用。`;
+            if (msg.includes("cannot be used as a constructor")) {
+                let var_name = msg.split(" is not a constructor")[0].trim();
+                return `“<code>${var_name}</code>” 不能作为构造函数使用。`;
             }
-            if (msg.includes('Cannot destructure property')) {
-                let prop = msg.split("Cannot destructure property '")[1]?.split("'")[0] || '';
-                return `解构赋值失败，无法从 undefined 或 null 中读取 “${prop}”。`;
+            if (msg.includes("Cannot destructure property")) {
+                let prop = msg.split("Cannot destructure property '")[1]?.split("'")[0] || "";
+                return `解构赋值失败，无法从 undefined 或 null 中读取 “<code>${prop}</code>”。`;
             }
-            if (msg.includes('Invalid array length')) {
+            if (msg.includes("Invalid array length")) {
                 return "数组长度无效。";
             }
-            if (msg.includes('Cyclic object value')) {
+            if (msg.includes("Cyclic object value")) {
                 return "循环引用的对象值无法序列化。";
             }
-            return `类型错误：“${msg}”。`;
+            return `类型错误：“<code style="background-color: #5f1b1b99;">${msg}</code>”。`;
         }
 
         // 4. 范围错误 (RangeError) 
-        if (name === 'RangeError') {
-            if (msg.includes('Maximum call stack size exceeded')) {
-                return "超出最大调用栈大小（可能陷入了死循环或递归）。";
+        if (name === "RangeError") {
+            if (msg.includes("Maximum call stack size exceeded")) {
+                return "超出最大调用栈大小。";
             }
-            if (msg.includes('Invalid date')) {
+            if (msg.includes("Invalid date")) {
                 return "日期格式无效。";
             }
-            if (msg.includes('Precision is out of range')) {
+            if (msg.includes("Precision is out of range")) {
                 return "数字精度超出范围。";
             }
-            return `范围错误：“${msg}”。`;
+            return `范围错误：“<code style="background-color: #5f1b1b99;">${msg}</code>”。`;
         }
 
-        // 5. 其他错误 (EvalError, URIError 等)
-        if (name === 'URIError') {
-            return `URI 格式错误：“${msg}”。`;
+        // 5. 其他错误（EvalError, URIError 等）
+        if (name === "URIError") {
+            return `URI 格式错误：“<code style="background-color: #5f1b1b99;">${msg}</code>”。`;
         }
-        if (name === 'EvalError') {
-            return `Eval 安全错误：“${msg}”。`;
+        if (name === "EvalError") {
+            return `Eval 安全错误：“<code style="background-color: #5f1b1b99;">${msg}</code>”。`;
         }
 
-        return `意外 ${error.name} 错误：“${error.message}”。`;
+        return `意外 <code style="background-color: #673c0d99;">${error.name}</code> 错误：“<code style="background-color: #5f1b1b99;">${error.message}</code>”。`;
     }
 
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Zd() 函数中，str 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 <code>Zd()</code> 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 Zd() 函数中，str 参数不能为空。"; }
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Zd()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "终端";
         else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "终端"; }
         if (id == null || id == undefined) id = "";
@@ -1587,10 +1610,10 @@ async function zd(str, tit, id) {
                         rz(k);
                         close_win(k);
                     } else if (k === undefined) {
-                        rz("返回值为 undefined。");
+                        rz(`返回值为 <code style="background-color: #0b226399">undefined</code>。`);
                         close_win();
                     } else if (k === null) {
-                        rz("返回值为 null。");
+                        rz(`返回值为 <code style="background-color: #0b226399">null</code>。`);
                         close_win();
                     }
                 } catch (error) {
@@ -1613,8 +1636,8 @@ async function timer(str, time, tit, id) {
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
-        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 Timer() 函数中，str 参数不能为 null 或 undefined。"; }
-        if (time == null || time == undefined) { fail("null 或 undefined 不是有效的数字。"); return "在 Timer() 函数中，time 参数不能为 null 或 undefined。"; }
+        if (str == null || str == undefined) { fail("不能输入空值！"); return `在 <code>Timer()</code> 函数中，<code>str</code> 参数不能为 <code style="background - color: #0b226399">null</code> 或 <code style="background - color: #0b226399">undefined</code>。`; }
+        if (time == null || time == undefined) { fail(`<code style="background-color: #0b226399">null</code> 或 <code style="background-color: #0b226399">undefined</code> 不是有效的数字。`); return "在 <code>Timer()</code> 函数中，time 参数不能为 null 或 undefined。"; }
         str = String(str);
         time = Number(time);
         let s_replaced = str.replace(/\s+/g, "");
@@ -1622,9 +1645,9 @@ async function timer(str, time, tit, id) {
         if (tit == null || tit == undefined) tit = "计时";
         else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "计时"; }
         if (id == null || id == undefined) id = "";
-        if (isNaN(time)) { fail("time 参数必须为可识别的数字或纯数字字符串。"); return "在 Timer() 函数中，time 参数必须为可识别的数字或纯数字字符串。"; }
-        else if (time < 1250) { warn("time 的值过小，无法正常计时。"); return "在 Timer() 函数中，time 的值必须大于等于 1250。"; }
-        else if (time > 3.15576e10 * 1.1568) { warn("time 的值过大，无法正常计时。"); return "在 Timer() 函数中，time 的值必须小于等于 6.048e10。"; }
+        if (isNaN(time)) { fail("<code>time</code> 参数必须为可识别的数字或纯数字字符串。"); return "在 <code>Timer()</code> 函数中，<code>time</code> 必须为可识别的数字或纯数字字符串。"; }
+        else if (time < 1250) { warn("<code>time</code> 的值过小，无法正常计时。"); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须大于等于 1250。"; }
+        else if (time > 3.15576e10 * 1.1568) { warn("<code>time</code> 的值过大，无法正常计时。"); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须小于等于 6.048e10。"; }
 
         let key = `timer|${tit}|${str}`;
         if (winmaps[key]) {
@@ -1722,6 +1745,10 @@ async function timer(str, time, tit, id) {
             if (interval_speed) clearInterval(interval_speed);
             if (interval_progress) clearInterval(interval_progress);
             if (interval_check) clearInterval(interval_check);
+            if (win_obj.rb) {
+                win_obj.rb.disconnect();
+                win_obj.rb = null;
+            }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
             icon.style.opacity = 0;
@@ -1767,6 +1794,22 @@ async function timer(str, time, tit, id) {
             mele.style.right = "calc(50% + 15ch)";
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + bar.getBoundingClientRect().height + earlyend.getBoundingClientRect().height + timerdesc.getBoundingClientRect().height}px + ${getComputedStyle(timerdesc).marginBottom})`;
         });
+
+        let rb = new ResizeObserver(() => {
+            const squareH = square.getBoundingClientRect().height;
+            const infH = inf.getBoundingClientRect().height;
+            const barH = bar.getBoundingClientRect().height;
+            const earlyendH = earlyend.getBoundingClientRect().height;
+            const timerdescH = timerdesc.getBoundingClientRect().height;
+            const timerdescMargin = parseFloat(window.getComputedStyle(timerdesc).marginBottom) || 0;
+            mele.style.height = `${squareH + infH + barH + earlyendH + timerdescH + timerdescMargin}px`;
+        }); // 监测高度变化。
+        rb.observe(square);
+        rb.observe(inf);
+        rb.observe(bar);
+        rb.observe(earlyend);
+        rb.observe(timerdesc);
+        win_obj.rb = rb;
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
@@ -1818,14 +1861,12 @@ async function timer(str, time, tit, id) {
 
 async function mb(str, tit, id) {
     return new Promise((resolve) => {
+        if (str == null || str == undefined) { fail("不能输入空值！"); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为 <code style=\"background-color: #0b226399\">null</code> 或 <code style=\"background-color: #0b226399\">undefined</code>。"; }
         str = String(str);
-        if (str.length === 0 || str.includes(null) || str.includes(undefined)) {
-            fail("不能输入空值！");
-            resolve(39);
-            return;
-        }
-        if (tit == null || tit == undefined || String(tit).replace(/\s+/g, "") === "") tit = "面板";
-        else tit = String(tit);
+        let s_replaced = str.replace(/\s+/g, "");
+        if (s_replaced === "") { warn("不能输入空字符串。"); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (tit == null || tit == undefined) tit = "面板";
+        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "通知"; }
         if (id == null || id == undefined) id = "";
 
         let key = `mb|${tit}|${str}`;
@@ -1876,6 +1917,7 @@ async function mb(str, tit, id) {
         txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         txt.style.opacity = 0;
         inf.className = "mfn-inf";
+        inf.innerHTML = str;
         inf.style.opacity = 0;
         inf.style.textAlign = "center";
         inf.style.minWidth = "30ch";
@@ -1900,57 +1942,6 @@ async function mb(str, tit, id) {
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
 
-        if (str.startsWith("[标签] ")) {
-            str = str.slice(5);
-            if (str.toLowerCase().startsWith("li: ")) {
-                const li = document.createElement("li");
-                li.innerHTML = str.slice(4);
-                inf.appendChild(li);
-            } else if (str.toLowerCase().startsWith("h1: ")) {
-                const h1 = document.createElement("h1");
-                h1.innerHTML = str.slice(4);
-                inf.appendChild(h1);
-            } else if (str.toLowerCase().startsWith("h2: ")) {
-                const h2 = document.createElement("h2");
-                h2.innerHTML = str.slice(4);
-                inf.appendChild(h2);
-            } else if (str.toLowerCase().startsWith("h3: ")) {
-                const h3 = document.createElement("h3");
-                h3.innerHTML = str.slice(4);
-                inf.appendChild(h3);
-            } else if (str.toLowerCase().startsWith("h4: ")) {
-                const h4 = document.createElement("h4");
-                h4.innerHTML = str.slice(4);
-                inf.appendChild(h4);
-            } else if (str.toLowerCase().startsWith("h5: ")) {
-                const h5 = document.createElement("h5");
-                h5.innerHTML = str.slice(4);
-                inf.appendChild(h5);
-            } else if (str.toLowerCase().startsWith("code: ")) {
-                const code = document.createElement("code");
-                code.innerHTML = str.slice(6);
-                inf.appendChild(code);
-            } else if (str.toLowerCase().startsWith("img: ")) {
-                const img = document.createElement("img");
-                img.src = str.slice(5);
-                img.alt = "";
-                inf.appendChild(img);
-            } else if (str.toLowerCase().startsWith("a: ")) {
-                const a = document.createElement("a");
-                a.href = str.slice(3);
-                a.innerHTML = str.slice(3);
-                inf.appendChild(a);
-            } else if (str.toLowerCase().startsWith("div: ")) {
-                const div = document.createElement("div");
-                div.innerHTML = str.slice(5);
-                inf.appendChild(div);
-            }
-        } else {
-            const p = document.createElement("p");
-            p.innerHTML = str;
-            inf.appendChild(p);
-        }
-
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
@@ -1967,11 +1958,27 @@ async function mb(str, tit, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + gb.getBoundingClientRect().height}px + ${window.getComputedStyle(gb).marginBottom})`;
         });
 
+        let rb = new ResizeObserver(() => {
+            const squareH = square.getBoundingClientRect().height;
+            const infH = inf.getBoundingClientRect().height;
+            const gbH = gb.getBoundingClientRect().height;
+            const gbMargin = parseFloat(window.getComputedStyle(gb).marginBottom) || 0;
+            mele.style.height = `${squareH + infH + gbH + gbMargin}px`;
+        }); // 监测高度变化。
+        rb.observe(square);
+        rb.observe(inf);
+        rb.observe(gb);
+        win_obj.rb = rb;
+
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
         const close_win = () => {
+            if (win_obj.rb) {
+                win_obj.rb.disconnect();
+                win_obj.rb = null;
+            }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
             icon.style.opacity = 0;
@@ -2000,10 +2007,10 @@ async function mb(str, tit, id) {
 async function rz(str, time) {
     return new Promise((resolve) => {
         if (str == null) {
-            warn("这个值为 null。");
+            warn(`这个值为 <code style="background-color: #0b226399">null</code>。`);
             return;
         } else if (str == undefined) {
-            warn("这个值为 undefined。");
+            warn(`这个值为 <code style="background-color: #0b226399">undefined</code>。`);
             return;
         }
         if (time == null || time == undefined) time = smarttime(str);

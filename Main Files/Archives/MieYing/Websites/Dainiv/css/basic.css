@@ -20,6 +20,15 @@ button:focus, textarea:focus {
     outline: 3px solid #ffffffb9;
 }
 
+code {
+    color: #ffffff;
+    background: #15151999;
+    padding: 1px 8px;
+    font-size: 19px;
+    word-break: break-all;
+    font-family: "jbml", "Consolas", "Cascadia Code";
+}
+
 h1 h2 {
     color: white;
     font-weight: 100;
@@ -326,12 +335,3 @@ tr:last-child td {
 .value {
     color: #e6edf3;
 }
-
-    .value code {
-        background: #1e1e2eb9;
-        padding: 1px 8px;
-        border-radius: 4px;
-        color: #83bd11;
-        font-size: 17px;
-        word-break: break-all;
-    }

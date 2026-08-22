@@ -232,7 +232,6 @@
     color: white;
     flex-grow: 1;
     word-break: break-word;
-    font-family: "hf";
     font-weight: 100;
     border: none;
     backdrop-filter: blur(14px) saturate(250%);
@@ -247,6 +246,7 @@
 
 .inp-box {
     text-align: center;
+    font-family: "hf";
     height: 60px;
     min-height: 60px;
     background-color: #9cdcfe99;
