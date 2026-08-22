@@ -17,7 +17,7 @@ body {
         }
 
 button:focus, textarea:focus {
-    outline: 3px solid #ffffffc9;
+    outline: 3px solid #ffffffb9;
 }
 
 h1 h2 {

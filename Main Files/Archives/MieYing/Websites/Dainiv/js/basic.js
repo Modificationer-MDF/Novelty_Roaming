@@ -178,3 +178,34 @@ function mwactive(id) {
 
     return false;
 }
+
+function notify(str, tit) {
+    if (str === undefined || str === null) {
+        fail("str 不可为 null 或 undefined。");
+        return;
+    }
+    if (tit === undefined || tit === null) {
+        fail("tit 不可为 null 或 undefined。");
+        return;
+    }
+    if (!("Notification" in window)) {
+        warn("当前浏览器不支持桌面通知。");
+        return;
+    }
+    if (Notification.permission === "granted") {
+        new Notification(tit, {
+            body: str,
+        });
+    } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                new Notification(tit, {
+                    body: str,
+                });
+            } else {
+                fail("通知权限被拒绝。");
+                return;
+            }
+        });
+    }
+}

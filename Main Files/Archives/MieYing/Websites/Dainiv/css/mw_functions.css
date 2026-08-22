@@ -237,6 +237,8 @@
     border: none;
     backdrop-filter: blur(14px) saturate(250%);
     margin-bottom: 20px;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 .inp-box::-webkit-input-placeholder, .zd-box::-webkit-input-placeholder {
@@ -246,6 +248,7 @@
 .inp-box {
     text-align: center;
     height: 60px;
+    min-height: 60px;
     background-color: #9cdcfe99;
 }
 
@@ -415,6 +418,7 @@
 
 .zd-box {
     height: 80px;
+    min-height: 80px;
     font-family: "jbml", "Consolas", "Cascadia Code";
     text-align: left;
     background-color: #22222299;
