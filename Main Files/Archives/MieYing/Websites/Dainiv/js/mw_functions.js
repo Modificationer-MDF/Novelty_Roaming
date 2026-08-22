@@ -731,7 +731,7 @@ async function xz(str, n, names, tit, id) {
         count.className = "xz-count";
         count.innerText = "1";
         count.style.opacity = 0;
-        
+
         const array = Array.from(names);
         const xz_items = [];
         const btns = [];
@@ -1168,7 +1168,7 @@ async function lj(str, url, tit, id) {
     link.onmouseover = () => { ld(link, "75%"); };
     link.onmouseleave = () => { ld(link, "100%"); };
     link.onclick = () => {
-        if (!open(url, "_blank", `width=${defwid}, height=${defhei}`)) warn("弹出的窗口被阻止。");
+        if (!window.open(url, "_blank", `width=${defwid}, height=${defhei}`)) warn("弹出的窗口被阻止。");
         close_win();
     };
 
