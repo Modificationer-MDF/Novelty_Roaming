@@ -67,7 +67,7 @@ function hqkd(str, cl, kind) { // 获取元素宽度。
     return String(ls_kd) + "px";
 }
 
-function chara_sort(str) {
+function char_statistic(str) {
     let zh = 0; // 中文字符数。
     let al = 0; // 字符数。
     let ma = 0; // 标点符号数。（包括全角符号和半角符号）
@@ -88,7 +88,7 @@ function smarttime(str) {
     str = str.replace(/\s+/g, "");
 
     if (deftime === "Smart") {
-        let [zh, al, ma] = chara_sort(str);
+        let [zh, al, ma] = char_statistic(str);
         let time = zh * 150 + al * 90 + ma * 50;
         return (time > 1250 ? time : 1250);
     } else {
