@@ -34,7 +34,7 @@ code {
 }
 
 .err {
-    color: #5f1b1b;
+    color: #de1f1f;
 }
 
 .var {
@@ -358,4 +358,15 @@ tr:last-child td {
 
 .value {
     color: #e6edf3;
+}
+
+.line1 {
+    width: 100%;
+    height: 3px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.line1 {
+    background-color: #5a85ffb9;
 }

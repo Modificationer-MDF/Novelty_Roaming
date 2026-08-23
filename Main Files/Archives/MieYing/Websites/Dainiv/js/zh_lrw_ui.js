@@ -221,7 +221,7 @@ function screenshot() {
                 fail("截图超时，可能是页面过于复杂或网络问题，请简化页面后重试。");
             }
             else {
-                fail(`截图时发生错误：${err.message || err}。`);
+                fail(`截图时发生错误：<code style="err">${err.message || err}</code>。`);
             }
             console.error(`发生错误：${err}。`);
         }
@@ -332,7 +332,7 @@ function init_ui() {
             let ying = document.querySelector(ls_1);
             let con = await conf(`
             该元素内容已显示在分隔线下方。请确认。
-            <div style="background-color: #0437c6b9; width: 100%; height: 3px; margin-top: 10px; margin-bottom: 10px;"></div>
+            <div class="line1"></div>
             ${ying.textContent}`);
 
             if (con) {
@@ -340,7 +340,7 @@ function init_ui() {
                 cg("你的举报已反馈到“Chanf 灭蝇组织”，感谢你的配合。");
             }
         } catch (e) {
-            fail(`报错：${e}`);
+            fail(`报错：<code class="err">${e}</code>`);
         }
     };
     reportying.oncontextmenu = async (e) => {
@@ -381,7 +381,7 @@ function init_ui() {
             hash = hash & hash;
         }
         const fpstr = hash.toString(16).padStart(8, "0").toUpperCase();
-        noti(`<code style="font-size: 25px; background: #000000b9; padding: 8px 16px;">${fpstr}</code>`, "信息指纹");
+        noti(`<code>${fpstr}</code>`, "信息指纹");
     };
 
     const trace = document.createElement("btn");
@@ -655,7 +655,7 @@ function init_ui() {
 
         const el = document.querySelector(selector);
         if (!el) {
-            fail(`未找到要恢复的元素，选择器：“${selector}”。`);
+            fail(`未找到要恢复的元素，选择器：“<code>${selector}</code>”。`);
             items.splice(index, 1);
             render_bl(true);
             return;

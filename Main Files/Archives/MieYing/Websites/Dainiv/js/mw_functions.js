@@ -97,17 +97,17 @@ async function noti(str, tit, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
         });
 
-        let rb = new ResizeObserver(() => {
+        let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
             const okeyH = okey.getBoundingClientRect().height;
             const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
             mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
         }); // 监测高度变化。
-        rb.observe(square);
-        rb.observe(inf);
-        rb.observe(okey);
-        win_obj.rb = rb;
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(okey);
+        win_obj.resorb = resorb;
 
 
         okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
@@ -117,9 +117,9 @@ async function noti(str, tit, id) {
         inf.style.marginTop = square_height;
 
         const close_win = () => {
-            if (win_obj.rb) {
-                win_obj.rb.disconnect();
-                win_obj.rb = null;
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
             }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
@@ -244,17 +244,17 @@ async function cg(str, tit, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
         });
 
-        let rb = new ResizeObserver(() => {
+        let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
             const okeyH = okey.getBoundingClientRect().height;
             const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
             mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
         }); // 监测高度变化。
-        rb.observe(square);
-        rb.observe(inf);
-        rb.observe(okey);
-        win_obj.rb = rb;
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(okey);
+        win_obj.resorb = resorb;
 
         okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
@@ -263,9 +263,9 @@ async function cg(str, tit, id) {
         inf.style.marginTop = square_height;
 
         const close_win = () => {
-            if (win_obj.rb) {
-                win_obj.rb.disconnect();
-                win_obj.rb = null;
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
             }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
@@ -389,17 +389,17 @@ async function warn(str, tit, id) {
             mele.style.right = "calc(50% + 15ch)";
         });
 
-        let rb = new ResizeObserver(() => {
+        let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
             const okeyH = okey.getBoundingClientRect().height;
             const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
             mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
         }); // 监测高度变化。
-        rb.observe(square);
-        rb.observe(inf);
-        rb.observe(okey);
-        win_obj.rb = rb;
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(okey);
+        win_obj.resorb = resorb;
 
         okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
@@ -408,9 +408,9 @@ async function warn(str, tit, id) {
         inf.style.marginTop = square_height;
 
         const close_win = () => {
-            if (win_obj.rb) {
-                win_obj.rb.disconnect();
-                win_obj.rb = null;
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
             }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
@@ -534,17 +534,17 @@ async function fail(str, tit, id) {
             mele.style.right = "calc(50% + 15ch)";
         });
 
-        let rb = new ResizeObserver(() => {
+        let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
             const okeyH = okey.getBoundingClientRect().height;
             const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
             mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
         }); // 监测高度变化。
-        rb.observe(square);
-        rb.observe(inf);
-        rb.observe(okey);
-        win_obj.rb = rb;
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(okey);
+        win_obj.resorb = resorb;
 
         okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
@@ -553,9 +553,9 @@ async function fail(str, tit, id) {
         inf.style.marginTop = square_height;
 
         const close_win = () => {
-            if (win_obj.rb) {
-                win_obj.rb.disconnect();
-                win_obj.rb = null;
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
             }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
@@ -680,17 +680,17 @@ async function inp(str, tit, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + box.getBoundingClientRect().height}px + ${window.getComputedStyle(box).marginBottom})`;
         });
 
-        let rb = new ResizeObserver(() => {
+        let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
             const boxH = box.getBoundingClientRect().height;
             const boxMargin = parseFloat(window.getComputedStyle(box).marginBottom) || 0;
             mele.style.height = `${squareH + infH + boxH + boxMargin}px`;
         }); // 监测高度变化。
-        rb.observe(square);
-        rb.observe(inf);
-        rb.observe(box);
-        win_obj.rb = rb;
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(box);
+        win_obj.resorb = resorb;
 
         box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
 
@@ -699,9 +699,9 @@ async function inp(str, tit, id) {
         inf.style.marginTop = square_height;
 
         const close_win = (value) => {
-            if (win_obj.rb) {
-                win_obj.rb.disconnect();
-                win_obj.rb = null;
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
             }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
@@ -908,7 +908,7 @@ async function xz(str, n, names, tit, id) {
             for (let btn of btns) btn.style.opacity = 1;
         });
 
-        let rb = new ResizeObserver(() => {
+        let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
             const submitH = submit.getBoundingClientRect().height;
@@ -917,11 +917,11 @@ async function xz(str, n, names, tit, id) {
             const giveupMargin = parseFloat(window.getComputedStyle(giveup).marginBottom) || 0;
             mele.style.height = `${squareH + infH + submitH + submitMargin + giveupH + giveupMargin}px`;
         }); // 监测高度变化。
-        rb.observe(square);
-        rb.observe(inf);
-        rb.observe(submit);
-        rb.observe(giveup);
-        win_obj.rb = rb;
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(submit);
+        resorb.observe(giveup);
+        win_obj.resorb = resorb;
 
         submit.addEventListener("transitionend", () => { submit.focus(); }, { once: true });
 
@@ -930,9 +930,9 @@ async function xz(str, n, names, tit, id) {
         inf.style.marginTop = square_height;
 
         const close_win = (result) => {
-            if (win_obj.rb) {
-                win_obj.rb.disconnect();
-                win_obj.rb = null;
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
             }
             submit.style.opacity = 0;
             giveup.style.opacity = 0;
@@ -1097,18 +1097,18 @@ async function synchr(str, tit, id) {
         mele.style.right = "calc(50% + 15ch)";
     });
 
-    let rb = new ResizeObserver(() => {
+    let resorb = new ResizeObserver(() => {
         const squareH = square.getBoundingClientRect().height;
         const infH = inf.getBoundingClientRect().height;
         const barH = bar.getBoundingClientRect().height;
         const descH = desc.getBoundingClientRect().height;
         mele.style.height = `${squareH + infH + barH + descH}px`;
     }); // 监测高度变化。
-    rb.observe(square);
-    rb.observe(inf);
-    rb.observe(bar);
-    rb.observe(desc);
-    win_obj.rb = rb;
+    resorb.observe(square);
+    resorb.observe(inf);
+    resorb.observe(bar);
+    resorb.observe(desc);
+    win_obj.resorb = resorb;
 
     let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
     square.style.height = square_height;
@@ -1116,9 +1116,9 @@ async function synchr(str, tit, id) {
 
     let dur = smarttime(str);
     let tid = setTimeout(() => {
-        if (win_obj.rb) {
-            win_obj.rb.disconnect();
-            win_obj.rb = null;
+        if (win_obj.resorb) {
+            win_obj.resorb.disconnect();
+            win_obj.resorb = null;
         }
         inf.style.opacity = 0;
         inf.style.transform = "translateY(-10px)";
@@ -1243,7 +1243,7 @@ async function lj(str, url, tit, id) {
         mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + link.getBoundingClientRect().height + ignore.getBoundingClientRect().height}px + ${window.getComputedStyle(link).marginBottom} + ${window.getComputedStyle(ignore).marginBottom})`;
     });
 
-    let rb = new ResizeObserver(() => {
+    let resorb = new ResizeObserver(() => {
         const squareH = square.getBoundingClientRect().height;
         const infH = inf.getBoundingClientRect().height;
         const linkH = link.getBoundingClientRect().height;
@@ -1252,11 +1252,11 @@ async function lj(str, url, tit, id) {
         const ignoreMargin = parseFloat(window.getComputedStyle(ignore).marginBottom) || 0;
         mele.style.height = `${squareH + infH + linkH + linkMargin + ignoreH + ignoreMargin}px`;
     }); // 监测高度变化。
-    rb.observe(square);
-    rb.observe(inf);
-    rb.observe(link);
-    rb.observe(ignore);
-    win_obj.rb = rb;
+    resorb.observe(square);
+    resorb.observe(inf);
+    resorb.observe(link);
+    resorb.observe(ignore);
+    win_obj.resorb = resorb;
 
     link.addEventListener("transitionend", () => { ignore.focus(); }, { once: true });
 
@@ -1265,9 +1265,9 @@ async function lj(str, url, tit, id) {
     inf.style.marginTop = square_height;
 
     const close_win = () => {
-        if (win_obj.rb) {
-            win_obj.rb.disconnect();
-            win_obj.rb = null;
+        if (win_obj.resorb) {
+            win_obj.resorb.disconnect();
+            win_obj.resorb = null;
         }
         link.style.opacity = 0;
         ignore.style.opacity = 0;
@@ -1538,17 +1538,17 @@ async function zd(str, tit, id) {
             mele.style.right = "calc(50% + 15ch)";
         });
 
-        let rb = new ResizeObserver(() => {
+        let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
             const boxH = box.getBoundingClientRect().height;
             const boxMargin = parseFloat(window.getComputedStyle(box).marginBottom) || 0;
             mele.style.height = `${squareH + infH + boxH + boxMargin}px`;
         }); // 监测高度变化。
-        rb.observe(square);
-        rb.observe(inf);
-        rb.observe(box);
-        win_obj.rb = rb;
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(box);
+        win_obj.resorb = resorb;
 
         box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
 
@@ -1557,9 +1557,9 @@ async function zd(str, tit, id) {
         inf.style.marginTop = square_height;
 
         const close_win = (val) => {
-            if (win_obj.rb) {
-                win_obj.rb.disconnect();
-                win_obj.rb = null;
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
             }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
@@ -1638,7 +1638,6 @@ async function zd(str, tit, id) {
                 const start = box.selectionStart;
                 const end = box.selectionEnd;
                 const text = box.value;
-
                 let l = "";
                 let r = "";
                 switch (p) {
@@ -1697,15 +1696,62 @@ async function zd(str, tit, id) {
             if (event.key === "`") {
                 autofill("`");
             }
-            if (event.key === "Tab") {
-                event.preventDefault();
 
+            // 获取所选文本所在的完整行范围。
+            function linerange(text, start, end) {
+                let linestart = text.lastIndexOf("\n", start - 1) + 1;
+                let lineend = text.indexOf("\n", end);
+                if (lineend === -1) lineend = text.length;
+                return [linestart, lineend];
+            }
+            if (event.key === "Tab" && !event.shiftKey) {
+                event.preventDefault();
                 const start = box.selectionStart;
+                const end = box.selectionEnd;
                 const text = box.value;
 
-                box.value = text.substring(0, start) + "    " + text.substring(start);
-                box.selectionStart = box.selectionEnd = start + 4;
+                if (start !== end) {
+                    // 选中文本 => 每行增加缩进。
+                    const [linestart, lineend] = linerange(text, start, end);
+                    const lines = text.substring(linestart, lineend).split("\n");
+                    const newlines = lines.map(line => "    " + line);
+                    box.value = text.substring(0, linestart) + newlines.join("\n") + text.substring(lineend);
+                    const newend = linestart + newlines.join("\n").length;
+                    box.selectionStart = linestart;
+                    box.selectionEnd = newend;
+                } else {
+                    // 无选中 => 插入缩进。
+                    box.value = text.substring(0, start) + "    " + text.substring(start);
+                    box.selectionStart = box.selectionEnd = start + 4;
+                }
+                box.focus();
+            }
+            else if (event.key === "Tab" && event.shiftKey) {
+                event.preventDefault();
+                const start = box.selectionStart;
+                const end = box.selectionEnd;
+                const text = box.value;
 
+                if (start !== end) {
+                    // 有选中文本 => 每行删除前面的空格。
+                    const [linestart, lineend] = linerange(text, start, end);
+                    const lines = text.substring(linestart, lineend).split("\n");
+                    const newlines = lines.map(line => line.replace(/^ {1,4}/, ""));
+                    box.value = text.substring(0, linestart) + newlines.join("\n") + text.substring(lineend);
+                    const newend = linestart + newlines.join("\n").length;
+                    box.selectionStart = linestart;
+                    box.selectionEnd = newend;
+                } else {
+                    // 无选中 => 减少当前行前导空格。
+                    const linestart = text.lastIndexOf("\n", start - 1) + 1;
+                    const lineend = text.indexOf("\n", start);
+                    const nowline = text.substring(linestart, lineend === -1 ? text.length : lineend);
+                    const newline = nowline.replace(/^ {1,4}/, "");
+                    if (newline !== nowline) {
+                        box.value = text.substring(0, linestart) + newline + text.substring(lineend);
+                        box.selectionStart = box.selectionEnd = linestart + newline.length;
+                    }
+                }
                 box.focus();
             }
         });
@@ -1824,9 +1870,9 @@ async function timer(str, time, tit, id) {
             if (interval_speed) clearInterval(interval_speed);
             if (interval_progress) clearInterval(interval_progress);
             if (interval_check) clearInterval(interval_check);
-            if (win_obj.rb) {
-                win_obj.rb.disconnect();
-                win_obj.rb = null;
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
             }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
@@ -1874,7 +1920,7 @@ async function timer(str, time, tit, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + bar.getBoundingClientRect().height + earlyend.getBoundingClientRect().height + timerdesc.getBoundingClientRect().height}px + ${getComputedStyle(timerdesc).marginBottom})`;
         });
 
-        let rb = new ResizeObserver(() => {
+        let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
             const barH = bar.getBoundingClientRect().height;
@@ -1883,25 +1929,25 @@ async function timer(str, time, tit, id) {
             const timerdescMargin = parseFloat(window.getComputedStyle(timerdesc).marginBottom) || 0;
             mele.style.height = `${squareH + infH + barH + earlyendH + timerdescH + timerdescMargin}px`;
         }); // 监测高度变化。
-        rb.observe(square);
-        rb.observe(inf);
-        rb.observe(bar);
-        rb.observe(earlyend);
-        rb.observe(timerdesc);
-        win_obj.rb = rb;
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(bar);
+        resorb.observe(earlyend);
+        resorb.observe(timerdesc);
+        win_obj.resorb = resorb;
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        earlyend.onclick = () => { finish(); };
+        earlyend.addEventListener("click", finish, { once: true });
 
-        let pro = 0;
+        let prog = 0;
         interval_progress = setInterval(() => {
             let timer_backwards = timer_speed < 0;
-            pro += timer_speed * 10 / (time / 100);
-            bar.style.width = `${pro}%`;
-            timerdesc.innerHTML = `${timer_speed === 0 ? "停滞" : String(timer_speed) + " 倍速"} | ${passed_time > 0 ? fhsj(passed_time) : fhsj(0)} / ${fhsj(time)} | ${pro > 0 ? pro.toFixed(2) : 0}%`;
+            prog += timer_speed * 10 / (time / 100);
+            bar.style.width = `${prog}%`;
+            timerdesc.innerHTML = `${timer_speed === 0 ? "停滞" : String(timer_speed) + " 倍速"} | ${passed_time > 0 ? fhsj(passed_time) : fhsj(0)} / ${fhsj(time)} | ${prog > 0 ? prog.toFixed(2) : 0}%`;
             if (timer_speed > 1) {
                 bar.style.backgroundColor = "#ff000049";
                 timerdesc.style.color = "#ff0000";
@@ -1921,7 +1967,7 @@ async function timer(str, time, tit, id) {
                 bar.style.backgroundColor = "#00000049";
                 timerdesc.style.color = "#000000";
             }
-            if (pro >= 100) {
+            if (prog >= 100) {
                 clearInterval(interval_progress);
                 finish();
             } else if (timer_backwards && passed_time <= 0) {
@@ -2037,26 +2083,26 @@ async function mb(str, tit, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + gb.getBoundingClientRect().height}px + ${window.getComputedStyle(gb).marginBottom})`;
         });
 
-        let rb = new ResizeObserver(() => {
+        let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
             const gbH = gb.getBoundingClientRect().height;
             const gbMargin = parseFloat(window.getComputedStyle(gb).marginBottom) || 0;
             mele.style.height = `${squareH + infH + gbH + gbMargin}px`;
         }); // 监测高度变化。
-        rb.observe(square);
-        rb.observe(inf);
-        rb.observe(gb);
-        win_obj.rb = rb;
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(gb);
+        win_obj.resorb = resorb;
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
         const close_win = () => {
-            if (win_obj.rb) {
-                win_obj.rb.disconnect();
-                win_obj.rb = null;
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
             }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
@@ -2087,10 +2133,10 @@ async function rz(str, time) {
     return new Promise((resolve) => {
         if (str == null) {
             warn(`这个值为 <code class="nu">null</code>。`);
-            return;
+            resolve();
         } else if (str == undefined) {
             warn(`这个值为 <code class="nu">undefined</code>。`);
-            return;
+            resolve();
         }
         if (time == null || time == undefined) time = smarttime(str);
 
@@ -2105,7 +2151,7 @@ async function rz(str, time) {
         const bar = document.createElement("div");
         bar.className = "rz-bar";
         let timeup = false;
-        let pro = 0;
+        let prog = 0;
 
         lcreate(mele);
         document.body.appendChild(mele);
@@ -2113,14 +2159,25 @@ async function rz(str, time) {
         mele.appendChild(bar);
 
         mele.style.animation = `in_rz 0.5s forwards ${easing}`;
-
         mele.addEventListener("animationend", () => {
             inf.style.opacity = 1;
         }, { once: true });
 
-        mele.oncontextmenu = async () => {
+        let i1;
+        inf.addEventListener("transitionend", () => {
+            i1 = setInterval(() => {
+                prog += 10 / (time / 100);
+                bar.style.width = `${prog}%`;
+                if (prog >= 100) {
+                    timeup = true;
+                }
+            }, 10);
+        }, { once: true });
+
+        function damnclose() {
             inf.style.opacity = 0;
             inf.addEventListener("transitionend", () => {
+                clearInterval(i1);
                 mele.style.animation = `out_rz 0.5s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
@@ -2128,31 +2185,15 @@ async function rz(str, time) {
                     resolve();
                 }, { once: true });
             }, { once: true });
-        };
+        }
 
-        inf.addEventListener("transitionend", () => {
-            let i1 = setInterval(() => {
-                pro += 10 / (time / 100);
-                bar.style.width = `${pro}%`;
-                if (pro >= 100) {
-                    timeup = true;
-                    clearInterval(i1);
-                }
-            }, 10);
-        }, { once: true });
+        mele.addEventListener("contextmenu", async () => {
+            if (timeup) return;
+            damnclose();
+        });
 
         setInterval(() => {
-            if (timeup) {
-                inf.style.opacity = 0;
-                inf.addEventListener("transitionend", () => {
-                    mele.style.animation = `out_rz 0.5s forwards ${easing}`;
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                        lclose(mele);
-                        resolve();
-                    }, { once: true });
-                }, { once: true });
-            }
-        }, 25);
+            if (timeup) damnclose();
+        }, 40);
     });
 }
