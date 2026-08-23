@@ -819,7 +819,7 @@ async function xz(str, n, names, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
+        inf.innerHTML = `${str}<div class="xz-line"></div>`;
         txt.innerHTML = tit;
 
         for (let i = 0; i < array.length; i++) {
@@ -1601,6 +1601,7 @@ async function zd(str, tit, id) {
             if (event.key === "Enter" && !event.shiftKey) {
                 const value = box.value.trim();
                 if (value === "") {
+                    box.style.height = getComputedStyle(box).minHeight;
                     warn("不能输入空字符串。");
                     mele.style.animation = `mfn_shake1 0.3s ${easing}`;
                     box.style.backgroundColor = "#ffff0099";
@@ -1611,8 +1612,8 @@ async function zd(str, tit, id) {
                     return;
                 }
                 try {
-                    // 支持执行异步代码（使用 await eval）。
                     box.style.height = getComputedStyle(box).minHeight;
+                    // 支持执行异步代码（使用 await eval）。
                     let k = await eval(value);
                     if (k !== undefined && k !== null) {
                         rz(`<code>${k}</code>`);
