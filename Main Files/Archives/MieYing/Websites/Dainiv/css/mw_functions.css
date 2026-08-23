@@ -231,7 +231,6 @@
     font-size: 20px;
     color: white;
     flex-grow: 1;
-    word-break: break-word;
     font-weight: 100;
     border: none;
     backdrop-filter: blur(14px) saturate(250%);
@@ -245,6 +244,7 @@
 }
 
 .inp-box {
+    word-break: break-word;
     text-align: center;
     font-family: "hf";
     height: 60px;
@@ -417,6 +417,7 @@
 }
 
 .zd-box {
+    word-break: break-all;
     height: 80px;
     min-height: 80px;
     font-family: "jbml", "Consolas", "Cascadia Code";

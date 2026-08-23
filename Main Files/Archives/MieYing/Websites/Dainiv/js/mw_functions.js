@@ -973,7 +973,7 @@ async function xz(str, n, names, tit, id) {
 
         giveup.onmouseover = () => { ld(giveup, "75%"); };
         giveup.onmouseleave = () => { ld(giveup, "100%"); };
-        giveup.onclick = () => { close_win(null); };
+        giveup.onclick = () => { close_win([null]); };
     });
 }
 
@@ -1357,6 +1357,21 @@ async function zd(str, tit, id) {
             if (msg.includes("Illegal return statement")) {
                 return `<code class="key">return</code> 语句在函数外部无效。`;
             }
+            if (msg.includes("Cannot read properties of")) {
+                let parts = msg.split("Cannot read properties of ")[1];
+                let val = parts.includes("null") ? "null" : "undefined";
+                let prop = parts.split("(reading '")[1]?.split("')")[0] || "未知属性";
+                return `无法读取 “<code>${prop}</code>” 的属性，其值为 “<code>${val}</code>”。`;
+            }
+            if (msg.includes("Cannot set properties of")) {
+                let parts = msg.split("Cannot set properties of ")[1];
+                let val = parts.includes("null") ? "null" : "undefined";
+                return `无法设置属性，其值为 “<code>${val}</code>”。`;
+            }
+            if (msg.includes(" is not a function")) {
+                let fn_name = msg.split(" is not a function")[0];
+                return `“<code class="token">${fn_name}</code>” 不是函数。`;
+            }
             if (msg.includes("Missing ) after argument list")) {
                 return `参数列表缺少闭合括号 “<code class="token">)</code>”。`;
             }
@@ -1597,6 +1612,7 @@ async function zd(str, tit, id) {
                 }
                 try {
                     // 支持执行异步代码（使用 await eval）。
+                    box.style.height = getComputedStyle(box).minHeight;
                     let k = await eval(value);
                     if (k !== undefined && k !== null) {
                         rz(`<code>${k}</code>`);
@@ -2245,9 +2261,9 @@ async function rz(str, time) {
         }, { once: true });
 
         function damnclose() {
+            clearInterval(i1);
             inf.style.opacity = 0;
             inf.addEventListener("transitionend", () => {
-                clearInterval(i1);
                 mele.style.animation = `out_rz 0.5s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
@@ -2257,7 +2273,8 @@ async function rz(str, time) {
             }, { once: true });
         }
 
-        mele.addEventListener("contextmenu", async () => {
+        mele.addEventListener("contextmenu", async (e) => {
+            e.preventDefault();
             if (timeup) return;
             damnclose();
         });

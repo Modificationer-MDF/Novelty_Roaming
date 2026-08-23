@@ -34,9 +34,24 @@ function selector(el) {
 }
 
 function pickele(v) {
-    if (activep) finishpick(); // 强制清理。
-    activep = true;
+    // 强制清理残留状态。
+    if (activep) {
+        if (phl) phl.remove();
+        if (window.picklisteners) {
+            document.removeEventListener("mousemove", window.picklisteners.move);
+            document.removeEventListener("click", window.picklisteners.click);
+            window.picklisteners = null;
+        }
+        if (prevp) {
+            prevp.classList.remove("phl");
+            prevp = null;
+        }
+        activep = false;
+        nowp = null;
+    }
 
+    // 激活选取模式。
+    activep = true;
     phl = document.createElement("div");
     phl.classList.add("phl-highlight");
     phl.style.left = "0px";
@@ -45,12 +60,11 @@ function pickele(v) {
     phl.style.height = "0px";
     document.body.appendChild(phl);
 
-    // 移动处理。
+    // 处理鼠标移动。
     const move_handler = (e) => {
         if (!activep) return;
         const el = e.target;
         if (el === phl) return;
-        nowp = el;
         const rect = el.getBoundingClientRect();
         phl.style.left = rect.left + window.scrollX + "px";
         phl.style.top = rect.top + window.scrollY + "px";
@@ -61,6 +75,7 @@ function pickele(v) {
         prevp = el;
     };
 
+    // 处理点击。
     const click_handler = (e) => {
         if (!activep) return;
         const el = e.target;
@@ -71,50 +86,34 @@ function pickele(v) {
         const box = document.getElementById(v)?.querySelector(".inp-box");
         if (!box) {
             console.warn("输入框未找到。");
-            finishpick();
+            if (phl) phl.remove();
+            activep = false;
             return;
         }
         const sele = selector(el);
         if (sele && sele.trim() !== "") {
             box.value = sele;
             box.focus();
-            // 移除旧的监听器，避免重复绑定。
-            box.removeEventListener("keydown", enter_handler);
-            box.addEventListener("keydown", enter_handler);
         } else {
             box.focus();
         }
     };
 
-    const enter_handler = (e) => {
-        if (e.key === "Enter") {
-            finishpick();
-        }
-    };
-
-    const f1_handler = (e) => { // 聚焦。
-        if (e.key === "F1") {
-            e.preventDefault();
-            const box = document.getElementById(v)?.querySelector(".inp-box");
-            box.focus();
-        }
-    }
-
-    document.addEventListener("keydown", (e) => {
+    // 处理 ESC。
+    const esc_handler = (e) => {
         if (e.key === "Escape") {
-            finishpick();
+            if (phl) phl.remove();
+            activep = false;
             inf("已退出元素捕获模式。");
         }
-    }, { once: true });
-
+    };
+    document.addEventListener("keydown", esc_handler, { once: true });
     document.addEventListener("mousemove", move_handler);
     document.addEventListener("click", click_handler);
-    document.addEventListener("keydown", f1_handler);
 
     window.picklisteners = {
         move: move_handler,
-        click: click_handler,
-        f1: f1_handler,
+        click: click_handler
     };
 }
 
@@ -129,7 +128,6 @@ function finishpick() {
     if (window.picklisteners) {
         document.removeEventListener("mousemove", window.picklisteners.move);
         document.removeEventListener("click", window.picklisteners.click);
-        document.removeEventListener("f1", window.picklisteners.f1);
         window.picklisteners = null;
     }
     if (prevp) {
@@ -413,13 +411,46 @@ function init_ui() {
     };
 
     async function blocking(j) {
-        if (activep) finishpick(); // 清理。
+        // 强制清理所有可能的状态。
+        if (activep) {
+            if (phl) phl.remove();
+            if (window.picklisteners) {
+                document.removeEventListener("mousemove", window.picklisteners.move);
+                document.removeEventListener("click", window.picklisteners.click);
+                window.picklisteners = null;
+            }
+            if (prevp) {
+                prevp.classList.remove("phl");
+                prevp = null;
+            }
+            activep = false;
+            nowp = null;
+        }
 
-        if (ofscrt) pickele("block");
+        if (!ofscrt) {
+            warn("元素捕获工具未启用，请先启用。");
+            return;
+        }
+
+        pickele("block");
 
         const sel = await inp(`在此输入第 ${j} 个要屏蔽元素的 CSS 选择器。`, "输入", "block");
 
-        if (activep) finishpick(); // 再清理。
+        // 再次强制清理。
+        if (activep) {
+            if (phl) phl.remove();
+            if (window.picklisteners) {
+                document.removeEventListener("mousemove", window.picklisteners.move);
+                document.removeEventListener("click", window.picklisteners.click);
+                window.picklisteners = null;
+            }
+            if (prevp) {
+                prevp.classList.remove("phl");
+                prevp = null;
+            }
+            activep = false;
+            nowp = null;
+        }
 
         if (!sel) return;
 
@@ -437,7 +468,7 @@ function init_ui() {
             ble.push(sel);
             render_bl();
         } catch (e) {
-            fail(`发生了错误：“${e}”。`);
+            fail(`发生了错误：<code class="err">“${e}”<code>。`);
         }
     }
     const block = document.createElement("btn");
