@@ -100,7 +100,7 @@ async function noti(str, tit, id) {
 
         okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
@@ -231,7 +231,7 @@ async function cg(str, tit, id) {
 
         okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
@@ -362,7 +362,7 @@ async function warn(str, tit, id) {
 
         okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
@@ -493,7 +493,7 @@ async function fail(str, tit, id) {
 
         okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
 
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
@@ -625,7 +625,7 @@ async function inp(str, tit, id) {
 
         box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
 
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
@@ -837,7 +837,7 @@ async function xz(str, n, names, tit, id) {
 
         submit.addEventListener("transitionend", () => { submit.focus(); }, { once: true });
 
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
@@ -1007,7 +1007,7 @@ async function synchr(str, tit, id) {
         mele.style.height = `${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + bar.getBoundingClientRect().height + desc.getBoundingClientRect().height}px`;
     });
 
-    let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+    let square_height = gethei(txt.innerHTML, "mfn-title", "div");
     square.style.height = square_height;
     inf.style.marginTop = square_height;
 
@@ -1158,7 +1158,7 @@ async function lj(str, url, tit, id) {
 
     link.addEventListener("transitionend", () => { ignore.focus(); }, { once: true });
 
-    let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+    let square_height = gethei(txt.innerHTML, "mfn-title", "div");
     square.style.height = square_height;
     inf.style.marginTop = square_height;
 
@@ -1440,7 +1440,7 @@ async function zd(str, tit, id) {
 
         box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
 
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
@@ -1665,7 +1665,7 @@ async function timer(str, time, tit, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + bar.getBoundingClientRect().height + earlyend.getBoundingClientRect().height + timerdesc.getBoundingClientRect().height}px + ${getComputedStyle(timerdesc).marginBottom})`;
         });
 
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
@@ -1676,7 +1676,7 @@ async function timer(str, time, tit, id) {
             let timer_backwards = timer_speed < 0;
             pro += timer_speed * 10 / (time / 100);
             bar.style.width = `${pro}%`;
-            timerdesc.innerHTML = `${timer_speed === 0 ? "停滞" : String(timer_speed) + " 倍速"} | ${passed_time > 0 ? fhsj(passed_time) : fhsj(0)} / ${fhsj(time)} | ${pro > 0 ? pro.toFixed(2) : 0}%`;
+            timerdesc.innerHTML = `${timer_speed === 0 ? "停滞" : String(timer_speed) + " 倍速"} | ${passed_time > 0 ? formatedtime(passed_time) : formatedtime(0)} / ${formatedtime(time)} | ${pro > 0 ? pro.toFixed(2) : 0}%`;
             if (timer_speed > 1) {
                 bar.style.backgroundColor = "#ff000099";
                 timerdesc.style.color = "#ff0000";
@@ -1864,7 +1864,7 @@ async function mb(str, tit, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + gb.getBoundingClientRect().height}px + ${window.getComputedStyle(gb).marginBottom})`;
         });
 
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 

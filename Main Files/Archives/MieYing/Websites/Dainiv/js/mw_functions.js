@@ -1599,7 +1599,7 @@ async function zd(str, tit, id) {
                     // 支持执行异步代码（使用 await eval）。
                     let k = await eval(value);
                     if (k !== undefined && k !== null) {
-                        rz(k);
+                        rz(`<code>${k}</code>`);
                         close_win(k);
                     } else if (k === undefined) {
                         rz(`返回值为 <code class="nu">undefined</code>。`);
@@ -1678,23 +1678,93 @@ async function zd(str, tit, id) {
                 box.focus();
             }
 
+            function ispaired(l, r) {
+                const start = box.selectionStart;
+                return start === box.selectionEnd && box.value[start - 1] === l && box.value[start] === r;
+            }
+
             if (event.key === "(") {
-                autofill("(");
+                if (ispaired("(", ")")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("(");
+                }
             }
             if (event.key === "[" && !event.shiftKey) {
-                autofill("[");
+                if (ispaired("[", "]")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("[");
+                }
             }
             if (event.key === "{") {
-                autofill("{");
+                if (ispaired("{", "}")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("{");
+                }
             }
             if (event.key === '"') {
-                autofill('"');
+                if (ispaired('"', '"')) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill('"');
+                }
             }
             if (event.key === "'") {
-                autofill("'");
+                if (ispaired("'", "'")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("'");
+                }
             }
             if (event.key === "`") {
-                autofill("`");
+                if (ispaired("`", "`")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("`");
+                }
+            }
+
+            // 右括号处理。
+            if (event.key === ")") {
+                if (ispaired("(", ")")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    event.preventDefault();
+                    const start = box.selectionStart;
+                    box.value = box.value.substring(0, start) + ")" + box.value.substring(start);
+                    box.selectionStart = box.selectionEnd = start + 1;
+                }
+            }
+            if (event.key === "]") {
+                if (ispaired("[", "]")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    event.preventDefault();
+                    const start = box.selectionStart;
+                    box.value = box.value.substring(0, start) + "]" + box.value.substring(start);
+                    box.selectionStart = box.selectionEnd = start + 1;
+                }
+            }
+            if (event.key === "}") {
+                if (ispaired("{", "}")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    event.preventDefault();
+                    const start = box.selectionStart;
+                    box.value = box.value.substring(0, start) + "}" + box.value.substring(start);
+                    box.selectionStart = box.selectionEnd = start + 1;
+                }
             }
 
             // 获取所选文本所在的完整行范围。
