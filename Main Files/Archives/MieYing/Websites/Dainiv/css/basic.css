@@ -22,11 +22,35 @@ button:focus, textarea:focus {
 
 code {
     color: #ffffff;
-    background: #15151999;
+    background-color: #15151999;
     padding: 1px 8px;
     font-size: 19px;
     word-break: break-all;
     font-family: "jbml", "Consolas", "Cascadia Code";
+}
+
+.nu {
+    color: #799cff;
+}
+
+.err {
+    color: #5f1b1b;
+}
+
+.var {
+    color: #00ff7a;
+}
+
+.token {
+    color: #0fef28;
+}
+
+.key {
+    color: #e6f337;
+}
+
+.une { /* “‚Õ‚°£ */
+    color: #fc9d36;
 }
 
 h1 h2 {

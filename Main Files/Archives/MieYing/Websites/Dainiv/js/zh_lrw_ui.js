@@ -396,7 +396,7 @@ function init_ui() {
         <table>
             <tr><td class="label">URL</td><td class="value"><code>${url}</code></td></tr>
             <tr><td class="label">本地时间</td><td class="value">${xzsj()}</td></tr>
-            <tr><td class="label">来源</td><td class="value">${referrer}</td></tr>
+            <tr><td class="label">来源</td><td class="value"><code>${referrer}</code></td></tr>
             <tr><td class="label">用户代理</td><td class="value">${ua}</td></tr>
         </table>
     `, "来源追溯");
