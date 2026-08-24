@@ -1,7 +1,20 @@
+/** Noti(*Str, Tit, Id, Realstr = false);
+ * Cg(*Str, Tit, Id, Realstr = false);
+ * Warn(*Str, Tit, Id, Realstr = false);
+ * Fail(*Str, Tit, Id, Realstr = false);
+ * Inp(*Str, Tit, Id, Realstr = false);
+ * Xz(*Str, *N, *[Names], Tit, Id, Realstr = false);
+ * Synchr(*Str, Tit, Id, Realstr = false);
+ * Lj(*Str, Tit, Id, Realstr = false);
+ * Zd(*Str, Tit, Id, Realstr = false);
+ * Timer(*Str, *Time(ms), Tit, Id, Realstr = false);
+ * Mb(*Str, Tit, Id, Realstr = false);
+ */
+
 // 全局存储当前显示的窗口信息。
 let winmaps = {};
 
-async function noti(str, tit, id) {
+async function noti(str, tit, id, realstr = false) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -78,8 +91,8 @@ async function noti(str, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
@@ -148,7 +161,7 @@ async function noti(str, tit, id) {
     });
 }
 
-async function cg(str, tit, id) {
+async function cg(str, tit, id, realstr = false) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -225,8 +238,8 @@ async function cg(str, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
@@ -294,7 +307,7 @@ async function cg(str, tit, id) {
     });
 }
 
-async function warn(str, tit, id) {
+async function warn(str, tit, id, realstr = false) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -371,8 +384,8 @@ async function warn(str, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
@@ -439,7 +452,7 @@ async function warn(str, tit, id) {
     });
 }
 
-async function fail(str, tit, id) {
+async function fail(str, tit, id, realstr = false) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -516,8 +529,8 @@ async function fail(str, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
@@ -584,7 +597,7 @@ async function fail(str, tit, id) {
     });
 }
 
-async function inp(str, tit, id) {
+async function inp(str, tit, id, realstr = false) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -661,8 +674,8 @@ async function inp(str, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
@@ -732,7 +745,7 @@ async function inp(str, tit, id) {
     });
 }
 
-async function xz(str, n, names, tit, id) {
+async function xz(str, n, names, tit, id, realstr = false) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -819,8 +832,8 @@ async function xz(str, n, names, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = `${str}<div class="xz-line"></div>`;
-        txt.innerHTML = tit;
+        inf.innerHTML = `${realstr ? escape(str) : str}<div class="xz-line"></div>`;
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         for (let i = 0; i < array.length; i++) {
             const container = document.createElement("div");
@@ -977,7 +990,7 @@ async function xz(str, n, names, tit, id) {
     });
 }
 
-async function synchr(str, tit, id) {
+async function synchr(str, tit, id, realstr = false) {
     if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
     str = String(str);
     if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为空。"; }
@@ -1080,8 +1093,8 @@ async function synchr(str, tit, id) {
     square.appendChild(count);
 
     mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-    inf.innerHTML = str;
-    txt.innerHTML = tit;
+    if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+    if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
     let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [] };
     winmaps[key] = win_obj;
@@ -1223,8 +1236,8 @@ async function lj(str, url, tit, id) {
     square.appendChild(count);
 
     mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-    inf.innerHTML = str;
-    txt.innerHTML = tit;
+    if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+    if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
     let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [] };
     winmaps[key] = win_obj;
@@ -1303,7 +1316,7 @@ async function lj(str, url, tit, id) {
     };
 }
 
-async function zd(str, tit, id) {
+async function zd(str, tit, id, realstr = false) {
     function errorres(error, input) { // 处理错误。
         const msg = error.message;
         const name = error.name;
@@ -1535,8 +1548,8 @@ async function zd(str, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
@@ -1601,7 +1614,7 @@ async function zd(str, tit, id) {
             if (event.key === "Enter" && !event.shiftKey) {
                 const value = box.value.trim();
                 if (value === "") {
-                    box.style.height = getComputedStyle(box).minHeight;
+                    box.style.height = getComputedStyle(box).minHeight; // 运行代码时折叠 Zd()，为后面的窗口留出位置。
                     warn("不能输入空字符串。");
                     mele.style.animation = `mfn_shake1 0.3s ${easing}`;
                     box.style.backgroundColor = "#ffff0099";
@@ -1845,7 +1858,7 @@ async function zd(str, tit, id) {
     });
 }
 
-async function timer(str, time, tit, id) {
+async function timer(str, time, tit, id, realstr = false) {
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
@@ -1911,7 +1924,7 @@ async function timer(str, time, tit, id) {
         txt.style.opacity = 0;
         txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         inf.className = "mfn-inf";
-        inf.innerHTML = str;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
         inf.style.color = "black";
         inf.style.opacity = 0;
         inf.style.textAlign = "center";
@@ -1942,7 +1955,7 @@ async function timer(str, time, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        txt.innerHTML = tit;
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
@@ -2071,7 +2084,7 @@ async function timer(str, time, tit, id) {
     });
 }
 
-async function mb(str, tit, id) {
+async function mb(str, tit, id, realstr = false) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -2125,11 +2138,11 @@ async function mb(str, tit, id) {
         icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         icon.style.opacity = 0;
         txt.className = "mfn-title";
-        txt.innerHTML = tit;
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
         txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         txt.style.opacity = 0;
         inf.className = "mfn-inf";
-        inf.innerHTML = str;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
         inf.style.opacity = 0;
         inf.style.textAlign = "center";
         inf.style.minWidth = "30ch";
@@ -2216,7 +2229,7 @@ async function mb(str, tit, id) {
     });
 }
 
-async function rz(str, time) {
+async function rz(str, time, realstr = false) {
     return new Promise((resolve) => {
         if (str == null) {
             warn(`这个值为 <code class="nu">null</code>。`);
@@ -2233,7 +2246,7 @@ async function rz(str, time) {
         const inf = document.createElement("div");
         inf.className = "rz-inf";
         inf.style.transition = `all 0.2s ${easing}`;
-        inf.innerHTML = str;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
         inf.style.opacity = 0;
         const bar = document.createElement("div");
         bar.className = "rz-bar";
@@ -2268,7 +2281,7 @@ async function rz(str, time) {
                 mele.style.animation = `out_rz 0.5s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    mclose(mele);
+                    lclose(mele);
                     resolve();
                 }, { once: true });
             }, { once: true });

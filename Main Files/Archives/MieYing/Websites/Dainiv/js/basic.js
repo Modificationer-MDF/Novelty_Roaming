@@ -12,28 +12,29 @@ function xzsj() { // 获取现在时间。
     return `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日 ${now.getHours()} 时 ${now.getMinutes().toString().padStart(2, '0')} 分 ${now.getSeconds().toString().padStart(2, '0')} 秒`;
 }
 
-function fhsj(time) { // 返回带正确单位的时间。
+function fhsj(time) { // 返回带正确单位的时间。time：毫秒。
     units = ["秒", "分钟", "小时", "天", "周", "年"];
-    if (time < 6e4) {
+    fct = [1000, 6e4, 3.6e6, 8.64e7, 6.048e8, 3.15576e10];
+    if (time < fct[1]) {
         unit = units[0];
-        transfer = 1000;
-    } else if (time >= 6e4 && time < 3.6e6) {
+        factor = fct[0];
+    } else if (time >= fct[1] && time < fct[2]) {
         unit = units[1];
-        transfer = 6e4;
-    } else if (time >= 3.6e6 && time < 8.64e7) {
+        factor = fct[1];
+    } else if (time >= fct[2] && time < fct[3]) {
         unit = units[2];
-        transfer = 3.6e6;
-    } else if (time >= 8.64e7 && time < 6.048e8) {
+        factor = fct[2];
+    } else if (time >= fct[3] && time < fct[4]) {
         unit = units[3];
-        transfer = 8.64e7;
-    } else if (time >= 6.048e8 && time < 3.15576e10) {
+        factor = fct[3];
+    } else if (time >= fct[4] && time < fct[5]) {
         unit = units[4];
-        transfer = 6.048e8;
-    } else if (time >= 3.15576e10) {
+        factor = fct[4];
+    } else if (time >= fct[5]) {
         unit = units[5];
-        transfer = 3.15576e10;
+        factor = fct[5];
     }
-    return `${(time / transfer).toFixed(2)} ${unit}`;
+    return `${(time / factor).toFixed(2)} ${unit}`;
 }
 
 function width(name) {
@@ -208,4 +209,13 @@ function notify(str, tit) {
             }
         });
     }
+}
+
+function escape(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }

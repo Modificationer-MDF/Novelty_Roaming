@@ -722,7 +722,7 @@ let rw_moved = false;
 
 init_ui();
 
-document.addEventListener("mousemove", function (event) {
+document.addEventListener("mousemove", (event) => {
     const x = event.clientX;
     const y = event.clientY;
 
