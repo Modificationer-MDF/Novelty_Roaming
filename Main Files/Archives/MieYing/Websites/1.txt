@@ -1,4 +1,0 @@
-hash_object = hashlib.sha256()
-hash_object.update(b"Chala Lüe Sklif")
-hash_digest = hash_object.hexdigest()
-print(hash_digest)
