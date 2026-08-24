@@ -159,7 +159,7 @@ function mclose(window) {
     pos(2);
 }
 
-function mwactive(id) {
+function mactive(id) {
     // 检查 DOM 元素是否存在。
     const element = document.getElementById(id);
     if (element) {
