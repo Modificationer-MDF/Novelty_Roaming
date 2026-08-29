@@ -215,28 +215,6 @@
                 color: #f5c97b;
             }
 
-        .pay-footer {
-            margin-top: 2rem;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            color: #3a5a7a;
-            border-top: 1px solid rgba(0, 200, 255, 0.05);
-            padding-top: 1rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            position: relative;
-            z-index: 2;
-        }
-
-            .pay-footer .badge {
-                background: rgba(0, 200, 255, 0.04);
-                padding: 0.2rem 1rem;
-                border-radius: 40px;
-                border: 1px solid rgba(0, 200, 255, 0.04);
-                color: #4f7f9f;
-            }
-
         @media (max-width: 600px) {
             .pay-container {
                 padding: 1.5rem;
@@ -263,57 +241,51 @@
 
             <div class="pay-result" id="resultArea"></div>
         </div>
-
-        <div class="pay-footer">
-            <span class="badge">🔒 支付通道已加密</span>
-            <span class="badge">Chanf 网络部备案</span>
-        </div>
     </div>
 
     <script>
-        (() => {
-            const resultArea = document.getElementById("resultArea");
-            const statusEl = document.getElementById("orderStatus");
+        key = [
+            "a648a75127fba32fa03088c6346897e81ffad0e78f16bd9802d327cb4bd35341",
+            "8d084b3b93d64d599b2c5ac2d535ff40e265a679e5c2f99cc455b6b93aa717ad",
+            "ddba4d9b0ce996d6ef535f5451f5b0fa6d23e4495d63313dc45fa1e2dff41a7c",
+            "07ba42278f51fe2d4ab86c8ab2349b4de1cd2a9056e68e31ecf0c9f5f7671785",
+            "86ff4e4b80d064e78c32c9dcd7c5dd8c4f3fb709a30959b3b7392243c5538563",
+            "e7e2e15d8e4677d287c5656d4f612ea1e385b40089dcf3d8f1833f1dfbaa7c2c",
+            "3fbe5f08e92649e0916ddf4757842d154dc17479bab302593117402190bdf904",
+            "4547224c2e6ea805df2623da69156d116d01ac7e353655b449359c141918b466",
+            "3acfb8f4700b4c8d9b205e5cffd049a3557768387224e55cdadb983bbc2ae5a4",
+        ];
+        
+        const resultArea = document.getElementById("resultArea");
+        const statusEl = document.getElementById("orderStatus");
 
-            document.getElementById("btnPay").addEventListener("click", async function() {
+        document.getElementById("btnPay").addEventListener("click", async () => {
+            while (true) {
                 const code = await inp("输入您的支付凭证。");
                 if (!code) {
-                    noti("已取消输入。");
-                    return;
+                    await noti("已取消输入。");
+                    break;
                 }
 
-                inf("正在核对凭证……");
-
-                try {
-                    const response = await fetch("http://localhost:5000/api/verify", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ code: code.trim() })
-                    });
-
-                    const data = await response.json();
-
-                    if (data.valid) {
-                        cg(`欢迎使用 HF Net 数据保险箱。<br>有效期至：<code>${data.expiry || "3992/7/8"}</code>。`, "激活成功");
-                        document.getElementById("btnPay").disabled = true;
-                        document.getElementById("btnPay").style.opacity = "0.5";
-                        document.getElementById("btnPay").style.cursor = "default";
-                    } else {
-                        fail(`${data.message || "凭证无效，请重新输入。"}`);
-                    }
-                } catch (err) {
-                    fail(`<code class="err">${err.message}</code>`);
-                }
-            });
-
-            document.getElementById("btnBack").addEventListener("click", function() {
-                if (window.opener) {
-                    window.close();
+                if (key.includes(code)) {
+                    await cg("已完成激活。");
+                    document.getElementById("btnPay").disabled = true;
+                    document.getElementById("btnPay").style.opacity = "0.5";
+                    document.getElementById("btnPay").style.cursor = "default";
+                    break;
                 } else {
-                    window.location.href = "AI2.html";
+                    await fail("凭证无效，请重新输入。");
                 }
-            });
-        })();
+            }
+        });
+
+        document.getElementById("btnBack").addEventListener("click", () => {
+            if (window.opener) {
+                window.close();
+            } else {
+                window.location.href = "AI2.html";
+            }
+        });
     </script>
 </body>
 </html>

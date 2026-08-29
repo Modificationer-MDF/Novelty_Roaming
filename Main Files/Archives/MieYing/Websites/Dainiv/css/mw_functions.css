@@ -420,13 +420,30 @@
     background-color: #14131399;
 }
 
-.zd-box {
+.zd-editor-container .CodeMirror {
     word-break: break-all;
     height: 80px;
     min-height: 80px;
     font-family: "jbml", "Consolas", "Cascadia Code";
     text-align: left;
     background-color: #22222299;
+}
+
+.zd-editor-container .CodeMirror-linenumber {
+    color: #5a7a9a;
+}
+
+.zd-editor-container .CodeMirror-cursor {
+    border-left: 2px solid #7bf5ff;
+}
+
+.zd-editor-container .CodeMirror-selected {
+    background: rgba(0, 200, 255, 0.15);
+}
+
+.zd-editor-container .CodeMirror-gutters {
+    background: transparent;
+    border-right: 1px solid rgba(255,255,255,0.05);
 }
 
 .timer-mele {
