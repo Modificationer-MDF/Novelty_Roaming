@@ -420,7 +420,14 @@
     background-color: #14131399;
 }
 
-.zd-editor-container .CodeMirror {
+.zd-editor {
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.zd-box {
     word-break: break-all;
     height: 80px;
     min-height: 80px;
@@ -429,21 +436,19 @@
     background-color: #22222299;
 }
 
-.zd-editor-container .CodeMirror-linenumber {
-    color: #5a7a9a;
-}
-
-.zd-editor-container .CodeMirror-cursor {
-    border-left: 2px solid #7bf5ff;
-}
-
-.zd-editor-container .CodeMirror-selected {
-    background: rgba(0, 200, 255, 0.15);
-}
-
-.zd-editor-container .CodeMirror-gutters {
-    background: transparent;
-    border-right: 1px solid rgba(255,255,255,0.05);
+.zd-lineindex {
+    padding: 10px 8px;
+    font-family: "jbml", "Consolas", monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #1ae9c9;
+    text-align: right;
+    min-width: 32px;
+    user-select: none;
+    background: #032f30b9;
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
 }
 
 .timer-mele {

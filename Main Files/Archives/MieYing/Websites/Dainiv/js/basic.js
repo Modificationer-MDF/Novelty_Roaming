@@ -211,7 +211,7 @@ function notify(str, tit) {
     }
 }
 
-function escape(str) {
+function esc_str(str) {
     return String(str)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
