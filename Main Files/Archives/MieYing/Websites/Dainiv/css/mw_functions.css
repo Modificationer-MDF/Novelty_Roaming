@@ -436,19 +436,16 @@
     background-color: #22222299;
 }
 
-.zd-lineindex {
-    padding: 10px 8px;
-    font-family: "jbml", "Consolas", monospace;
+.zd-status {
+    color: #1af1bc;
     font-size: 15px;
-    line-height: 1.6;
-    color: #1ae9c9;
+    font-family: "jbml", monospace;
     text-align: right;
-    min-width: 32px;
+    padding: 5px 11px;
+    width: 100%;
+    border-top: 3px solid #044636b9;
+    margin-top: 0px;
     user-select: none;
-    background: #032f30b9;
-    overflow: hidden;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
-    flex-shrink: 0;
 }
 
 .timer-mele {

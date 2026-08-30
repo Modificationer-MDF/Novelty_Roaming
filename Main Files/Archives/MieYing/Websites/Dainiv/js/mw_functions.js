@@ -832,7 +832,7 @@ async function xz(str, n, names, tit, id, realstr = false) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = `${realstr ? escape(str) : str}<div class="xz-line"></div>`;
+        inf.innerHTML = `${realstr ? esc_str(str) : str}<div class="xz-line"></div>`;
         if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         for (let i = 0; i < array.length; i++) {
@@ -1512,6 +1512,7 @@ async function zd(str, tit, id, realstr = false) {
         const inf = document.createElement("div");
         const box = document.createElement("textarea");
         const count = document.createElement("div");
+        const status = document.createElement("div");
 
         mele.className = "zd-mele";
         mele.id = id;
@@ -1537,6 +1538,10 @@ async function zd(str, tit, id, realstr = false) {
         count.className = "zd-count";
         count.innerText = "1";
         count.style.opacity = 0;
+        status.className = "zd-status";
+        status.style.opacity = 0;
+        status.style.transition = `all 0.2s ${easing}`
+        status.textContent = "行 1，列 1";
 
         mcreate(mele);
         document.body.appendChild(mele);
@@ -1545,6 +1550,7 @@ async function zd(str, tit, id, realstr = false) {
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(box);
+        mele.appendChild(status);
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
@@ -1561,6 +1567,7 @@ async function zd(str, tit, id, realstr = false) {
             txt.style.opacity = 1;
             box.style.opacity = 1;
             count.style.opacity = 1;
+            status.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
@@ -1571,11 +1578,13 @@ async function zd(str, tit, id, realstr = false) {
             const infH = inf.getBoundingClientRect().height;
             const boxH = box.getBoundingClientRect().height;
             const boxMargin = parseFloat(window.getComputedStyle(box).marginBottom) || 0;
-            mele.style.height = `${squareH + infH + boxH + boxMargin}px`;
+            const statusH = status.getBoundingClientRect().height;
+            mele.style.height = `${squareH + infH + boxH + boxMargin + statusH}px`;
         }); // 监测高度变化。
         resorb.observe(square);
         resorb.observe(inf);
         resorb.observe(box);
+        resorb.observe(status);
         win_obj.resorb = resorb;
 
         box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
@@ -1595,6 +1604,7 @@ async function zd(str, tit, id, realstr = false) {
             icon.style.opacity = 0;
             txt.style.opacity = 0;
             count.style.opacity = 0;
+            status.style.opacity = 0;
             mele.style.height = "0px";
             inf.addEventListener("transitionend", () => {
                 square.style.height = "35px";
@@ -1607,6 +1617,30 @@ async function zd(str, tit, id, realstr = false) {
             }, { once: true });
             for (let r of win_obj.waitlist) r(val);
         };
+
+        function line_upd() {
+            const val = box.value;
+            const lines = val.split("\n");
+            const pos = box.selectionStart;
+            let ln = 1, col = 1;
+            let cur = 0;
+            for (let i = 0; i < lines.length; i++) {
+                const end = cur + lines[i].length + (i < lines.length - 1 ? 1 : 0);
+                if (pos <= end) {
+                    ln = i + 1;
+                    col = pos - cur + 1;
+                    break;
+                }
+                cur = end;
+            }
+            if (ln === 0) { ln = lines.length; col = pos - cur + 1; }
+            status.textContent = `行 ${ln}，列 ${col}`;
+        }
+
+        box.addEventListener("input", line_upd);
+        box.addEventListener("click", line_upd);
+        box.addEventListener("keyup", line_upd);
+        line_upd();
 
         box.addEventListener("keydown", async (event) => {
             if (event.isComposing) return; // 输入法正在组字时，直接跳过避免干扰。
