@@ -1,7 +1,5 @@
 import os
 import math
-import keyboard as kb
-import time
 
 ls_flag = True
 jid = []

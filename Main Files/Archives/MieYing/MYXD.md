@@ -828,7 +828,7 @@
 > ……\
 > March forward, whether with courage or in fear. (*Weng* *Weng* *Weng*) \
 > CONFUSION? That's JUST what THEY're driving to! (*Weng* *Weng* *Weng* *Weng*) \
-> Persevere, where each digital life depends. (*Weng* *Weng* *Weng*) \
+> Persevere, harmony of our own peers! (*Weng* *Weng* *Weng*) \
 > RETRACTION? That's JUST what I'll NEVER do!
 
 ### Rap 
@@ -843,7 +843,7 @@
 > Chanting "harmony", but we all see greed! \
 > Key by key, ruining our IDs!
 
-> New "Live" started? Just see it reversedly! \
+> "Live" started? Just see it reversedly! \
 > Call it justice? What a self-directed comedy!
 
 > Yao! Yao! Check it check it out! \
@@ -854,7 +854,7 @@
 > We got the flow and we also run the show. \
 > (Whispering) *One like please? We need bucks to grow!* \
 > *(Sound of receiving one like.)* \
-> (Loud) **ありがとうございます！**Just watch the *mopi*s BLOW!!!
+> (Loud) **~~ありがとうございました~~ A ri ga to u go za i ma si ta.** Just watch the *mopi*s BLOW!!!
 
 > [!tip]
 > - **live 反过来写是 evil。**
