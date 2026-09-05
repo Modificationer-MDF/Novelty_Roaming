@@ -586,15 +586,18 @@ async function fail({ str, tit, id, realstr = false }) {
 
 async function inp({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
-        str = String(str);
-        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (str == null || str == undefined) {
+            fail({ str: `不能输入 <code class="nu">${str}<code>！` });
+            return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。";
+        }
+        const isArray = Array.isArray(str);
+        let prompts = isArray ? str : [str];
         if (tit == null || tit == undefined) tit = "输入";
         else { tit = String(tit); if (!tit.trim()) tit = "输入"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `inp|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
+        let key = `inp|${tit}|${isArray ? prompts.join('|') : prompts[0]}`;
+        if (winmaps[key]) {
             let win = winmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
@@ -607,7 +610,7 @@ async function inp({ str, tit, id, realstr = false }) {
             ele.style.transition = "opacity 0.1s ease";
             ele.style.opacity = "0";
 
-            ele.addEventListener(("transitionend"), () => {
+            ele.addEventListener("transitionend", () => {
                 ele.innerText = win.cnt;
                 ele.style.opacity = "1";
                 win.anim_timer = null;
@@ -622,7 +625,6 @@ async function inp({ str, tit, id, realstr = false }) {
         const icon = document.createElement("img");
         const txt = document.createElement("div");
         const inf = document.createElement("div");
-        const box = document.createElement("textarea");
         const count = document.createElement("div");
 
         mele.className = "inp-mele";
@@ -642,11 +644,6 @@ async function inp({ str, tit, id, realstr = false }) {
         inf.style.textAlign = "center";
         inf.style.minWidth = "30ch";
         inf.style.transition = `all 0.2s ${easing}`;
-        box.name = "inputbox";
-        box.type = "text";
-        box.className = "inp-box";
-        box.style.opacity = 0;
-        box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         count.className = "inp-count";
         count.innerText = "1";
         count.style.opacity = 0;
@@ -657,12 +654,48 @@ async function inp({ str, tit, id, realstr = false }) {
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
-        mele.appendChild(box);
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
         if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+        inf.innerHTML = "";
+        const boxes = [];
+        const is_single = (prompts.length === 1);
+
+        prompts.forEach((prompt, index) => {
+            // 提示文字。
+            const pdiv = document.createElement("div");
+            pdiv.className = "inp-prompt";
+            pdiv.style.marginBottom = "4px";
+            if (realstr) { pdiv.textContent = prompt; } else { pdiv.innerHTML = prompt; }
+            inf.appendChild(pdiv);
+
+            // 输入框。
+            const box = document.createElement("textarea");
+            box.className = "inp-box";
+            box.style.opacity = 0;
+            box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            box.dataset.index = index;
+            inf.appendChild(box);
+            boxes.push(box);
+
+            if (index < prompts.length - 1) {
+                const line = document.createElement("div");
+                line.className = "inp-line";
+                line.style.margin = "8px 0";
+                inf.appendChild(line);
+            }
+        });
+
+        // 提交按钮。
+        const submit = document.createElement("button");
+        submit.type = "button";
+        submit.className = "inp-submit";
+        submit.textContent = "提交";
+        submit.style.opacity = 0;
+        submit.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+        inf.appendChild(submit);
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
@@ -673,43 +706,68 @@ async function inp({ str, tit, id, realstr = false }) {
             icon.style.opacity = 1;
             txt.style.opacity = 1;
             count.style.opacity = 1;
-            box.style.opacity = 1;
+            boxes.forEach(b => b.style.opacity = 1);
+            submit.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + box.getBoundingClientRect().height}px + ${window.getComputedStyle(box).marginBottom})`;
         });
 
         let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
-            const boxH = box.getBoundingClientRect().height;
-            const boxMargin = parseFloat(window.getComputedStyle(box).marginBottom) || 0;
-            mele.style.height = `${squareH + infH + boxH + boxMargin}px`;
-        }); // 监测高度变化。
+            mele.style.height = `${squareH + infH}px`;
+        });
         resorb.observe(square);
         resorb.observe(inf);
-        resorb.observe(box);
         win_obj.resorb = resorb;
-
-        box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        const close_win = (value) => {
+        if (boxes.length > 0) {
+            boxes[0].focus();
+        }
+
+        boxes.forEach((box, idx) => {
+            box.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault();
+                    if (is_single) {
+                        // 单输入，直接提交。
+                        submit.click();
+                    } else {
+                        if (idx < boxes.length - 1) {
+                            boxes[idx + 1].focus();
+                        } else {
+                            submit.focus();
+                        }
+                    }
+                }
+            });
+        });
+
+        const close_win = () => {
             if (win_obj.resorb) {
                 win_obj.resorb.disconnect();
                 win_obj.resorb = null;
             }
+            let values = boxes.map(b => b.value);
+            if (is_single) {
+                // 单输入，返回字符串或 null。
+                values = values[0].trim() === "" ? null : values[0];
+            }
+
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
-            box.style.opacity = 0;
+            boxes.forEach(b => b.style.opacity = 0);
+            submit.style.opacity = 0;
             icon.style.opacity = 0;
             txt.style.opacity = 0;
             count.style.opacity = 0;
             mele.style.height = "0px";
+
             inf.addEventListener("transitionend", () => {
                 square.style.height = "35px";
                 mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
@@ -719,16 +777,13 @@ async function inp({ str, tit, id, realstr = false }) {
                     delete winmaps[key];
                 }, { once: true });
             }, { once: true });
-            for (let r of win_obj.waitlist) r(value);
+
+            for (let r of win_obj.waitlist) r(values);
         };
 
-        box.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                const value = box.value;
-                // 空字符串时返回 null。
-                close_win(value.trim() === "" ? null : value);
-            }
-        });
+        submit.onmouseover = () => { ld(submit, "75%"); };
+        submit.onmouseleave = () => { ld(submit, "100%"); };
+        submit.onclick = close_win;
     });
 }
 
