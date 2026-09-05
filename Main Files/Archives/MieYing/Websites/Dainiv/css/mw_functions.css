@@ -249,11 +249,12 @@
     font-family: "hf";
     height: 60px;
     min-height: 60px;
+    margin-bottom: 10px;
     background-color: #2b729899;
 }
 
 .inp-line {
-    background-color: #062672b9;
+    background-color: #6d98ffb9;
 }
 
 .inp-submit {
