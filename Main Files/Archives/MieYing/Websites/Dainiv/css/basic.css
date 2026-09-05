@@ -360,7 +360,7 @@ tr:last-child td {
     color: #e6edf3;
 }
 
-.line1, .xz-line {
+.line1, .xz-line, .inp-line {
     width: 100%;
     height: 3px;
     margin-top: 10px;

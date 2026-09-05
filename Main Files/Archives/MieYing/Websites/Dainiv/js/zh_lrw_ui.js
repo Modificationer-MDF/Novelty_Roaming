@@ -104,7 +104,7 @@ function pickele(v) {
         if (e.key === "Escape") {
             if (phl) phl.remove();
             activep = false;
-            inf("已退出元素捕获模式。");
+            inf({ string: "已退出元素捕获模式。" });
         }
     };
     document.addEventListener("keydown", esc_handler, { once: true });
@@ -145,7 +145,7 @@ function screenshot() {
             cac();
         };
         script.onerror = () => {
-            fail("html2canvas 加载失败，请检查网络后重试。");
+            fail({ str: "html2canvas 加载失败，请检查网络后重试。" });
         };
         document.head.appendChild(script);
     } else {
@@ -154,11 +154,11 @@ function screenshot() {
 
     async function cac() {
         if (ofscrt) pickele("scr");
-        let ls2 = await inp("输入该元素的 CSS 选择器字符串。", "输入", "scr");
+        let ls2 = await inp({ str: "输入该元素的 CSS 选择器字符串。", tit: "输入", id: "scr" });
         let sc = document.querySelector(ls2);
 
         if (!sc) {
-            fail("未找到元素。");
+            fail({ str: "未找到元素。" });
             return;
         }
 
@@ -188,38 +188,38 @@ function screenshot() {
             const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
             try {
                 await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
-                cg("截图已复制到剪贴板！");
+                cg({ str: "截图已复制到剪贴板！" });
             } catch (err) {
                 console.warn(`刚才，尝试截图时发生了错误，以下是详细信息：“${err}”。`);
                 canvas.toDataURL();
-                cg("截图已复制。");
+                cg({ str: "截图已复制。" });
             }
         } catch (err) {
             if (err.message && err.message.includes("Failed to execute 'toBlob' on 'HTMLCanvasElement'")) {
-                fail("Canvas 导出失败：可能由于 Canvas 被污染（包含跨域内容）或浏览器限制。建议使用本地 HTTP 服务器打开页面（如 http://localhost）以避免 file:// 协议的限制。");
+                fail({ str: "Canvas 导出失败：可能由于 Canvas 被污染（包含跨域内容）或浏览器限制。建议使用本地 HTTP 服务器打开页面（如 http://localhost）以避免 file:// 协议的限制。" });
             }
             else if (err.message && err.message.includes("html2canvas") && err.message.includes("not a function")) {
-                fail("html2canvas 库未正确加载，请刷新页面后重试。");
-                let rq = await conf("是否刷新页面？");
+                fail({ str: "html2canvas 库未正确加载，请刷新页面后重试。" });
+                let rq = await conf({ string: "是否刷新页面？" });
                 if (rq) {
                     window.location.reload();
                 }
             }
             else if (err.message && err.message.includes("Element is not attached to DOM")) {
-                fail("目标元素已从 DOM 中移除，请刷新页面后重试。");
-                let rq = await conf("是否刷新页面？");
+                fail({ str: "目标元素已从 DOM 中移除，请刷新页面后重试。" });
+                let rq = await conf({ string: "是否刷新页面？" });
                 if (rq) {
                     window.location.reload();
                 }
             }
             else if (err.message && (err.message.includes("Maximum") || err.message.includes("size"))) {
-                fail("截图区域过大（超过浏览器能处理的最大尺寸），请尝试缩小截图范围或降低 scale 参数。");
+                fail({ str: "截图区域过大（超过浏览器能处理的最大尺寸），请尝试缩小截图范围或降低 scale 参数。" });
             }
             else if (err.message && err.message.includes("timeout")) {
-                fail("截图超时，可能是页面过于复杂或网络问题，请简化页面后重试。");
+                fail({ str: "截图超时，可能是页面过于复杂或网络问题，请简化页面后重试。" });
             }
             else {
-                fail(`截图时发生错误：<code style="err">${err.message || err}</code>。`);
+                fail({ str: `截图时发生错误：<code style="err">${err.message || err}</code>` });
             }
             console.error(`发生错误：${err}。`);
         }
@@ -267,7 +267,7 @@ function init_ui() {
             "截图失败怎么办？",
             "CSS 选择器是什么？"
         ];
-        const lsxz = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
+        const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助" });
         if (!lsxz) return;
         let lsans = "";
         switch (lsxz[0]) {
@@ -289,7 +289,7 @@ function init_ui() {
             default:
                 return;
         }
-        mb(lsans, "解答");
+        mb({ str: lsans, tit: "解答" });
     };
     scs.onclick = () => {
         screenshot();
@@ -304,7 +304,7 @@ function init_ui() {
     pr.classList.add("pr");
     pr.innerHTML = "打印本页";
     pr.onclick = async () => {
-        await noti("请在接下来的窗口中完成操作。");
+        await noti({ str: "请在接下来的窗口中完成操作。" });
         setTimeout(() => {
             window.print();
         }, 1);
@@ -315,9 +315,9 @@ function init_ui() {
     share.onclick = () => {
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(() => {
-            suc("已将本页面网址复制到剪贴板！");
+            suc({ string: "已将本页面网址复制到剪贴板！" });
         }).catch(() => {
-            err("复制失败，请手动复制地址栏。");
+            err({ string: "复制失败，请手动复制地址栏。" });
         });
     };
     const reportying = document.createElement("btn");
@@ -325,20 +325,22 @@ function init_ui() {
     reportying.innerHTML = "举报“蝇”信息";
     reportying.onclick = async () => {
         if (ofscrt) pickele("rying");
-        let ls_1 = await inp("在此输入对应“蝇”信息的 CSS 选择器。", "输入", "rying");
+        let ls_1 = await inp({ str: "在此输入对应“蝇”信息的 CSS 选择器。", tit: "输入", id: "rying" });
         try {
             let ying = document.querySelector(ls_1);
-            let con = await conf(`
+            let con = await conf({
+                string: `
             该元素内容已显示在分隔线下方。请确认。
             <div class="line1"></div>
-            ${ying.textContent}`);
+            ${ying.textContent}`
+            });
 
             if (con) {
                 await console.log(ying.textContent);
-                cg("你的举报已反馈到“Chanf 灭蝇组织”，感谢你的配合。");
+                cg({ str: "你的举报已反馈到“Chanf 灭蝇组织”，感谢你的配合。" });
             }
         } catch (e) {
-            fail(`报错：<code class="err">${e}</code>`);
+            fail({ str: `报错：<code class="err">${e}</code>` });
         }
     };
     reportying.oncontextmenu = async (e) => {
@@ -348,8 +350,8 @@ function init_ui() {
             "为什么要灭“蝇”？",
             "举报结果将向谁发送？",
         ];
-        const lsxz = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
-        if (!lsxz) noti("无论您是否参与，请您记住，灭“蝇”就是守护生命。");
+        const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助" });
+        if (!lsxz) noti({ str: "无论您是否参与，请您记住，灭“蝇”就是守护生命。" });
         let lsans = "";
         switch (lsxz[0]) {
             case "“蝇”是什么？":
@@ -364,7 +366,7 @@ function init_ui() {
             default:
                 return;
         }
-        mb(lsans, "解答");
+        mb({ str: lsans, tit: "解答" });
     };
 
     const fingerprint = document.createElement("btn");
@@ -379,7 +381,7 @@ function init_ui() {
             hash = hash & hash;
         }
         const fpstr = hash.toString(16).padStart(8, "0").toUpperCase();
-        noti({ str: `<code style="font-size: 25px">${fpstr}</code>`, tit: "信息指纹", id: , realstr:  });
+        noti({ str: `<code style="font-size: 25px">${fpstr}</code>`, tit: "信息指纹" });
     };
 
     const trace = document.createElement("btn");
@@ -390,24 +392,27 @@ function init_ui() {
         const referrer = document.referrer || "无（直接访问）";
         const ua = navigator.userAgent.slice(0, 60) + "……";
 
-        mb(`
+        mb({
+            str: `
         <table>
             <tr><td class="label">URL</td><td class="value"><code>${url}</code></td></tr>
             <tr><td class="label">本地时间</td><td class="value">${xzsj()}</td></tr>
             <tr><td class="label">来源</td><td class="value"><code>${referrer}</code></td></tr>
             <tr><td class="label">用户代理</td><td class="value">${ua}</td></tr>
         </table>
-    `, "来源追溯");
+    `,
+            tit: "来源追溯"
+        });
     };
 
     const snapshot = document.createElement("btn");
     snapshot.classList.add("snapshot");
     snapshot.innerHTML = "快照存档";
     snapshot.onclick = async () => {
-        const confirmed = await conf("将当前页面内容保存到 HF Net 公共存档节点？");
+        const confirmed = await conf({ string: "将当前页面内容保存到 HF Net 公共存档节点？" });
         if (!confirmed) return;
         const snapshotId = Date.now().toString(36).toUpperCase();
-        cg(`页面已存档，存档编号：<code>cd-${snapshotId}</code>。`);
+        cg({ str: `页面已存档，存档编号：<code>cd-${snapshotId}</code>` });
     };
 
     async function blocking(j) {
@@ -428,13 +433,13 @@ function init_ui() {
         }
 
         if (!ofscrt) {
-            warn("元素捕获工具未启用，请先启用。");
+            warn({ str: "元素捕获工具未启用，请先启用。" });
             return;
         }
 
         pickele("block");
 
-        const sel = await inp(`在此输入第 ${j} 个要屏蔽元素的 CSS 选择器。`, "输入", "block");
+        const sel = await inp({ str: `在此输入第 ${j} 个要屏蔽元素的 CSS 选择器。`, tit: "输入", id: "block" });
 
         // 再次强制清理。
         if (activep) {
@@ -457,7 +462,7 @@ function init_ui() {
         try {
             const el = document.querySelector(sel);
             if (!el) {
-                err("未找到元素。");
+                err({ string: "未找到元素。" });
                 return;
             }
             el.style.transition = `all 0.2s ${easing}`;
@@ -468,7 +473,7 @@ function init_ui() {
             ble.push(sel);
             render_bl();
         } catch (e) {
-            fail(`发生了错误：<code class="err">“${e}”<code>。`);
+            fail({ str: `发生了错误：<code class="err">“${e}”<code>` });
         }
     }
     const block = document.createElement("btn");
@@ -487,8 +492,9 @@ function init_ui() {
             "屏蔽后可以在哪里恢复？",
             "我想批量屏蔽。",
         ];
-        const lsxz = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
+        const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助" });
         if (!lsxz) return;
+        let lsans = "";
         switch (lsxz[0]) {
             case "如何屏蔽？":
                 lsans = "请点击屏蔽按钮，随后选择或手动输入所要屏蔽元素的 CSS 选择器。";
@@ -506,17 +512,17 @@ function init_ui() {
                 return;
         }
         if (ls_multi) {
-            let ls_amount = await inp("请输入要屏蔽元素的数量。");
+            let ls_amount = await inp({ str: "请输入要屏蔽元素的数量。" });
             ls_amount = Number(ls_amount)
-            if (isNaN(ls_amount)) fail("无效输入。请输入纯数字。");
+            if (isNaN(ls_amount)) fail({ str: "无效输入。请输入纯数字。" });
             else {
-                if (ls_amount <= 0) fail("所输入的数字需要大于 0。");
+                if (ls_amount <= 0) fail({ str: "所输入的数字需要大于 0。" });
                 for (let i = 1; i <= ls_amount; i++) {
                     await blocking(i);
                 }
             }
         } else {
-            mb(lsans, "解答");
+            mb({ str: lsans, tit: "解答" });
         }
     }
 
@@ -524,7 +530,7 @@ function init_ui() {
     ter.classList.add("ter");
     ter.innerHTML = "打开终端";
     ter.onclick = () => {
-        zd("请在此输入 JavaScript 代码。");
+        zd({ str: "请在此输入 JavaScript 代码。" });
     };
 
     la1doms.push(scs);
@@ -568,14 +574,14 @@ function init_ui() {
     escrs.classList.add("on");
     escrs.innerHTML = "启用";
     escrs.onclick = () => {
-        inf("已启用元素捕获工具！");
+        inf({ string: "已启用元素捕获工具！" });
         ofscrt = true;
     };
     const dscrs = document.createElement("btn");
     dscrs.classList.add("off");
     dscrs.innerHTML = "禁用";
     dscrs.onclick = () => {
-        inf("已禁用元素捕获工具！");
+        inf({ string: "已禁用元素捕获工具！" });
         ofscrt = false;
     };
 
@@ -686,7 +692,7 @@ function init_ui() {
 
         const el = document.querySelector(selector);
         if (!el) {
-            fail(`未找到要恢复的元素，选择器：“<code>${selector}</code>”。`);
+            fail({ str: `未找到要恢复的元素，选择器：“<code>${selector}</code>”。` });
             items.splice(index, 1);
             render_bl(true);
             return;
@@ -781,7 +787,7 @@ document.addEventListener("mousemove", (event) => {
         }, 100);
 
         lw.addEventListener("animationend", function () {
-            lw_moved = true;   
+            lw_moved = true;
         }, { once: true });
     } else if (x > Number(getComputedStyle(lw).width.replace("px", "")) && lw_moved) {
         lw.style.animation = `out_lw 0.6s forwards ${fasing}`;
@@ -810,7 +816,7 @@ document.addEventListener("mousemove", (event) => {
             lw_moved = false;
         }, { once: true });
     }
-    
+
     if (x >= window.innerWidth - 50 && y <= 50 && !rw_moved) {
         rw.style.animation = `in_rw 0.6s forwards ${easing}`;
 

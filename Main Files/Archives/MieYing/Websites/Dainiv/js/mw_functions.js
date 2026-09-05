@@ -1,24 +1,11 @@
-/** noti({ str: *Str, tit: Tit, id: Id, realstr: Realstr = false });
- * Cg(*Str, Tit, Id, Realstr = false);
- * Warn(*Str, Tit, Id, Realstr = false);
- * Fail(*Str, Tit, Id, Realstr = false);
- * Inp(*Str, Tit, Id, Realstr = false);
- * Xz(*Str, *N, *[Names], Tit, Id, Realstr = false);
- * Synchr(*Str, Tit, Id, Realstr = false);
- * Lj(*Str, Tit, Id, Realstr = false);
- * Zd(*Str, Tit, Id, Realstr = false);
- * Timer(*Str, *Time(ms), Tit, Id, Realstr = false);
- * Mb(*Str, Tit, Id, Realstr = false);
- */
-
 // 全局存储当前显示的窗口信息。
 let winmaps = {};
 
 async function noti({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
-        if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "通知";
         else { tit = String(tit); if (!tit.trim()) tit = "通知"; }
         if (id == null || id == undefined) id = "";
@@ -163,9 +150,9 @@ async function noti({ str, tit, id, realstr = false }) {
 
 async function cg({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
-        if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "完成";
         else { tit = String(tit); if (!tit.trim()) tit = "完成"; }
         if (id == null || id == undefined) id = "";
@@ -309,9 +296,9 @@ async function cg({ str, tit, id, realstr = false }) {
 
 async function warn({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
-        if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "注意";
         else { tit = String(tit); if (!tit.trim()) tit = "注意"; }
         if (id == null || id == undefined) id = "";
@@ -454,9 +441,9 @@ async function warn({ str, tit, id, realstr = false }) {
 
 async function fail({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
-        if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "错误";
         else { tit = String(tit); if (!tit.trim()) tit = "错误"; }
         if (id == null || id == undefined) id = "";
@@ -599,9 +586,9 @@ async function fail({ str, tit, id, realstr = false }) {
 
 async function inp({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
-        if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "输入";
         else { tit = String(tit); if (!tit.trim()) tit = "输入"; }
         if (id == null || id == undefined) id = "";
@@ -747,13 +734,13 @@ async function inp({ str, tit, id, realstr = false }) {
 
 async function xz({ str, n, names, tit, id, realstr = false }) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
-        if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "选择";
         else { tit = String(tit); if (!tit.trim()) tit = "选择"; }
         if (id == null || id == undefined) id = "";
-        if (n > names.length) { fail("所给予的选项数量不足！"); return; }
+        if (n > names.length) { fail({ str: "所给予的选项数量不足！" }); return; }
 
         let key = `xz|${tit}|${str}`;
         if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
@@ -971,7 +958,7 @@ async function xz({ str, n, names, tit, id, realstr = false }) {
         submit.onmouseleave = () => { ld(submit, "100%"); };
         submit.onclick = () => {
             if (xz_items.length === 0) {
-                warn("你还没有勾选！");
+                warn({ str: "你还没有勾选！" });
                 mele.style.animation = `mfn_shake1 0.3s ${easing}`;
                 submit.style.backgroundColor = "#ffff00b0";
                 mele.addEventListener("animationend", () => {
@@ -991,9 +978,9 @@ async function xz({ str, n, names, tit, id, realstr = false }) {
 }
 
 async function synchr({ str, tit, id, realstr = false }) {
-    if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
     str = String(str);
-    if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为空。"; }
     if (tit == null || tit == undefined) tit = "同步";
     else { tit = String(tit); if (!tit.trim()) tit = "同步"; }
     if (id == null || id == undefined) id = "";
@@ -1153,12 +1140,12 @@ async function synchr({ str, tit, id, realstr = false }) {
 }
 
 async function lj({ str, url, tit, id, realstr = false }) {
-    if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 Lj() 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
-    if (url == null || url == undefined) { warn("无法跳转至 null 或 undefined。"); return "在 Lj() 函数中，url 参数不能为 null 或 undefined。"; }
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 Lj() 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    if (url == null || url == undefined) { warn({ str: "无法跳转至 null 或 undefined。" }); return "在 Lj() 函数中，url 参数不能为 null 或 undefined。"; }
     str = String(str);
     url = String(url);
-    if (!str.trim()) { warn("不能输入空字符串。"); return "在 Lj() 函数中，<code>str</code> 不能为空。"; }
-    if (!url.trim()) { warn("无法跳转至空地址。"); return "在 Lj() 函数中，url 参数不能为空。"; }
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 Lj() 函数中，<code>str</code> 不能为空。"; }
+    if (!url.trim()) { warn({ str: "无法跳转至空地址。" }); return "在 Lj() 函数中，url 参数不能为空。"; }
     if (tit == null || tit == undefined) tit = (url.startsWith("mailto:") ? "邮件" : "链接");
     else { tit = String(tit); if (!tit.trim()) tit = "链接"; }
     if (id == null || id == undefined) id = "";
@@ -1304,7 +1291,7 @@ async function lj({ str, url, tit, id, realstr = false }) {
     link.onmouseover = () => { ld(link, "75%"); };
     link.onmouseleave = () => { ld(link, "100%"); };
     link.onclick = () => {
-        if (!window.open(url, "_blank", `width=${defwid}, height=${defhei}`)) warn("弹出的窗口被阻止。");
+        if (!window.open(url, "_blank", `width=${defwid}, height=${defhei}`)) warn({ str: "弹出的窗口被阻止。" });
         close_win();
     };
 
@@ -1472,9 +1459,9 @@ async function zd({ str, tit, id, realstr = false }) {
     }
 
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Zd()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Zd()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
-        if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Zd()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Zd()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "终端";
         else { tit = String(tit); if (!tit.trim()) tit = "终端"; }
         if (id == null || id == undefined) id = "";
@@ -1649,7 +1636,7 @@ async function zd({ str, tit, id, realstr = false }) {
                 const value = box.value.trim();
                 if (value === "") {
                     box.style.height = getComputedStyle(box).minHeight; // 运行代码时折叠 Zd()，为后面的窗口留出位置。
-                    warn("不能输入空字符串。");
+                    warn({ str: "不能输入空字符串。" });
                     mele.style.animation = `mfn_shake1 0.3s ${easing}`;
                     box.style.backgroundColor = "#ffff0099";
                     mele.addEventListener("animationend", () => {
@@ -1896,7 +1883,7 @@ async function timer({ str, time, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
-        if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return `在 <code>Timer()</code> 函数中，<code>str</code> 参数不能为 <code class="nu">null</code> 或 <code class="nu">undefined</code>。`; }
+        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return `在 <code>Timer()</code> 函数中，<code>str</code> 参数不能为 <code class="nu">null</code> 或 <code class="nu">undefined</code>。`; }
         if (time == null || time == undefined) { fail(`<code class="nu">null</code> 或 <code class="nu">undefined</code> 不是有效的数字。`); return "在 <code>Timer()</code> 函数中，time 参数不能为 null 或 undefined。"; }
         str = String(str);
         time = Number(time);
@@ -1904,9 +1891,9 @@ async function timer({ str, time, tit, id, realstr = false }) {
         if (tit == null || tit == undefined) tit = "计时";
         else { tit = String(tit); if (!tit.trim()) tit = "计时"; }
         if (id == null || id == undefined) id = "";
-        if (isNaN(time)) { fail("<code>time</code> 参数必须为可识别的数字或纯数字字符串。"); return "在 <code>Timer()</code> 函数中，<code>time</code> 必须为可识别的数字或纯数字字符串。"; }
-        else if (time < 1250) { warn("<code>time</code> 的值过小，无法正常计时。"); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须大于等于 1250。"; }
-        else if (time > 3.15576e10 * 1.1568) { warn("<code>time</code> 的值过大，无法正常计时。"); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须小于等于 6.048e10。"; }
+        if (isNaN(time)) { fail({ str: "<code>time</code> 参数必须为可识别的数字或纯数字字符串。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 必须为可识别的数字或纯数字字符串。"; }
+        else if (time < 1250) { warn({ str: "<code>time</code> 的值过小，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须大于等于 1250。"; }
+        else if (time > 3.15576e10 * 1.1568) { warn({ str: "<code>time</code> 的值过大，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须小于等于 6.048e10。"; }
 
         let key = `timer|${tit}|${str}`;
         if (winmaps[key]) {
@@ -2120,10 +2107,10 @@ async function timer({ str, time, tit, id, realstr = false }) {
 
 async function mb({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
-        if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为空。"; }
+        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "面板";
         else { tit = String(tit); if (!tit.trim()) tit = "面板"; }
         if (id == null || id == undefined) id = "";
