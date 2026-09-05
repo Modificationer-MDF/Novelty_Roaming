@@ -379,7 +379,7 @@ function init_ui() {
             hash = hash & hash;
         }
         const fpstr = hash.toString(16).padStart(8, "0").toUpperCase();
-        noti(`<code style="font-size: 25px">${fpstr}</code>`, "信息指纹");
+        noti({ str: `<code style="font-size: 25px">${fpstr}</code>`, tit: "信息指纹", id: , realstr:  });
     };
 
     const trace = document.createElement("btn");

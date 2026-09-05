@@ -1,4 +1,4 @@
-/** Noti(*Str, Tit, Id, Realstr = false);
+/** noti({ str: *Str, tit: Tit, id: Id, realstr: Realstr = false });
  * Cg(*Str, Tit, Id, Realstr = false);
  * Warn(*Str, Tit, Id, Realstr = false);
  * Fail(*Str, Tit, Id, Realstr = false);
@@ -14,7 +14,7 @@
 // 全局存储当前显示的窗口信息。
 let winmaps = {};
 
-async function noti(str, tit, id, realstr = false) {
+async function noti({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -161,7 +161,7 @@ async function noti(str, tit, id, realstr = false) {
     });
 }
 
-async function cg(str, tit, id, realstr = false) {
+async function cg({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -307,7 +307,7 @@ async function cg(str, tit, id, realstr = false) {
     });
 }
 
-async function warn(str, tit, id, realstr = false) {
+async function warn({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -452,7 +452,7 @@ async function warn(str, tit, id, realstr = false) {
     });
 }
 
-async function fail(str, tit, id, realstr = false) {
+async function fail({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -597,7 +597,7 @@ async function fail(str, tit, id, realstr = false) {
     });
 }
 
-async function inp(str, tit, id, realstr = false) {
+async function inp({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -745,7 +745,7 @@ async function inp(str, tit, id, realstr = false) {
     });
 }
 
-async function xz(str, n, names, tit, id, realstr = false) {
+async function xz({ str, n, names, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
@@ -990,7 +990,7 @@ async function xz(str, n, names, tit, id, realstr = false) {
     });
 }
 
-async function synchr(str, tit, id, realstr = false) {
+async function synchr({ str, tit, id, realstr = false }) {
     if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
     str = String(str);
     if (!str.trim()) { warn("不能输入空字符串。"); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为空。"; }
@@ -1152,7 +1152,7 @@ async function synchr(str, tit, id, realstr = false) {
     win_obj.timeout_id = tid;
 }
 
-async function lj(str, url, tit, id) {
+async function lj({ str, url, tit, id, realstr = false }) {
     if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 Lj() 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
     if (url == null || url == undefined) { warn("无法跳转至 null 或 undefined。"); return "在 Lj() 函数中，url 参数不能为 null 或 undefined。"; }
     str = String(str);
@@ -1316,7 +1316,7 @@ async function lj(str, url, tit, id) {
     };
 }
 
-async function zd(str, tit, id, realstr = false) {
+async function zd({ str, tit, id, realstr = false }) {
     function errorres(error, input) { // 处理错误。
         const msg = error.message;
         const name = error.name;
@@ -1892,7 +1892,7 @@ async function zd(str, tit, id, realstr = false) {
     });
 }
 
-async function timer(str, time, tit, id, realstr = false) {
+async function timer({ str, time, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
@@ -2118,7 +2118,7 @@ async function timer(str, time, tit, id, realstr = false) {
     });
 }
 
-async function mb(str, tit, id, realstr = false) {
+async function mb({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) { fail(`不能输入 <code class="nu">${str}<code>！`); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
         str = String(str);
