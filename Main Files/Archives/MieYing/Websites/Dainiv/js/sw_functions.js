@@ -1,11 +1,11 @@
 // inf() 函数。
-async function inf(string, id) {
+async function inf({ str, id }) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
+        if (str == null || str == undefined) {
             console.error("不能输入空值！");
         }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
         }
@@ -33,14 +33,14 @@ async function inf(string, id) {
         mele.appendChild(bar);
 
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
+        inf.innerHTML = str;
 
         let finish = false;
         let passed_time = 0; // 已经过去的时间。
         let pro = 0; // 进度条进度。
         const i = setInterval(() => {
             passed_time += 20;
-            pro += 20 / (smarttime(string) / 100);
+            pro += 20 / (smarttime(str) / 100);
             bar.style.width = `${pro}%`;
             if (pro >= 100) {
                 clearInterval(i);
@@ -62,13 +62,13 @@ async function inf(string, id) {
 }
 
 // suc() 函数。
-async function suc(string, id) {
+async function suc({ str, id }) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
+        if (str == null || str == undefined) {
             console.error("不能输入空值！");
         }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
         }
@@ -96,14 +96,14 @@ async function suc(string, id) {
         mele.appendChild(bar);
 
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
+        inf.innerHTML = str;
 
         let finish = false;
         let passed_time = 0; // 已经过去的时间。
         let pro = 0; // 进度条进度。
         const i = setInterval(() => {
             passed_time += 20;
-            pro += 20 / (smarttime(string) / 100);
+            pro += 20 / (smarttime(str) / 100);
             bar.style.width = `${pro}%`;
             if (pro >= 100) {
                 clearInterval(i);
@@ -125,13 +125,13 @@ async function suc(string, id) {
 }
 
 // err() 函数。
-async function err(string, id) {
+async function err({ str, id }) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
+        if (str == null || str == undefined) {
             console.error("不能输入空值！");
         }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
         }
@@ -159,14 +159,14 @@ async function err(string, id) {
         mele.appendChild(bar);
 
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
+        inf.innerHTML = str;
 
         let finish = false;
         let passed_time = 0; // 已经过去的时间。
         let pro = 0; // 进度条进度。
         const i = setInterval(() => {
             passed_time += 20;
-            pro += 20 / (smarttime(string) / 100);
+            pro += 20 / (smarttime(str) / 100);
             bar.style.width = `${pro}%`;
             if (pro >= 100) {
                 clearInterval(i);
@@ -188,13 +188,13 @@ async function err(string, id) {
 }
 
 // caut() 函数。
-async function caut(string, id) {
+async function caut({ str, id }) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
+        if (str == null || str == undefined) {
             console.error("不能输入空值！");
         }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
         }
@@ -222,14 +222,14 @@ async function caut(string, id) {
         mele.appendChild(bar);
 
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
+        inf.innerHTML = str;
 
         let finish = false;
         let passed_time = 0; // 已经过去的时间。
         let pro = 0; // 进度条进度。
         const i = setInterval(() => {
             passed_time += 20;
-            pro += 20 / (smarttime(string) / 100);
+            pro += 20 / (smarttime(str) / 100);
             bar.style.width = `${pro}%`;
             if (pro >= 100) {
                 clearInterval(i);
@@ -251,13 +251,13 @@ async function caut(string, id) {
 }
 
 // conf() 函数。
-async function conf(string, id) {
+async function conf({ str, id }) {
     return new Promise((resolve) => {
-        if (string == null || string == undefined) {
+        if (str == null || str == undefined) {
             console.error("不能输入空值！");
         }
-        string = String(string);
-        let s_replaced = string.replace(/\s+/g, "");
+        str = String(str);
+        let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
         }
@@ -288,7 +288,7 @@ async function conf(string, id) {
         mele.appendChild(no);
 
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
-        inf.innerHTML = string;
+        inf.innerHTML = str;
 
         yes.innerHTML = "是。";
         no.innerHTML = "否。";

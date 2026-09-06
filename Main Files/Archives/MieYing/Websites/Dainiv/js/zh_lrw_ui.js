@@ -8,6 +8,23 @@ let prevp = null; // 上一个元素。
 let pickover = false;
 let ble = []; // 屏蔽列表
 
+function clean_status() {
+    if (activep) {
+        if (phl) phl.remove();
+        if (window.picklisteners) {
+            document.removeEventListener("mousemove", window.picklisteners.move);
+            document.removeEventListener("click", window.picklisteners.click);
+            window.picklisteners = null;
+        }
+        if (prevp) {
+            prevp.classList.remove("phl");
+            prevp = null;
+        }
+        activep = false;
+        nowp = null;
+    }
+}
+
 function selector(el) {
     if (el.id) return "#" + el.id;
     let path = [];
@@ -34,23 +51,8 @@ function selector(el) {
 }
 
 function pickele(v) {
-    // 强制清理残留状态。
-    if (activep) {
-        if (phl) phl.remove();
-        if (window.picklisteners) {
-            document.removeEventListener("mousemove", window.picklisteners.move);
-            document.removeEventListener("click", window.picklisteners.click);
-            window.picklisteners = null;
-        }
-        if (prevp) {
-            prevp.classList.remove("phl");
-            prevp = null;
-        }
-        activep = false;
-        nowp = null;
-    }
+    clean_status();
 
-    // 激活选取模式。
     activep = true;
     phl = document.createElement("div");
     phl.classList.add("phl-highlight");
@@ -60,7 +62,6 @@ function pickele(v) {
     phl.style.height = "0px";
     document.body.appendChild(phl);
 
-    // 处理鼠标移动。
     const move_handler = (e) => {
         if (!activep) return;
         const el = e.target;
@@ -75,41 +76,80 @@ function pickele(v) {
         prevp = el;
     };
 
-    // 处理点击。
-    const click_handler = (e) => {
+    const click_handler = async (e) => {
         if (!activep) return;
         const el = e.target;
         if (el === phl) return;
         e.preventDefault();
         e.stopPropagation();
 
-        const box = document.getElementById(v)?.querySelector(".inp-box");
-        if (!box) {
-            console.warn("输入框未找到。");
+        const container = document.getElementById(v);
+        if (!container) {
             if (phl) phl.remove();
             activep = false;
             return;
         }
+
+        const boxes = container.querySelectorAll(".inp-box");
+        if (!boxes.length) {
+            if (phl) phl.remove();
+            activep = false;
+            return;
+        }
+
         const sele = selector(el);
-        if (sele && sele.trim() !== "") {
-            box.value = sele;
-            box.focus();
-        } else {
-            box.focus();
+        if (!sele || sele.trim() === "") return;
+
+        // 收集提示文字。
+        const prompts = [];
+        boxes.forEach((box) => {
+            const prev = box.previousElementSibling;
+            const idx = parseInt(box.dataset.index, 10) + 1;
+            if (prev && prev.classList.contains("inp-prompt")) {
+                prompts.push(prev.textContent.trim() || `输入框 ${idx}`);
+            } else {
+                prompts.push(`输入框 ${idx}`);
+            }
+        });
+
+        const result = await xz({
+            str: "请选择要填入的输入框。",
+            n: prompts.length,
+            names: prompts,
+            tit: "选择目标",
+            id: "pick_target"
+        });
+
+        if (!result || !result.length) return;
+
+        result.forEach((selected) => {
+            // 从文本中提取数字：匹配 "输入框 X" 中的 X。
+            const match = selected.match(/(\d+)/);
+            if (!match) return;
+            const idx = parseInt(match[1], 10) - 1;
+            if (idx >= 0 && idx < boxes.length) {
+                boxes[idx].value = sele;
+            }
+        });
+
+        // 聚焦到最后一个被填充的框或第一个。
+        const lastIdx = result.length > 0 ? parseInt(result[result.length - 1].match(/(\d+)/)[1], 10) - 1 : 0;
+        if (lastIdx >= 0 && lastIdx < boxes.length) {
+            boxes[lastIdx].focus();
         }
     };
 
-    // 处理 ESC。
     const esc_handler = (e) => {
         if (e.key === "Escape") {
             if (phl) phl.remove();
             activep = false;
-            inf({ string: "已退出元素捕获模式。" });
+            inf({ str: "已退出元素捕获模式。" });
         }
     };
+
     document.addEventListener("keydown", esc_handler, { once: true });
     document.addEventListener("mousemove", move_handler);
-    document.addEventListener("click", click_handler);
+    document.addEventListener("contextmenu", click_handler);
 
     window.picklisteners = {
         move: move_handler,
@@ -159,6 +199,7 @@ function screenshot() {
 
         if (!sc) {
             fail({ str: "未找到元素。" });
+            finishpick();
             return;
         }
 
@@ -190,9 +231,8 @@ function screenshot() {
                 await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
                 cg({ str: "截图已复制到剪贴板！" });
             } catch (err) {
-                console.warn(`刚才，尝试截图时发生了错误，以下是详细信息：“${err}”。`);
+                caut({ str: `刚才，尝试截图时发生了错误，以下是详细信息：<code style="err">“${err}”</code>。` });
                 canvas.toDataURL();
-                cg({ str: "截图已复制。" });
             }
         } catch (err) {
             if (err.message && err.message.includes("Failed to execute 'toBlob' on 'HTMLCanvasElement'")) {
@@ -200,14 +240,14 @@ function screenshot() {
             }
             else if (err.message && err.message.includes("html2canvas") && err.message.includes("not a function")) {
                 fail({ str: "html2canvas 库未正确加载，请刷新页面后重试。" });
-                let rq = await conf({ string: "是否刷新页面？" });
+                let rq = await conf({ str: "是否刷新页面？" });
                 if (rq) {
                     window.location.reload();
                 }
             }
             else if (err.message && err.message.includes("Element is not attached to DOM")) {
                 fail({ str: "目标元素已从 DOM 中移除，请刷新页面后重试。" });
-                let rq = await conf({ string: "是否刷新页面？" });
+                let rq = await conf({ str: "是否刷新页面？" });
                 if (rq) {
                     window.location.reload();
                 }
@@ -312,13 +352,14 @@ function init_ui() {
     const share = document.createElement("btn");
     share.classList.add("share");
     share.innerHTML = "复制当前网址";
-    share.onclick = () => {
+    share.onclick = async () => {
         const url = window.location.href;
-        navigator.clipboard.writeText(url).then(() => {
-            suc({ string: "已将本页面网址复制到剪贴板！" });
-        }).catch(() => {
-            err({ string: "复制失败，请手动复制地址栏。" });
-        });
+        try {
+            await navigator.clipboard.writeText(url);
+            suc({ str: "已将本页面网址复制到剪贴板！" });
+        } catch {
+            err({ str: "复制失败，请手动复制地址栏。" });
+        }
     };
     const reportying = document.createElement("btn");
     reportying.classList.add("reportying");
@@ -409,79 +450,72 @@ function init_ui() {
     snapshot.classList.add("snapshot");
     snapshot.innerHTML = "快照存档";
     snapshot.onclick = async () => {
-        const confirmed = await conf({ string: "将当前页面内容保存到 HF Net 公共存档节点？" });
+        const confirmed = await conf({ str: "将当前页面内容保存到 HF Net 公共存档节点？" });
         if (!confirmed) return;
         const snapshotId = Date.now().toString(36).toUpperCase();
         cg({ str: `页面已存档，存档编号：<code>cd-${snapshotId}</code>` });
     };
 
-    async function blocking(j) {
-        // 强制清理所有可能的状态。
-        if (activep) {
-            if (phl) phl.remove();
-            if (window.picklisteners) {
-                document.removeEventListener("mousemove", window.picklisteners.move);
-                document.removeEventListener("click", window.picklisteners.click);
-                window.picklisteners = null;
-            }
-            if (prevp) {
-                prevp.classList.remove("phl");
-                prevp = null;
-            }
-            activep = false;
-            nowp = null;
-        }
+    async function blocking(cont) {
+        if (activep) finishpick();
+        clean_status();
 
-        if (!ofscrt) {
-            warn({ str: "元素捕获工具未启用，请先启用。" });
-            return;
-        }
+        if (ofscrt) pickele("block");
 
-        pickele("block");
-
-        const sel = await inp({ str: `在此输入第 ${j} 个要屏蔽元素的 CSS 选择器。`, tit: "输入", id: "block" });
-
-        // 再次强制清理。
-        if (activep) {
-            if (phl) phl.remove();
-            if (window.picklisteners) {
-                document.removeEventListener("mousemove", window.picklisteners.move);
-                document.removeEventListener("click", window.picklisteners.click);
-                window.picklisteners = null;
-            }
-            if (prevp) {
-                prevp.classList.remove("phl");
-                prevp = null;
-            }
-            activep = false;
-            nowp = null;
-        }
-
+        const sel = await inp({ str: cont, tit: "输入", id: "block" });
         if (!sel) return;
 
         try {
-            const el = document.querySelector(sel);
-            if (!el) {
-                err({ string: "未找到元素。" });
+            const newelem = document.querySelectorAll(sel);
+            if (!newelem || newelem.length === 0) {
+                err({ str: "未找到元素。" });
+                finishpick();
                 return;
             }
-            el.style.transition = `all 0.2s ${easing}`;
-            el.style.opacity = 0;
-            el.addEventListener("transitionend", () => {
-                el.style.display = "none";
-            }, { once: true });
+
+            const blockedelem = new Set();
+            ble.forEach((existingSel) => {
+                document.querySelectorAll(existingSel).forEach(el => {
+                    blockedelem.add(el);
+                });
+            });
+
+            const hideelem = [];
+            newelem.forEach(el => {
+                if (!blockedelem.has(el)) {
+                    hideelem.push(el);
+                }
+            });
+
+            if (hideelem.length === 0) {
+                finishpick();
+                return;
+            }
+
+            hideelem.forEach(e => {
+                e.style.transition = `all 0.2s ${easing}`;
+                e.style.opacity = 0;
+                e.addEventListener("transitionend", () => {
+                    e.style.display = "none";
+                }, { once: true });
+            });
+
             ble.push(sel);
             render_bl();
-        } catch (e) {
-            fail({ str: `发生了错误：<code class="err">“${e}”<code>` });
+            suc({ str: `已屏蔽 ${hideelem.length} 个元素。` });
+
+        } catch (err) {
+            fail({ str: `发生了错误：<code class="err">“${err}”<code>` });
         }
+
+        finishpick();
     }
+
     const block = document.createElement("btn");
     block.classList.add("block");
     block.innerHTML = "屏蔽";
     block.onclick = async () => {
-        if (activep) finishpick();
-        blocking(1);
+        blocking("请输入要屏蔽元素的 CSS 选择器。");
     };
     block.oncontextmenu = async (e) => {
         e.preventDefault();
@@ -514,12 +548,23 @@ function init_ui() {
         if (ls_multi) {
             let ls_amount = await inp({ str: "请输入要屏蔽元素的数量。" });
             ls_amount = Number(ls_amount)
-            if (isNaN(ls_amount)) fail({ str: "无效输入。请输入纯数字。" });
-            else {
-                if (ls_amount <= 0) fail({ str: "所输入的数字需要大于 0。" });
+            if (isNaN(ls_amount)) {
+                fail({ str: "无效输入。请输入纯数字。" });
+                return;
+            }
+            else if (ls_amount <= 0) {
+                fail({ str: "所输入的数字需要大于 0。" });
+                return;
+
+            } else if (ls_amount % 1 != 0) {
+                fail({ str: "所输入的数字需要为整数。" });
+                return;
+            } else {
+                stringlist = []
                 for (let i = 1; i <= ls_amount; i++) {
-                    await blocking(i);
+                    stringlist.push(`请输入第 ${i} 个元素的 CSS 选择器。`);
                 }
+                await blocking(stringlist);
             }
         } else {
             mb({ str: lsans, tit: "解答" });
@@ -574,14 +619,14 @@ function init_ui() {
     escrs.classList.add("on");
     escrs.innerHTML = "启用";
     escrs.onclick = () => {
-        inf({ string: "已启用元素捕获工具！" });
+        inf({ str: "已启用元素捕获工具！" });
         ofscrt = true;
     };
     const dscrs = document.createElement("btn");
     dscrs.classList.add("off");
     dscrs.innerHTML = "禁用";
     dscrs.onclick = () => {
-        inf({ string: "已禁用元素捕获工具！" });
+        inf({ str: "已禁用元素捕获工具！" });
         ofscrt = false;
     };
 
