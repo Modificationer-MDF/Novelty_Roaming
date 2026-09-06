@@ -728,12 +728,8 @@ let rw_moved = false;
 
 init_ui();
 
-document.addEventListener("mousemove", (event) => {
-    const x = event.clientX;
-    const y = event.clientY;
-
+function lw_anim(stat) {
     const lw = document.querySelector(".lw");
-    const rw = document.querySelector(".rw");
     const lf1 = document.querySelector(".lf1");
     const lf1i = document.querySelector(".lf1i");
     const larea1 = document.querySelector(".larea1");
@@ -742,9 +738,8 @@ document.addEventListener("mousemove", (event) => {
     const lf2i = document.querySelector(".lf2i");
     const larea2 = document.querySelector(".larea2");
     const tl2 = document.getElementById("tl2");
-    const rf1 = document.querySelector(".rf1");
 
-    if (x <= 50 && y <= 50 && !lw_moved) { // 移动到左上角。
+    if (stat === "in") {
         larea1.style.transition = `all 0.6s ${easing}`;
         larea2.style.transition = `all 0.6s ${easing}`;
         lw.style.animation = `in_lw 0.6s forwards ${easing}`;
@@ -789,7 +784,7 @@ document.addEventListener("mousemove", (event) => {
         lw.addEventListener("animationend", function () {
             lw_moved = true;
         }, { once: true });
-    } else if (x > Number(getComputedStyle(lw).width.replace("px", "")) && lw_moved) {
+    } else if (stat === "out") {
         lw.style.animation = `out_lw 0.6s forwards ${fasing}`;
         larea1.style.transition = "all 0.6s cubic-bezier(0.33, 1, 0.68, 1)";
         setTimeout(() => {
@@ -816,8 +811,13 @@ document.addEventListener("mousemove", (event) => {
             lw_moved = false;
         }, { once: true });
     }
+}
 
-    if (x >= window.innerWidth - 50 && y <= 50 && !rw_moved) {
+function rw_anim(stat) {
+    const rw = document.querySelector(".rw");
+    const rf1 = document.querySelector(".rf1");
+
+    if (stat === "in") {
         rw.style.animation = `in_rw 0.6s forwards ${easing}`;
 
         setTimeout(() => {
@@ -838,8 +838,7 @@ document.addEventListener("mousemove", (event) => {
         rw.addEventListener("animationend", () => {
             rw_moved = true;
         }, { once: true });
-    }
-    else if (x < (window.innerWidth - Number(getComputedStyle(rw).width.replace("px", ""))) && rw_moved) {
+    } else if (stat === "out") {
         rw.style.animation = `out_rw 0.6s forwards ${fasing}`;
 
         setTimeout(() => {
@@ -856,5 +855,26 @@ document.addEventListener("mousemove", (event) => {
         rw.addEventListener("animationend", function () {
             rw_moved = false;
         }, { once: true });
+    }
+}
+
+document.addEventListener("mousemove", (event) => {
+    const x = event.clientX;
+    const y = event.clientY;
+
+    const lw = document.querySelector(".lw");
+    const rw = document.querySelector(".rw");
+
+    if (x <= 50 && y <= 50 && !lw_moved) { // 移动到左上角。
+        lw_anim("in");
+    } else if (x > Number(getComputedStyle(lw).width.replace("px", "")) && lw_moved) {
+        lw_anim("out");
+    }
+
+    if (x >= window.innerWidth - 50 && y <= 50 && !rw_moved) {
+        rw_anim("in");
+    }
+    else if (x < (window.innerWidth - Number(getComputedStyle(rw).width.replace("px", ""))) && rw_moved) {
+        rw_anim("out");
     }
 });

@@ -587,16 +587,16 @@ async function fail({ str, tit, id, realstr = false }) {
 async function inp({ str, tit, id, realstr = false }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
-            fail({ str: `不能输入 <code class="nu">${str}<code>！` });
+            fail({ str: `不能输入 <code class="nu">${str}</code>！` });
             return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。";
         }
-        const isArray = Array.isArray(str);
-        let prompts = isArray ? str : [str];
+        const is_array = Array.isArray(str);
+        let prompts = is_array ? str : [str];
         if (tit == null || tit == undefined) tit = "输入";
         else { tit = String(tit); if (!tit.trim()) tit = "输入"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `inp|${tit}|${isArray ? prompts.join('|') : prompts[0]}`;
+        let key = `inp|${tit}|${is_array ? prompts.join("|") : prompts[0]}`;
         if (winmaps[key]) {
             let win = winmaps[key];
             win.cnt++;
@@ -626,6 +626,7 @@ async function inp({ str, tit, id, realstr = false }) {
         const txt = document.createElement("div");
         const inf = document.createElement("div");
         const count = document.createElement("div");
+        const submit = document.createElement("button");
 
         mele.className = "inp-mele";
         mele.id = id;
@@ -647,6 +648,11 @@ async function inp({ str, tit, id, realstr = false }) {
         count.className = "inp-count";
         count.innerText = "1";
         count.style.opacity = 0;
+        submit.type = "button";
+        submit.className = "inp-submit";
+        submit.textContent = "提交";
+        submit.style.opacity = 0;
+        submit.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
 
         mcreate(mele);
         document.body.appendChild(mele);
@@ -654,6 +660,7 @@ async function inp({ str, tit, id, realstr = false }) {
         square.appendChild(icon);
         square.appendChild(txt);
         mele.appendChild(inf);
+        mele.appendChild(submit);
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
@@ -661,13 +668,11 @@ async function inp({ str, tit, id, realstr = false }) {
 
         inf.innerHTML = "";
         const boxes = [];
-        const is_single = (prompts.length === 1);
 
         prompts.forEach((prompt, index) => {
             // 提示文字。
             const pdiv = document.createElement("div");
-            pdiv.className = "inp-prompt";
-            pdiv.style.marginBottom = "4px";
+            pdiv.style.marginBottom = "10px";
             if (realstr) { pdiv.textContent = prompt; } else { pdiv.innerHTML = prompt; }
             inf.appendChild(pdiv);
 
@@ -688,15 +693,6 @@ async function inp({ str, tit, id, realstr = false }) {
             }
         });
 
-        // 提交按钮。
-        const submit = document.createElement("button");
-        submit.type = "button";
-        submit.className = "inp-submit";
-        submit.textContent = "提交";
-        submit.style.opacity = 0;
-        submit.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        inf.appendChild(submit);
-
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         winmaps[key] = win_obj;
 
@@ -716,10 +712,13 @@ async function inp({ str, tit, id, realstr = false }) {
         let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
             const infH = inf.getBoundingClientRect().height;
-            mele.style.height = `${squareH + infH}px`;
+            const submitH = submit.getBoundingClientRect().height;
+            const submitMargin = parseFloat(window.getComputedStyle(submit).marginBottom) || 0;
+            mele.style.height = `${squareH + infH + submitH + submitMargin}px`;
         });
         resorb.observe(square);
         resorb.observe(inf);
+        resorb.observe(submit);
         win_obj.resorb = resorb;
 
         let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
@@ -734,15 +733,10 @@ async function inp({ str, tit, id, realstr = false }) {
             box.addEventListener("keydown", (event) => {
                 if (event.key === "Enter" && !event.shiftKey) {
                     event.preventDefault();
-                    if (is_single) {
-                        // 单输入，直接提交。
-                        submit.click();
+                    if (idx < boxes.length - 1) {
+                        boxes[idx + 1].focus();
                     } else {
-                        if (idx < boxes.length - 1) {
-                            boxes[idx + 1].focus();
-                        } else {
-                            submit.focus();
-                        }
+                        submit.focus();
                     }
                 }
             });
@@ -754,9 +748,8 @@ async function inp({ str, tit, id, realstr = false }) {
                 win_obj.resorb = null;
             }
             let values = boxes.map(b => b.value);
-            if (is_single) {
-                // 单输入，返回字符串或 null。
-                values = values[0].trim() === "" ? null : values[0];
+            if (prompts.length === 1) {
+                values = values[0].trim() === "" ? null : values[0]; // 单输入，返回字符串或 null。
             }
 
             inf.style.opacity = 0;
@@ -1662,21 +1655,13 @@ async function zd({ str, tit, id, realstr = false }) {
 
         function line_upd() {
             const val = box.value;
-            const lines = val.split("\n");
             const pos = box.selectionStart;
-            let ln = 1, col = 1;
-            let cur = 0;
-            for (let i = 0; i < lines.length; i++) {
-                const end = cur + lines[i].length + (i < lines.length - 1 ? 1 : 0);
-                if (pos <= end) {
-                    ln = i + 1;
-                    col = pos - cur + 1;
-                    break;
-                }
-                cur = end;
-            }
-            if (ln === 0) { ln = lines.length; col = pos - cur + 1; }
-            status.textContent = `行 ${ln}，列 ${col}`;
+            // 截取光标前的所有文本，按换行符分割。
+            const before = val.substring(0, pos);
+            const lines = before.split("\n");
+            const line = lines.length; // 行号 => 分割后的段数。
+            const column = lines[lines.length - 1].length + 1;  // 列号 => 最后一段长度 + 1。
+            status.textContent = `行 ${line}，列 ${column}`;
         }
 
         box.addEventListener("input", line_upd);
@@ -1702,7 +1687,6 @@ async function zd({ str, tit, id, realstr = false }) {
                 }
                 try {
                     box.style.height = getComputedStyle(box).minHeight;
-                    // 支持执行异步代码（使用 await eval）。
                     let k = await eval(value);
                     if (k !== undefined && k !== null) {
                         rz(`<code>${k}</code>`);
