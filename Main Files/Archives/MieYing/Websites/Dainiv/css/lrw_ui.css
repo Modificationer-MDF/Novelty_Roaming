@@ -1,3 +1,7 @@
+:root {
+    --lrw-width: 524.1px;
+}
+
 /* 左侧面板 lw 和右侧面板 rw 的样式。 */
 .lw, .rw {
     border-radius: 25px;
@@ -43,7 +47,7 @@
 
     100% {
         left: 0;
-        width: 444px;
+        width: var(--lrw-width);
     }
 }
 
@@ -51,7 +55,7 @@
 @keyframes out_lw {
     0% {
         left: 0;
-        width: 444px;
+        width: var(--lrw-width);
     }
 
     100% {
@@ -73,14 +77,14 @@
 
     100% {
         right: 0;
-        width: 444px;
+        width: var(--lrw-width);
     }
 }
 
 /* 右侧面板退出动画。 */
 @keyframes out_rw {
     0% {
-        width: 444px;
+        width: var(--lrw-width);
         right: 0;
     }
 
@@ -185,7 +189,7 @@
     left: 20px;
     text-align: left;
     font-size: 30px;
-    width: 384px;
+    width: calc(var(--lrw-width) - 60px);
 }
 
 /* 标题。 */

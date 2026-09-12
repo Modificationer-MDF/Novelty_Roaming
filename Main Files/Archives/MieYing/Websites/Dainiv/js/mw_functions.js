@@ -1,151 +1,225 @@
 // 全局存储当前显示的窗口信息。
-let winmaps = {};
+let dbmaps = {}; // Dainiv Basic 样式窗口。
+let bfmaps = {}; // Brief 样式窗口。
 
-async function noti({ str, tit, id, realstr = false }) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
-        str = String(str);
-        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为空。"; }
-        if (tit == null || tit == undefined) tit = "通知";
-        else { tit = String(tit); if (!tit.trim()) tit = "通知"; }
-        if (id == null || id == undefined) id = "";
+async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    str = String(str);
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (tit == null || tit == undefined) tit = "通知";
+    else { tit = String(tit); if (!tit.trim()) tit = "通知"; }
+    if (id == null || id == undefined) id = "";
 
+    if (form === "brief") {
         let key = `noti|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
-
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old = bfmaps[key];
+                if (old.dom && document.body.contains(old.dom)) {
+                    document.body.removeChild(old.dom);
+                }
+                delete bfmaps[key];
             }
 
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
 
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
+            mele.className = "noti-brief-mele";
+            mele.id = id;
+            icon.className = "noti-brief-icon";
+            icon.src = "Dainiv/images/Notification.png";
+            icon.alt = "";
+            text.className = "noti-brief-text";
+            txt.className = "noti-brief-title";
+            inf.className = "noti-brief-inf";
 
-            win.waitlist.push(resolve);
-            return;
-        }
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
 
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const okey = document.createElement("button");
-        const count = document.createElement("div");
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
 
-        mele.className = "noti-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `all 0.2s ${easing}`;
-        square.className = "noti-square";
-        icon.src = "Dainiv/images/Notification.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = `all 0.2s ${easing}`;
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = `all 0.2s ${easing}`;
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        okey.type = "button";
-        okey.className = "noti-okey";
-        okey.innerHTML = "知晓";
-        okey.style.transition = `all 0.2s ${easing}`;
-        okey.style.opacity = 0;
-        count.className = "noti-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
+            // 跟随鼠标。
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
 
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(okey);
-        square.appendChild(count);
+            // 边界翻转。
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
 
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
-        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+            bfmaps[key] = { dom: mele };
 
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            okey.style.opacity = 1;
-            count.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
-        });
-
-        let resorb = new ResizeObserver(() => {
-            const squareH = square.getBoundingClientRect().height;
-            const infH = inf.getBoundingClientRect().height;
-            const okeyH = okey.getBoundingClientRect().height;
-            const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
-            mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
-        }); // 监测高度变化。
-        resorb.observe(square);
-        resorb.observe(inf);
-        resorb.observe(okey);
-        win_obj.resorb = resorb;
-
-
-        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
-
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            if (win_obj.resorb) {
-                win_obj.resorb.disconnect();
-                win_obj.resorb = null;
-            }
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            okey.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete bfmaps[key];
+                    resolve();
                 }, { once: true });
-            }, { once: true });
-        };
+            };
 
-        okey.onmouseover = () => { ld(okey, "75%"); };
-        okey.onmouseleave = () => { ld(okey, "100%"); };
-        okey.onclick = () => {
-            close_win();
-            for (let r of win_obj.waitlist) r();
-        };
-    });
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else if (form === "dainiv basic") {
+        return new Promise((resolve) => {
+            let key = `noti|${tit}|${str}`;
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener("transitionend", () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const okey = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "noti-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `all 0.2s ${easing}`;
+            square.className = "noti-square";
+            icon.src = "Dainiv/images/Notification.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = `all 0.2s ${easing}`;
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = `all 0.2s ${easing}`;
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            okey.type = "button";
+            okey.className = "noti-okey";
+            okey.innerHTML = "知晓";
+            okey.style.transition = `all 0.2s ${easing}`;
+            okey.style.opacity = 0;
+            count.className = "noti-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(okey);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                okey.style.opacity = 1;
+                count.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+                mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const okeyH = okey.getBoundingClientRect().height;
+                const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
+            });
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(okey);
+            win_obj.resorb = resorb;
+
+            okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                okey.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+            };
+
+            okey.onmouseover = () => { ld(okey, "75%"); };
+            okey.onmouseleave = () => { ld(okey, "100%"); };
+            okey.onclick = () => {
+                close_win();
+                for (let r of win_obj.waitlist) r();
+            };
+        });
+    }
 }
 
 async function cg({ str, tit, id, realstr = false }) {
@@ -158,8 +232,8 @@ async function cg({ str, tit, id, realstr = false }) {
         if (id == null || id == undefined) id = "";
 
         let key = `cg|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
+        if (dbmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -229,7 +303,7 @@ async function cg({ str, tit, id, realstr = false }) {
         if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -280,7 +354,7 @@ async function cg({ str, tit, id, realstr = false }) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
         };
@@ -304,8 +378,8 @@ async function warn({ str, tit, id, realstr = false }) {
         if (id == null || id == undefined) id = "";
 
         let key = `warn|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
+        if (dbmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -375,7 +449,7 @@ async function warn({ str, tit, id, realstr = false }) {
         if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -425,7 +499,7 @@ async function warn({ str, tit, id, realstr = false }) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
         };
@@ -449,8 +523,8 @@ async function fail({ str, tit, id, realstr = false }) {
         if (id == null || id == undefined) id = "";
 
         let key = `fail|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
+        if (dbmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -520,7 +594,7 @@ async function fail({ str, tit, id, realstr = false }) {
         if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -570,7 +644,7 @@ async function fail({ str, tit, id, realstr = false }) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
         };
@@ -597,8 +671,8 @@ async function inp({ str, tit, id, realstr = false }) {
         if (id == null || id == undefined) id = "";
 
         let key = `inp|${tit}|${is_array ? prompts.join("|") : prompts[0]}`;
-        if (winmaps[key]) {
-            let win = winmaps[key];
+        if (dbmaps[key]) {
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -694,7 +768,7 @@ async function inp({ str, tit, id, realstr = false }) {
         });
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -767,7 +841,7 @@ async function inp({ str, tit, id, realstr = false }) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
 
@@ -790,9 +864,9 @@ async function xz({ str, n, names, tit, id, realstr = false }) {
         if (id == null || id == undefined) id = "";
         if (n > names.length) { fail({ str: "所给予的选项数量不足！" }); return; }
 
-        let key = `xz|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
+        let key = `xz|${tit}|${str}|${JSON.stringify(names)}`;
+        if (dbmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -913,7 +987,7 @@ async function xz({ str, n, names, tit, id, realstr = false }) {
             checkbox.onchange = () => {
                 if (checkbox.checked) {
                     if (xz_items.length >= n) {
-                        fail(`勾选的选项数量已达上限。最多可勾选 ${n} 个。`);
+                        fail({str: `勾选的选项数量已达上限。最多可勾选 ${n} 个。`});
                         mele.style.animation = `mfn_shake2 0.3s ${easing}`;
                         submit.style.backgroundColor = "#ff0000b0";
                         mele.addEventListener("animationend", () => {
@@ -939,7 +1013,7 @@ async function xz({ str, n, names, tit, id, realstr = false }) {
         }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -996,7 +1070,7 @@ async function xz({ str, n, names, tit, id, realstr = false }) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
             for (let r of win_obj.waitlist) r(result);
@@ -1035,8 +1109,8 @@ async function synchr({ str, tit, id, realstr = false }) {
 
     let key = `synchr|${tit}|${str}`;
 
-    if (winmaps[key]) {
-        let win = winmaps[key];
+    if (dbmaps[key]) {
+        let win = dbmaps[key];
         let ele = win.cnt_ele;
 
         win.cnt++;
@@ -1077,7 +1151,7 @@ async function synchr({ str, tit, id, realstr = false }) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
         }, dur);
@@ -1132,7 +1206,7 @@ async function synchr({ str, tit, id, realstr = false }) {
     if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
     let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [] };
-    winmaps[key] = win_obj;
+    dbmaps[key] = win_obj;
 
     mele.addEventListener("animationend", () => {
         inf.style.transform = "translateY(0)";
@@ -1180,7 +1254,7 @@ async function synchr({ str, tit, id, realstr = false }) {
             mclose(mele);
             mele.addEventListener("animationend", () => {
                 if (document.body.contains(mele)) document.body.removeChild(mele);
-                delete winmaps[key];
+                delete dbmaps[key];
             }, { once: true });
         }, { once: true });
     }, dur);
@@ -1199,8 +1273,8 @@ async function lj({ str, url, tit, id, realstr = false }) {
     if (id == null || id == undefined) id = "";
 
     let key = `lj|${tit}|${str}|${url}`;
-    if (winmaps[key]) {
-        let win = winmaps[key];
+    if (dbmaps[key]) {
+        let win = dbmaps[key];
         let ele = win.cnt_ele;
 
         win.cnt++;
@@ -1275,7 +1349,7 @@ async function lj({ str, url, tit, id, realstr = false }) {
     if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
     let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [] };
-    winmaps[key] = win_obj;
+    dbmaps[key] = win_obj;
 
     mele.addEventListener("animationend", () => {
         inf.style.transform = "translateY(0)";
@@ -1331,7 +1405,7 @@ async function lj({ str, url, tit, id, realstr = false }) {
             mclose(mele);
             mele.addEventListener("animationend", () => {
                 if (document.body.contains(mele)) document.body.removeChild(mele);
-                delete winmaps[key];
+                delete dbmaps[key];
             }, { once: true });
         }, { once: true });
     };
@@ -1515,8 +1589,8 @@ async function zd({ str, tit, id, realstr = false }) {
         if (id == null || id == undefined) id = "";
 
         let key = `zd|${tit}|${str}`;
-        if (winmaps[key]) {
-            let win = winmaps[key];
+        if (dbmaps[key]) {
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -1548,6 +1622,7 @@ async function zd({ str, tit, id, realstr = false }) {
         const box = document.createElement("textarea");
         const count = document.createElement("div");
         const status = document.createElement("div");
+        const submit = document.createElement("button");
 
         mele.className = "zd-mele";
         mele.id = id;
@@ -1577,6 +1652,11 @@ async function zd({ str, tit, id, realstr = false }) {
         status.style.opacity = 0;
         status.style.transition = `all 0.2s ${easing}`
         status.textContent = "行 1，列 1";
+        submit.className = "zd-submit";
+        submit.style.opacity = 0;
+        submit.type = "button";
+        submit.textContent = "运行";
+        submit.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
 
         mcreate(mele);
         document.body.appendChild(mele);
@@ -1586,6 +1666,7 @@ async function zd({ str, tit, id, realstr = false }) {
         mele.appendChild(inf);
         mele.appendChild(box);
         mele.appendChild(status);
+        mele.appendChild(submit);
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
@@ -1593,7 +1674,7 @@ async function zd({ str, tit, id, realstr = false }) {
         if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -1603,6 +1684,8 @@ async function zd({ str, tit, id, realstr = false }) {
             box.style.opacity = 1;
             count.style.opacity = 1;
             status.style.opacity = 1;
+            status.style.transform = "translateY(0)";
+            submit.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
@@ -1614,12 +1697,16 @@ async function zd({ str, tit, id, realstr = false }) {
             const boxH = box.getBoundingClientRect().height;
             const boxMargin = parseFloat(window.getComputedStyle(box).marginBottom) || 0;
             const statusH = status.getBoundingClientRect().height;
-            mele.style.height = `${squareH + infH + boxH + boxMargin + statusH}px`;
+            const submitH = submit.getBoundingClientRect().height;
+            const submitMarginT = parseFloat(window.getComputedStyle(submit).marginTop) || 0;
+            const submitMarginB = parseFloat(window.getComputedStyle(submit).marginBottom) || 0;
+            mele.style.height = `${squareH + infH + boxH + boxMargin + statusH + submitH + submitMarginT + submitMarginB}px`;
         }); // 监测高度变化。
         resorb.observe(square);
         resorb.observe(inf);
         resorb.observe(box);
         resorb.observe(status);
+        resorb.observe(submit);
         win_obj.resorb = resorb;
 
         box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
@@ -1640,6 +1727,8 @@ async function zd({ str, tit, id, realstr = false }) {
             txt.style.opacity = 0;
             count.style.opacity = 0;
             status.style.opacity = 0;
+            status.style.transform = "translateY(-10px)";
+            submit.style.opacity = 0;
             mele.style.height = "0px";
             inf.addEventListener("transitionend", () => {
                 square.style.height = "35px";
@@ -1647,11 +1736,57 @@ async function zd({ str, tit, id, realstr = false }) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
             for (let r of win_obj.waitlist) r(val);
         };
+
+        submit.onmouseover = () => { ld(submit, "75%"); };
+        submit.onmouseleave = () => { ld(submit, "100%"); };
+        submit.onclick = async () => { await exec(); };
+
+        async function exec() {
+            const value = box.value.trim();
+            if (value === "") {
+                box.style.height = getComputedStyle(box).minHeight; // 运行代码时折叠 Zd()，为后面的窗口留出位置。
+                mele.style.animation = `mfn_shake1 0.3s ${easing}`;
+                box.style.backgroundColor = "#ffff0099";
+                mele.addEventListener("animationend", () => {
+                    mele.style.animation = "";
+                    box.style.backgroundColor = "#22222299";
+                }, { once: true });
+                await warn({ str: "不能输入空字符串。" });
+                box.focus();
+                return;
+            }
+            try {
+                box.style.height = getComputedStyle(box).minHeight;
+                let k = await eval(value);
+                if (k !== undefined && k !== null) {
+                    rz(`<code>${k}</code>`);
+                    close_win(k);
+                } else if (k === undefined) {
+                    rz(`返回值为 <code class="nu">undefined</code>。`);
+                    close_win();
+                } else if (k === null) {
+                    rz(`返回值为 <code class="nu">null</code>。`);
+                    close_win();
+                }
+            } catch (error) {
+                box.style.height = getComputedStyle(box).minHeight;
+                mele.style.animation = `mfn_shake2 0.3s ${easing}`;
+                box.style.backgroundColor = "#ff000099";
+                mele.addEventListener("animationend", () => {
+                    mele.style.animation = "";
+                    box.style.backgroundColor = "#22222299";
+                }, { once: true });
+
+                let error_msg = errorres(error, value);
+                await fail({ str: error_msg });
+                box.focus();
+            }
+        }
 
         function line_upd() {
             const val = box.value;
@@ -1673,40 +1808,6 @@ async function zd({ str, tit, id, realstr = false }) {
             if (event.isComposing) return; // 输入法正在组字时，直接跳过避免干扰。
 
             if (event.key === "Enter" && !event.shiftKey) {
-                const value = box.value.trim();
-                if (value === "") {
-                    box.style.height = getComputedStyle(box).minHeight; // 运行代码时折叠 Zd()，为后面的窗口留出位置。
-                    warn({ str: "不能输入空字符串。" });
-                    mele.style.animation = `mfn_shake1 0.3s ${easing}`;
-                    box.style.backgroundColor = "#ffff0099";
-                    mele.addEventListener("animationend", () => {
-                        mele.style.animation = "";
-                        box.style.backgroundColor = "#22222299";
-                    }, { once: true });
-                    return;
-                }
-                try {
-                    box.style.height = getComputedStyle(box).minHeight;
-                    let k = await eval(value);
-                    if (k !== undefined && k !== null) {
-                        rz(`<code>${k}</code>`);
-                        close_win(k);
-                    } else if (k === undefined) {
-                        rz(`返回值为 <code class="nu">undefined</code>。`);
-                        close_win();
-                    } else if (k === null) {
-                        rz(`返回值为 <code class="nu">null</code>。`);
-                        close_win();
-                    }
-                } catch (error) {
-                    mele.style.animation = `mfn_shake2 0.3s ${easing}`;
-                    box.style.backgroundColor = "#ff000099";
-
-                    let error_msg = errorres(error, value);
-                    fail(error_msg);
-                    close_win();
-                }
-            } else if (event.key === "Enter" && event.shiftKey) {
                 event.preventDefault();
 
                 const start = box.selectionStart;
@@ -1720,6 +1821,8 @@ async function zd({ str, tit, id, realstr = false }) {
                 box.selectionStart = box.selectionEnd = start + 1;
 
                 box.focus();
+            } else if (event.key === "Enter" && event.shiftKey) {
+                submit?.focus();
             }
 
             function autofill(p) {
@@ -1923,7 +2026,7 @@ async function timer({ str, time, tit, id, realstr = false }) {
         let passed_time = 0;
         let ls_finish = false;
         if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return `在 <code>Timer()</code> 函数中，<code>str</code> 参数不能为 <code class="nu">null</code> 或 <code class="nu">undefined</code>。`; }
-        if (time == null || time == undefined) { fail(`<code class="nu">null</code> 或 <code class="nu">undefined</code> 不是有效的数字。`); return "在 <code>Timer()</code> 函数中，time 参数不能为 null 或 undefined。"; }
+        if (time == null || time == undefined) { fail({str: `<code class="nu">null</code> 或 <code class="nu">undefined</code> 不是有效的数字。`}); return "在 <code>Timer()</code> 函数中，time 参数不能为 null 或 undefined。"; }
         str = String(str);
         time = Number(time);
         if (!str.trim()) str = "";
@@ -1934,9 +2037,9 @@ async function timer({ str, time, tit, id, realstr = false }) {
         else if (time < 1250) { warn({ str: "<code>time</code> 的值过小，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须大于等于 1250。"; }
         else if (time > 3.15576e10 * 1.1568) { warn({ str: "<code>time</code> 的值过大，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须小于等于 6.048e10。"; }
 
-        let key = `timer|${tit}|${str}`;
-        if (winmaps[key]) {
-            let win = winmaps[key];
+        let key = `	timer|${tit}|${str}|${time}`;
+        if (dbmaps[key]) {
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -2018,7 +2121,7 @@ async function timer({ str, time, tit, id, realstr = false }) {
         if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         let interval_speed;
         let interval_progress;
@@ -2049,7 +2152,7 @@ async function timer({ str, time, tit, id, realstr = false }) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
             for (let r of win_obj.waitlist) r(true);
@@ -2155,8 +2258,8 @@ async function mb({ str, tit, id, realstr = false }) {
         if (id == null || id == undefined) id = "";
 
         let key = `mb|${tit}|${str}`;
-        if (winmaps[key]) {
-            let win = winmaps[key];
+        if (dbmaps[key]) {
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -2228,7 +2331,7 @@ async function mb({ str, tit, id, realstr = false }) {
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -2277,7 +2380,7 @@ async function mb({ str, tit, id, realstr = false }) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
             for (let r of win_obj.waitlist) r("已确认。");
@@ -2292,10 +2395,10 @@ async function mb({ str, tit, id, realstr = false }) {
 async function rz(str, time, realstr = false) {
     return new Promise((resolve) => {
         if (str == null) {
-            warn(`这个值为 <code class="nu">null</code>。`);
+            warn({ str: `这个值为 <code class="nu">null</code>。` });
             resolve();
         } else if (str == undefined) {
-            warn(`这个值为 <code class="nu">undefined</code>。`);
+            warn({ str: `这个值为 <code class="nu">undefined</code>。` });
             resolve();
         }
         if (time == null || time == undefined) time = smarttime(str);

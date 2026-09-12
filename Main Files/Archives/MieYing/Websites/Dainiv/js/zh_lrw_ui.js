@@ -790,7 +790,7 @@ function lw_anim(stat) {
         lw.style.animation = `in_lw 0.6s forwards ${easing}`;
         setTimeout(() => {
             lf1.style.animation = `in_lf 0.6s forwards ${easing}`;
-            lf1i.style.left = "424px";
+            lf1i.style.left = `503px`;
             setTimeout(() => {
                 let la1 = tl1.getBoundingClientRect().height + Number(getComputedStyle(larea1).top.replace("px", "")) + 10;
                 la1doms.forEach(dom => {
@@ -807,7 +807,7 @@ function lw_anim(stat) {
 
                 setTimeout(() => {
                     lf2.style.animation = `in_lf 0.6s forwards ${easing}`;
-                    lf2i.style.left = "424px";
+                    lf2i.style.left = `503px`;
                     setTimeout(() => {
                         let la2 = tl2.getBoundingClientRect().height + Number(getComputedStyle(larea2).top.replace("px", "")) + 10;
                         la2doms.forEach(dom => {

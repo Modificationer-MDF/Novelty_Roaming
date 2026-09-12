@@ -94,6 +94,13 @@ document.addEventListener("DOMContentLoaded", function () {
     loadfont(font2, "lan", null, "Lanubu Light");
     loadfont(font3, "jbml", 'url("Dainiv/fonts/JetBrains Mono Light.ttf")', "JetBrains Mono Light");
 
+    window.x = 0;
+    window.y = 0;
+    document.addEventListener("mousemove", (e) => {
+        window.x = e.clientX;
+        window.y = e.clientY;
+    });
+
     const tscrs = document.getElementById("tscrs");
     setInterval(() => {
         pos(0);

@@ -1,3 +1,5 @@
+/* Dainiv Basic 样式。*/
+
 .mfn-title {
     text-align: right;
     font-size: 20px;
@@ -119,7 +121,7 @@
     bottom: 0px;
 }
 
-.noti-okey, .cg-okey, .warn-zx, .fail-lj, .inp-submit, .lj-ignore, .mb-gb, .xz-submit, .xz-btn, .xz-giveup, .timer-earlyend {
+.noti-okey, .cg-okey, .warn-zx, .fail-lj, .inp-submit, .lj-ignore, .mb-gb, .xz-submit, .xz-btn, .xz-giveup, .zd-submit, .timer-earlyend {
     border: none;
     font-size: 20px;
     padding: 14px 25px;
@@ -254,7 +256,11 @@
 }
 
 .inp-prompt {
-
+    font-size: 18px;
+    color: #71aaff;
+    text-align: left;
+    padding: 0 4px;
+    margin-bottom: 4px;
 }
 
 .inp-line {
@@ -451,15 +457,22 @@
 }
 
 .zd-status {
+    transform: translateY(-10px);
     color: #1af1bc;
     font-size: 15px;
     font-family: "jbml", monospace;
-    text-align: left;
+    text-align: center;
     padding: 5px 11px;
     width: 100%;
-    border-top: 3px solid #044636b9;
+    border-top: 3px solid #0a6b53b9;
+    border-bottom: 3px solid #0a6b53b9;
     margin-top: 0px;
     user-select: none;
+}
+
+.zd-submit {
+    margin-top: 20px;
+    background-color: #060606b9;
 }
 
 .timer-mele {
@@ -583,4 +596,75 @@
 
 .mb-gb {
     background-color: #8fbc22b0;
+}
+
+/* Brief 样式。*/
+
+.noti-brief-mele {
+    position: fixed;
+    z-index: 9999;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    background-color: #1a1a1ae6;
+    backdrop-filter: blur(20px) saturate(250%);
+    border: 1px solid #ffffff1a;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px #00000080;
+    color: white;
+    max-width: 40ch;
+    cursor: pointer;
+    user-select: none;
+    transform-origin: top left;
+}
+
+.noti-brief-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.noti-brief-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.noti-brief-title {
+    font-weight: bold;
+    color: #7cffcd;
+    font-size: 14px;
+}
+
+.noti-brief-inf {
+    font-size: 15px;
+    color: #ffffffcc;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+@keyframes in_brief {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes out_brief {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
 }
