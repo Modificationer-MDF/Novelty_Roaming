@@ -882,448 +882,641 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     }
 }
 
-async function inp({ str, tit, id, realstr = false }) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) {
-            fail({ str: `不能输入 <code class="nu">${str}</code>！` });
-            return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。";
-        }
-        const is_array = Array.isArray(str);
-        let prompts = is_array ? str : [str];
-        if (tit == null || tit == undefined) tit = "输入";
-        else { tit = String(tit); if (!tit.trim()) tit = "输入"; }
-        if (id == null || id == undefined) id = "";
+async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    if (str == null || str == undefined) {
+        fail({ str: `不能输入 <code class="nu">${str}</code>！` });
+        return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 null 或 undefined。";
+    }
+    const is_array = Array.isArray(str);
+    let prompts = is_array ? str : [str];
+    if (tit == null || tit == undefined) tit = "输入";
+    else { tit = String(tit); if (!tit.trim()) tit = "输入"; }
+    if (id == null || id == undefined) id = "";
 
-        let key = `inp|${tit}|${is_array ? prompts.join("|") : prompts[0]}`;
-        if (dbmaps[key]) {
-            let win = dbmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
+    // 多输入时强制走 basic。
+    const use_brief = (form === "brief") && !is_array;
 
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
+    let key = `inp|${tit}|${is_array ? prompts.join("|") : prompts[0]}|${form}`;
+
+    // ---------- brief ----------
+    if (use_brief) {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old = bfmaps[key];
+                if (old.dom && document.body.contains(old.dom)) {
+                    document.body.removeChild(old.dom);
+                }
+                delete bfmaps[key];
             }
 
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const box = document.createElement("input");
+            const submit = document.createElement("button");
 
-            ele.addEventListener("transitionend", () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
+            mele.className = "inp-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Inp.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "inp-brief-title";
+            box.type = "text";
+            box.className = "inp-brief-box";
+            submit.type = "button";
+            submit.className = "inp-brief-submit";
+            submit.textContent = "提交";
 
-            win.waitlist.push(resolve);
-            return;
-        }
+            if (realstr) { txt.textContent = tit; }
+            else { txt.innerHTML = tit; }
 
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const count = document.createElement("div");
-        const submit = document.createElement("button");
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(box);
+            text.appendChild(submit);
 
-        mele.className = "inp-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "inp-square";
-        icon.src = "Dainiv/images/Inp.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        count.className = "inp-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
-        submit.type = "button";
-        submit.className = "inp-submit";
-        submit.textContent = "提交";
-        submit.style.opacity = 0;
-        submit.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
 
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(submit);
-        square.appendChild(count);
-
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
-
-        inf.innerHTML = "";
-        const boxes = [];
-
-        prompts.forEach((prompt, index) => {
-            // 提示文字。
-            const pdiv = document.createElement("div");
-            pdiv.style.marginBottom = "10px";
-            if (realstr) { pdiv.textContent = prompt; } else { pdiv.innerHTML = prompt; }
-            inf.appendChild(pdiv);
-
-            // 输入框。
-            const box = document.createElement("textarea");
-            box.className = "inp-box";
-            box.style.opacity = 0;
-            box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-            box.dataset.index = index;
-            inf.appendChild(box);
-            boxes.push(box);
-
-            if (index < prompts.length - 1) {
-                const line = document.createElement("div");
-                line.className = "inp-line";
-                line.style.margin = "8px 0";
-                inf.appendChild(line);
-            }
-        });
-
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        dbmaps[key] = win_obj;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            boxes.forEach(b => b.style.opacity = 1);
-            submit.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-        });
-
-        let resorb = new ResizeObserver(() => {
-            const squareH = square.getBoundingClientRect().height;
-            const infH = inf.getBoundingClientRect().height;
-            const submitH = submit.getBoundingClientRect().height;
-            const submitMargin = parseFloat(window.getComputedStyle(submit).marginBottom) || 0;
-            mele.style.height = `${squareH + infH + submitH + submitMargin}px`;
-        });
-        resorb.observe(square);
-        resorb.observe(inf);
-        resorb.observe(submit);
-        win_obj.resorb = resorb;
-
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        if (boxes.length > 0) {
-            boxes[0].focus();
-        }
-
-        boxes.forEach((box, idx) => {
-            box.addEventListener("keydown", (event) => {
-                if (event.key === "Enter" && !event.shiftKey) {
-                    event.preventDefault();
-                    if (idx < boxes.length - 1) {
-                        boxes[idx + 1].focus();
-                    } else {
-                        submit.focus();
-                    }
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
                 }
             });
-        });
 
-        const close_win = () => {
-            if (win_obj.resorb) {
-                win_obj.resorb.disconnect();
-                win_obj.resorb = null;
-            }
-            let values = boxes.map(b => b.value);
-            if (prompts.length === 1) {
-                values = values[0].trim() === "" ? null : values[0]; // 单输入，返回字符串或 null。
-            }
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
 
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            boxes.forEach(b => b.style.opacity = 0);
-            submit.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
+            bfmaps[key] = { dom: mele };
 
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
+            let closed = false;
+            const close = (result) => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete dbmaps[key];
+                    delete bfmaps[key];
+                    resolve(result);
                 }, { once: true });
-            }, { once: true });
+            };
 
-            for (let r of win_obj.waitlist) r(values);
-        };
+            setTimeout(() => box.focus(), 0);
 
-        submit.onmouseover = () => { ld(submit, "75%"); };
-        submit.onmouseleave = () => { ld(submit, "100%"); };
-        submit.onclick = close_win;
-    });
-}
+            box.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    const v = box.value;
+                    close(v.trim() === "" ? null : v);
+                } else if (e.key === "Escape") {
+                    e.preventDefault();
+                    close(null);
+                }
+            });
 
-async function xz({ str, n, names, tit, id, realstr = false }) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
-        str = String(str);
-        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为空。"; }
-        if (tit == null || tit == undefined) tit = "选择";
-        else { tit = String(tit); if (!tit.trim()) tit = "选择"; }
-        if (id == null || id == undefined) id = "";
-        if (n > names.length) { fail({ str: "所给予的选项数量不足！" }); return; }
+            submit.onclick = (e) => {
+                e.stopPropagation();
+                const v = box.value;
+                close(v.trim() === "" ? null : v);
+            };
+        });
+    }
 
-        let key = `xz|${tit}|${str}|${JSON.stringify(names)}`;
-        if (dbmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = dbmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
 
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener("transitionend", () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
             }
 
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const count = document.createElement("div");
+            const submit = document.createElement("button");
 
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
+            mele.className = "inp-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "inp-square";
+            icon.src = "Dainiv/images/Inp.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            count.className = "inp-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+            submit.type = "button";
+            submit.className = "inp-submit";
+            submit.textContent = "提交";
+            submit.style.opacity = 0;
+            submit.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
 
-            win.waitlist.push(resolve);
-            return;
-        }
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(submit);
+            square.appendChild(count);
 
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const submit = document.createElement("button");
-        const giveup = document.createElement("button");
-        const count = document.createElement("div");
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
-        mele.className = "xz-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "xz-square";
-        icon.src = "Dainiv/images/Sel.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        submit.className = "xz-submit";
-        submit.innerHTML = "确定";
-        submit.style.opacity = 0;
-        submit.style.transition = `all 0.2s ${easing}`;
-        giveup.className = "xz-giveup";
-        giveup.innerHTML = "放弃选择";
-        giveup.style.opacity = 0;
-        giveup.style.transition = `all 0.2s ${easing}`;
-        count.className = "xz-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
+            inf.innerHTML = "";
+            const boxes = [];
 
-        const array = Array.from(names);
-        const xz_items = [];
-        const btns = [];
+            prompts.forEach((prompt, index) => {
+                const pdiv = document.createElement("div");
+                pdiv.style.marginBottom = "10px";
+                if (realstr) { pdiv.textContent = prompt; } else { pdiv.innerHTML = prompt; }
+                inf.appendChild(pdiv);
 
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(submit);
-        mele.appendChild(giveup);
-        square.appendChild(count);
+                const box = document.createElement("textarea");
+                box.className = "inp-box";
+                box.style.opacity = 0;
+                box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+                box.dataset.index = index;
+                inf.appendChild(box);
+                boxes.push(box);
 
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = `${realstr ? esc_str(str) : str}<div class="xz-line"></div>`;
-        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+                if (index < prompts.length - 1) {
+                    const line = document.createElement("div");
+                    line.className = "inp-line";
+                    line.style.margin = "8px 0";
+                    inf.appendChild(line);
+                }
+            });
 
-        for (let i = 0; i < array.length; i++) {
-            const container = document.createElement("div");
-            container.style.position = "relative";
-            container.style.display = "flex";
-            container.style.marginBottom = "10px";
-            container.style.left = "0px";
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
 
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.className = "xz-checkbox";
-            checkbox.id = `checkbox${i}`;
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                boxes.forEach(b => b.style.opacity = 1);
+                submit.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+            });
 
-            const btn = document.createElement("button");
-            array[i] = String(array[i]);
-            btn.id = `btn${i}`;
-            btn.className = "xz-btn";
-            btn.style.marginBottom = "10px";
-            btn.innerHTML = array[i];
-            btn.style.opacity = 0;
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const submitH = submit.getBoundingClientRect().height;
+                const submitMargin = parseFloat(window.getComputedStyle(submit).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + submitH + submitMargin}px`;
+            });
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(submit);
+            win_obj.resorb = resorb;
 
-            const tohex = (r, g, b) => {
-                const tohex_ = (value) => {
-                    const hex = value.toString(16);
-                    return hex.length === 1 ? "0" + hex : hex;
-                };
-                return `#${tohex_(r)}${tohex_(g)}${tohex_(b)}`;
-            };
-            const color = () => {
-                const r = Math.floor(Math.random() * 128);
-                const g = Math.floor(Math.random() * 64);
-                const b = Math.floor(Math.random() * 255);
-                return tohex(r, g, b);
-            };
-            btn.style.backgroundColor = `${color()}b0`;
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
 
-            container.appendChild(checkbox);
-            container.appendChild(btn);
-            inf.appendChild(container);
-            btns.push(btn);
+            if (boxes.length > 0) {
+                boxes[0].focus();
+            }
 
-            checkbox.onchange = () => {
-                if (checkbox.checked) {
-                    if (xz_items.length >= n) {
-                        fail({str: `勾选的选项数量已达上限。最多可勾选 ${n} 个。`});
-                        mele.style.animation = `mfn_shake2 0.3s ${easing}`;
-                        submit.style.backgroundColor = "#ff0000b0";
-                        mele.addEventListener("animationend", () => {
-                            mele.style.animation = "";
-                            submit.style.backgroundColor = "#a700ffb0";
-                        }, { once: true });
-                        checkbox.checked = false;
-                        return;
+            boxes.forEach((box, idx) => {
+                box.addEventListener("keydown", (event) => {
+                    if (event.key === "Enter" && !event.shiftKey) {
+                        event.preventDefault();
+                        if (idx < boxes.length - 1) {
+                            boxes[idx + 1].focus();
+                        } else {
+                            submit.focus();
+                        }
                     }
-                    xz_items.push(array[i]);
+                });
+            });
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                let values = boxes.map(b => b.value);
+                if (prompts.length === 1) {
+                    values = values[0].trim() === "" ? null : values[0];
+                }
+
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                boxes.forEach(b => b.style.opacity = 0);
+                submit.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+
+                for (let r of win_obj.waitlist) r(values);
+            };
+
+            submit.onmouseover = () => { ld(submit, "75%"); };
+            submit.onmouseleave = () => { ld(submit, "100%"); };
+            submit.onclick = close_win;
+        });
+    }
+}
+
+async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basic" }) {
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为 null 或 undefined。"; }
+    str = String(str);
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (tit == null || tit == undefined) tit = "选择";
+    else { tit = String(tit); if (!tit.trim()) tit = "选择"; }
+    if (id == null || id == undefined) id = "";
+    if (n > names.length) { fail({ str: "所给予的选项数量不足！" }); return; }
+
+    // 多选时强制走 dainiv basic。
+    const use_brief = (form === "brief") && n === 1;
+
+    let key = `xz|${tit}|${str}|${JSON.stringify(names)}|${form}`;
+
+    // 样式分发。
+    if (use_brief) {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old = bfmaps[key];
+                if (old.dom && document.body.contains(old.dom)) {
+                    document.body.removeChild(old.dom);
+                }
+                delete bfmaps[key];
+            }
+
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const options = document.createElement("div");
+
+            mele.className = "xz-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Sel.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "xz-brief-title";
+            options.className = "xz-brief-options";
+
+            if (realstr) { txt.textContent = tit; }
+            else { txt.innerHTML = tit; }
+
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(options);
+
+            let closed = false;
+            const close = (result) => {
+                if (closed) return;
+                closed = true;
+                document.removeEventListener("mousedown", outside_handler);
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete bfmaps[key];
+                    resolve(result);
+                }, { once: true });
+            };
+
+            const array = Array.from(names);
+            array.forEach((name) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "xz-brief-option";
+                btn.textContent = String(name);
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    close([String(name)]);
+                };
+                options.appendChild(btn);
+            });
+
+            // 跟随鼠标。
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
+
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
+
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
+            bfmaps[key] = { dom: mele };
+
+            const outside_handler = (e) => {
+                if (!mele.contains(e.target)) close([null]);
+            };
+            setTimeout(() => {
+                document.addEventListener("mousedown", outside_handler);
+            }, 0);
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const submit = document.createElement("button");
+            const giveup = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "xz-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "xz-square";
+            icon.src = "Dainiv/images/Sel.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            submit.className = "xz-submit";
+            submit.innerHTML = "确定";
+            submit.style.opacity = 0;
+            submit.style.transition = `all 0.2s ${easing}`;
+            giveup.className = "xz-giveup";
+            giveup.innerHTML = "放弃选择";
+            giveup.style.opacity = 0;
+            giveup.style.transition = `all 0.2s ${easing}`;
+            count.className = "xz-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            const array = Array.from(names);
+            const xz_items = [];
+            const btns = [];
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(submit);
+            mele.appendChild(giveup);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            inf.innerHTML = `${realstr ? esc_str(str) : str}<div class="xz-line"></div>`;
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            for (let i = 0; i < array.length; i++) {
+                const container = document.createElement("div");
+                container.style.position = "relative";
+                container.style.display = "flex";
+                container.style.marginBottom = "10px";
+                container.style.left = "0px";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "xz-checkbox";
+                checkbox.id = `checkbox${i}`;
+
+                const btn = document.createElement("button");
+                array[i] = String(array[i]);
+                btn.id = `btn${i}`;
+                btn.className = "xz-btn";
+                btn.style.marginBottom = "10px";
+                btn.innerHTML = array[i];
+                btn.style.opacity = 0;
+
+                const tohex = (r, g, b) => {
+                    const tohex_ = (value) => {
+                        const hex = value.toString(16);
+                        return hex.length === 1 ? "0" + hex : hex;
+                    };
+                    return `#${tohex_(r)}${tohex_(g)}${tohex_(b)}`;
+                };
+                const color = () => {
+                    const r = Math.floor(Math.random() * 128);
+                    const g = Math.floor(Math.random() * 64);
+                    const b = Math.floor(Math.random() * 255);
+                    return tohex(r, g, b);
+                };
+                btn.style.backgroundColor = `${color()}b0`;
+
+                container.appendChild(checkbox);
+                container.appendChild(btn);
+                inf.appendChild(container);
+                btns.push(btn);
+
+                checkbox.onchange = () => {
+                    if (checkbox.checked) {
+                        if (xz_items.length >= n) {
+                            fail({ str: `勾选的选项数量已达上限。最多可勾选 ${n} 个。` });
+                            mele.style.animation = `mfn_shake2 0.3s ${easing}`;
+                            submit.style.backgroundColor = "#ff0000b0";
+                            mele.addEventListener("animationend", () => {
+                                mele.style.animation = "";
+                                submit.style.backgroundColor = "var(--xz-submit-color)";
+                            }, { once: true });
+                            checkbox.checked = false;
+                            return;
+                        }
+                        xz_items.push(array[i]);
+                    } else {
+                        const index = xz_items.indexOf(array[i]);
+                        if (index > -1) xz_items.splice(index, 1);
+                    }
+                };
+
+                btn.onmouseover = () => { ld(btn, "75%"); };
+                btn.onmouseleave = () => { ld(btn, "100%"); };
+                btn.onclick = () => {
+                    checkbox.checked = !checkbox.checked;
+                    checkbox.dispatchEvent(new Event("change"));
+                };
+            }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                submit.style.opacity = 1;
+                giveup.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+                mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + submit.getBoundingClientRect().height + giveup.getBoundingClientRect().height}px + ${window.getComputedStyle(submit).marginBottom} + ${window.getComputedStyle(giveup).marginBottom})`;
+                for (let btn of btns) btn.style.opacity = 1;
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const submitH = submit.getBoundingClientRect().height;
+                const submitMargin = parseFloat(window.getComputedStyle(submit).marginBottom) || 0;
+                const giveupH = giveup.getBoundingClientRect().height;
+                const giveupMargin = parseFloat(window.getComputedStyle(giveup).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + submitH + submitMargin + giveupH + giveupMargin}px`;
+            });
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(submit);
+            resorb.observe(giveup);
+            win_obj.resorb = resorb;
+
+            submit.addEventListener("transitionend", () => { submit.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = (result) => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                submit.style.opacity = 0;
+                giveup.style.opacity = 0;
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+                for (let r of win_obj.waitlist) r(result);
+            };
+
+            submit.onmouseover = () => { ld(submit, "75%"); };
+            submit.onmouseleave = () => { ld(submit, "100%"); };
+            submit.onclick = () => {
+                if (xz_items.length === 0) {
+                    warn({ str: "你还没有勾选！" });
+                    mele.style.animation = `mfn_shake1 0.3s ${easing}`;
+                    submit.style.backgroundColor = "#ffff00b0";
+                    mele.addEventListener("animationend", () => {
+                        mele.style.animation = "";
+                        submit.style.backgroundColor = "var(--xz-submit-color)";
+                    }, { once: true });
+                    return;
                 } else {
-                    const index = xz_items.indexOf(array[i]);
-                    if (index > -1) xz_items.splice(index, 1);
+                    close_win(xz_items);
                 }
             };
 
-            btn.onmouseover = () => { ld(btn, "75%"); };
-            btn.onmouseleave = () => { ld(btn, "100%"); };
-            btn.onclick = () => {
-                checkbox.checked = !checkbox.checked;
-                checkbox.dispatchEvent(new Event("change"));
-            };
-        }
-
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        dbmaps[key] = win_obj;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            submit.style.opacity = 1;
-            giveup.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + submit.getBoundingClientRect().height + giveup.getBoundingClientRect().height}px + ${window.getComputedStyle(submit).marginBottom} + ${window.getComputedStyle(giveup).marginBottom})`;
-            for (let btn of btns) btn.style.opacity = 1;
+            giveup.onmouseover = () => { ld(giveup, "75%"); };
+            giveup.onmouseleave = () => { ld(giveup, "100%"); };
+            giveup.onclick = () => { close_win([null]); };
         });
-
-        let resorb = new ResizeObserver(() => {
-            const squareH = square.getBoundingClientRect().height;
-            const infH = inf.getBoundingClientRect().height;
-            const submitH = submit.getBoundingClientRect().height;
-            const submitMargin = parseFloat(window.getComputedStyle(submit).marginBottom) || 0;
-            const giveupH = giveup.getBoundingClientRect().height;
-            const giveupMargin = parseFloat(window.getComputedStyle(giveup).marginBottom) || 0;
-            mele.style.height = `${squareH + infH + submitH + submitMargin + giveupH + giveupMargin}px`;
-        }); // 监测高度变化。
-        resorb.observe(square);
-        resorb.observe(inf);
-        resorb.observe(submit);
-        resorb.observe(giveup);
-        win_obj.resorb = resorb;
-
-        submit.addEventListener("transitionend", () => { submit.focus(); }, { once: true });
-
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = (result) => {
-            if (win_obj.resorb) {
-                win_obj.resorb.disconnect();
-                win_obj.resorb = null;
-            }
-            submit.style.opacity = 0;
-            giveup.style.opacity = 0;
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
-                mele.addEventListener("animationend", () => {
-                    if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete dbmaps[key];
-                }, { once: true });
-            }, { once: true });
-            for (let r of win_obj.waitlist) r(result);
-        };
-
-        submit.onmouseover = () => { ld(submit, "75%"); };
-        submit.onmouseleave = () => { ld(submit, "100%"); };
-        submit.onclick = () => {
-            if (xz_items.length === 0) {
-                warn({ str: "你还没有勾选！" });
-                mele.style.animation = `mfn_shake1 0.3s ${easing}`;
-                submit.style.backgroundColor = "#ffff00b0";
-                mele.addEventListener("animationend", () => {
-                    mele.style.animation = "";
-                    submit.style.backgroundColor = "#a700ffb0";
-                }, { once: true });
-                return;
-            } else {
-                close_win(xz_items);
-            }
-        };
-
-        giveup.onmouseover = () => { ld(giveup, "75%"); };
-        giveup.onmouseleave = () => { ld(giveup, "100%"); };
-        giveup.onclick = () => { close_win([null]); };
-    });
+    }
 }
 
-async function synchr({ str, tit, id, realstr = false }) {
+async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
     str = String(str);
     if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为空。"; }
@@ -1485,171 +1678,282 @@ async function synchr({ str, tit, id, realstr = false }) {
     win_obj.timeout_id = tid;
 }
 
-async function lj({ str, url, tit, id, realstr = false }) {
-    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 Lj() 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 Lj() 函数中，str 不能为 null 或 undefined。"; }
     if (url == null || url == undefined) { warn({ str: "无法跳转至 null 或 undefined。" }); return "在 Lj() 函数中，url 参数不能为 null 或 undefined。"; }
     str = String(str);
-    url = String(url);
-    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 Lj() 函数中，<code>str</code> 不能为空。"; }
-    if (!url.trim()) { warn({ str: "无法跳转至空地址。" }); return "在 Lj() 函数中，url 参数不能为空。"; }
-    if (tit == null || tit == undefined) tit = (url.startsWith("mailto:") ? "邮件" : "链接");
-    else { tit = String(tit); if (!tit.trim()) tit = "链接"; }
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 Lj() 函数中，str 不能为空。"; }
+
+    // url 规范化。
+    const url_array = Array.isArray(url) ? url : [url];
+    const urls = url_array.map(u => String(u)).filter(u => u.trim() !== "");
+    if (urls.length === 0) { warn({ str: "无法跳转至空地址。" }); return "在 Lj() 函数中，url 参数不能全为空。"; }
+
+    if (tit == null || tit == undefined) {
+        tit = urls.every(u => u.startsWith("mailto:")) ? "邮件" : "链接";
+    } else { tit = String(tit); if (!tit.trim()) tit = "链接"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `lj|${tit}|${str}|${url}`;
-    if (dbmaps[key]) {
-        let win = dbmaps[key];
-        let ele = win.cnt_ele;
+    let key = `lj|${tit}|${str}|${form}|${JSON.stringify(urls)}`;
 
-        win.cnt++;
-        if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+    // 样式分发，
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old = bfmaps[key];
+                if (old.dom && document.body.contains(old.dom)) {
+                    document.body.removeChild(old.dom);
+                }
+                delete bfmaps[key];
+            }
 
-        if (win.anim_timer) {
-            clearTimeout(win.anim_timer);
-            win.anim_timer = null;
-        }
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const links = document.createElement("div");
 
-        ele.style.transition = "opacity 0.1s ease";
-        ele.style.opacity = "0";
+            mele.className = "lj-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Link.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "lj-brief-title";
+            links.className = "lj-brief-links";
 
-        ele.addEventListener(("transitionend"), () => {
-            ele.innerText = win.cnt;
-            ele.style.opacity = "1";
-            win.anim_timer = null;
-        }, { once: true });
-        return;
+            if (realstr) { txt.textContent = tit; }
+            else { txt.innerHTML = tit; }
+
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(links);
+
+            let closed = false;
+            const close = (result) => {
+                if (closed) return;
+                closed = true;
+                document.removeEventListener("mousedown", outside_handler);
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    delete bfmaps[key];
+                    resolve(result);
+                }, { once: true });
+            };
+
+            urls.forEach((u) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "lj-brief-link";
+                btn.textContent = u;
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}`)) {
+                        warn({ str: "弹出的窗口被阻止。" });
+                    }
+                    close(u);
+                };
+                links.appendChild(btn);
+            });
+
+            // 跟随鼠标。
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
+
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
+
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
+            bfmaps[key] = { dom: mele };
+
+            const outside_handler = (e) => {
+                if (!mele.contains(e.target)) close(null);
+            };
+            setTimeout(() => {
+                document.addEventListener("mousedown", outside_handler);
+            }, 0);
+        });
     }
 
-    const mele = document.createElement("div");
-    const square = document.createElement("div");
-    const icon = document.createElement("img");
-    const txt = document.createElement("div");
-    const inf = document.createElement("div");
-    const link = document.createElement("button");
-    const ignore = document.createElement("button");
-    const count = document.createElement("div");
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                let ele = win.cnt_ele;
 
-    mele.className = "lj-mele";
-    mele.id = id;
-    mele.style.height = "0px";
-    mele.style.transition = `height 0.2s ${easing}`;
-    square.className = "lj-square";
-    icon.src = "Dainiv/images/Link.png";
-    icon.alt = "";
-    icon.style.opacity = 0;
-    icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-    txt.className = "mfn-title";
-    txt.style.opacity = 0;
-    txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-    inf.className = "mfn-inf";
-    inf.style.opacity = 0;
-    inf.style.textAlign = "center";
-    inf.style.minWidth = "30ch";
-    inf.style.transition = `all 0.2s ${easing}`;
-    link.className = "lj-link";
-    link.innerHTML = url;
-    link.style.opacity = 0;
-    link.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-    ignore.className = "lj-ignore";
-    ignore.innerHTML = "忽略";
-    ignore.style.opacity = 0;
-    ignore.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-    count.className = "lj-count";
-    count.innerText = "1";
-    count.style.opacity = 0;
+                win.cnt++;
+                if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
 
-    mcreate(mele);
-    document.body.appendChild(mele);
-    mele.appendChild(square);
-    square.appendChild(icon);
-    square.appendChild(txt);
-    mele.appendChild(inf);
-    mele.appendChild(link);
-    mele.appendChild(ignore);
-    square.appendChild(count);
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
 
-    mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-    if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
-    if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
 
-    let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [] };
-    dbmaps[key] = win_obj;
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+                return;
+            }
 
-    mele.addEventListener("animationend", () => {
-        inf.style.transform = "translateY(0)";
-        inf.style.opacity = 1;
-        icon.style.opacity = 1;
-        txt.style.opacity = 1;
-        count.style.opacity = 1;
-        link.style.opacity = 1;
-        ignore.style.opacity = 1;
-        mele.style.width = "30ch";
-        mele.style.left = "calc(50% - 15ch)";
-        mele.style.right = "calc(50% + 15ch)";
-        mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + link.getBoundingClientRect().height + ignore.getBoundingClientRect().height}px + ${window.getComputedStyle(link).marginBottom} + ${window.getComputedStyle(ignore).marginBottom})`;
-    });
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const ignore = document.createElement("button");
+            const count = document.createElement("div");
 
-    let resorb = new ResizeObserver(() => {
-        const squareH = square.getBoundingClientRect().height;
-        const infH = inf.getBoundingClientRect().height;
-        const linkH = link.getBoundingClientRect().height;
-        const linkMargin = parseFloat(window.getComputedStyle(link).marginBottom) || 0;
-        const ignoreH = ignore.getBoundingClientRect().height;
-        const ignoreMargin = parseFloat(window.getComputedStyle(ignore).marginBottom) || 0;
-        mele.style.height = `${squareH + infH + linkH + linkMargin + ignoreH + ignoreMargin}px`;
-    }); // 监测高度变化。
-    resorb.observe(square);
-    resorb.observe(inf);
-    resorb.observe(link);
-    resorb.observe(ignore);
-    win_obj.resorb = resorb;
+            mele.className = "lj-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "lj-square";
+            icon.src = "Dainiv/images/Link.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            ignore.className = "lj-ignore";
+            ignore.innerHTML = "忽略";
+            ignore.style.opacity = 0;
+            ignore.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            count.className = "lj-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
 
-    link.addEventListener("transitionend", () => { ignore.focus(); }, { once: true });
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(ignore);
+            square.appendChild(count);
 
-    let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
-    square.style.height = square_height;
-    inf.style.marginTop = square_height;
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
-    const close_win = () => {
-        if (win_obj.resorb) {
-            win_obj.resorb.disconnect();
-            win_obj.resorb = null;
-        }
-        link.style.opacity = 0;
-        ignore.style.opacity = 0;
-        inf.style.opacity = 0;
-        inf.style.transform = "translateY(-10px)";
-        icon.style.opacity = 0;
-        txt.style.opacity = 0;
-        count.style.opacity = 0;
-        mele.style.height = "0px";
-        inf.addEventListener("transitionend", () => {
-            square.style.height = "35px";
-            mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-            mclose(mele);
+            // 每个 url 一个按钮。
+            const link_btns = [];
+            urls.forEach((u) => {
+                const link = document.createElement("button");
+                link.type = "button";
+                link.className = "lj-link";
+                link.textContent = u;
+                link.style.opacity = 0;
+                link.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+                link.onmouseover = () => { ld(link, "75%"); };
+                link.onmouseleave = () => { ld(link, "100%"); };
+                link.onclick = () => {
+                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}`)) {
+                        warn({ str: "弹出的窗口被阻止。" });
+                    }
+                    close_win(u);
+                };
+                mele.insertBefore(link, ignore);
+                link_btns.push(link);
+            });
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve] };
+            dbmaps[key] = win_obj;
+
             mele.addEventListener("animationend", () => {
-                if (document.body.contains(mele)) document.body.removeChild(mele);
-                delete dbmaps[key];
-            }, { once: true });
-        }, { once: true });
-    };
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                link_btns.forEach(b => b.style.opacity = 1);
+                ignore.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+            });
 
-    link.onmouseover = () => { ld(link, "75%"); };
-    link.onmouseleave = () => { ld(link, "100%"); };
-    link.onclick = () => {
-        if (!window.open(url, "_blank", `width=${defwid}, height=${defhei}`)) warn({ str: "弹出的窗口被阻止。" });
-        close_win();
-    };
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                let linksH = 0;
+                link_btns.forEach(b => {
+                    linksH += b.getBoundingClientRect().height + (parseFloat(window.getComputedStyle(b).marginBottom) || 0);
+                });
+                const ignoreH = ignore.getBoundingClientRect().height;
+                const ignoreMargin = parseFloat(window.getComputedStyle(ignore).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + linksH + ignoreH + ignoreMargin}px`;
+            });
+            resorb.observe(square);
+            resorb.observe(inf);
+            link_btns.forEach(b => resorb.observe(b));
+            resorb.observe(ignore);
+            win_obj.resorb = resorb;
 
-    ignore.onmouseover = () => { ld(ignore, "75%"); };
-    ignore.onmouseleave = () => { ld(ignore, "100%"); };
-    ignore.onclick = () => {
-        rz("已忽略该链接。");
-        close_win();
-    };
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = (result) => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                link_btns.forEach(b => b.style.opacity = 0);
+                ignore.style.opacity = 0;
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+                for (let r of win_obj.waitlist) r(result);
+            };
+
+            ignore.onmouseover = () => { ld(ignore, "75%"); };
+            ignore.onmouseleave = () => { ld(ignore, "100%"); };
+            ignore.onclick = () => {
+                rz("已忽略该链接。");
+                close_win(null);
+            };
+        });
+    }
 }
 
-async function zd({ str, tit, id, realstr = false }) {
+async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     function errorres(error, input) { // 处理错误。
         const msg = error.message;
         const name = error.name;
@@ -2245,7 +2549,7 @@ async function zd({ str, tit, id, realstr = false }) {
     });
 }
 
-async function timer({ str, time, tit, id, realstr = false }) {
+async function timer({ str, time, tit, id, realstr = false, form = "dainiv basic" }) {
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
