@@ -3,6 +3,7 @@ let dbmaps = {}; // Dainiv Basic 样式窗口。
 let bfmaps = {}; // Brief 样式窗口。
 
 async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
     if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
     str = String(str);
     if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为空。"; }
@@ -10,8 +11,10 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     else { tit = String(tit); if (!tit.trim()) tit = "通知"; }
     if (id == null || id == undefined) id = "";
 
+    let key = `noti|${tit}|${str}|${form}`;
+
+    // 样式分发。
     if (form === "brief") {
-        let key = `noti|${tit}|${str}`;
         return new Promise((resolve) => {
             if (bfmaps[key]) {
                 const old = bfmaps[key];
@@ -82,9 +85,8 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
         });
     }
 
-    else if (form === "dainiv basic") {
+    else {
         return new Promise((resolve) => {
-            let key = `noti|${tit}|${str}`;
             if (dbmaps[key]) {
                 let win = dbmaps[key];
                 win.cnt++;
@@ -222,440 +224,662 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     }
 }
 
-async function cg({ str, tit, id, realstr = false }) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
-        str = String(str);
-        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为空。"; }
-        if (tit == null || tit == undefined) tit = "完成";
-        else { tit = String(tit); if (!tit.trim()) tit = "完成"; }
-        if (id == null || id == undefined) id = "";
+async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    str = String(str);
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (tit == null || tit == undefined) tit = "完成";
+    else { tit = String(tit); if (!tit.trim()) tit = "完成"; }
+    if (id == null || id == undefined) id = "";
 
-        let key = `cg|${tit}|${str}`;
-        if (dbmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = dbmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
+    let key = `cg|${tit}|${str}|${form}`;
 
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
+    // 样式分发。
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old = bfmaps[key];
+                if (old.dom && document.body.contains(old.dom)) {
+                    document.body.removeChild(old.dom);
+                }
+                delete bfmaps[key];
             }
 
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
 
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
+            mele.className = "cg-brief-mele";
+            mele.id = id;
+            icon.className = "cg-brief-icon";
+            icon.src = "Dainiv/images/Suc.png";
+            icon.alt = "";
+            text.className = "cg-brief-text";
+            txt.className = "cg-brief-title";
+            inf.className = "cg-brief-inf";
 
-            win.waitlist.push(resolve);
-            return;
-        }
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
 
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const okey = document.createElement("button");
-        const count = document.createElement("div");
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
 
-        mele.className = "cg-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "cg-square";
-        icon.src = "Dainiv/images/Suc.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = `all 0.2s ${easing}`;
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = `all 0.2s ${easing}`;
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        okey.type = "button";
-        okey.className = "cg-okey";
-        okey.innerHTML = "知晓";
-        okey.style.transition = `all 0.2s ${easing}`;
-        okey.style.opacity = 0;
-        count.className = "cg-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
 
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(okey);
-        square.appendChild(count);
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
 
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
-        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        dbmaps[key] = win_obj;
+            bfmaps[key] = { dom: mele };
 
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            okey.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
-        });
-
-        let resorb = new ResizeObserver(() => {
-            const squareH = square.getBoundingClientRect().height;
-            const infH = inf.getBoundingClientRect().height;
-            const okeyH = okey.getBoundingClientRect().height;
-            const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
-            mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
-        }); // 监测高度变化。
-        resorb.observe(square);
-        resorb.observe(inf);
-        resorb.observe(okey);
-        win_obj.resorb = resorb;
-
-        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
-
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            if (win_obj.resorb) {
-                win_obj.resorb.disconnect();
-                win_obj.resorb = null;
-            }
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            okey.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete dbmaps[key];
+                    delete bfmaps[key];
+                    resolve();
                 }, { once: true });
-            }, { once: true });
-        };
+            };
 
-        okey.onmouseover = () => { ld(okey, "75%"); };
-        okey.onmouseleave = () => { ld(okey, "100%"); };
-        okey.onclick = () => {
-            close_win();
-            for (let r of win_obj.waitlist) r();
-        };
-    });
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const okey = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "cg-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "cg-square";
+            icon.src = "Dainiv/images/Suc.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = `all 0.2s ${easing}`;
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = `all 0.2s ${easing}`;
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            okey.type = "button";
+            okey.className = "cg-okey";
+            okey.innerHTML = "知晓";
+            okey.style.transition = `all 0.2s ${easing}`;
+            okey.style.opacity = 0;
+            count.className = "cg-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(okey);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                okey.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+                mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const okeyH = okey.getBoundingClientRect().height;
+                const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
+            }); // 监测高度变化。
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(okey);
+            win_obj.resorb = resorb;
+
+            okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                okey.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+            };
+
+            okey.onmouseover = () => { ld(okey, "75%"); };
+            okey.onmouseleave = () => { ld(okey, "100%"); };
+            okey.onclick = () => {
+                close_win();
+                for (let r of win_obj.waitlist) r();
+            };
+        });
+    }
 }
 
-async function warn({ str, tit, id, realstr = false }) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
-        str = String(str);
-        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为空。"; }
-        if (tit == null || tit == undefined) tit = "注意";
-        else { tit = String(tit); if (!tit.trim()) tit = "注意"; }
-        if (id == null || id == undefined) id = "";
+async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    str = String(str);
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (tit == null || tit == undefined) tit = "注意";
+    else { tit = String(tit); if (!tit.trim()) tit = "注意"; }
+    if (id == null || id == undefined) id = "";
 
-        let key = `warn|${tit}|${str}`;
-        if (dbmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = dbmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
+    let key = `warn|${tit}|${str}|${form}`;
 
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
+    // 样式分发。
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old = bfmaps[key];
+                if (old.dom && document.body.contains(old.dom)) {
+                    document.body.removeChild(old.dom);
+                }
+                delete bfmaps[key];
             }
 
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
 
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
+            mele.className = "warn-brief-mele";
+            mele.id = id;
+            icon.className = "warn-brief-icon";
+            icon.src = "Dainiv/images/Exc.png";
+            icon.alt = "";
+            text.className = "warn-brief-text";
+            txt.className = "warn-brief-title";
+            inf.className = "warn-brief-inf";
 
-            win.waitlist.push(resolve);
-            return;
-        }
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
 
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const okey = document.createElement("button");
-        const count = document.createElement("div");
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
 
-        mele.className = "warn-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "warn-square";
-        icon.src = "Dainiv/images/Exc.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = `all 0.2s ${easing}`;
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = `all 0.2s ${easing}`;
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        okey.type = "button";
-        okey.className = "warn-zx";
-        okey.innerHTML = "知晓";
-        okey.style.transition = `all 0.2s ${easing}`;
-        okey.style.opacity = 0;
-        count.className = "warn-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
 
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(okey);
-        square.appendChild(count);
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
 
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
-        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        dbmaps[key] = win_obj;
+            bfmaps[key] = { dom: mele };
 
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            okey.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-        });
-
-        let resorb = new ResizeObserver(() => {
-            const squareH = square.getBoundingClientRect().height;
-            const infH = inf.getBoundingClientRect().height;
-            const okeyH = okey.getBoundingClientRect().height;
-            const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
-            mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
-        }); // 监测高度变化。
-        resorb.observe(square);
-        resorb.observe(inf);
-        resorb.observe(okey);
-        win_obj.resorb = resorb;
-
-        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
-
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            if (win_obj.resorb) {
-                win_obj.resorb.disconnect();
-                win_obj.resorb = null;
-            }
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            okey.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete dbmaps[key];
+                    delete bfmaps[key];
+                    resolve();
                 }, { once: true });
-            }, { once: true });
-        };
+            };
 
-        okey.onmouseover = () => { ld(okey, "75%"); };
-        okey.onmouseleave = () => { ld(okey, "100%"); };
-        okey.onclick = () => {
-            close_win();
-            for (let r of win_obj.waitlist) r();
-        };
-    });
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const okey = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "warn-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "warn-square";
+            icon.src = "Dainiv/images/Exc.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = `all 0.2s ${easing}`;
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = `all 0.2s ${easing}`;
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            okey.type = "button";
+            okey.className = "warn-zx";
+            okey.innerHTML = "知晓";
+            okey.style.transition = `all 0.2s ${easing}`;
+            okey.style.opacity = 0;
+            count.className = "warn-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(okey);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                okey.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const okeyH = okey.getBoundingClientRect().height;
+                const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
+            }); // 监测高度变化。
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(okey);
+            win_obj.resorb = resorb;
+
+            okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                okey.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+            };
+
+            okey.onmouseover = () => { ld(okey, "75%"); };
+            okey.onmouseleave = () => { ld(okey, "100%"); };
+            okey.onclick = () => {
+                close_win();
+                for (let r of win_obj.waitlist) r();
+            };
+        });
+    }
 }
 
-async function fail({ str, tit, id, realstr = false }) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
-        str = String(str);
-        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为空。"; }
-        if (tit == null || tit == undefined) tit = "错误";
-        else { tit = String(tit); if (!tit.trim()) tit = "错误"; }
-        if (id == null || id == undefined) id = "";
+async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    str = String(str);
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (tit == null || tit == undefined) tit = "错误";
+    else { tit = String(tit); if (!tit.trim()) tit = "错误"; }
+    if (id == null || id == undefined) id = "";
 
-        let key = `fail|${tit}|${str}`;
-        if (dbmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = dbmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
+    let key = `fail|${tit}|${str}|${form}`;
 
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
+    // 样式分发。
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old = bfmaps[key];
+                if (old.dom && document.body.contains(old.dom)) {
+                    document.body.removeChild(old.dom);
+                }
+                delete bfmaps[key];
             }
 
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
 
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
+            mele.className = "fail-brief-mele";
+            mele.id = id;
+            icon.className = "fail-brief-icon";
+            icon.src = "Dainiv/images/Err.png";
+            icon.alt = "";
+            text.className = "fail-brief-text";
+            txt.className = "fail-brief-title";
+            inf.className = "fail-brief-inf";
 
-            win.waitlist.push(resolve);
-            return;
-        }
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
 
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const okey = document.createElement("button");
-        const count = document.createElement("div");
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
 
-        mele.className = "fail-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "fail-square";
-        icon.src = "Dainiv/images/Err.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = `all 0.2s ${easing}`;
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = `all 0.2s ${easing}`;
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        okey.type = "button";
-        okey.className = "fail-lj";
-        okey.innerHTML = "知晓";
-        okey.style.transition = `all 0.2s ${easing}`;
-        okey.style.opacity = 0;
-        count.className = "fail-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
 
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(okey);
-        square.appendChild(count);
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
 
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
-        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        dbmaps[key] = win_obj;
+            bfmaps[key] = { dom: mele };
 
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            okey.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-        });
-
-        let resorb = new ResizeObserver(() => {
-            const squareH = square.getBoundingClientRect().height;
-            const infH = inf.getBoundingClientRect().height;
-            const okeyH = okey.getBoundingClientRect().height;
-            const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
-            mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
-        }); // 监测高度变化。
-        resorb.observe(square);
-        resorb.observe(inf);
-        resorb.observe(okey);
-        win_obj.resorb = resorb;
-
-        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
-
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            if (win_obj.resorb) {
-                win_obj.resorb.disconnect();
-                win_obj.resorb = null;
-            }
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            okey.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete dbmaps[key];
+                    delete bfmaps[key];
+                    resolve();
                 }, { once: true });
-            }, { once: true });
-        };
+            };
 
-        okey.onmouseover = () => { ld(okey, "75%"); };
-        okey.onmouseleave = () => { ld(okey, "100%"); };
-        okey.onclick = () => {
-            close_win();
-            for (let r of win_obj.waitlist) r();
-        };
-    });
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const okey = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "fail-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "fail-square";
+            icon.src = "Dainiv/images/Err.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = `all 0.2s ${easing}`;
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = `all 0.2s ${easing}`;
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            okey.type = "button";
+            okey.className = "fail-lj";
+            okey.innerHTML = "知晓";
+            okey.style.transition = `all 0.2s ${easing}`;
+            okey.style.opacity = 0;
+            count.className = "fail-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(okey);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                okey.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const okeyH = okey.getBoundingClientRect().height;
+                const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
+            }); // 监测高度变化。
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(okey);
+            win_obj.resorb = resorb;
+
+            okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                okey.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+            };
+
+            okey.onmouseover = () => { ld(okey, "75%"); };
+            okey.onmouseleave = () => { ld(okey, "100%"); };
+            okey.onclick = () => {
+                close_win();
+                for (let r of win_obj.waitlist) r();
+            };
+        });
+    }
 }
 
 async function inp({ str, tit, id, realstr = false }) {

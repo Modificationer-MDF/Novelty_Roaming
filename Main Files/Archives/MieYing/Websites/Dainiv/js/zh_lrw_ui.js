@@ -577,6 +577,10 @@ function init_ui() {
     ter.onclick = () => {
         zd({ str: "请在此输入 JavaScript 代码。" });
     };
+    ter.addEventListener("contextmenu", async (e) => {
+        e.preventDefault();
+        await noti({ str: "在终端中按下 Enter 换行，按下 Ctrl+Enter 执行代码。", form: "brief" });
+    }, { once: true });
 
     la1doms.push(scs);
     la1doms.push(pr);
