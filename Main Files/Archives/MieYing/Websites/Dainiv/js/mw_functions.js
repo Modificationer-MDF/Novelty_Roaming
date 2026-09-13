@@ -32,12 +32,12 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
             mele.className = "noti-brief-mele";
             mele.id = id;
-            icon.className = "noti-brief-icon";
+            icon.className = "brief-icon";
             icon.src = "Dainiv/images/Notification.png";
             icon.alt = "";
-            text.className = "noti-brief-text";
+            text.className = "brief-txt";
             txt.className = "noti-brief-title";
-            inf.className = "noti-brief-inf";
+            inf.className = "brief-inf";
 
             if (realstr) { txt.textContent = tit; inf.textContent = str; }
             else { txt.innerHTML = tit; inf.innerHTML = str; }
@@ -54,6 +54,8 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             mele.style.left = `${x}px`;
             mele.style.top = `${y}px`;
 
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
             // 边界翻转。
             requestAnimationFrame(() => {
                 const r = mele.getBoundingClientRect();
@@ -64,8 +66,6 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
                 }
             });
-
-            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
 
             bfmaps[key] = { dom: mele };
 
@@ -254,12 +254,12 @@ async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
             mele.className = "cg-brief-mele";
             mele.id = id;
-            icon.className = "cg-brief-icon";
+            icon.className = "brief-icon";
             icon.src = "Dainiv/images/Suc.png";
             icon.alt = "";
-            text.className = "cg-brief-text";
+            text.className = "brief-txt";
             txt.className = "cg-brief-title";
-            inf.className = "cg-brief-inf";
+            inf.className = "brief-inf";
 
             if (realstr) { txt.textContent = tit; inf.textContent = str; }
             else { txt.innerHTML = tit; inf.innerHTML = str; }
@@ -474,12 +474,12 @@ async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
             mele.className = "warn-brief-mele";
             mele.id = id;
-            icon.className = "warn-brief-icon";
+            icon.className = "brief-icon";
             icon.src = "Dainiv/images/Exc.png";
             icon.alt = "";
-            text.className = "warn-brief-text";
+            text.className = "brief-txt";
             txt.className = "warn-brief-title";
-            inf.className = "warn-brief-inf";
+            inf.className = "brief-inf";
 
             if (realstr) { txt.textContent = tit; inf.textContent = str; }
             else { txt.innerHTML = tit; inf.innerHTML = str; }
@@ -693,12 +693,12 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
             mele.className = "fail-brief-mele";
             mele.id = id;
-            icon.className = "fail-brief-icon";
+            icon.className = "brief-icon";
             icon.src = "Dainiv/images/Err.png";
             icon.alt = "";
-            text.className = "fail-brief-text";
+            text.className = "brief-txt";
             txt.className = "fail-brief-title";
-            inf.className = "fail-brief-inf";
+            inf.className = "brief-inf";
 
             if (realstr) { txt.textContent = tit; inf.textContent = str; }
             else { txt.innerHTML = tit; inf.innerHTML = str; }
@@ -2471,149 +2471,222 @@ async function timer({ str, time, tit, id, realstr = false }) {
     });
 }
 
-async function mb({ str, tit, id, realstr = false }) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
-        str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为空。"; }
-        if (tit == null || tit == undefined) tit = "面板";
-        else { tit = String(tit); if (!tit.trim()) tit = "面板"; }
-        if (id == null || id == undefined) id = "";
+async function mb({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    str = String(str);
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (tit == null || tit == undefined) tit = "面板";
+    else { tit = String(tit); if (!tit.trim()) tit = "面板"; }
+    if (id == null || id == undefined) id = "";
 
-        let key = `mb|${tit}|${str}`;
-        if (dbmaps[key]) {
-            let win = dbmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
+    let key = `mb|${tit}|${str}|${form}`;
 
-            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
-
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
+    // 样式分发。
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old = bfmaps[key];
+                if (old.dom && document.body.contains(old.dom)) {
+                    document.body.removeChild(old.dom);
+                }
+                delete bfmaps[key];
             }
 
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
 
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
+            mele.className = "mb-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Pad.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "mb-brief-title";
+            inf.className = "brief-inf";
 
-            win.waitlist.push(resolve);
-            return;
-        }
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
 
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const gb = document.createElement("button");
-        const count = document.createElement("div");
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
 
-        mele.className = "mb-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "mb-square";
-        icon.src = "Dainiv/images/Pad.png";
-        icon.alt = "";
-        icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        icon.style.opacity = 0;
-        txt.className = "mfn-title";
-        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
-        txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        txt.style.opacity = 0;
-        inf.className = "mfn-inf";
-        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        gb.type = "button";
-        gb.className = "mb-gb";
-        gb.innerHTML = "关闭";
-        gb.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        gb.style.opacity = 0;
-        count.className = "mb-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
+            // 跟随鼠标。
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
 
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(gb);
-        square.appendChild(count);
+            // 边界翻转。
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
 
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        dbmaps[key] = win_obj;
+            bfmaps[key] = { dom: mele };
 
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            gb.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + gb.getBoundingClientRect().height}px + ${window.getComputedStyle(gb).marginBottom})`;
-        });
-
-        let resorb = new ResizeObserver(() => {
-            const squareH = square.getBoundingClientRect().height;
-            const infH = inf.getBoundingClientRect().height;
-            const gbH = gb.getBoundingClientRect().height;
-            const gbMargin = parseFloat(window.getComputedStyle(gb).marginBottom) || 0;
-            mele.style.height = `${squareH + infH + gbH + gbMargin}px`;
-        }); // 监测高度变化。
-        resorb.observe(square);
-        resorb.observe(inf);
-        resorb.observe(gb);
-        win_obj.resorb = resorb;
-
-        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            if (win_obj.resorb) {
-                win_obj.resorb.disconnect();
-                win_obj.resorb = null;
-            }
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            gb.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete dbmaps[key];
+                    delete bfmaps[key];
+                    resolve();
                 }, { once: true });
-            }, { once: true });
-            for (let r of win_obj.waitlist) r("已确认。");
-        };
+            };
 
-        gb.onmouseover = () => { ld(gb, "75%"); };
-        gb.onmouseleave = () => { ld(gb, "100%"); };
-        gb.onclick = close_win;
-    });
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const gb = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "mb-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "mb-square";
+            icon.src = "Dainiv/images/Pad.png";
+            icon.alt = "";
+            icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            icon.style.opacity = 0;
+            txt.className = "mfn-title";
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+            txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            txt.style.opacity = 0;
+            inf.className = "mfn-inf";
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            gb.type = "button";
+            gb.className = "mb-gb";
+            gb.innerHTML = "关闭";
+            gb.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            gb.style.opacity = 0;
+            count.className = "mb-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(gb);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                gb.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+                mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + gb.getBoundingClientRect().height}px + ${window.getComputedStyle(gb).marginBottom})`;
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const gbH = gb.getBoundingClientRect().height;
+                const gbMargin = parseFloat(window.getComputedStyle(gb).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + gbH + gbMargin}px`;
+            }); // 监测高度变化。
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(gb);
+            win_obj.resorb = resorb;
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                gb.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+                for (let r of win_obj.waitlist) r("已确认。");
+            };
+
+            gb.onmouseover = () => { ld(gb, "75%"); };
+            gb.onmouseleave = () => { ld(gb, "100%"); };
+            gb.onclick = close_win;
+        });
+    }
 }
 
 async function rz(str, time, realstr = false) {

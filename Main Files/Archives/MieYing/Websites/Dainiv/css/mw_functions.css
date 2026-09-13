@@ -113,6 +113,7 @@
     --mb-gb-color: #8fbc22b0;
     --mb-border: 5px solid #389426c9;
     --mb-shadow: 0px 3px 7px #6aea79;
+    --mb-brief-tit-color: #b6ff7a;
     /* rz() */
     --rz-mele-color: #07059b99;
     --rz-bar-color: #706fbd49;
@@ -746,7 +747,32 @@
 
 /* Brief 样式。 */
 
-.noti-brief-mele, .cg-brief-mele, .fail-brief-mele, .warn-brief-mele {
+@keyframes in_brief {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes out_brief {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+
+.noti-brief-mele, .cg-brief-mele, .fail-brief-mele, .warn-brief-mele, .mb-brief-mele {
     position: fixed;
     z-index: var(--z-brief);
     display: flex;
@@ -789,22 +815,35 @@
     box-shadow: var(--warn-shadow);
 }
 
-.noti-brief-icon, .cg-brief-icon, .fail-brief-icon, .warn-brief-icon {
+.mb-brief-mele {
+    background-color: var(--mb-mele-color);
+    border-left: var(--mb-border);
+    border-right: var(--mb-border);
+    box-shadow: var(--mb-shadow);
+}
+
+.brief-icon {
     width: 22px;
     height: 22px;
     flex-shrink: 0;
     margin-top: 2px;
 }
 
-.noti-brief-text, .cg-brief-text, .fail-brief-text, .warn-brief-text {
+.brief-txt {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.noti-brief-title, .cg-brief-title, .fail-brief-title, .warn-brief-title {
+.brief-inf {
     font-size: var(--inf-font-size);
-    font-weight: bold;
+    color: #ffffff;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.noti-brief-title, .cg-brief-title, .fail-brief-title, .warn-brief-title, .mb-brief-title {
+    font-size: var(--inf-font-size);
 }
 
 .noti-brief-title {
@@ -823,9 +862,6 @@
     color: var(--warn-brief-tit-color);
 }
 
-.noti-brief-inf, .cg-brief-inf, .fail-brief-inf, .warn-brief-inf {
-    font-size: var(--inf-font-size);
-    color: #ffffff;
-    word-break: break-word;
-    line-height: 1.4;
+.mb-brief-title {
+    color: var(--mb-brief-tit-color);
 }
