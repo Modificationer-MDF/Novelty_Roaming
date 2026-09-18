@@ -5,7 +5,7 @@
     --z-mele: 100;
     --z-square: 101;
     --z-count: 102;
-    --z-brief: 32767;
+    --z-brief: 1024;
     --z-inp: 999;
     /* 尺寸。 */
     --mele-font-size: 25px;
@@ -87,6 +87,7 @@
     --lj-count-color: #7d3e0f99;
     --lj-link-color: #715213b0;
     --lj-ignore-color: #bb6012b0;
+    --lj-line-color: #ff7600b0;
     --lj-border: 5px solid #753e14c9;
     --lj-shadow: 0px 3px 7px #9c501d;
     --lj-brief-tit-color: #ffb566;
@@ -262,7 +263,8 @@
     margin-bottom: var(--btn-margin-bottom);
     white-space: nowrap;
     height: var(--btn-height);
-    overflow: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* noti() */
@@ -568,6 +570,10 @@
     background-color: var(--lj-ignore-color);
 }
 
+.lj-line {
+    background-color: var(--lj-line-color);
+}
+
 /* zd() */
 
 .zd-mele {
@@ -773,7 +779,7 @@
 @keyframes in_brief {
     from {
         opacity: 0;
-        transform: scale(0.85);
+        transform: scale(0.75);
     }
 
     to {
@@ -790,7 +796,7 @@
 
     to {
         opacity: 0;
-        transform: scale(0.9);
+        transform: scale(0.75);
     }
 }
 

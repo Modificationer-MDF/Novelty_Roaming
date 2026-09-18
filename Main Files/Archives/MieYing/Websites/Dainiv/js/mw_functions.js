@@ -17,11 +17,13 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     if (form === "brief") {
         return new Promise((resolve) => {
             if (bfmaps[key]) {
-                const old = bfmaps[key];
-                if (old.dom && document.body.contains(old.dom)) {
-                    document.body.removeChild(old.dom);
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
                 }
-                delete bfmaps[key];
             }
 
             const mele = document.createElement("div");
@@ -76,7 +78,9 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete bfmaps[key];
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
                     resolve();
                 }, { once: true });
             };
@@ -238,12 +242,15 @@ async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     // 样式分发。
     if (form === "brief") {
         return new Promise((resolve) => {
+            // 旧窗口先淡出，让出位置给新窗口。
             if (bfmaps[key]) {
-                const old = bfmaps[key];
-                if (old.dom && document.body.contains(old.dom)) {
-                    document.body.removeChild(old.dom);
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
                 }
-                delete bfmaps[key];
             }
 
             const mele = document.createElement("div");
@@ -296,7 +303,9 @@ async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete bfmaps[key];
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
                     resolve();
                 }, { once: true });
             };
@@ -459,11 +468,13 @@ async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     if (form === "brief") {
         return new Promise((resolve) => {
             if (bfmaps[key]) {
-                const old = bfmaps[key];
-                if (old.dom && document.body.contains(old.dom)) {
-                    document.body.removeChild(old.dom);
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
                 }
-                delete bfmaps[key];
             }
 
             const mele = document.createElement("div");
@@ -516,7 +527,9 @@ async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete bfmaps[key];
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
                     resolve();
                 }, { once: true });
             };
@@ -678,11 +691,13 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     if (form === "brief") {
         return new Promise((resolve) => {
             if (bfmaps[key]) {
-                const old = bfmaps[key];
-                if (old.dom && document.body.contains(old.dom)) {
-                    document.body.removeChild(old.dom);
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
                 }
-                delete bfmaps[key];
             }
 
             const mele = document.createElement("div");
@@ -735,7 +750,9 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete bfmaps[key];
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
                     resolve();
                 }, { once: true });
             };
@@ -898,15 +915,17 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
     let key = `inp|${tit}|${is_array ? prompts.join("|") : prompts[0]}|${form}`;
 
-    // ---------- brief ----------
+    // 样式分发。
     if (use_brief) {
         return new Promise((resolve) => {
             if (bfmaps[key]) {
-                const old = bfmaps[key];
-                if (old.dom && document.body.contains(old.dom)) {
-                    document.body.removeChild(old.dom);
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
                 }
-                delete bfmaps[key];
             }
 
             const mele = document.createElement("div");
@@ -959,14 +978,16 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             bfmaps[key] = { dom: mele };
 
             let closed = false;
-            const close = (result) => {
+            const close = () => {
                 if (closed) return;
                 closed = true;
                 mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete bfmaps[key];
-                    resolve(result);
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve();
                 }, { once: true });
             };
 
@@ -1184,7 +1205,7 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
     if (id == null || id == undefined) id = "";
     if (n > names.length) { fail({ str: "所给予的选项数量不足！" }); return; }
 
-    // 多选时强制走 dainiv basic。
+    // 多选时强制走 Dainiv Basic。
     const use_brief = (form === "brief") && n === 1;
 
     let key = `xz|${tit}|${str}|${JSON.stringify(names)}|${form}`;
@@ -1193,17 +1214,20 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
     if (use_brief) {
         return new Promise((resolve) => {
             if (bfmaps[key]) {
-                const old = bfmaps[key];
-                if (old.dom && document.body.contains(old.dom)) {
-                    document.body.removeChild(old.dom);
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
                 }
-                delete bfmaps[key];
             }
 
             const mele = document.createElement("div");
             const icon = document.createElement("img");
             const text = document.createElement("div");
             const txt = document.createElement("div");
+            const inf = document.createElement("div");
             const options = document.createElement("div");
 
             mele.className = "xz-brief-mele";
@@ -1213,15 +1237,17 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
             icon.alt = "";
             text.className = "brief-txt";
             txt.className = "xz-brief-title";
+            inf.className = "brief-inf";
             options.className = "xz-brief-options";
 
-            if (realstr) { txt.textContent = tit; }
-            else { txt.innerHTML = tit; }
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
 
             document.body.appendChild(mele);
             mele.appendChild(icon);
             mele.appendChild(text);
             text.appendChild(txt);
+            text.appendChild(inf);
             text.appendChild(options);
 
             let closed = false;
@@ -1232,9 +1258,15 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
                 mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete bfmaps[key];
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
                     resolve(result);
                 }, { once: true });
+            };
+
+            const outside_handler = (e) => {
+                if (!mele.contains(e.target)) close([null]);
             };
 
             const array = Array.from(names);
@@ -1250,7 +1282,6 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
                 options.appendChild(btn);
             });
 
-            // 跟随鼠标。
             const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
             const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
             mele.style.left = `${x}px`;
@@ -1270,9 +1301,6 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
 
             bfmaps[key] = { dom: mele };
 
-            const outside_handler = (e) => {
-                if (!mele.contains(e.target)) close([null]);
-            };
             setTimeout(() => {
                 document.addEventListener("mousedown", outside_handler);
             }, 0);
@@ -1331,9 +1359,9 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
             inf.style.minWidth = "30ch";
             inf.style.transition = `all 0.2s ${easing}`;
             submit.className = "xz-submit";
-            submit.innerHTML = "确定";
-            submit.style.opacity = 0;
             submit.style.transition = `all 0.2s ${easing}`;
+            submit.innerHTML = `确定（已勾选 0 个，共可勾选 ${n} 个）`;
+            submit.style.opacity = 0;
             giveup.className = "xz-giveup";
             giveup.innerHTML = "放弃选择";
             giveup.style.opacity = 0;
@@ -1403,7 +1431,7 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
                 checkbox.onchange = () => {
                     if (checkbox.checked) {
                         if (xz_items.length >= n) {
-                            fail({ str: `勾选的选项数量已达上限。最多可勾选 ${n} 个。` });
+                            fail({ str: `勾选的选项数量已达上限。最多可勾选 ${n} 个。`, form: "brief" });
                             mele.style.animation = `mfn_shake2 0.3s ${easing}`;
                             submit.style.backgroundColor = "#ff0000b0";
                             mele.addEventListener("animationend", () => {
@@ -1414,9 +1442,11 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
                             return;
                         }
                         xz_items.push(array[i]);
+                        submit.innerHTML = `确定（已勾选 ${xz_items.length} 个，共可勾选 ${n} 个）`;
                     } else {
                         const index = xz_items.indexOf(array[i]);
                         if (index > -1) xz_items.splice(index, 1);
+                        submit.innerHTML = `确定（已勾选 ${xz_items.length} 个，共可勾选 ${n} 个）`;
                     }
                 };
 
@@ -1496,7 +1526,7 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
             submit.onmouseleave = () => { ld(submit, "100%"); };
             submit.onclick = () => {
                 if (xz_items.length === 0) {
-                    warn({ str: "你还没有勾选！" });
+                    warn({ str: "你还没有勾选！", form: "brief" });
                     mele.style.animation = `mfn_shake1 0.3s ${easing}`;
                     submit.style.backgroundColor = "#ffff00b0";
                     mele.addEventListener("animationend", () => {
@@ -1524,7 +1554,7 @@ async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) 
     else { tit = String(tit); if (!tit.trim()) tit = "同步"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `synchr|${tit}|${str}`;
+    let key = `synchr|${tit}|${str}|${form}`;
 
     if (dbmaps[key]) {
         let win = dbmaps[key];
@@ -1691,27 +1721,30 @@ async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" })
     if (urls.length === 0) { warn({ str: "无法跳转至空地址。" }); return "在 Lj() 函数中，url 参数不能全为空。"; }
 
     if (tit == null || tit == undefined) {
-        tit = urls.every(u => u.startsWith("mailto:")) ? "邮件" : "链接";
+        tit = urls.every(u => u.toLowerCase().startsWith("mailto:")) ? "邮件" : "链接";
     } else { tit = String(tit); if (!tit.trim()) tit = "链接"; }
     if (id == null || id == undefined) id = "";
 
     let key = `lj|${tit}|${str}|${form}|${JSON.stringify(urls)}`;
-
+    
     // 样式分发，
     if (form === "brief") {
         return new Promise((resolve) => {
             if (bfmaps[key]) {
-                const old = bfmaps[key];
-                if (old.dom && document.body.contains(old.dom)) {
-                    document.body.removeChild(old.dom);
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
                 }
-                delete bfmaps[key];
             }
 
             const mele = document.createElement("div");
             const icon = document.createElement("img");
             const text = document.createElement("div");
             const txt = document.createElement("div");
+            const inf = document.createElement("div");
             const links = document.createElement("div");
 
             mele.className = "lj-brief-mele";
@@ -1721,27 +1754,31 @@ async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" })
             icon.alt = "";
             text.className = "brief-txt";
             txt.className = "lj-brief-title";
+            inf.className = "brief-inf";
             links.className = "lj-brief-links";
 
-            if (realstr) { txt.textContent = tit; }
-            else { txt.innerHTML = tit; }
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
 
             document.body.appendChild(mele);
             mele.appendChild(icon);
             mele.appendChild(text);
             text.appendChild(txt);
+            text.appendChild(inf);
             text.appendChild(links);
 
             let closed = false;
-            const close = (result) => {
+            const close = () => {
                 if (closed) return;
                 closed = true;
                 document.removeEventListener("mousedown", outside_handler);
                 mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete bfmaps[key];
-                    resolve(result);
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve();
                 }, { once: true });
             };
 
@@ -1857,7 +1894,7 @@ async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" })
             square.appendChild(count);
 
             mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            inf.innerHTML = `${realstr ? esc_str(str) : str}<div class="lj-line"></div>`;
             if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
             // 每个 url 一个按钮。
@@ -1877,11 +1914,11 @@ async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" })
                     }
                     close_win(u);
                 };
-                mele.insertBefore(link, ignore);
+                inf.appendChild(link);
                 link_btns.push(link);
             });
 
-            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve] };
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
             dbmaps[key] = win_obj;
 
             mele.addEventListener("animationend", () => {
@@ -1900,17 +1937,12 @@ async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" })
             let resorb = new ResizeObserver(() => {
                 const squareH = square.getBoundingClientRect().height;
                 const infH = inf.getBoundingClientRect().height;
-                let linksH = 0;
-                link_btns.forEach(b => {
-                    linksH += b.getBoundingClientRect().height + (parseFloat(window.getComputedStyle(b).marginBottom) || 0);
-                });
                 const ignoreH = ignore.getBoundingClientRect().height;
                 const ignoreMargin = parseFloat(window.getComputedStyle(ignore).marginBottom) || 0;
-                mele.style.height = `${squareH + infH + linksH + ignoreH + ignoreMargin}px`;
+                mele.style.height = `${squareH + infH + ignoreH + ignoreMargin}px`;
             });
             resorb.observe(square);
             resorb.observe(inf);
-            link_btns.forEach(b => resorb.observe(b));
             resorb.observe(ignore);
             win_obj.resorb = resorb;
 
@@ -2116,7 +2148,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
         else { tit = String(tit); if (!tit.trim()) tit = "终端"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `zd|${tit}|${str}`;
+        let key = `zd|${tit}|${str}|${form}`;
         if (dbmaps[key]) {
             let win = dbmaps[key];
             win.cnt++;
@@ -2284,7 +2316,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     mele.style.animation = "";
                     box.style.backgroundColor = "#22222299";
                 }, { once: true });
-                await warn({ str: "不能输入空字符串。" });
+                await warn({ str: "不能输入空字符串。", form: "brief" });
                 box.focus();
                 return;
             }
@@ -2565,7 +2597,7 @@ async function timer({ str, time, tit, id, realstr = false, form = "dainiv basic
         else if (time < 1250) { warn({ str: "<code>time</code> 的值过小，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须大于等于 1250。"; }
         else if (time > 3.15576e10 * 1.1568) { warn({ str: "<code>time</code> 的值过大，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须小于等于 6.048e10。"; }
 
-        let key = `	timer|${tit}|${str}|${time}`;
+        let key = `timer|${tit}|${str}|${time}|${form}`;
         if (dbmaps[key]) {
             let win = dbmaps[key];
             win.cnt++;
@@ -2646,7 +2678,8 @@ async function timer({ str, time, tit, id, realstr = false, form = "dainiv basic
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+        if (realstr) { txt.textContent = tit; inf.textContent = str; }
+        else { txt.innerHTML = tit; inf.innerHTML = str; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
         dbmaps[key] = win_obj;
@@ -2790,11 +2823,13 @@ async function mb({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     if (form === "brief") {
         return new Promise((resolve) => {
             if (bfmaps[key]) {
-                const old = bfmaps[key];
-                if (old.dom && document.body.contains(old.dom)) {
-                    document.body.removeChild(old.dom);
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
                 }
-                delete bfmaps[key];
             }
 
             const mele = document.createElement("div");
@@ -2849,7 +2884,9 @@ async function mb({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete bfmaps[key];
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
                     resolve();
                 }, { once: true });
             };

@@ -114,23 +114,25 @@ function pickele(v) {
 
         const result = await xz({
             str: "请选择要填入的输入框。",
-            n: prompts.length,
+            n: 1,
             names: prompts,
             tit: "选择目标",
-            id: "pick_target"
+            id: "pick_target",
+            form: "brief",
         });
 
-        if (!result || !result.length) return;
+        if (!result || !result[0]) return;
 
-        result.forEach((selected) => {
-            // 从文本中提取数字：匹配 "输入框 X" 中的 X。
+        for (const selected of result) {
+            if (!selected) continue;
             const match = selected.match(/(\d+)/);
-            if (!match) return;
+            if (!match) continue;
             const idx = parseInt(match[1], 10) - 1;
             if (idx >= 0 && idx < boxes.length) {
                 boxes[idx].value = sele;
+                boxes[idx].focus();
             }
-        });
+        }
 
         // 聚焦到最后一个被填充的框或第一个。
         const lastIdx = result.length > 0 ? parseInt(result[result.length - 1].match(/(\d+)/)[1], 10) - 1 : 0;
@@ -307,7 +309,7 @@ function init_ui() {
             "截图失败怎么办？",
             "CSS 选择器是什么？"
         ];
-        const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助" });
+        const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助", form: "brief" });
         if (!lsxz) return;
         let lsans = "";
         switch (lsxz[0]) {
@@ -329,7 +331,7 @@ function init_ui() {
             default:
                 return;
         }
-        mb({ str: lsans, tit: "解答" });
+        mb({ str: lsans, tit: "解答", form: "brief" });
     };
     scs.onclick = () => {
         screenshot();
@@ -391,8 +393,8 @@ function init_ui() {
             "为什么要灭“蝇”？",
             "举报结果将向谁发送？",
         ];
-        const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助" });
-        if (!lsxz) noti({ str: "无论您是否参与，请您记住，灭“蝇”就是守护生命。" });
+        const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助", form: "brief" });
+        if (!lsxz) noti({ str: "无论您是否参与，请您记住，灭“蝇”就是守护生命。", form: "brief" });
         let lsans = "";
         switch (lsxz[0]) {
             case "“蝇”是什么？":
@@ -407,7 +409,7 @@ function init_ui() {
             default:
                 return;
         }
-        mb({ str: lsans, tit: "解答" });
+        mb({ str: lsans, tit: "解答", form: "brief" });
     };
 
     const fingerprint = document.createElement("btn");
@@ -521,18 +523,14 @@ function init_ui() {
         e.preventDefault();
         let ls_multi = false;
         const qs = [
-            "如何屏蔽？",
             "屏蔽后的效果？",
             "屏蔽后可以在哪里恢复？",
             "我想批量屏蔽。",
         ];
-        const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助" });
+        const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助", form: "brief" });
         if (!lsxz) return;
         let lsans = "";
         switch (lsxz[0]) {
-            case "如何屏蔽？":
-                lsans = "请点击屏蔽按钮，随后选择或手动输入所要屏蔽元素的 CSS 选择器。";
-                break;
             case "屏蔽后的效果？":
                 lsans = "元素被屏蔽后，将从 DOM 中“消失”。但这不代表它被移除，它只是隐藏了。";
                 break;
@@ -549,15 +547,15 @@ function init_ui() {
             let ls_amount = await inp({ str: "请输入要屏蔽元素的数量。" });
             ls_amount = Number(ls_amount)
             if (isNaN(ls_amount)) {
-                fail({ str: "无效输入。请输入纯数字。" });
+                await fail({ str: "无效输入。请输入纯数字。", form: "brief" });
                 return;
             }
             else if (ls_amount <= 0) {
-                fail({ str: "所输入的数字需要大于 0。" });
+                await fail({ str: "所输入的数字需要大于 0。", form: "brief" });
                 return;
 
             } else if (ls_amount % 1 != 0) {
-                fail({ str: "所输入的数字需要为整数。" });
+                await fail({ str: "所输入的数字需要为整数。", form: "brief" });
                 return;
             } else {
                 stringlist = []
@@ -567,7 +565,7 @@ function init_ui() {
                 await blocking(stringlist);
             }
         } else {
-            mb({ str: lsans, tit: "解答" });
+            mb({ str: lsans, tit: "解答", form: "brief" });
         }
     }
 
