@@ -11,7 +11,7 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     else { tit = String(tit); if (!tit.trim()) tit = "通知"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `noti|${tit}|${str}|${form}`;
+    let key = `noti|${str}|${tit}|${id}|${realstr}|${form}`;
 
     // 样式分发。
     if (form === "brief") {
@@ -237,7 +237,7 @@ async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     else { tit = String(tit); if (!tit.trim()) tit = "完成"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `cg|${tit}|${str}|${form}`;
+    let key = `cg|${str}|${tit}|${id}|${realstr}|${form}`;
 
     // 样式分发。
     if (form === "brief") {
@@ -462,7 +462,7 @@ async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     else { tit = String(tit); if (!tit.trim()) tit = "注意"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `warn|${tit}|${str}|${form}`;
+    let key = `warn|${str}|${tit}|${id}|${realstr}|${form}`;
 
     // 样式分发。
     if (form === "brief") {
@@ -685,7 +685,7 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     else { tit = String(tit); if (!tit.trim()) tit = "错误"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `fail|${tit}|${str}|${form}`;
+    let key = `fail|${str}|${tit}|${id}|${realstr}|${form}`;
 
     // 样式分发。
     if (form === "brief") {
@@ -910,13 +910,26 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     else { tit = String(tit); if (!tit.trim()) tit = "输入"; }
     if (id == null || id == undefined) id = "";
 
-    // 多输入时强制走 basic。
-    const use_brief = (form === "brief") && !is_array;
+    // 规范化字段。
+    const fields = prompts.map((p) => {
+        if (typeof p === "string") {
+            return { content: p, type: "textarea", options: null };
+        }
+        return {
+            content: (p && p.content != null) ? String(p.content) : "",
+            type: (p && p.type) ? String(p.type) : "textarea",
+            options: (p && p.options) ? p.options : null
+        };
+    });
 
-    let key = `inp|${tit}|${is_array ? prompts.join("|") : prompts[0]}|${form}`;
+    // brief 只支持单字段。
+    const use_brief = (form === "brief") && fields.length === 1;
+
+    let key = `inp|${JSON.stringify(str)}|${tit}|${id}|${realstr}|${form}`;
 
     // 样式分发。
     if (use_brief) {
+        const field = fields[0];
         return new Promise((resolve) => {
             if (bfmaps[key]) {
                 const old_dom = bfmaps[key].dom;
@@ -932,7 +945,6 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             const icon = document.createElement("img");
             const text = document.createElement("div");
             const txt = document.createElement("div");
-            const box = document.createElement("input");
             const submit = document.createElement("button");
 
             mele.className = "inp-brief-mele";
@@ -942,8 +954,6 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             icon.alt = "";
             text.className = "brief-txt";
             txt.className = "inp-brief-title";
-            box.type = "text";
-            box.className = "inp-brief-box";
             submit.type = "button";
             submit.className = "inp-brief-submit";
             submit.textContent = "提交";
@@ -955,9 +965,27 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             mele.appendChild(icon);
             mele.appendChild(text);
             text.appendChild(txt);
+
+            // 控件。
+            let box;
+            if (field.type === "select") {
+                box = document.createElement("select");
+                box.className = "inp-brief-select";
+                (field.options || []).forEach(opt => {
+                    const o = document.createElement("option");
+                    o.value = String(opt);
+                    o.textContent = String(opt);
+                    box.appendChild(o);
+                });
+            } else {
+                box = document.createElement("input");
+                box.type = "text";
+                box.className = "inp-brief-box";
+            }
             text.appendChild(box);
             text.appendChild(submit);
 
+            // 跟随鼠标 / 边界翻转。
             const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
             const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
             mele.style.left = `${x}px`;
@@ -978,7 +1006,7 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             bfmaps[key] = { dom: mele };
 
             let closed = false;
-            const close = () => {
+            const close = (result) => {
                 if (closed) return;
                 closed = true;
                 mele.style.animation = `out_brief 0.2s forwards ${easing}`;
@@ -987,7 +1015,7 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     if (bfmaps[key] && bfmaps[key].dom === mele) {
                         delete bfmaps[key];
                     }
-                    resolve();
+                    resolve(result);
                 }, { once: true });
             };
 
@@ -996,8 +1024,12 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             box.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     e.preventDefault();
-                    const v = box.value;
-                    close(v.trim() === "" ? null : v);
+                    if (field.type === "select") {
+                        close(box.value);
+                    } else {
+                        const v = box.value;
+                        close(v.trim() === "" ? null : v);
+                    }
                 } else if (e.key === "Escape") {
                     e.preventDefault();
                     close(null);
@@ -1006,8 +1038,12 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
             submit.onclick = (e) => {
                 e.stopPropagation();
-                const v = box.value;
-                close(v.trim() === "" ? null : v);
+                if (field.type === "select") {
+                    close(box.value);
+                } else {
+                    const v = box.value;
+                    close(v.trim() === "" ? null : v);
+                }
             };
         });
     }
@@ -1086,21 +1122,37 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             inf.innerHTML = "";
             const boxes = [];
 
-            prompts.forEach((prompt, index) => {
+            fields.forEach((field, index) => {
+                // 提示文字。
                 const pdiv = document.createElement("div");
+                pdiv.className = "inp-prompt";
                 pdiv.style.marginBottom = "10px";
-                if (realstr) { pdiv.textContent = prompt; } else { pdiv.innerHTML = prompt; }
+                if (realstr) { pdiv.textContent = field.content; }
+                else { pdiv.innerHTML = field.content; }
                 inf.appendChild(pdiv);
 
-                const box = document.createElement("textarea");
-                box.className = "inp-box";
+                // 控件。
+                let box;
+                if (field.type === "select") {
+                    box = document.createElement("select");
+                    box.className = "inp-select";
+                    (field.options || []).forEach(opt => {
+                        const o = document.createElement("option");
+                        o.value = String(opt);
+                        o.textContent = String(opt);
+                        box.appendChild(o);
+                    });
+                } else {
+                    box = document.createElement("textarea");
+                    box.className = "inp-box";
+                }
                 box.style.opacity = 0;
                 box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
                 box.dataset.index = index;
                 inf.appendChild(box);
                 boxes.push(box);
 
-                if (index < prompts.length - 1) {
+                if (index < fields.length - 1) {
                     const line = document.createElement("div");
                     line.className = "inp-line";
                     line.style.margin = "8px 0";
@@ -1140,16 +1192,27 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             square.style.height = square_height;
             inf.style.marginTop = square_height;
 
-            if (boxes.length > 0) {
-                boxes[0].focus();
+            // 聚焦第一个 textarea。
+            for (let i = 0; i < boxes.length; i++) {
+                if (fields[i].type !== "select") {
+                    boxes[i].focus();
+                    break;
+                }
             }
 
+            // 只有 textarea 绑定 Enter 跳转。
             boxes.forEach((box, idx) => {
+                if (fields[idx].type === "select") return;
                 box.addEventListener("keydown", (event) => {
                     if (event.key === "Enter" && !event.shiftKey) {
                         event.preventDefault();
-                        if (idx < boxes.length - 1) {
-                            boxes[idx + 1].focus();
+                        // 找下一个 textarea。
+                        let next = -1;
+                        for (let i = idx + 1; i < boxes.length; i++) {
+                            if (fields[i].type !== "select") { next = i; break; }
+                        }
+                        if (next >= 0) {
+                            boxes[next].focus();
                         } else {
                             submit.focus();
                         }
@@ -1162,9 +1225,18 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     win_obj.resorb.disconnect();
                     win_obj.resorb = null;
                 }
-                let values = boxes.map(b => b.value);
-                if (prompts.length === 1) {
-                    values = values[0].trim() === "" ? null : values[0];
+                let values = boxes.map((b, i) => {
+                    if (fields[i].type === "select") {
+                        return b.value;
+                    }
+                    return b.value;
+                });
+                if (fields.length === 1) {
+                    if (fields[0].type === "select") {
+                        values = values[0];
+                    } else {
+                        values = values[0].trim() === "" ? null : values[0];
+                    }
                 }
 
                 inf.style.opacity = 0;
@@ -1196,7 +1268,7 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     }
 }
 
-async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basic" }) {
+async function xz({ str, tit, names, n, id, realstr = false, form = "dainiv basic" }) {
     if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为 null 或 undefined。"; }
     str = String(str);
     if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为空。"; }
@@ -1204,11 +1276,12 @@ async function xz({ str, n, names, tit, id, realstr = false, form = "dainiv basi
     else { tit = String(tit); if (!tit.trim()) tit = "选择"; }
     if (id == null || id == undefined) id = "";
     if (n > names.length) { fail({ str: "所给予的选项数量不足！" }); return; }
+    if (typeof names === "string" || typeof names === "number" || typeof names === "boolean" || typeof names === "bigint") { names = [String(names)]; }
 
     // 多选时强制走 Dainiv Basic。
     const use_brief = (form === "brief") && n === 1;
 
-    let key = `xz|${tit}|${str}|${JSON.stringify(names)}|${form}`;
+    let key = `xz|${str}|${tit}|${JSON.stringify(names)}:${n}|${id}|${realstr}|${form}`;
 
     // 样式分发。
     if (use_brief) {
@@ -1554,7 +1627,7 @@ async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) 
     else { tit = String(tit); if (!tit.trim()) tit = "同步"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `synchr|${tit}|${str}|${form}`;
+    let key = `synchr|${str}|${tit}|${id}|${realstr}|${form}`;
 
     if (dbmaps[key]) {
         let win = dbmaps[key];
@@ -1661,6 +1734,8 @@ async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) 
         icon.style.opacity = 1;
         txt.style.opacity = 1;
         count.style.opacity = 1;
+        bar.style.opacity = 1;
+        desc.style.opacity = 1;
         mele.style.width = "30ch";
         mele.style.left = "calc(50% - 15ch)";
         mele.style.right = "calc(50% + 15ch)";
@@ -1694,6 +1769,8 @@ async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) 
         icon.style.opacity = 0;
         txt.style.opacity = 0;
         count.style.opacity = 0;
+        bar.style.opacity = 0;
+        desc.style.opacity = 0;
         mele.style.height = "0px";
         inf.addEventListener("transitionend", () => {
             square.style.height = "35px";
@@ -1708,7 +1785,7 @@ async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) 
     win_obj.timeout_id = tid;
 }
 
-async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" }) {
+async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" }) {
     // 参数检查。
     if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 Lj() 函数中，str 不能为 null 或 undefined。"; }
     if (url == null || url == undefined) { warn({ str: "无法跳转至 null 或 undefined。" }); return "在 Lj() 函数中，url 参数不能为 null 或 undefined。"; }
@@ -1725,7 +1802,7 @@ async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" })
     } else { tit = String(tit); if (!tit.trim()) tit = "链接"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `lj|${tit}|${str}|${form}|${JSON.stringify(urls)}`;
+    let key = `lj|${str}|${tit}|${JSON.stringify(urls)}|${id}|${realstr}|${form}`;
     
     // 样式分发，
     if (form === "brief") {
@@ -1978,7 +2055,6 @@ async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" })
             ignore.onmouseover = () => { ld(ignore, "75%"); };
             ignore.onmouseleave = () => { ld(ignore, "100%"); };
             ignore.onclick = () => {
-                rz("已忽略该链接。");
                 close_win(null);
             };
         });
@@ -1986,48 +2062,72 @@ async function lj({ str, url, tit, id, realstr = false, form = "dainiv basic" })
 }
 
 async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
-    function errorres(error, input) { // 处理错误。
-        const msg = error.message;
-        const name = error.name;
+    function errorres(error, input) {
+        // 提取 msg 和 name。
+        const msg = String(error && error.message ? error.message : error);
+        const name = String(error && error.name ? error.name : "Error");
+        const code = (input == null) ? "" : String(input);
 
-        // ReferenceError。
-        if (name === "ReferenceError") {
-            if (msg.includes(" is not defined")) {
-                let var_name = msg.split(" is not defined")[0].trim();
-                return `引用了未定义的变量或函数 “<code class="var">${var_name}</code>”。`;
-            }
-            if (msg.includes("Cannot access")) {
-                let var_name = msg.split("'")[1] || "变量";
-                return `无法在初始化前访问 “<code class="var">${var_name}</code>”。`;
-            }
-            return `引用错误：“<code class="err">${msg}</code>”。`;
+        // 从消息里提取片段，转义。
+        function grab(pattern) {
+            const m = msg.match(pattern);
+            return m && m[1] != null ? esc_str(m[1]) : null;
         }
 
-        // SyntaxError。
+        // 0. ReferenceError
+        if (name === "ReferenceError") {
+            if (msg.includes(" is not defined")) {
+                const v = grab(/(.+) is not defined/);
+                return `引用了未定义的变量或函数 “<code class="var">${v || "?"}</code>”。`;
+            }
+            if (msg.includes("Cannot access")) {
+                const v = grab(/Cannot access '(.+?)'/);
+                return `无法在初始化前访问 “<code class="var">${v || "变量"}</code>”。`;
+            }
+            return `引用错误：“<code class="err">${esc_str(msg)}</code>”。`;
+        }
+
+        // 1. SyntaxError
         if (name === "SyntaxError") {
             if (msg.includes("Missing initializer in const declaration")) {
                 return `<code class="key">const</code> 常量没有设置初始化值。`;
             }
-            if (msg.includes(" has already been declared")) {
-                let var_name = msg.split("Identifier '")[1]?.split("'")[0] || "未知";
-                return `标识符 “<code class="var">${var_name}</code>” 已经声明过。`;
+            if (msg.includes("has already been declared")) {
+                const v = grab(/Identifier '(.+?)'/);
+                return `标识符 “<code class="var">${v || "未知"}</code>” 已经声明过。`;
             }
             if (msg.includes("Unexpected token")) {
-                // 提取具体的非法符号
-                let token = msg.split("Unexpected token '")[1]?.split("'")[0] || msg.split("Unexpected token")[1]?.trim() || "非法符号";
+                let token = "";
+                if (msg.includes("Unexpected token '")) {
+                    token = msg.split("Unexpected token '")[1]?.split("'")[0] || "";
+                } else {
+                    token = msg.split("Unexpected token")[1]?.trim() || "";
+                }
                 if (token === "end of input") return "意外代码结束，输入不完整。";
-                return `意外符号 “<code class="token">${token}</code>”。`;
+                return `意外符号 “<code class="token">${esc_str(token) || "?"}</code>”。`;
             }
             if (msg.includes("Unexpected identifier")) {
-                let token = msg.split("Unexpected identifier '")[1]?.split("'")[0] || "";
-                return `“<code class="token">${token}</code>” 不是有效的标识符。`;
+                const v = grab(/Unexpected identifier '(.+?)'/);
+                return `“<code class="token">${v || "?"}</code>” 不是有效的标识符。`;
             }
             if (msg.includes("Unexpected end of input")) {
                 return "缺少必要的符号。";
             }
             if (msg.includes("Invalid or unexpected token")) {
-                if (input.includes("\\")) return `无效转义字符 “<code class="token">\\</code>”。`;
-                if (input.includes("`")) return "模板字符串中可能缺少闭合反引号。";
+                // 检查引号对称。
+                let dq = 0, sq = 0, bq = 0;
+                let esc = false;
+                for (let i = 0; i < code.length; i++) {
+                    const c = code[i];
+                    if (esc) { esc = false; continue; }
+                    if (c === "\\") { esc = true; continue; }
+                    if (c === '"') dq++;
+                    else if (c === "'") sq++;
+                    else if (c === "`") bq++;
+                }
+                if (bq % 2 === 1) return "模板字符串中可能缺少闭合反引号。";
+                if (dq % 2 === 1 || sq % 2 === 1) return "字符串缺少结束引号。";
+                if (code.includes("\\")) return `无效转义字符 "\\"。`;
                 return "无效标识符或意外符号。";
             }
             if (msg.includes("Invalid left-hand side in assignment")) {
@@ -2040,38 +2140,36 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 return `<code class="key">return</code> 语句在函数外部无效。`;
             }
             if (msg.includes("Cannot read properties of")) {
-                let parts = msg.split("Cannot read properties of ")[1];
-                let val = parts.includes("null") ? "null" : "undefined";
-                let prop = parts.split("(reading '")[1]?.split("')")[0] || "未知属性";
-                return `无法读取 “<code>${prop}</code>” 的属性，其值为 “<code>${val}</code>”。`;
+                const parts = msg.split("Cannot read properties of ")[1] || "";
+                const val = parts.includes("null") ? "null" : "undefined";
+                const prop = grab(/\(reading '(.+?)'\)/);
+                return `无法读取 “<code class="var">${prop || "未知属性"}</code>” 的属性，其值为 “<code class="token">${val}</code>”。`;
             }
             if (msg.includes("Cannot set properties of")) {
-                let parts = msg.split("Cannot set properties of ")[1];
-                let val = parts.includes("null") ? "null" : "undefined";
-                return `无法设置属性，其值为 “<code>${val}</code>”。`;
+                const parts = msg.split("Cannot set properties of ")[1] || "";
+                const val = parts.includes("null") ? "null" : "undefined";
+                return `无法设置属性，其值为 “<code class="token">${val}</code>”。`;
             }
-            if (msg.includes(" is not a function")) {
-                let fn_name = msg.split(" is not a function")[0];
-                return `“<code class="token">${fn_name}</code>” 不是函数。`;
+            if (msg.includes("is not a function")) {
+                const v = grab(/(.+) is not a function/);
+                return `“<code class="token">${v || "?"}</code>” 不是函数。`;
             }
             if (msg.includes("Missing ) after argument list")) {
                 return `参数列表缺少闭合括号 “<code class="token">)</code>”。`;
             }
             if (msg.includes("Missing } after function body")) {
-                return `函数体缺少闭合花括号 “<code class="token">}</code>”。`
-            } "。";
-        }
-        if (msg.includes("Missing formal parameter")) {
-            return "箭头函数或函数声明中缺少形参。";
-        }
-        if (msg.includes("Unterminated string literal")) {
-            return "字符串缺少结束引号。";
-        }
-        else {
-            return `语法错误：“<code class="err">${msg}</code>”。`;
+                return `函数体缺少闭合花括号 “<code class="token">}</code>”。`;
+            }
+            if (msg.includes("Missing formal parameter")) {
+                return "箭头函数或函数声明中缺少形参。";
+            }
+            if (msg.includes("Unterminated string literal")) {
+                return "字符串缺少结束引号。";
+            }
+            return `语法错误：“<code class="err">${esc_str(msg)}</code>”。`;
         }
 
-        // TypeError。
+        // 2. TypeError
         if (name === "TypeError") {
             if (msg.includes("Assignment to constant variable")) {
                 return `<code class="key">const</code> 常量不可重新赋值。`;
@@ -2079,32 +2177,50 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             if (msg.includes("Cannot assign to read only property")) {
                 return "无法为只读属性赋值。";
             }
-            if (msg.includes("is not a function")) {
-                let var_name = msg.split(" is not a function")[0].trim();
-                return `“<code class="var">${var_name}</code>” 不是函数。`;
+            if (msg.includes("Cannot redefine property")) {
+                const v = grab(/Cannot redefine property: (.+)/);
+                return `无法重新定义属性 “<code class="var">${v || "?"}</code>”。`;
             }
-            if (msg.includes("is not iterable")) {
-                let var_name = msg.split(" is not iterable")[0].trim();
-                return `“<code class="var">${var_name}</code>” 不可迭代。`;
+            if (msg.includes("Cannot read private member")) {
+                const v = grab(/Cannot read private member #(.+?) /);
+                return `无法读取私有字段 “<code class="var">#${v || "?"}</code>”。`;
             }
             if (msg.includes("Cannot read properties of")) {
-                let parts = msg.split("Cannot read properties of ")[1];
-                let val = parts.includes("null") ? "null" : "undefined";
-                let prop = parts.split("(reading '")[1]?.split("')")[0] || "未知属性";
-                return `无法读取 “<code>${prop}</code>” 的属性，其值为 “<code>${val}</code>”。`;
+                const parts = msg.split("Cannot read properties of ")[1] || "";
+                const val = parts.includes("null") ? "null" : "undefined";
+                const prop = grab(/\(reading '(.+?)'\)/);
+                return `无法读取 “<code class="var">${prop || "未知属性"}</code>” 的属性，其值为 “<code class="${val === "undefined" || val === "null" ? "nu" : "token"}">${val}</code>”。`;
             }
             if (msg.includes("Cannot set properties of")) {
-                let parts = msg.split("Cannot set properties of ")[1];
-                let val = parts.includes("null") ? "null" : "undefined";
-                return `无法设置属性，其值为 “<code>${val}</code>”。`;
+                const parts = msg.split("Cannot set properties of ")[1] || "";
+                const val = parts.includes("null") ? "null" : "undefined";
+                return `无法设置属性，其值为 “<code class="${val === "undefined" || val === "null" ? "nu" : "token"}">${val}</code>”。`;
             }
-            if (msg.includes("cannot be used as a constructor")) {
-                let var_name = msg.split(" is not a constructor")[0].trim();
-                return `“<code class="var">${var_name}</code>” 不能作为构造函数使用。`;
+            if (msg.includes("Cannot convert undefined or null to object")) {
+                return "无法将 undefined 或 null 转换为对象。";
+            }
+            if (msg.includes("Cannot use 'in' operator")) {
+                return `无法在非对象上使用 <code class="key">in</code> 运算符。`;
+            }
+            if (msg.includes("Cannot delete property")) {
+                const v = grab(/Cannot delete property '(.+?)'/);
+                return `无法删除属性 “<code class="var">${v || "?"}</code>”。`;
+            }
+            if (msg.includes("is not a function")) {
+                const v = grab(/(.+?) is not a function/);
+                return `“<code class="var">${v || "?"}</code>” 不是函数。`;
+            }
+            if (msg.includes("is not iterable")) {
+                const v = grab(/(.+) is not iterable/);
+                return `“<code class="var">${v || "?"}</code>” 不可迭代。`;
+            }
+            if (msg.includes("is not a constructor")) {
+                const v = grab(/(.+?) is not a constructor/);
+                return `“<code class="var">${v || "?"}</code>” 不能作为构造函数使用。`;
             }
             if (msg.includes("Cannot destructure property")) {
-                let prop = msg.split("Cannot destructure property '")[1]?.split("'")[0] || "";
-                return `解构赋值失败，无法从 <code class="nu">undefined</code> 或 <code class="nu">null</code> 中读取 “<code>${prop}</code>”。`;
+                const prop = grab(/Cannot destructure property '(.+?)'/);
+                return `解构赋值失败，无法从 <code class="nu">undefined</code> 或 <code class="nu">null</code> 中读取 “<code>${prop || "?"}</code>”。`;
             }
             if (msg.includes("Invalid array length")) {
                 return "数组长度无效。";
@@ -2112,13 +2228,13 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             if (msg.includes("Cyclic object value")) {
                 return "循环引用的对象值无法序列化。";
             }
-            return `类型错误：“<code class="err">${msg}</code>”。`;
+            return `类型错误：“<code class="err">${esc_str(msg)}</code>”。`;
         }
 
-        // 4. 范围错误 (RangeError) 
+        // 3. RangeError
         if (name === "RangeError") {
             if (msg.includes("Maximum call stack size exceeded")) {
-                return "超出最大调用栈大小。";
+                return "超出最大调用栈大小（递归过深或循环调用）。";
             }
             if (msg.includes("Invalid date")) {
                 return "日期格式无效。";
@@ -2126,18 +2242,24 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             if (msg.includes("Precision is out of range")) {
                 return "数字精度超出范围。";
             }
-            return `范围错误：“<code class="err">${msg}</code>”。`;
+            if (msg.includes("Invalid array length")) {
+                return "数组长度无效。";
+            }
+            return `范围错误：“<code class="err">${esc_str(msg)}</code>”。`;
         }
 
-        // 5. 其他错误（EvalError, URIError 等）
+        // 4. URIError
         if (name === "URIError") {
-            return `URI 格式错误：“<code class="err">${msg}</code>”。`;
-        }
-        if (name === "EvalError") {
-            return `Eval 安全错误：“<code class="err">${msg}</code>”。`;
+            return `URI 格式错误：“<code class="err">${esc_str(msg)}</code>”。`;
         }
 
-        return `意外 <code class="une">${error.name}</code> 错误：“<code class="err">${error.message}</code>”。`;
+        // 5. EvalError
+        if (name === "EvalError") {
+            return `Eval 安全错误：“<code class="err">${esc_str(msg)}</code>”。`;
+        }
+
+        // 6. 其他错误。
+        return `意外 <code class="une">${esc_str(name)}</code> 错误：“<code class="err">${esc_str(msg)}</code>”。`;
     }
 
     return new Promise((resolve) => {
@@ -2148,7 +2270,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
         else { tit = String(tit); if (!tit.trim()) tit = "终端"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `zd|${tit}|${str}|${form}`;
+        let key = `zd|${str}|${tit}|${id}|${realstr}|${form}`;
         if (dbmaps[key]) {
             let win = dbmaps[key];
             win.cnt++;
@@ -2597,7 +2719,7 @@ async function timer({ str, time, tit, id, realstr = false, form = "dainiv basic
         else if (time < 1250) { warn({ str: "<code>time</code> 的值过小，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须大于等于 1250。"; }
         else if (time > 3.15576e10 * 1.1568) { warn({ str: "<code>time</code> 的值过大，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须小于等于 6.048e10。"; }
 
-        let key = `timer|${tit}|${str}|${time}|${form}`;
+        let key = `timer|${str}|${tit}|${id}|${realstr}|${form}`;
         if (dbmaps[key]) {
             let win = dbmaps[key];
             win.cnt++;
@@ -2817,7 +2939,7 @@ async function mb({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     else { tit = String(tit); if (!tit.trim()) tit = "面板"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `mb|${tit}|${str}|${form}`;
+    let key = `mb|${str}|${tit}|${id}|${realstr}|${form}`;
 
     // 样式分发。
     if (form === "brief") {

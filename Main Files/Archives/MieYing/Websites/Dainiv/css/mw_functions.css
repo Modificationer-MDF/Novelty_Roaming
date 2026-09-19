@@ -63,6 +63,7 @@
     --inp-placeholder-color: #ffffff99;
     --inp-border: 5px solid #183450c9;
     --inp-shadow: 0px 3px 7px #4a5568;
+    --inp-option-color: #008bd1b0;
     --inp-brief-tit-color: #8fc4ff;
     /* xz() */
     --xz-mele-color: #3b2f7a99;
@@ -396,11 +397,9 @@
 }
 
 .inp-prompt {
-    font-size: 18px;
-    color: var(--inp-prompt-color);
-    text-align: left;
-    padding: 0 4px;
-    margin-bottom: 4px;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .inp-line {
@@ -410,6 +409,44 @@
 .inp-submit {
     background-color: var(--inp-submit-color);
 }
+
+.inp-select,
+.inp-brief-select {
+    border: none;
+    outline: none;
+    font-size: var(--btn-font-size);
+    font-family: "hf";
+    color: white;
+    background-color: var(--inp-box-color);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 0 36px 0 14px;
+    background-image: linear-gradient(45deg, transparent 50%, white 50%), linear-gradient(135deg, white 50%, transparent 50%);
+    background-position: calc(100% - 20px) center, calc(100% - 14px) center;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+}
+
+.inp-select {
+    width: 100%;
+    height: var(--btn-height);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.inp-brief-select {
+    margin-top: 4px;
+    min-width: 24ch;
+    height: 36px;
+}
+
+    .inp-select option,
+    .inp-brief-select option {
+        background-color: var(--inp-option-color);
+        color: #ffffff;
+        font-family: "hf";
+    }
 
 /* xz() */
 
