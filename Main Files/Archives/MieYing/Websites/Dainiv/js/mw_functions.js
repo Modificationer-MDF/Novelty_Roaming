@@ -1845,7 +1845,7 @@ async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" })
             text.appendChild(links);
 
             let closed = false;
-            const close = () => {
+            const close = (result) => {
                 if (closed) return;
                 closed = true;
                 document.removeEventListener("mousedown", outside_handler);
@@ -1855,7 +1855,7 @@ async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" })
                     if (bfmaps[key] && bfmaps[key].dom === mele) {
                         delete bfmaps[key];
                     }
-                    resolve();
+                    resolve(result);
                 }, { once: true });
             };
 
@@ -2703,7 +2703,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     });
 }
 
-async function timer({ str, time, tit, id, realstr = false, form = "dainiv basic" }) {
+async function timer({ str, tit, time, id, realstr = false, form = "dainiv basic" }) {
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
@@ -2719,7 +2719,7 @@ async function timer({ str, time, tit, id, realstr = false, form = "dainiv basic
         else if (time < 1250) { warn({ str: "<code>time</code> 的值过小，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须大于等于 1250。"; }
         else if (time > 3.15576e10 * 1.1568) { warn({ str: "<code>time</code> 的值过大，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须小于等于 6.048e10。"; }
 
-        let key = `timer|${str}|${tit}|${id}|${realstr}|${form}`;
+        let key = `timer|${str}|${tit}|${time}|${id}|${realstr}|${form}`;
         if (dbmaps[key]) {
             let win = dbmaps[key];
             win.cnt++;
