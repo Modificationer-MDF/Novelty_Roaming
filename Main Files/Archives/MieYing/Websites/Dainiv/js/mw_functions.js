@@ -3270,7 +3270,12 @@ async function rz(str, time, realstr = false) {
         mele.addEventListener("contextmenu", async (e) => {
             e.preventDefault();
             if (timeup) return;
-            damnclose();
+            else {
+                let ls_rs = await xz({ str: "关闭此窗口？", names: ["是。", "否。"], n: 1, form: "brief" });
+                if (ls_rs[0] === "是。") {
+                    damnclose();
+                }
+            }
         });
 
         setInterval(() => {

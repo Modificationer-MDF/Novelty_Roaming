@@ -383,11 +383,12 @@ function init_ui() {
     reportying.innerHTML = "举报“蝇”信息";
     reportying.onclick = async () => {
         if (ofscrt) pickele("rying");
-        let ls_1 = await inp({ str: "在此输入对应“蝇”信息的 CSS 选择器。", tit: "输入", id: "rying" });
+        let ls_1 = await inp({ str: "在此输入对应“蝇”信息的 CSS 选择器。", id: "rying" });
         try {
+            finishpick();
             let ying = document.querySelector(ls_1);
             let con = await conf({
-                string: `
+                str: `
             该元素内容已显示在分隔线下方。请确认。
             <div class="line1"></div>
             ${ying.textContent}`
@@ -399,6 +400,8 @@ function init_ui() {
             }
         } catch (e) {
             fail({ str: `报错：<code class="err">${e}</code>` });
+        } finally {
+            finishpick();
         }
     };
     reportying.oncontextmenu = async (e) => {
@@ -626,7 +629,7 @@ function init_ui() {
     escrs.classList.add("on");
     escrs.innerHTML = "启用";
     escrs.onclick = () => {
-        inf({ str: "已启用元素捕获工具！" });
+        inf({ str: `已<strong style="background-color: #008e00">启用</strong>元素捕获工具！` });
         ofscrt = true;
     };
     const dscrs = document.createElement("btn");
