@@ -182,15 +182,15 @@ function mactive(id) {
 
 function notify(str, tit) {
     if (str === undefined || str === null) {
-        fail("str 不可为 null 或 undefined。");
+        fail({ str: `<code>str</code> 不可为 <code class="nu">null</code> 或 <code class="nu">undefined</code>。` });
         return;
     }
     if (tit === undefined || tit === null) {
-        fail("tit 不可为 null 或 undefined。");
+        fail({ str: `<code>tit</code> 不可为 <code class="nu">null</code> 或 <code class="nu">undefined</code>。` });
         return;
     }
     if (!("Notification" in window)) {
-        warn("当前浏览器不支持桌面通知。");
+        warn({ str: "当前浏览器不支持桌面通知。" });
         return;
     }
     if (Notification.permission === "granted") {
@@ -204,7 +204,7 @@ function notify(str, tit) {
                     body: str,
                 });
             } else {
-                fail("通知权限被拒绝。");
+                fail({ str: "通知权限被拒绝。" });
                 return;
             }
         });

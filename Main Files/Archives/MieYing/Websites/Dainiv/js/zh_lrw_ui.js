@@ -106,7 +106,7 @@ function pickele(v) {
             const prev = box.previousElementSibling;
             const idx = parseInt(box.dataset.index, 10) + 1;
             if (prev && prev.classList.contains("inp-prompt")) {
-                prompts.push(prev.textContent.trim() || `输入框 ${idx}`);
+                prompts.push(`“${prev.textContent.trim()}”` || `输入框 ${idx}`);
             } else {
                 prompts.push(`输入框 ${idx}`);
             }
@@ -135,9 +135,20 @@ function pickele(v) {
         }
 
         // 聚焦到最后一个被填充的框或第一个。
-        const lastIdx = result.length > 0 ? parseInt(result[result.length - 1].match(/(\d+)/)[1], 10) - 1 : 0;
-        if (lastIdx >= 0 && lastIdx < boxes.length) {
-            boxes[lastIdx].focus();
+        let last_idx = 0;
+        if (result && result.length > 0) {
+            const last_item = result[result.length - 1];
+            if (last_item) {
+                const match = String(last_item).match(/(\d+)/);
+                if (match) {
+                    last_idx = parseInt(match[1], 10) - 1;
+                }
+            }
+        }
+
+        if (last_idx >= 0 && last_idx < boxes.length) {
+            boxes[last_idx].focus();
+            boxes[last_idx].value = sele;
         }
     };
 
@@ -235,6 +246,8 @@ function screenshot() {
             } catch (err) {
                 caut({ str: `刚才，尝试截图时发生了错误，以下是详细信息：<code style="err">“${err}”</code>。` });
                 canvas.toDataURL();
+            } finally {
+                finishpick();
             }
         } catch (err) {
             if (err.message && err.message.includes("Failed to execute 'toBlob' on 'HTMLCanvasElement'")) {
@@ -264,6 +277,8 @@ function screenshot() {
                 fail({ str: `截图时发生错误：<code style="err">${err.message || err}</code>` });
             }
             console.error(`发生错误：${err}。`);
+        } finally {
+            finishpick();
         }
     }
 }
@@ -471,7 +486,6 @@ function init_ui() {
             const newelem = document.querySelectorAll(sel);
             if (!newelem || newelem.length === 0) {
                 err({ str: "未找到元素。" });
-                finishpick();
                 return;
             }
 
@@ -517,15 +531,32 @@ function init_ui() {
     block.classList.add("block");
     block.innerHTML = "屏蔽";
     block.onclick = async () => {
-        blocking("请输入要屏蔽元素的 CSS 选择器。");
+        let ls_amount = await inp({ str: "请输入要屏蔽元素的数量。", form: "brief" });
+        ls_amount = Number(ls_amount)
+        if (isNaN(ls_amount)) {
+            await fail({ str: "无效输入。请输入纯数字。", form: "brief" });
+            return;
+        }
+        else if (ls_amount <= 0) {
+            await fail({ str: "所输入的数字需要大于 0。", form: "brief" });
+            return;
+
+        } else if (ls_amount % 1 != 0) {
+            await fail({ str: "所输入的数字需要为整数。", form: "brief" });
+            return;
+        } else {
+            stringlist = []
+            for (let i = 1; i <= ls_amount; i++) {
+                stringlist.push(`请输入第 ${i} 个元素的 CSS 选择器。`);
+            }
+            await blocking(stringlist);
+        }
     };
     block.oncontextmenu = async (e) => {
         e.preventDefault();
-        let ls_multi = false;
         const qs = [
             "屏蔽后的效果？",
             "屏蔽后可以在哪里恢复？",
-            "我想批量屏蔽。",
         ];
         const lsxz = await xz({ str: "请选择你需要了解的问题。", n: 1, names: qs, tit: "帮助", form: "brief" });
         if (!lsxz) return;
@@ -537,36 +568,10 @@ function init_ui() {
             case "屏蔽后可以在哪里恢复？":
                 lsans = "请将鼠标滑动到网页的右上角以访问“屏蔽管理”。在那里可以恢复被屏蔽的元素。";
                 break;
-            case "我想批量屏蔽。":
-                ls_multi = true;
-                break;
             default:
                 return;
         }
-        if (ls_multi) {
-            let ls_amount = await inp({ str: "请输入要屏蔽元素的数量。" });
-            ls_amount = Number(ls_amount)
-            if (isNaN(ls_amount)) {
-                await fail({ str: "无效输入。请输入纯数字。", form: "brief" });
-                return;
-            }
-            else if (ls_amount <= 0) {
-                await fail({ str: "所输入的数字需要大于 0。", form: "brief" });
-                return;
-
-            } else if (ls_amount % 1 != 0) {
-                await fail({ str: "所输入的数字需要为整数。", form: "brief" });
-                return;
-            } else {
-                stringlist = []
-                for (let i = 1; i <= ls_amount; i++) {
-                    stringlist.push(`请输入第 ${i} 个元素的 CSS 选择器。`);
-                }
-                await blocking(stringlist);
-            }
-        } else {
-            mb({ str: lsans, tit: "解答", form: "brief" });
-        }
+        mb({ str: lsans, tit: "解答", form: "brief" });
     }
 
     const ter = document.createElement("btn");
@@ -712,7 +717,7 @@ function init_ui() {
                 setTimeout(() => {
                     dom.style.opacity = 1;
                     dom.style.transform = "translateY(25px)";
-                }, idx * 70);
+                }, idx * 40);
             });
         } else {
             ra1doms.forEach(dom => {
@@ -787,11 +792,11 @@ function lw_anim(stat) {
     const tl2 = document.getElementById("tl2");
 
     if (stat === "in") {
-        larea1.style.transition = `all 0.6s ${easing}`;
-        larea2.style.transition = `all 0.6s ${easing}`;
-        lw.style.animation = `in_lw 0.6s forwards ${easing}`;
+        larea1.style.transition = `all 0.8s ${easing}`;
+        larea2.style.transition = `all 0.8s ${easing}`;
+        lw.style.animation = `in_lw 0.8s forwards ${easing}`;
         setTimeout(() => {
-            lf1.style.animation = `in_lf 0.6s forwards ${easing}`;
+            lf1.style.animation = `in_lf 0.8s forwards ${easing}`;
             lf1i.style.left = `503px`;
             setTimeout(() => {
                 let la1 = tl1.getBoundingClientRect().height + Number(getComputedStyle(larea1).top.replace("px", "")) + 10;
@@ -804,11 +809,11 @@ function lw_anim(stat) {
                     setTimeout(() => {
                         dom.style.opacity = 1;
                         dom.style.left = "0px";
-                    }, idx * 70);
+                    }, idx * 40);
                 });
 
                 setTimeout(() => {
-                    lf2.style.animation = `in_lf 0.6s forwards ${easing}`;
+                    lf2.style.animation = `in_lf 0.8s forwards ${easing}`;
                     lf2i.style.left = `503px`;
                     setTimeout(() => {
                         let la2 = tl2.getBoundingClientRect().height + Number(getComputedStyle(larea2).top.replace("px", "")) + 10;
@@ -821,7 +826,7 @@ function lw_anim(stat) {
                             setTimeout(() => {
                                 dom.style.opacity = 1;
                                 dom.style.left = "0px";
-                            }, idx * 70);
+                            }, idx * 40);
                         });
                     }, 100);
                 }, 100);
@@ -832,26 +837,29 @@ function lw_anim(stat) {
             lw_moved = true;
         }, { once: true });
     } else if (stat === "out") {
-        lw.style.animation = `out_lw 0.6s forwards ${fasing}`;
-        larea1.style.transition = "all 0.6s cubic-bezier(0.33, 1, 0.68, 1)";
+        lw.style.animation = `out_lw 0.8s forwards ${fasing}`;
+        larea1.style.transition = "all 0.8s cubic-bezier(0.33, 1, 0.68, 1)";
         setTimeout(() => {
-            lf1.style.animation = `out_lf 0.6s forwards ${easing}`;
+            lf1.style.animation = `out_lf 0.8s forwards ${easing}`;
             lf1i.style.left = "-20px";
-            lf2.style.animation = `out_lf 0.6s forwards ${easing}`;
+            lf2.style.animation = `out_lf 0.8s forwards ${easing}`;
             lf2i.style.left = "-20px";
-            setTimeout(() => {
-                la1doms.forEach(dom => {
-                    dom.style.opacity = 0;
-                    dom.style.left = "-100%";
-                });
-                larea1.style.height = 0;
 
-                la2doms.forEach(dom => {
+            la1doms.forEach((dom, idx) => {
+                setTimeout(() => {
                     dom.style.opacity = 0;
                     dom.style.left = "-100%";
-                });
-                larea2.style.height = 0;
-            }, 100);
+                }, 40 * idx);
+            });
+            larea1.style.height = 0;
+
+            la2doms.forEach((dom, idx) => {
+                setTimeout(() => {
+                    dom.style.opacity = 0;
+                    dom.style.left = "-100%";
+                }, 40 * idx);
+            });
+            larea2.style.height = 0;
         }, 100);
 
         lw.addEventListener("animationend", function () {
@@ -865,10 +873,10 @@ function rw_anim(stat) {
     const rf1 = document.querySelector(".rf1");
 
     if (stat === "in") {
-        rw.style.animation = `in_rw 0.6s forwards ${easing}`;
+        rw.style.animation = `in_rw 0.8s forwards ${easing}`;
 
         setTimeout(() => {
-            rf1.style.animation = `in_rf 0.6s forwards ${easing}`;
+            rf1.style.animation = `in_rf 0.8s forwards ${easing}`;
             setTimeout(() => {
                 if (ra1doms.length > 0) {
                     ra1doms.forEach((dom, idx) => {
@@ -876,7 +884,7 @@ function rw_anim(stat) {
                         setTimeout(() => {
                             dom.style.opacity = 1;
                             dom.style.transform = "translateY(20px)";
-                        }, idx * 70);
+                        }, idx * 40);
                     });
                 }
             }, 100);
@@ -886,17 +894,17 @@ function rw_anim(stat) {
             rw_moved = true;
         }, { once: true });
     } else if (stat === "out") {
-        rw.style.animation = `out_rw 0.6s forwards ${fasing}`;
+        rw.style.animation = `out_rw 0.8s forwards ${fasing}`;
 
         setTimeout(() => {
-            rf1.style.animation = `out_rf 0.6s forwards ${easing}`;
-            setTimeout(() => {
-                ra1doms.forEach(dom => {
+            rf1.style.animation = `out_rf 0.8s forwards ${easing}`;
+            ra1doms.forEach((dom, idx) => {
+                setTimeout(() => {
                     dom.style.opacity = 0;
                     dom.style.right = "-100%";
                     dom.style.transform = "translateY(0)";
-                });
-            }, 100);
+                }, idx * 40);
+            });
         }, 100);
 
         rw.addEventListener("animationend", function () {

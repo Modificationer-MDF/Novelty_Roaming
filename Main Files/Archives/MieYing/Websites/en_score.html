@@ -1,6 +1,6 @@
 <!-- Mosha Huyan, under CC BY-NC-SA 4.0, 2026. -->
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Score Inquiry</title>
@@ -1737,14 +1737,14 @@
             msc.style.cursor = "pointer";
             msc.onclick = async () => {
                 if (verified) return;
-                let submit_code = await inp("Enter candidate number", "Confirming");
+                let submit_code = await inp({ str: "Enter candidate number", tit: "Confirming" });
                 if (submit_code === candnum[current_ord]) {
                     s_highscore(current_ord);
                     msc.innerHTML = "Moshariny Combination";
                     msc.style.color = "#87f5a5";
                     msc.onclick = null;
                 } else {
-                    await fail("The candidate number does NOT match.");
+                    await fail({ str: "The candidate number does NOT match." });
                 }
             };
         }
@@ -1817,14 +1817,14 @@
 
             const ordinp = document.getElementById("ordinp");
             ordinp.onclick = async () => {
-                let user_ord = await inp("Enter the examinee's number.");
+                let user_ord = await inp({ str: "Enter the examinee's number." });
                 if (!user_ord) return;
                 if ((!user_ord.startsWith("jh_") && !user_ord.startsWith("sh_"))) {
-                    await fail("The number must start with jh_ or sh_. Enter again.");
+                    await fail({ str: "The number must start with jh_ or sh_. Enter again." });
                     return;
                 }
                 if (!c_s[user_ord]) {
-                    await fail("The number does NOT exist. Enter again after checking.");
+                    await fail({ str: "The number does NOT exist. Enter again after checking." });
                     return;
                 }
                 await init(user_ord);

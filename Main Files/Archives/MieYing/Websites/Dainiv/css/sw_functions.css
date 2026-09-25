@@ -35,6 +35,16 @@
     }
 }
 
+@keyframes rfn_prog {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
 .inf-mele, .suc-mele, .err-mele, .caut-mele, .conf-mele {
     transition: all 0.3s ease;
     z-index: 100;

@@ -5,7 +5,7 @@ Greetings. \
 > Now FO is V. 1.4.2.5.
 
 Here are some notices you must notice.	
-1. Developers: Notification Withdrawer, pjb and other members in FO-Dev team.
+1. Developers: Notification Withdrawer, Sya and other members in FO-Dev team.
 2. Use it appropriately.
 3. If you're new from Harmony Fashion, you have to get used to the environment here.
 4. Rapid feedback is quite important.
@@ -31,4 +31,4 @@ As an OS-Tester, if you meet any problems, better feedback in 1 hour. \
 Please use it appropriately.
 
 Notification Withdrawer \
-3991.7/11
+3991/7/11

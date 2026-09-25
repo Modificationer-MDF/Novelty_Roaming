@@ -62,27 +62,27 @@ syl = [
     "yue", "nüe", "lüe", "jue", "que", "xue"
 ]
 
-def cls():
-    if os.name == "nt":
-        os.system("cls")
-    else:
-        os.system("clear")
+rs_list = ["p", "t", "k", "c", "g", "d", "b"]
 
 def gen(f, l): # f：姓需要多少个音节；l：名需要多少个音节。
     name = ""
     final = ""
 
     for i in range(f):
-        name += rd.choice(syl)
+        ls_syl = rd.choice(syl)
+        name += ls_syl
         ls_1 = rd.randint(14, 25)
-        if 18 <= ls_1 <= 19:
-            name += rd.choice(["p", "t", "k"])
+        if 18 <= ls_1 <= 19 and ls_syl[-2:] != "ng" and ls_syl[-1] != "n":
+            name += rd.choice(rs_list)
+
     name += " "
+
     for j in range(l):
-        name += rd.choice(syl)
+        ls_syl = rd.choice(syl)
+        name += ls_syl
         ls_2 = rd.randint(14, 25)
-        if 18 <= ls_2 <= 19:
-            name += rd.choice(["p", "t", "k"])
+        if 18 <= ls_2 <= 19 and ls_syl[-2:] != "ng" and ls_syl[-1] != "n":
+            name += rd.choice(rs_list)
     
     n = name.split(" ")
 
@@ -90,24 +90,10 @@ def gen(f, l): # f：姓需要多少个音节；l：名需要多少个音节。
 
     return final
 
-def prog(cur, tot, pre="", suf="", blen=40):
-    per = cur / tot * 100
-    flen = int(blen * per / 100)
-    bar = '#' * flen + '-' * (blen - flen)
-    
-    # \r 回到行首，flush 强制终端刷新。
-    sys.stdout.write(f"\r{pre}|{bar}| {cur} / {tot}（{per:.3f}%） {suf}")
-    sys.stdout.flush()
-
-    if cur == tot:
-        sys.stdout.write("\n")
-
 if __name__ == "__main__":
     amount = int(input("数量？"))
     fam = int(input("姓音节数？"))
     nam = int(input("名音节数？"))
-
-    cls()
 
     st = time.time()
 
@@ -116,15 +102,10 @@ if __name__ == "__main__":
     for i in range(amount):
         ls_n = gen(fam, nam)
         ns.append(ls_n + "\n")
-        
-        prog(i + 1, amount, "进度：", f"当前生成：“{ls_n.ljust(25)}”")
-        
-        time.sleep(0.000003)
 
     with open("generated.txt", "a", encoding="utf-8") as f:  
         f.writelines(ns)
 
     et = time.time()
 
-    cls()
     print(f"全部完成。耗时 {(et - st):.3f} 秒。")

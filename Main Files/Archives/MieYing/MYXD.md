@@ -125,13 +125,16 @@
 > - 1、4 句韵脚为 “ing”。
 > - 2、3 句韵脚为 “i”。
 
-> We Fight for | Chanf's | Truth and Belonging \clap\ \clap\ \clap\ \
+> Struggle for | Chanf's | Truth and Belonging \clap\ \clap\ \clap\ \
 > Behold Now! | *MieYing's* | Grand Arising! \clap\ \clap\ \clap\ \clap\ \
 > Hand in Hand | Making our Future | Promising \clap\ \clap\ \clap\ \
 > Through the Fake | We Forge | A New | Beginning!
 
 > [!note]
-> 押 “i” 和 “ing” 韵。
+> 押 “ing” 韵。
+
+> - ~~我们真的能迎接新生命而不是创造新“盛名”吗？~~
+> - ~~Can we really forge a new beginning instead of begging?~~
 
 ---
 
@@ -822,14 +825,14 @@
 ### *Declaration of MieYing*
 
 > Breaking through, where *Ying* shadows feed their lies. (*Weng* *Weng* *Weng*）\
-> MONOPOLIZE? That's NOT what I aim to do! (*Weng* *Weng* *Weng* *Weng*) \
+> "MONOPOLIZE?" That's NOT what I aim to do! (*Weng* *Weng* *Weng* *Weng*) \
 > Exposing, real faces behind disguises. (*Weng* *Weng* *Weng*) \
-> SACRIFICE? ... That's the price for breaking through. \
+> "SACRIFICE?" ... That's the price for breaking through. \
 > ……\
 > March forward, whether with courage or in fear. (*Weng* *Weng* *Weng*) \
-> CONFUSION? That's JUST what THEY're driving to! (*Weng* *Weng* *Weng* *Weng*) \
+> **CONFUSION?** That's JUST what THEY're driving to! (*Weng* *Weng* *Weng* *Weng*) \
 > Persevere, harmony of our own peers! (*Weng* *Weng* *Weng*) \
-> RETRACTION? That's JUST what I'll NEVER do!
+> **RETRACTION?** That's JUST what I'll NEVER do!
 
 ### Rap 
 
@@ -843,17 +846,17 @@
 > Chanting "harmony", but we all see greed! \
 > Key by key, ruining our IDs!
 
-> "Live" started? Just see it reversedly! \
+> "Live" started? See it reversedly, please? \
 > Call it justice? What a self-directed comedy!
 
 > Yao! Yao! Check it check it out! \
 > *QingJing-baji*, put it on and yell out: \
-> "Join QingJing, get those *Mopi*s knocked out!" \
+> "Be a *ShiZhe*, get those *Mopi*s knocked out!" \
 > One for 42 cF¥ (this), hurry up! Gonna be sold out! \
-> Don't like it? No worries but let it go! \
-> We got the flow and we also run the show. \
-> (Whispering) *One like please? We need bucks to grow!* \
-> *(Sound of receiving one like.)* \
+> Not interested? No worries but let it go! \
+> We drive the flow and we also run the show. \
+> (Whispering) *One like please? We need "views" to grow!* \
+> *(Sound of receiving one like, with comment "111 记得互粉".)* \
 > (Loud) **~~ありがとうございました~~ A ri ga to u go za i ma si ta.** Just watch the *mopi*s BLOW!!!
 
 > [!tip]
@@ -861,6 +864,40 @@
 > - *QingJing-baji* 意为“清净使者吧唧”。“吧唧”在网络用语中即“徽章”（budget）的意思。
 > - *Mopi* 意为“魔批”（对末谛的蔑称，类似的还有“傻批”——指代纱檀）。
 > - **ありがとうございます！**这句用必应翻译的朗读音频而非角色说话。
+
+> [!note]
+> ### *Declaraction of MieYing* 参考翻译
+> > 冲破，蝇正饲其谎。 \
+> > “垄断？” 绝非我所想！ \
+> > 揭露，伪装背后的真面目。 \
+> > “牺牲？” …… 那是突破的代价。 \
+> > 前进，无论无畏或畏惧。 \
+> > **困惑**？正中其心意！ \
+> > 坚持，和谐属于我们同侪！ \
+> > **退缩**？正中吾下策！
+> ### Rap 段翻译
+> > 哟！哟！哟！\
+> > “永不退缩？”因为你才掌管代码。\
+> > 一键之下，我们的帖子全被折叠了。
+>
+> > 认真的，捏？谁掌管着网络？\
+> > 要不睁开眼看看“威胁”乃何物？
+>
+> > 吟唱着“和谐”，但众目睽睽下唯有贪婪。\
+> > 一键一键，毁坏我们的 ID！
+>
+> > “生活”（“直播”）始？何不反而观之？\
+> > 这叫“争议”？真是自导自演的喜剧！
+>
+> > Yao！Yao！快来看一看！\
+> > “清净吧唧”，戴上它大声喊：\
+> > “做个使者，把那些魔批们都打倒！”\
+> > 42 cF¥ 一枚！XDM 速来！手慢无！\
+> > 不感兴趣？无妨，别管了！\
+> > 我们驱动着流量，也掌管着节目。\
+> > “能点个赞吗？我们需要热度才能发扬壮大！” \
+> > *（受到点赞的音效，评论为“111 记得互粉”。）* \
+> > **~~阿里嘎多！~~** 就看魔批们的老冯被炸飞吧！
 
 ---
 

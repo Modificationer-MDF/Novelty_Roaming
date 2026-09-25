@@ -35,29 +35,18 @@ async function inf({ str, id }) {
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
         inf.innerHTML = str;
 
-        let finish = false;
-        let passed_time = 0; // 已经过去的时间。
-        let pro = 0; // 进度条进度。
-        const i = setInterval(() => {
-            passed_time += 20;
-            pro += 20 / (smarttime(str) / 100);
-            bar.style.width = `${pro}%`;
-            if (pro >= 100) {
-                clearInterval(i);
-                finish = true;
-            }
-        }, 25);
+        bar.style.animation = `rfn_prog ${smarttime(str)}ms forwards linear`;
 
-        setInterval(() => {
-            if (finish) {
-                resolve();
-                mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
-                rclose(mele);
+        bar.addEventListener("animationend", () => {
+            mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
+            rclose(mele);
+            setTimeout(() => {
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
                 }, { once: true });
-            }
-        }, 40);
+            }, 1);
+            resolve();
+        }, { once: true });
     });
 }
 
@@ -98,29 +87,18 @@ async function suc({ str, id }) {
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
         inf.innerHTML = str;
 
-        let finish = false;
-        let passed_time = 0; // 已经过去的时间。
-        let pro = 0; // 进度条进度。
-        const i = setInterval(() => {
-            passed_time += 20;
-            pro += 20 / (smarttime(str) / 100);
-            bar.style.width = `${pro}%`;
-            if (pro >= 100) {
-                clearInterval(i);
-                finish = true;
-            }
-        }, 25);
+        bar.style.animation = `rfn_prog ${smarttime(str)}ms forwards linear`;
 
-        setInterval(() => {
-            if (finish) {
-                resolve();
-                mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
-                rclose(mele);
+        bar.addEventListener("animationend", () => {
+            mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
+            rclose(mele);
+            setTimeout(() => {
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
                 }, { once: true });
-            }
-        }, 40);
+            }, 1);
+            resolve();
+        }, { once: true });
     });
 }
 
@@ -161,29 +139,21 @@ async function err({ str, id }) {
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
         inf.innerHTML = str;
 
-        let finish = false;
-        let passed_time = 0; // 已经过去的时间。
-        let pro = 0; // 进度条进度。
-        const i = setInterval(() => {
-            passed_time += 20;
-            pro += 20 / (smarttime(str) / 100);
-            bar.style.width = `${pro}%`;
-            if (pro >= 100) {
-                clearInterval(i);
-                finish = true;
-            }
-        }, 25);
+        mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
+        inf.innerHTML = str;
 
-        setInterval(() => {
-            if (finish) {
-                resolve();
-                mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
-                rclose(mele);
+        bar.style.animation = `rfn_prog ${smarttime(str)}ms forwards linear`;
+
+        bar.addEventListener("animationend", () => {
+            mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
+            rclose(mele);
+            setTimeout(() => {
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
                 }, { once: true });
-            }
-        }, 40);
+            }, 1);
+            resolve();
+        }, { once: true });
     });
 }
 
@@ -224,29 +194,21 @@ async function caut({ str, id }) {
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
         inf.innerHTML = str;
 
-        let finish = false;
-        let passed_time = 0; // 已经过去的时间。
-        let pro = 0; // 进度条进度。
-        const i = setInterval(() => {
-            passed_time += 20;
-            pro += 20 / (smarttime(str) / 100);
-            bar.style.width = `${pro}%`;
-            if (pro >= 100) {
-                clearInterval(i);
-                finish = true;
-            }
-        }, 25);
+        mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
+        inf.innerHTML = str;
 
-        setInterval(() => {
-            if (finish) {
-                resolve();
-                mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
-                rclose(mele);
+        bar.style.animation = `rfn_prog ${smarttime(str)}ms forwards linear`;
+
+        bar.addEventListener("animationend", () => {
+            mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
+            rclose(mele);
+            setTimeout(() => {
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
                 }, { once: true });
-            }
-        }, 40);
+            }, 1);
+            resolve();
+        }, { once: true });
     });
 }
 

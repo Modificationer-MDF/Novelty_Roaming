@@ -1,3 +1,5 @@
+/* 为了便于管理各个函数，下列函数的代码我特意拆开了，可能违反了 DRY 原则，但我觉得这样更清晰。*/
+
 // 全局存储当前显示的窗口信息。
 let dbmaps = {}; // Dainiv Basic 样式窗口。
 let bfmaps = {}; // Brief 样式窗口。
@@ -223,6 +225,58 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             okey.onclick = () => {
                 close_win();
                 for (let r of win_obj.waitlist) r();
+            };
+
+            mele.oncontextmenu = async (e) => {
+                e.preventDefault();
+                let ls_rs = await xz({ str: "你想要做些什么？", tit: "右键菜单", names: ["关闭此窗口。", "以 HTML 格式复制窗口内的文字。", "以纯文本形式复制窗口内的文字。", "朗读正文。", "停止朗读。", "下载正文为文本文件。"], n: 1, form: "brief" });
+                switch (ls_rs[0]) {
+                    case "关闭此窗口。":
+                        if ("speechSynthesis" in window) speechSynthesis.cancel();
+                        close_win();
+                        break;
+                    case "以 HTML 格式复制窗口内的文字。":
+                        try {
+                            await navigator.clipboard.writeText(inf.innerHTML);
+                            suc({ str: "操作已完成。" });
+                        } catch (e) {
+                            err({ str: `发生了错误。<code class="err">${e}</code>` });
+                        }
+                        break;
+                    case "以纯文本形式复制窗口内的文字。":
+                        try {
+                            await navigator.clipboard.writeText(inf.textContent);
+                            suc({ str: "操作已完成。" });
+                        } catch (e) {
+                            err({ str: `发生了错误。<code class="err">${e}</code>` });
+                        }
+                        break;
+                    case "朗读正文。":
+                        if (!("speechSynthesis" in window)) {
+                            warn({ str: "当前浏览器不支持朗读功能。" });
+                            break;
+                        }
+                        speechSynthesis.cancel();
+                        speechSynthesis.speak(new SpeechSynthesisUtterance(inf.textContent));
+                        suc({ str: "正在朗读正文。" });
+                        break;
+                    case "停止朗读。":
+                        if ("speechSynthesis" in window) speechSynthesis.cancel();
+                        suc({ str: "已停止朗读。" });
+                        break;
+                    case "下载正文为文本文件。":
+                        {
+                            const blob = new Blob([inf.textContent], { type: "text/plain;charset=utf-8" });
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement("a");
+                            link.href = url;
+                            link.download = `${tit || "通知"}.txt`;
+                            link.click();
+                            URL.revokeObjectURL(url);
+                            suc({ str: "正文已下载。" });
+                        }
+                        break;
+                }
             };
         });
     }
@@ -945,6 +999,7 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             const icon = document.createElement("img");
             const text = document.createElement("div");
             const txt = document.createElement("div");
+            const inf = document.createElement("div");
             const submit = document.createElement("button");
 
             mele.className = "inp-brief-mele";
@@ -954,17 +1009,19 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             icon.alt = "";
             text.className = "brief-txt";
             txt.className = "inp-brief-title";
+            inf.className = "brief-inf";
             submit.type = "button";
             submit.className = "inp-brief-submit";
             submit.textContent = "提交";
 
-            if (realstr) { txt.textContent = tit; }
-            else { txt.innerHTML = tit; }
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
 
             document.body.appendChild(mele);
             mele.appendChild(icon);
             mele.appendChild(text);
             text.appendChild(txt);
+            text.appendChild(inf);
 
             // 控件。
             let box;
@@ -1122,7 +1179,7 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             inf.innerHTML = "";
             const boxes = [];
 
-            fields.forEach((field, index) => {
+            fields.forEach((field, idx) => {
                 // 提示文字。
                 const pdiv = document.createElement("div");
                 pdiv.className = "inp-prompt";
@@ -1148,11 +1205,11 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 }
                 box.style.opacity = 0;
                 box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-                box.dataset.index = index;
+                box.dataset.index = idx;
                 inf.appendChild(box);
                 boxes.push(box);
 
-                if (index < fields.length - 1) {
+                if (idx < fields.length - 1) {
                     const line = document.createElement("div");
                     line.className = "inp-line";
                     line.style.margin = "8px 0";
@@ -1517,8 +1574,8 @@ async function xz({ str, tit, names, n, id, realstr = false, form = "dainiv basi
                         xz_items.push(array[i]);
                         submit.innerHTML = `确定（已勾选 ${xz_items.length} 个，共可勾选 ${n} 个）`;
                     } else {
-                        const index = xz_items.indexOf(array[i]);
-                        if (index > -1) xz_items.splice(index, 1);
+                        const idx = xz_items.indexOf(array[i]);
+                        if (idx > -1) xz_items.splice(idx, 1);
                         submit.innerHTML = `确定（已勾选 ${xz_items.length} 个，共可勾选 ${n} 个）`;
                     }
                 };
@@ -3198,7 +3255,7 @@ async function rz(str, time, realstr = false) {
         }, { once: true });
 
         function damnclose() {
-            clearInterval(i1);
+            clearInterval(i1); // 清理 i1 interval。
             inf.style.opacity = 0;
             inf.addEventListener("transitionend", () => {
                 mele.style.animation = `out_rz 0.5s forwards ${easing}`;
