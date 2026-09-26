@@ -3,12 +3,14 @@ async function inf({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
             console.error("不能输入空值！");
+            resolve();
             return;
         }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
+            resolve();
             return;
         }
         if (id == null || id == undefined) id = "";
@@ -57,12 +59,14 @@ async function suc({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
             console.error("不能输入空值！");
+            resolve();
             return;
         }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
+            resolve();
             return;
         }
         if (id == null || id == undefined) id = "";
@@ -111,12 +115,14 @@ async function err({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
             console.error("不能输入空值！");
+            resolve();
             return;
         }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
+            resolve();
             return;
         }
         if (id == null || id == undefined) id = "";
@@ -168,12 +174,14 @@ async function caut({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
             console.error("不能输入空值！");
+            resolve();
             return;
         }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
+            resolve();
             return;
         }
         if (id == null || id == undefined) id = "";
@@ -225,12 +233,14 @@ async function conf({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
             console.error("不能输入空值！");
+            resolve();
             return;
         }
         str = String(str);
         let s_replaced = str.replace(/\s+/g, "");
         if (s_replaced === "") {
             console.warn("不能输入空字符串。");
+            resolve();
             return;
         }
         if (id == null || id == undefined) id = "";

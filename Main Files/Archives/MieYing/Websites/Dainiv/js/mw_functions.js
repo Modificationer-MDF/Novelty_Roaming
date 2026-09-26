@@ -4,11 +4,166 @@
 let dbmaps = {}; // Dainiv Basic 样式窗口。
 let bfmaps = {}; // Brief 样式窗口。
 
+async function argerr({ type = "fail", str, msg }) {
+    if (type === "warn") await warn({ str });
+    else await fail({ str });
+    throw new Error(msg);
+}
+
+async function rmenu({ e, mele }) {
+    if (activep) return;
+    e.preventDefault();
+
+    const inf = mele.querySelector(".mfn-inf, .rz-inf");
+    const box = mele.querySelectorAll("textarea, input:not([type='button']), select");
+    const text = inf ? inf.textContent : (box ? box.value : "");
+    const html = inf ? inf.innerHTML : (box ? box.value : "");
+    const names = ["关闭此窗口。", "以 HTML 格式复制内容。", "以纯文本形式复制内容。", "朗读内容。", "停止朗读。", "下载内容为文本文件。"];
+    const cls = String(mele.className);
+
+    if (cls.includes("inp-")) names.push("清空所有输入内容。");
+    if (cls.includes("zd-")) names.push("清空输入内容。");
+    if (cls.includes("xz-")) {
+        names.push("取消选择。");
+        if (!cls.includes("xz-brief") && mele.querySelectorAll(".xz-checkbox").length > 1) {
+            names.push("全选。");
+        }
+    }
+    if (cls.includes("lj-")) {
+        names.push("复制所有链接地址。", "打开全部链接。");
+    }
+    if (cls.includes("timer-") || cls.includes("synchr-") || cls.includes("rz-")) {
+        names.push("停止计时或进度。");
+    }
+
+    const rs = await xz({
+        str: "你想要做些什么？",
+        tit: "右键菜单",
+        names,
+        n: 1,
+        form: "brief"
+    });
+
+    const close = () => {
+        const btn = mele.querySelector(".noti-okey, .cg-okey, .warn-zx, .fail-lj, .inp-submit, .xz-giveup, .lj-ignore, .mb-gb, .timer-earlyend");
+        if (btn) {
+            btn.click();
+            return;
+        }
+        if (cls.includes("brief")) {
+            if (cls.includes("lj-brief") || cls.includes("xz-brief")) {
+                document.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+                return;
+            } else if (cls.includes("inp-brief")) {
+                const b = mele.querySelector(".inp-brief-submit");
+                if (b) b.click();
+                return;
+            } else {
+                mele.click();
+                return;
+            }
+        }
+        if (box) {
+            box.forEach((b) => {
+                b.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+            })
+        } else mele.click();
+    };
+
+    switch (rs[0]) {
+        case "关闭此窗口。":
+        case "取消选择。":
+        case "停止计时或进度。":
+            close();
+            break;
+        case "全选。": {
+            const checkboxes = [...mele.querySelectorAll(".xz-checkbox")];
+            const submit = mele.querySelector(".xz-submit");
+            const match = submit?.textContent.match(/共可勾选\s+(\d+)\s+个/);
+            const max = match ? Number(match[1]) : checkboxes.length;
+            const checked = checkboxes.filter(box => box.checked).length;
+            const remain = Math.max(0, max - checked);
+            checkboxes.filter(box => !box.checked).slice(0, remain).forEach(box => {
+                box.checked = true;
+                box.dispatchEvent(new Event("change", { bubbles: true }));
+            });
+            break;
+        }
+        case "以 HTML 格式复制内容。":
+            try {
+                await navigator.clipboard.writeText(html);
+                suc({ str: "操作已完成。", form: "brief" });
+            } catch (error) {
+                err({ str: `发生了错误。<code class="err">${error}</code>`, form: "brief" });
+            }
+            break;
+        case "以纯文本形式复制内容。":
+            try {
+                await navigator.clipboard.writeText(text);
+                suc({ str: "操作已完成。", form: "brief" });
+            } catch (error) {
+                err({ str: `发生了错误。<code class="err">${error}</code>`, form: "brief" });
+            }
+            break;
+        case "朗读内容。":
+            if (!("speechSynthesis" in window)) {
+                warn({ str: "当前浏览器不支持朗读功能。", form: "brief" });
+                break;
+            }
+            speechSynthesis.cancel();
+            speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+            suc({ str: "正在朗读内容。", form: "brief" });
+            break;
+        case "停止朗读。":
+            if ("speechSynthesis" in window) speechSynthesis.cancel();
+            suc({ str: "已停止朗读。", form: "brief" });
+            break;
+        case "下载内容为文本文件。": {
+            const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${mele.querySelector(".mfn-title, .brief-inf")?.textContent || "内容"}.txt`;
+            link.click();
+            URL.revokeObjectURL(url);
+            suc({ str: "内容已下载。", form: "brief" });
+            break;
+        }
+        case "清空所有输入内容。":
+        case "清空输入内容。":
+            if (box) {
+                box.forEach((b) => {
+                    b.value = "";
+                    b.dispatchEvent(new Event("input", { bubbles: true }));
+                });
+                box[0]?.focus();
+            }
+            break;
+        case "复制所有链接地址。": {
+            const links = [...mele.querySelectorAll(".lj-link, .lj-brief-link")].map(link => link.textContent).join("\n");
+            await navigator.clipboard.writeText(links);
+            suc({ str: "链接地址已复制。", form: "brief" });
+            break;
+        }
+        case "打开全部链接。":
+            mele.querySelectorAll(".lj-link, .lj-brief-link").forEach(link => link.click());
+            break;
+    }
+}
+
+document.addEventListener("contextmenu", (e) => {
+    const mele = e.target.closest("[class*='-mele']");
+    if (mele) {
+        if (rightwins.includes(mele.className) || leftwins.includes(mele.className)) return;
+        else rmenu({ e, mele });
+    }
+});
+
 async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     // 参数检查。
-    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    if (str == null || str == undefined) return argerr({ str: `不能输入 <code class="nu">${str}</code>！`, msg: "在 Noti() 函数中，str 不能为 null 或 undefined。" });
     str = String(str);
-    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Noti()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (!str.trim()) return argerr({ type: "warn", str: "不能输入空字符串。", msg: "在 Noti() 函数中，str 不能为空。" });
     if (tit == null || tit == undefined) tit = "通知";
     else { tit = String(tit); if (!tit.trim()) tit = "通知"; }
     if (id == null || id == undefined) id = "";
@@ -229,6 +384,7 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
             mele.oncontextmenu = async (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 let ls_rs = await xz({ str: "你想要做些什么？", tit: "右键菜单", names: ["关闭此窗口。", "以 HTML 格式复制窗口内的文字。", "以纯文本形式复制窗口内的文字。", "朗读正文。", "停止朗读。", "下载正文为文本文件。"], n: 1, form: "brief" });
                 switch (ls_rs[0]) {
                     case "关闭此窗口。":
@@ -284,9 +440,9 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
 async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     // 参数检查。
-    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    if (str == null || str == undefined) return argerr({ str: `不能输入 <code class="nu">${str}</code>！`, msg: "在 Cg() 函数中，str 不能为 null 或 undefined。" });
     str = String(str);
-    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Cg()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (!str.trim()) return argerr({ type: "warn", str: "不能输入空字符串。", msg: "在 Cg() 函数中，str 不能为空。" });
     if (tit == null || tit == undefined) tit = "完成";
     else { tit = String(tit); if (!tit.trim()) tit = "完成"; }
     if (id == null || id == undefined) id = "";
@@ -955,8 +1111,7 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
 async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     if (str == null || str == undefined) {
-        fail({ str: `不能输入 <code class="nu">${str}</code>！` });
-        return "在 <code>Inp()</code> 函数中，<code>str</code> 不能为 null 或 undefined。";
+        return argerr({ str: `不能输入 <code class="nu">${str}</code>！`, msg: "在 Inp() 函数中，str 不能为 null 或 undefined。" });
     }
     const is_array = Array.isArray(str);
     let prompts = is_array ? str : [str];
@@ -1014,8 +1169,8 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             submit.className = "inp-brief-submit";
             submit.textContent = "提交";
 
-            if (realstr) { txt.textContent = tit; inf.textContent = str; }
-            else { txt.innerHTML = tit; inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; inf.textContent = field.content; }
+            else { txt.innerHTML = tit; inf.innerHTML = field.content; }
 
             document.body.appendChild(mele);
             mele.appendChild(icon);
@@ -1326,13 +1481,13 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 }
 
 async function xz({ str, tit, names, n, id, realstr = false, form = "dainiv basic" }) {
-    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为 null 或 undefined。"; }
+    if (str == null || str == undefined) return argerr({ str: `不能输入 <code class="nu">${str}</code>！`, msg: "在 Xz() 函数中，str 不能为 null 或 undefined。" });
     str = String(str);
-    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Xz()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (!str.trim()) return argerr({ type: "warn", str: "不能输入空字符串。", msg: "在 Xz() 函数中，str 不能为空。" });
     if (tit == null || tit == undefined) tit = "选择";
     else { tit = String(tit); if (!tit.trim()) tit = "选择"; }
     if (id == null || id == undefined) id = "";
-    if (n > names.length) { fail({ str: "所给予的选项数量不足！" }); return; }
+    if (n > names.length) return argerr({ str: "所给予的选项数量不足！", msg: "在 Xz() 函数中，选项数量不足。" });
     if (typeof names === "string" || typeof names === "number" || typeof names === "boolean" || typeof names === "bigint") { names = [String(names)]; }
 
     // 多选时强制走 Dainiv Basic。
@@ -1677,9 +1832,9 @@ async function xz({ str, tit, names, n, id, realstr = false, form = "dainiv basi
 }
 
 async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) {
-    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    if (str == null || str == undefined) return argerr({ str: `不能输入 <code class="nu">${str}</code>！`, msg: "在 Synchr() 函数中，str 不能为 null 或 undefined。" });
     str = String(str);
-    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Synchr()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (!str.trim()) return argerr({ type: "warn", str: "不能输入空字符串。", msg: "在 Synchr() 函数中，str 不能为空。" });
     if (tit == null || tit == undefined) tit = "同步";
     else { tit = String(tit); if (!tit.trim()) tit = "同步"; }
     if (id == null || id == undefined) id = "";
@@ -1844,15 +1999,15 @@ async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) 
 
 async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" }) {
     // 参数检查。
-    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 Lj() 函数中，str 不能为 null 或 undefined。"; }
-    if (url == null || url == undefined) { warn({ str: "无法跳转至 null 或 undefined。" }); return "在 Lj() 函数中，url 参数不能为 null 或 undefined。"; }
+    if (str == null || str == undefined) return argerr({ str: `不能输入 <code class="nu">${str}</code>！`, msg: "在 Lj() 函数中，str 不能为 null 或 undefined。" });
+    if (url == null || url == undefined) return argerr({ type: "warn", str: "无法跳转至 null 或 undefined。", msg: "在 Lj() 函数中，url 参数不能为 null 或 undefined。" });
     str = String(str);
-    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 Lj() 函数中，str 不能为空。"; }
+    if (!str.trim()) return argerr({ type: "warn", str: "不能输入空字符串。", msg: "在 Lj() 函数中，str 不能为空。" });
 
     // url 规范化。
     const url_array = Array.isArray(url) ? url : [url];
     const urls = url_array.map(u => String(u)).filter(u => u.trim() !== "");
-    if (urls.length === 0) { warn({ str: "无法跳转至空地址。" }); return "在 Lj() 函数中，url 参数不能全为空。"; }
+    if (urls.length === 0) return argerr({ type: "warn", str: "无法跳转至空地址。", msg: "在 Lj() 函数中，url 参数不能全为空。" });
 
     if (tit == null || tit == undefined) {
         tit = urls.every(u => u.toLowerCase().startsWith("mailto:")) ? "邮件" : "链接";
@@ -2319,10 +2474,17 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
         return `意外 <code class="une">${esc_str(name)}</code> 错误：“<code class="err">${esc_str(msg)}</code>”。`;
     }
 
+    if (str == null || str == undefined) {
+        await fail({ str: `不能输入 <code class="nu">${str}</code>！` });
+        throw new Error("在 Zd() 函数中，str 不能为 null 或 undefined。");
+    }
+    str = String(str);
+    if (!str.trim()) {
+        await warn({ str: "不能输入空字符串。" });
+        throw new Error("在 Zd() 函数中，str 不能为空。");
+    }
+
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Zd()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
-        str = String(str);
-        if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Zd()</code> 函数中，<code>str</code> 不能为空。"; }
         if (tit == null || tit == undefined) tit = "终端";
         else { tit = String(tit); if (!tit.trim()) tit = "终端"; }
         if (id == null || id == undefined) id = "";
@@ -2761,20 +2923,37 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 }
 
 async function timer({ str, tit, time, id, realstr = false, form = "dainiv basic" }) {
+    if (str == null || str == undefined) {
+        await fail({ str: `不能输入 <code class="nu">${str}</code>！` });
+        throw new Error("在 Timer() 函数中，str 参数不能为 null 或 undefined。");
+    }
+    if (time == null || time == undefined) {
+        await fail({ str: `<code class="nu">null</code> 或 <code class="nu">undefined</code> 不是有效的数字。` });
+        throw new Error("在 Timer() 函数中，time 参数不能为 null 或 undefined。");
+    }
+
+    str = String(str);
+    time = Number(time);
+    if (isNaN(time)) {
+        await fail({ str: "<code>time</code> 参数必须为可识别的数字或纯数字字符串。" });
+        throw new Error("在 Timer() 函数中，time 必须为可识别的数字或纯数字字符串。");
+    }
+    if (time < 1250) {
+        await warn({ str: "<code>time</code> 的值过小，无法正常计时。" });
+        throw new Error("在 Timer() 函数中，time 的值必须大于等于 1250。");
+    }
+    if (time > 3.15576e10 * 1.1568) {
+        await warn({ str: "<code>time</code> 的值过大，无法正常计时。" });
+        throw new Error("在 Timer() 函数中，time 的值必须小于等于 6.048e10。");
+    }
+
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
-        if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return `在 <code>Timer()</code> 函数中，<code>str</code> 参数不能为 <code class="nu">null</code> 或 <code class="nu">undefined</code>。`; }
-        if (time == null || time == undefined) { fail({str: `<code class="nu">null</code> 或 <code class="nu">undefined</code> 不是有效的数字。`}); return "在 <code>Timer()</code> 函数中，time 参数不能为 null 或 undefined。"; }
-        str = String(str);
-        time = Number(time);
         if (!str.trim()) str = "";
         if (tit == null || tit == undefined) tit = "计时";
         else { tit = String(tit); if (!tit.trim()) tit = "计时"; }
         if (id == null || id == undefined) id = "";
-        if (isNaN(time)) { fail({ str: "<code>time</code> 参数必须为可识别的数字或纯数字字符串。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 必须为可识别的数字或纯数字字符串。"; }
-        else if (time < 1250) { warn({ str: "<code>time</code> 的值过小，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须大于等于 1250。"; }
-        else if (time > 3.15576e10 * 1.1568) { warn({ str: "<code>time</code> 的值过大，无法正常计时。" }); return "在 <code>Timer()</code> 函数中，<code>time</code> 的值必须小于等于 6.048e10。"; }
 
         let key = `timer|${str}|${tit}|${time}|${id}|${realstr}|${form}`;
         if (dbmaps[key]) {
@@ -2989,9 +3168,9 @@ async function timer({ str, tit, time, id, realstr = false, form = "dainiv basic
 
 async function mb({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     // 参数检查。
-    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    if (str == null || str == undefined) return argerr({ str: `不能输入 <code class="nu">${str}</code>！`, msg: "在 Mb() 函数中，str 不能为 null 或 undefined。" });
     str = String(str);
-    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Mb()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (!str.trim()) return argerr({ type: "warn", str: "不能输入空字符串。", msg: "在 Mb() 函数中，str 不能为空。" });
     if (tit == null || tit == undefined) tit = "面板";
     else { tit = String(tit); if (!tit.trim()) tit = "面板"; }
     if (id == null || id == undefined) id = "";
@@ -3214,9 +3393,11 @@ async function rz(str, time, realstr = false) {
         if (str == null) {
             warn({ str: `这个值为 <code class="nu">null</code>。` });
             resolve();
+            return;
         } else if (str == undefined) {
             warn({ str: `这个值为 <code class="nu">undefined</code>。` });
             resolve();
+            return;
         }
         if (time == null || time == undefined) time = smarttime(str);
 

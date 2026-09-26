@@ -190,7 +190,7 @@ function finishpick() {
     nowp = null;
 }
 
-function screenshot() {
+async function screenshot() {
     if (typeof html2canvas === "undefined") { // 加载 html2canvas。
         const script = document.createElement("script");
         script.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
@@ -208,15 +208,16 @@ function screenshot() {
     async function cac() {
         if (ofscrt) pickele("scr");
         let ls2 = await inp({ str: "输入该元素的 CSS 选择器字符串。", tit: "输入", id: "scr" });
-        let sc = document.querySelector(ls2);
-
-        if (!sc) {
-            fail({ str: "未找到元素。" });
-            finishpick();
-            return;
-        }
 
         try {
+            let sc = document.querySelector(ls2);
+
+            if (!sc) {
+                fail({ str: "未找到元素。" });
+                finishpick();
+                return;
+            }
+
             const oofx = sc.style.overflowX; // 原始 Overflow-X。
             const oofy = sc.style.overflowY; // 原始 Overflow-Y。
             const oof = sc.style.overflow; // 原始 Overflow。
@@ -274,7 +275,7 @@ function screenshot() {
                 fail({ str: "截图超时，可能是页面过于复杂或网络问题，请简化页面后重试。" });
             }
             else {
-                fail({ str: `截图时发生错误：<code style="err">${err.message || err}</code>` });
+                fail({ str: `截图时发生错误：<code class="err">${err.message || err}</code>。` });
             }
             console.error(`发生错误：${err}。`);
         } finally {
@@ -628,16 +629,24 @@ function init_ui() {
     const escrs = document.createElement("btn");
     escrs.classList.add("on");
     escrs.innerHTML = "启用";
-    escrs.onclick = () => {
-        inf({ str: `已<strong style="background-color: #008e00">启用</strong>元素捕获工具！` });
-        ofscrt = true;
+    escrs.onclick = async () => {
+        inf({ str: `已<strong style="color: #00bf00; brightness(1.25)">启用</strong>元素捕获工具！` });
+        await set_and_do({
+            varia: "ofscrt", val: true, func: `
+        const tscrs = document.getElementById("tscrs");
+        tscrs.style.borderTop = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");
+        tscrs.style.borderBottom = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");` });
     };
     const dscrs = document.createElement("btn");
     dscrs.classList.add("off");
     dscrs.innerHTML = "禁用";
-    dscrs.onclick = () => {
-        inf({ str: "已禁用元素捕获工具！" });
-        ofscrt = false;
+    dscrs.onclick = async () => {
+        inf({ str: `已<strong style="color: #bf0000; brightness(1.25)">禁用</strong>元素捕获工具！` });
+        await set_and_do({
+            varia: "ofscrt", val: false, func: `
+        const tscrs = document.getElementById("tscrs");
+        tscrs.style.borderTop = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");
+        tscrs.style.borderBottom = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");` });
     };
 
     lw.appendChild(larea2);
@@ -720,7 +729,7 @@ function init_ui() {
                 setTimeout(() => {
                     dom.style.opacity = 1;
                     dom.style.transform = "translateY(25px)";
-                }, idx * 40);
+                }, idx * 25);
             });
         } else {
             ra1doms.forEach(dom => {
@@ -812,7 +821,7 @@ function lw_anim(stat) {
                     setTimeout(() => {
                         dom.style.opacity = 1;
                         dom.style.left = "0px";
-                    }, idx * 40);
+                    }, idx * 25);
                 });
 
                 setTimeout(() => {
@@ -829,12 +838,12 @@ function lw_anim(stat) {
                             setTimeout(() => {
                                 dom.style.opacity = 1;
                                 dom.style.left = "0px";
-                            }, idx * 40);
+                            }, idx * 25);
                         });
-                    }, 100);
-                }, 100);
-            }, 100);
-        }, 100);
+                    }, 50);
+                }, 50);
+            }, 50);
+        }, 50);
 
         lw.addEventListener("animationend", function () {
             lw_moved = true;
@@ -852,7 +861,7 @@ function lw_anim(stat) {
                 setTimeout(() => {
                     dom.style.opacity = 0;
                     dom.style.left = "-100%";
-                }, 40 * idx);
+                }, 25 * idx);
             });
             larea1.style.height = 0;
 
@@ -860,10 +869,10 @@ function lw_anim(stat) {
                 setTimeout(() => {
                     dom.style.opacity = 0;
                     dom.style.left = "-100%";
-                }, 40 * idx);
+                }, 25 * idx);
             });
             larea2.style.height = 0;
-        }, 100);
+        }, 50);
 
         lw.addEventListener("animationend", function () {
             lw_moved = false;
@@ -887,11 +896,11 @@ function rw_anim(stat) {
                         setTimeout(() => {
                             dom.style.opacity = 1;
                             dom.style.transform = "translateY(20px)";
-                        }, idx * 40);
+                        }, idx * 25);
                     });
                 }
-            }, 100);
-        }, 100);
+            }, 50);
+        }, 50);
 
         rw.addEventListener("animationend", () => {
             rw_moved = true;
@@ -906,9 +915,9 @@ function rw_anim(stat) {
                     dom.style.opacity = 0;
                     dom.style.right = "-100%";
                     dom.style.transform = "translateY(0)";
-                }, idx * 40);
+                }, idx * 25);
             });
-        }, 100);
+        }, 50);
 
         rw.addEventListener("animationend", function () {
             rw_moved = false;

@@ -168,6 +168,11 @@
     line-height: 1.4;
 }
 
+    .mfn-inf::-webkit-scrollbar {
+        width: 3px;
+        background-color: #dcdcdc99;
+    }
+
 @keyframes in_mfn {
     from {
         transform: translateY(-20px);
@@ -397,6 +402,7 @@
 }
 
 .inp-prompt {
+    font-family: "hf";
     font-size: 20px;
     text-align: center;
     margin-bottom: 10px;
@@ -956,6 +962,7 @@
     background-color: #ffffff1a;
     margin-top: 4px;
     min-width: 24ch;
+    font-family: "hf";
 }
 
 .inp-brief-submit {

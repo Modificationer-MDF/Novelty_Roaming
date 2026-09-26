@@ -1,5 +1,7 @@
 :root {
     --lrw-width: 524.1px;
+    --phl-background-color: #0dc34749;
+    --phl-border: 2px solid #3fc835b9;
 }
 
 /* 左侧面板 lw 和右侧面板 rw 的样式。 */
@@ -272,15 +274,13 @@
     position: absolute;
     pointer-events: none;
     z-index: 32767;
-    background-color: #0dc34749;
-    border: 2px solid #3fc835b9;
-    border-radius: 4px;
+    background-color: var(--phl-background-color);
+    border: var(--phl-border);
     transition: all 0.1s ease-in-out;
 }
 
 .rw1, .rw2, .rw3, .rw4, .rw5 {
-    transition: width 0.2s ease-in-out;
-    transition: height 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .scs {
@@ -368,7 +368,14 @@
     }
 
     .rw-blockitem .selector {
+        max-height: 140px;
+        overflow-y: auto;
         flex: 1;
+    }
+
+    .rw-blockitem .selector::-webkit-scrollbar {
+        width: 3px;
+        background-color: #dcdcdc99;
     }
 
 .rw-unblocker {

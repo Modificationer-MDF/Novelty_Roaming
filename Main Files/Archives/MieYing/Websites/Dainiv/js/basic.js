@@ -68,33 +68,21 @@ function hqkd(str, cl, kind) { // 获取元素宽度。
     return String(ls_kd) + "px";
 }
 
-function char_statistic(str) {
-    let zh = 0; // 中文字符数。
-    let al = 0; // 字符数。
-    let ma = 0; // 标点符号数。（包括全角符号和半角符号）
-    for (var i = 0; i <= str.length - 1; i++) {
-        if (alphabets.includes(str[i])) {
-            al++;
-        } else if (marks.includes(str[i])) {
-            ma++;
-        } else {
-            zh++;
-        }
-    }
-    return [zh, al, ma];
-}
+function smarttime(str) { // 估算用户读完这段文字所需的毫秒数（按字数与词数混合计时）。
+    str = String(str).replace(/\s+/g, "");
 
-function smarttime(str) {
-    str = String(str);
-    str = str.replace(/\s+/g, "");
-
-    if (deftime === "Smart") {
-        let [zh, al, ma] = char_statistic(str);
-        let time = zh * 150 + al * 90 + ma * 50;
-        return (time > 1250 ? time : 1250);
-    } else {
+    if (deftime !== "Smart") {
         return deftime;
     }
+
+    let cjk = (str.match(/[\u3040-\u9fff\uf900-\ufaff]/g) || []).length; // 汉字/假名（按字计）。
+    let rest = str.replace(/[\u3040-\u9fff\uf900-\ufaff]/g, " ");
+    let words = (rest.match(/[A-Za-zÀ-ɏ]+|\d+/g) || []).length; // 其余文字按词计（兜底覆盖未收录文字）。
+    let digits = (rest.match(/\d+/g) || []).reduce((s, d) => s + Math.max(0, d.length - 4) * 40, 0); // 长数字串额外加时。
+    let pauses = (str.match(/[。！？!?；;.,，、:：]/g) || []).length; // 标点 = 阅读停顿。
+
+    let t = cjk * 150 + words * 300 + pauses * 60 + digits;
+    return Math.max(1250, Math.min(t, 8000)); // 下限 1250ms，上限 8000ms。
 }
 
 function totop() { // 返回顶部。
