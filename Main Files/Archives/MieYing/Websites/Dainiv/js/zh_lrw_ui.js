@@ -548,6 +548,9 @@ function init_ui() {
         } else if (ls_amount % 1 != 0) {
             await fail({ str: "所输入的数字需要为整数。", form: "brief" });
             return;
+        } else if (ls_amount > 1425) {
+            await warn({ str: "所输入的数字不可大于 1425。", form: "brief" });
+            return;
         } else {
             stringlist = []
             for (let i = 1; i <= ls_amount; i++) {

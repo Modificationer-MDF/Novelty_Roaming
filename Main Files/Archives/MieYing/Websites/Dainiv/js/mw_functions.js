@@ -14,20 +14,21 @@ async function rmenu({ e, mele }) {
     if (activep) return;
     e.preventDefault();
 
-    const inf = mele.querySelector(".mfn-inf, .rz-inf");
+    const inform = mele.querySelector(".mfn-inf, .brief-inf, .rz-inf");
     const box = mele.querySelectorAll("textarea, input:not([type='button']), select");
-    const text = inf ? inf.textContent : (box ? box.value : "");
-    const html = inf ? inf.innerHTML : (box ? box.value : "");
+    const text = inform ? inform.textContent : (box ? box.value : "");
+    const html = inform ? inform.innerHTML : (box ? box.value : "");
     const names = ["关闭此窗口。", "以 HTML 格式复制内容。", "以纯文本形式复制内容。", "朗读内容。", "停止朗读。", "下载内容为文本文件。"];
     const cls = String(mele.className);
 
     if (cls.includes("inp-")) names.push("清空所有输入内容。");
-    if (cls.includes("zd-")) names.push("清空输入内容。");
-    if (cls.includes("xz-")) {
-        names.push("取消选择。");
-        if (!cls.includes("xz-brief") && mele.querySelectorAll(".xz-checkbox").length > 1) {
-            names.push("全选。");
-        }
+    if (cls.includes("zd-")) {
+        names.push("清空输入内容。");
+        names.push("启用严格模式。");
+    }
+    if (cls.includes("xz-") && !(cls.includes("xz-brief")) && mele.querySelectorAll(".xz-checkbox").length > 1) {
+        names.push("全选。");
+        names.push("全不选。");
     }
     if (cls.includes("lj-")) {
         names.push("复制所有链接地址。", "打开全部链接。");
@@ -41,11 +42,12 @@ async function rmenu({ e, mele }) {
         tit: "右键菜单",
         names,
         n: 1,
-        form: "brief"
+        form: "brief",
+        id: "rmenu",
     });
 
     const close = () => {
-        const btn = mele.querySelector(".noti-okey, .cg-okey, .warn-zx, .fail-lj, .inp-submit, .xz-giveup, .lj-ignore, .mb-gb, .timer-earlyend");
+        const btn = mele.querySelector(".noti-zx, .cg-zx, .warn-zx, .fail-zx, .inp-submit, .xz-giveup, .lj-ignore, .zd-submit, .mb-gb, .timer-earlyend");
         if (btn) {
             btn.click();
             return;
@@ -89,34 +91,42 @@ async function rmenu({ e, mele }) {
             });
             break;
         }
+        case "全不选。": {
+            const checkboxes = [...mele.querySelectorAll(".xz-checkbox")];
+            checkboxes.forEach(box => {
+                box.checked = false;
+                box.dispatchEvent(new Event("change", { bubbles: true }));
+            });
+            break;
+        }
         case "以 HTML 格式复制内容。":
             try {
                 await navigator.clipboard.writeText(html);
-                suc({ str: "操作已完成。", form: "brief" });
+                suc({ str: "操作已完成。" });
             } catch (error) {
-                err({ str: `发生了错误。<code class="err">${error}</code>`, form: "brief" });
+                err({ str: `发生了错误。<code class="err">${error}</code>` });
             }
             break;
         case "以纯文本形式复制内容。":
             try {
                 await navigator.clipboard.writeText(text);
-                suc({ str: "操作已完成。", form: "brief" });
+                suc({ str: "操作已完成。" });
             } catch (error) {
-                err({ str: `发生了错误。<code class="err">${error}</code>`, form: "brief" });
+                err({ str: `发生了错误。<code class="err">${error}</code>` });
             }
             break;
         case "朗读内容。":
             if (!("speechSynthesis" in window)) {
-                warn({ str: "当前浏览器不支持朗读功能。", form: "brief" });
+                caut({ str: "当前浏览器不支持朗读功能。" });
                 break;
             }
             speechSynthesis.cancel();
             speechSynthesis.speak(new SpeechSynthesisUtterance(text));
-            suc({ str: "正在朗读内容。", form: "brief" });
+            suc({ str: "正在朗读内容。" });
             break;
         case "停止朗读。":
             if ("speechSynthesis" in window) speechSynthesis.cancel();
-            suc({ str: "已停止朗读。", form: "brief" });
+            suc({ str: "已停止朗读。" });
             break;
         case "下载内容为文本文件。": {
             const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
@@ -126,7 +136,7 @@ async function rmenu({ e, mele }) {
             link.download = `${mele.querySelector(".mfn-title, .brief-inf")?.textContent || "内容"}.txt`;
             link.click();
             URL.revokeObjectURL(url);
-            suc({ str: "内容已下载。", form: "brief" });
+            suc({ str: "内容已下载。" });
             break;
         }
         case "清空所有输入内容。":
@@ -139,10 +149,21 @@ async function rmenu({ e, mele }) {
                 box[0]?.focus();
             }
             break;
+        case "启用严格模式。":
+            if (box) {
+                box.forEach(async (b) => {
+                    if (b.value.trim().startsWith(`"use strict"`) || b.value.trim().startsWith("'use strict'") || b.value.trim().startsWith("`use strict`")) {
+                        caut({ str: "您已经使用了严格模式。" });
+                    } else {
+                        b.value = `"use strict";\n${b.value}`;
+                    }
+                });
+            }
+            break;
         case "复制所有链接地址。": {
             const links = [...mele.querySelectorAll(".lj-link, .lj-brief-link")].map(link => link.textContent).join("\n");
             await navigator.clipboard.writeText(links);
-            suc({ str: "链接地址已复制。", form: "brief" });
+            suc({ str: "链接地址已复制。" });
             break;
         }
         case "打开全部链接。":
@@ -154,7 +175,7 @@ async function rmenu({ e, mele }) {
 document.addEventListener("contextmenu", (e) => {
     const mele = e.target.closest("[class*='-mele']");
     if (mele) {
-        if (rightwins.includes(mele.className) || leftwins.includes(mele.className)) return;
+        if (rightwins.some(m => mele.classList.contains(m)) || leftwins.some(m => mele.classList.contains(m)) || mele.id.includes("rmenu")) return;
         else rmenu({ e, mele });
     }
 });
@@ -297,7 +318,7 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             inf.style.minWidth = "30ch";
             inf.style.transition = `all 0.2s ${easing}`;
             okey.type = "button";
-            okey.className = "noti-okey";
+            okey.className = "noti-zx";
             okey.innerHTML = "知晓";
             okey.style.transition = `all 0.2s ${easing}`;
             okey.style.opacity = 0;
@@ -380,59 +401,6 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             okey.onclick = () => {
                 close_win();
                 for (let r of win_obj.waitlist) r();
-            };
-
-            mele.oncontextmenu = async (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                let ls_rs = await xz({ str: "你想要做些什么？", tit: "右键菜单", names: ["关闭此窗口。", "以 HTML 格式复制窗口内的文字。", "以纯文本形式复制窗口内的文字。", "朗读正文。", "停止朗读。", "下载正文为文本文件。"], n: 1, form: "brief" });
-                switch (ls_rs[0]) {
-                    case "关闭此窗口。":
-                        if ("speechSynthesis" in window) speechSynthesis.cancel();
-                        close_win();
-                        break;
-                    case "以 HTML 格式复制窗口内的文字。":
-                        try {
-                            await navigator.clipboard.writeText(inf.innerHTML);
-                            suc({ str: "操作已完成。" });
-                        } catch (e) {
-                            err({ str: `发生了错误。<code class="err">${e}</code>` });
-                        }
-                        break;
-                    case "以纯文本形式复制窗口内的文字。":
-                        try {
-                            await navigator.clipboard.writeText(inf.textContent);
-                            suc({ str: "操作已完成。" });
-                        } catch (e) {
-                            err({ str: `发生了错误。<code class="err">${e}</code>` });
-                        }
-                        break;
-                    case "朗读正文。":
-                        if (!("speechSynthesis" in window)) {
-                            warn({ str: "当前浏览器不支持朗读功能。" });
-                            break;
-                        }
-                        speechSynthesis.cancel();
-                        speechSynthesis.speak(new SpeechSynthesisUtterance(inf.textContent));
-                        suc({ str: "正在朗读正文。" });
-                        break;
-                    case "停止朗读。":
-                        if ("speechSynthesis" in window) speechSynthesis.cancel();
-                        suc({ str: "已停止朗读。" });
-                        break;
-                    case "下载正文为文本文件。":
-                        {
-                            const blob = new Blob([inf.textContent], { type: "text/plain;charset=utf-8" });
-                            const url = URL.createObjectURL(blob);
-                            const link = document.createElement("a");
-                            link.href = url;
-                            link.download = `${tit || "通知"}.txt`;
-                            link.click();
-                            URL.revokeObjectURL(url);
-                            suc({ str: "正文已下载。" });
-                        }
-                        break;
-                }
             };
         });
     }
@@ -575,7 +543,7 @@ async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             inf.style.minWidth = "30ch";
             inf.style.transition = `all 0.2s ${easing}`;
             okey.type = "button";
-            okey.className = "cg-okey";
+            okey.className = "cg-zx";
             okey.innerHTML = "知晓";
             okey.style.transition = `all 0.2s ${easing}`;
             okey.style.opacity = 0;
@@ -665,9 +633,9 @@ async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
 async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     // 参数检查。
-    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 Warn() 函数中，str 不能为 null 或 undefined。"; }
     str = String(str);
-    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Warn()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 Warn() 函数中，str 不能为空。"; }
     if (tit == null || tit == undefined) tit = "注意";
     else { tit = String(tit); if (!tit.trim()) tit = "注意"; }
     if (id == null || id == undefined) id = "";
@@ -888,9 +856,9 @@ async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
 async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     // 参数检查。
-    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为 <code class=\"nu\">null</code> 或 <code class=\"nu\">undefined</code>。"; }
+    if (str == null || str == undefined) { fail({ str: `不能输入 <code class="nu">${str}</code>！` }); return "在 Fail() 函数中，str 不能为 null 或 undefined。"; }
     str = String(str);
-    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 <code>Fail()</code> 函数中，<code>str</code> 不能为空。"; }
+    if (!str.trim()) { warn({ str: "不能输入空字符串。" }); return "在 Fail() 函数中，str 不能为空。"; }
     if (tit == null || tit == undefined) tit = "错误";
     else { tit = String(tit); if (!tit.trim()) tit = "错误"; }
     if (id == null || id == undefined) id = "";
@@ -1022,7 +990,7 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             inf.style.minWidth = "30ch";
             inf.style.transition = `all 0.2s ${easing}`;
             okey.type = "button";
-            okey.className = "fail-lj";
+            okey.className = "fail-zx";
             okey.innerHTML = "知晓";
             okey.style.transition = `all 0.2s ${easing}`;
             okey.style.opacity = 0;
@@ -1121,7 +1089,7 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
 
     // 规范化字段。
     const fields = prompts.map((p) => {
-        if (typeof p === "string") {
+        if (typeof p === "string" || typeof p === "number" || typeof p === "bigint") {
             return { content: p, type: "textarea", options: null };
         }
         return {
@@ -2432,7 +2400,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             }
             if (msg.includes("Cannot destructure property")) {
                 const prop = grab(/Cannot destructure property '(.+?)'/);
-                return `解构赋值失败，无法从 <code class="nu">undefined</code> 或 <code class="nu">null</code> 中读取 “<code>${prop || "?"}</code>”。`;
+                return `解构赋值失败，无法从 <code class="nu">undefined</code> 或 <code class="nu">null</code> 中读取 “<code class="token">${prop || "?"}</code>”。`;
             }
             if (msg.includes("Invalid array length")) {
                 return "数组长度无效。";
@@ -3340,6 +3308,8 @@ async function mb({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.right = "calc(50% + 15ch)";
                 mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + gb.getBoundingClientRect().height}px + ${window.getComputedStyle(gb).marginBottom})`;
             });
+
+            gb.addEventListener("transitionend", () => { gb.focus(); }, { once: true });
 
             let resorb = new ResizeObserver(() => {
                 const squareH = square.getBoundingClientRect().height;

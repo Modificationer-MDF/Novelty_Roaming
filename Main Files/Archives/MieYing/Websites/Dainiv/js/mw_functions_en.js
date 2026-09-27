@@ -1,903 +1,1815 @@
+/* 为了便于管理各个函数，下列函数的代码我特意拆开了，可能违反了 DRY 原则，但我觉得这样更清晰。*/
+
 // 全局存储当前显示的窗口信息。
-let winmaps = {};
+let dbmaps = {}; // Dainiv Basic 样式窗口。
+let bfmaps = {}; // Brief 样式窗口。
 
-async function noti(str, tit, id) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In Noti() function, argument str can not be null or undefined."; }
-        str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("Illegal input: empty string."); return "In Noti() function, argument str can not be empty string."; }
-        if (tit == null || tit == undefined) tit = "Notification";
-        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Notification"; }
-        if (id == null || id == undefined) id = "";
-
-        let key = `noti|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
-
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
-            }
-
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
-
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
-
-            win.waitlist.push(resolve);
-            return;
-        }
-
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const okey = document.createElement("button");
-        const count = document.createElement("div");
-
-        mele.className = "noti-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `all 0.2s ${easing}`;
-        square.className = "noti-square";
-        icon.src = "Dainiv/images/Notification.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = `all 0.2s ${easing}`;
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = `all 0.2s ${easing}`;
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        okey.type = "button";
-        okey.className = "noti-okey";
-        okey.innerHTML = "I understood";
-        okey.style.transition = `all 0.2s ${easing}`;
-        okey.style.opacity = 0;
-        count.className = "noti-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
-
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(okey);
-        square.appendChild(count);
-
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
-
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            okey.style.opacity = 1;
-            count.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
-        });
-
-        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
-
-        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            okey.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
-                mele.addEventListener("animationend", () => {
-                    if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
-                }, { once: true });
-            }, { once: true });
-        };
-
-        okey.onmouseover = () => { ld(okey, "75%"); };
-        okey.onmouseleave = () => { ld(okey, "100%"); };
-        okey.onclick = () => {
-            close_win();
-            for (let r of win_obj.waitlist) r();
-        };
-    });
+async function argerr({ type = "fail", str, msg }) {
+    if (type === "warn") await warn({ str });
+    else await fail({ str });
+    throw new Error(msg);
 }
 
-async function cg(str, tit, id) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In function Cg(), argument str can not be null or undefined."; }
-        str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("Illegal input: empty string."); return "In function Cg(), argument str can not be empty string."; }
-        if (tit == null || tit == undefined) tit = "Completed";
-        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Completed"; }
-        if (id == null || id == undefined) id = "";
+async function rmenu({ e, mele }) {
+    if (activep) return;
+    e.preventDefault();
 
-        let key = `cg|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
+    const inform = mele.querySelector(".mfn-inf, .brief-inf, .rz-inf");
+    const box = mele.querySelectorAll("textarea, input:not([type='button']), select");
+    const text = inform ? inform.textContent : (box ? box.value : "");
+    const html = inform ? inform.innerHTML : (box ? box.value : "");
+    const names = ["Close this window.", "Copy the content in HTML format.", "Copy the content in plain text.", "Read the content aloud.", "Stop reading aloud.", "Download the content as text file."];
+    const cls = String(mele.className);
 
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
-            }
+    if (cls.includes("inp-")) names.push("Empty all content inputed.");
+    if (cls.includes("zd-")) {
+        names.push("Empty content inputed.");
+        names.push("Enable strict mode.");
+    }
+    if (cls.includes("xz-") && !(cls.includes("xz-brief")) && mele.querySelectorAll(".xz-checkbox").length > 1) {
+        names.push("Select all.");
+        names.push("Unselect all.");
+    }
+    if (cls.includes("lj-")) {
+        names.push("Copy all links.", "Open all links.");
+    }
+    if (cls.includes("timer-") || cls.includes("synchr-") || cls.includes("rz-")) {
+        names.push("Stop timing or progressing.");
+    }
 
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
-
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
-
-            win.waitlist.push(resolve);
-            return;
-        }
-
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const okey = document.createElement("button");
-        const count = document.createElement("div");
-
-        mele.className = "cg-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "cg-square";
-        icon.src = "Dainiv/images/Suc.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = `all 0.2s ${easing}`;
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = `all 0.2s ${easing}`;
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        okey.type = "button";
-        okey.className = "cg-okey";
-        okey.innerHTML = "I understood";
-        okey.style.transition = `all 0.2s ${easing}`;
-        okey.style.opacity = 0;
-        count.className = "cg-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
-
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(okey);
-        square.appendChild(count);
-
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
-
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            okey.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
-        });
-
-        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
-
-        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            okey.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
-                mele.addEventListener("animationend", () => {
-                    if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
-                }, { once: true });
-            }, { once: true });
-        };
-
-        okey.onmouseover = () => { ld(okey, "75%"); };
-        okey.onmouseleave = () => { ld(okey, "100%"); };
-        okey.onclick = () => {
-            close_win();
-            for (let r of win_obj.waitlist) r();
-        };
+    const rs = await xz({
+        str: "What would you like to do?",
+        tit: "Rightclick menu",
+        names,
+        n: 1,
+        form: "brief",
+        id: "rmenu",
     });
-}
 
-async function warn(str, tit, id) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In function Warn(), argument str can not be null or undefined."; }
-        str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("Illegal input: empty string."); return "In function Warn(), argument str can not be empty string."; }
-        if (tit == null || tit == undefined) tit = "Warning";
-        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Warning"; }
-        if (id == null || id == undefined) id = "";
-
-        let key = `warn|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
-
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
-            }
-
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
-
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
-
-            win.waitlist.push(resolve);
+    const close = () => {
+        const btn = mele.querySelector(".noti-zx, .cg-zx, .warn-zx, .fail-zx, .inp-submit, .xz-giveup, .lj-ignore, .zd-submit, .mb-gb, .timer-earlyend");
+        if (btn) {
+            btn.click();
             return;
         }
-
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const okey = document.createElement("button");
-        const count = document.createElement("div");
-
-        mele.className = "warn-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "warn-square";
-        icon.src = "Dainiv/images/Exc.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = `all 0.2s ${easing}`;
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = `all 0.2s ${easing}`;
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        okey.type = "button";
-        okey.className = "warn-zx";
-        okey.innerHTML = "I understood";
-        okey.style.transition = `all 0.2s ${easing}`;
-        okey.style.opacity = 0;
-        count.className = "warn-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
-
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(okey);
-        square.appendChild(count);
-
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
-
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            okey.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
-        });
-
-        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
-
-        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            okey.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
-                mele.addEventListener("animationend", () => {
-                    if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
-                }, { once: true });
-            }, { once: true });
-        };
-
-        okey.onmouseover = () => { ld(okey, "75%"); };
-        okey.onmouseleave = () => { ld(okey, "100%"); };
-        okey.onclick = () => {
-            close_win();
-            for (let r of win_obj.waitlist) r();
-        };
-    });
-}
-
-async function fail(str, tit, id) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In function Fail(), argument str can not be null or undefined."; }
-        str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("Illegal input: empty string."); return "In function Fail(), argument str can not be empty string."; }
-        if (tit == null || tit == undefined) tit = "Failed";
-        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Failed"; }
-        if (id == null || id == undefined) id = "";
-
-        let key = `fail|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
-
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
+        if (cls.includes("brief")) {
+            if (cls.includes("lj-brief") || cls.includes("xz-brief")) {
+                document.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+                return;
+            } else if (cls.includes("inp-brief")) {
+                const b = mele.querySelector(".inp-brief-submit");
+                if (b) b.click();
+                return;
+            } else {
+                mele.click();
+                return;
             }
-
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
-
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
-
-            win.waitlist.push(resolve);
-            return;
         }
+        if (box) {
+            box.forEach((b) => {
+                b.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+            })
+        } else mele.click();
+    };
 
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const okey = document.createElement("button");
-        const count = document.createElement("div");
-
-        mele.className = "fail-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "fail-square";
-        icon.src = "Dainiv/images/Err.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = `all 0.2s ${easing}`;
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = `all 0.2s ${easing}`;
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        okey.type = "button";
-        okey.className = "fail-lj";
-        okey.innerHTML = "I understood";
-        okey.style.transition = `all 0.2s ${easing}`;
-        okey.style.opacity = 0;
-        count.className = "fail-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
-
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(okey);
-        square.appendChild(count);
-
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
-
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            okey.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
-        });
-
-        okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
-
-        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            okey.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
-                mele.addEventListener("animationend", () => {
-                    if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
-                }, { once: true });
-            }, { once: true });
-        };
-
-        okey.onmouseover = () => { ld(okey, "75%"); };
-        okey.onmouseleave = () => { ld(okey, "100%"); };
-        okey.onclick = () => {
-            close_win();
-            for (let r of win_obj.waitlist) r();
-        };
-    });
-}
-
-async function inp(str, tit, id) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In function Inp(), argument str can not be null or undefined."; }
-        str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("Illegal input: empty string."); return "In function Inp(), argument str can not be empty string."; }
-        if (tit == null || tit == undefined) tit = "Input";
-        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Input"; }
-        if (id == null || id == undefined) id = "";
-
-        let key = `inp|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
-
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
-            }
-
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
-
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
-
-            win.waitlist.push(resolve);
-            return;
+    switch (rs[0]) {
+        case "Close this window.":
+        case "Stop timing or progressing.":
+            close();
+            break;
+        case "Select all.": {
+            const checkboxes = [...mele.querySelectorAll(".xz-checkbox")];
+            const submit = mele.querySelector(".xz-submit");
+            const match = submit?.textContent.match(/共可勾选\s+(\d+)\s+个/);
+            const max = match ? Number(match[1]) : checkboxes.length;
+            const checked = checkboxes.filter(box => box.checked).length;
+            const remain = Math.max(0, max - checked);
+            checkboxes.filter(box => !box.checked).slice(0, remain).forEach(box => {
+                box.checked = true;
+                box.dispatchEvent(new Event("change", { bubbles: true }));
+            });
+            break;
         }
-
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const box = document.createElement("textarea");
-        const count = document.createElement("div");
-
-        mele.className = "inp-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "inp-square";
-        icon.src = "Dainiv/images/Inp.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        box.name = "inputbox";
-        box.type = "text";
-        box.className = "inp-box";
-        box.style.opacity = 0;
-        box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        box.style.resize = "none";
-        count.className = "inp-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
-
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(box);
-        square.appendChild(count);
-
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
-
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            box.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + box.getBoundingClientRect().height}px + ${window.getComputedStyle(box).marginBottom})`;
-        });
-
-        box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
-
-        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = (value) => {
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            box.style.opacity = 0;
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
-                mele.addEventListener("animationend", () => {
-                    if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
-                }, { once: true });
-            }, { once: true });
-            for (let r of win_obj.waitlist) r(value);
-        };
-
-        box.addEventListener("keypress", (event) => {
-            if (event.key === "Enter") {
-                const value = box.value;
-                close_win(value);
-            }
-        });
-    });
-}
-
-async function xz(str, n, names, tit, id) {
-    return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In function Xz(), argument str can not be null or undefined."; }
-        str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("Illegal input: empty string."); return "In function Xz(), argument str can not be empty string."; }
-        if (tit == null || tit == undefined) tit = "Choose";
-        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Choose"; }
-        if (id == null || id == undefined) id = "";
-        if (n > names.length) { fail("The terms given are not enough."); return; }
-
-        let key = `xz|${tit}|${str}`;
-        if (winmaps[key]) { // 确认该窗口第一次出现。若不是，则运行下列代码。
-            let win = winmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
-
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
-            }
-
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
-
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
-
-            win.waitlist.push(resolve);
-            return;
+        case "Unselect all.": {
+            const checkboxes = [...mele.querySelectorAll(".xz-checkbox")];
+            checkboxes.forEach(box => {
+                box.checked = false;
+                box.dispatchEvent(new Event("change", { bubbles: true }));
+            });
+            break;
         }
-
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const submit = document.createElement("button");
-        const giveup = document.createElement("button");
-        const count = document.createElement("div");
-
-        mele.className = "xz-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "xz-square";
-        icon.src = "Dainiv/images/Sel.png";
-        icon.alt = "";
-        icon.style.opacity = 0;
-        icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        txt.className = "mfn-title";
-        txt.style.opacity = 0;
-        txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        submit.className = "xz-submit";
-        submit.innerHTML = "Submit";
-        submit.style.opacity = 0;
-        submit.style.transition = `all 0.2s ${easing}`;
-        giveup.className = "xz-giveup";
-        giveup.innerHTML = "Give up choosing.";
-        giveup.style.opacity = 0;
-        giveup.style.transition = `all 0.2s ${easing}`;
-        count.className = "xz-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
-        
-        const array = Array.from(names);
-        const xz_items = [];
-        const btns = [];
-
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(submit);
-        mele.appendChild(giveup);
-        square.appendChild(count);
-
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
-
-        for (let i = 0; i < array.length; i++) {
-            const container = document.createElement("div");
-            container.style.position = "relative";
-            container.style.display = "flex";
-            container.style.marginBottom = "10px";
-            container.style.left = "0px";
-
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.className = "xz-checkbox";
-            checkbox.id = `checkbox${i}`;
-
-            const btn = document.createElement("button");
-            array[i] = String(array[i]);
-            btn.id = `btn${i}`;
-            btn.className = "xz-btn";
-            btn.style.marginBottom = "10px";
-            btn.innerHTML = array[i];
-            btn.style.opacity = 0;
-
-            const tohex = (r, g, b) => {
-                const tohex_ = (value) => {
-                    const hex = value.toString(16);
-                    return hex.length === 1 ? "0" + hex : hex;
-                };
-                return `#${tohex_(r)}${tohex_(g)}${tohex_(b)}`;
-            };
-            const color = () => {
-                const r = Math.floor(Math.random() * 128);
-                const g = Math.floor(Math.random() * 64);
-                const b = Math.floor(Math.random() * 255);
-                return tohex(r, g, b);
-            };
-            btn.style.backgroundColor = `${color()}b0`;
-
-            container.appendChild(checkbox);
-            container.appendChild(btn);
-            inf.appendChild(container);
-            btns.push(btn);
-
-            checkbox.onchange = () => {
-                if (checkbox.checked) {
-                    if (xz_items.length >= n) {
-                        fail(`The amount of the terms that you've chosen is up to maximum. You can shoose ${n} terms at most.`);
-                        mele.style.animation = `mfn_shake2 0.3s ${easing}`;
-                        submit.style.backgroundColor = "#ff0000b0";
-                        mele.addEventListener("animationend", () => {
-                            mele.style.animation = "";
-                            submit.style.backgroundColor = "#a700ffb0";
-                        }, { once: true });
-                        checkbox.checked = false;
-                        return;
+        case "Copy the content in HTML format.":
+            try {
+                await navigator.clipboard.writeText(html);
+                suc({ str: "Operation completed." });
+            } catch (error) {
+                err({ str: `An error occured. <code class="err">${error}</code>` });
+            }
+            break;
+        case "Copy the content in plain text.":
+            try {
+                await navigator.clipboard.writeText(text);
+                suc({ str: "Operation completed." });
+            } catch (error) {
+                err({ str: `An error occured. <code class="err">${error}</code>` });
+            }
+            break;
+        case "Read the content aloud.":
+            if (!("speechSynthesis" in window)) {
+                caut({ str: "Speech synthesis is not available in this browser." });
+                break;
+            }
+            speechSynthesis.cancel();
+            speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+            suc({ str: "Now reading the content aloud." });
+            break;
+        case "Stop reading aloud.":
+            if ("speechSynthesis" in window) speechSynthesis.cancel();
+            suc({ str: "Reading aloud has been terminated." });
+            break;
+        case "Download the content as text file.": {
+            const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${mele.querySelector(".mfn-title, .brief-inf")?.textContent || "内容"}.txt`;
+            link.click();
+            URL.revokeObjectURL(url);
+            suc({ str: "Content has been downloaded." });
+            break;
+        }
+        case "Empty all content inputed.":
+        case "Empty content inputed.":
+            if (box) {
+                box.forEach((b) => {
+                    b.value = "";
+                    b.dispatchEvent(new Event("input", { bubbles: true }));
+                });
+                box[0]?.focus();
+            }
+            break;
+        case "Enable strict mode.":
+            if (box) {
+                box.forEach(async (b) => {
+                    if (b.value.trim().startsWith(`"use strict"`) || b.value.trim().startsWith("'use strict'") || b.value.trim().startsWith("`use strict`")) {
+                        caut({ str: "You have enabled strict mode." });
+                    } else {
+                        b.value = `"use strict";\n${b.value}`;
                     }
-                    xz_items.push(array[i]);
+                });
+            }
+            break;
+        case "Copy all links.": {
+            const links = [...mele.querySelectorAll(".lj-link, .lj-brief-link")].map(link => link.textContent).join("\n");
+            await navigator.clipboard.writeText(links);
+            suc({ str: "Link addresses have been copied." });
+            break;
+        }
+        case "Open all links.":
+            mele.querySelectorAll(".lj-link, .lj-brief-link").forEach(link => link.click());
+            break;
+    }
+}
+
+document.addEventListener("contextmenu", (e) => {
+    const mele = e.target.closest("[class*='-mele']");
+    if (mele) {
+        if (rightwins.some(m => mele.classList.contains(m)) || leftwins.some(m => mele.classList.contains(m)) || mele.id.includes("rmenu")) return;
+        else rmenu({ e, mele });
+    }
+});
+
+async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) return argerr({ str: `Cannot input <code class="nu">${str}</code>！`, msg: "In Noti() function, str cannot be null or undefined." });
+    str = String(str);
+    if (!str.trim()) return argerr({ type: "warn", str: "Cannot input empty string.", msg: "In Noti() function, str cannot be empty string." });
+    if (tit == null || tit == undefined) tit = "Notification";
+    else { tit = String(tit); if (!tit.trim()) tit = "Notification"; }
+    if (id == null || id == undefined) id = "";
+
+    let key = `noti|${str}|${tit}|${id}|${realstr}|${form}`;
+
+    // 样式分发。
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
+                }
+            }
+
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+
+            mele.className = "noti-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Notification.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "noti-brief-title";
+            inf.className = "brief-inf";
+
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
+
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
+
+            // 跟随鼠标。
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
+
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
+            // 边界翻转。
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
+
+            bfmaps[key] = { dom: mele };
+
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve();
+                }, { once: true });
+            };
+
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener("transitionend", () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const okey = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "noti-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `all 0.2s ${easing}`;
+            square.className = "noti-square";
+            icon.src = "Dainiv/images/Notification.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = `all 0.2s ${easing}`;
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = `all 0.2s ${easing}`;
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            okey.type = "button";
+            okey.className = "noti-zx";
+            okey.innerHTML = "Understood";
+            okey.style.transition = `all 0.2s ${easing}`;
+            okey.style.opacity = 0;
+            count.className = "noti-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(okey);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                okey.style.opacity = 1;
+                count.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+                mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const okeyH = okey.getBoundingClientRect().height;
+                const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
+            });
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(okey);
+            win_obj.resorb = resorb;
+
+            okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                okey.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+            };
+
+            okey.onmouseover = () => { ld(okey, "75%"); };
+            okey.onmouseleave = () => { ld(okey, "100%"); };
+            okey.onclick = () => {
+                close_win();
+                for (let r of win_obj.waitlist) r();
+            };
+        });
+    }
+}
+
+async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) return argerr({ str: `Cannot input <code class="nu">${str}</code>！`, msg: "In Cg() function, str cannot be null or undefined." });
+    str = String(str);
+    if (!str.trim()) return argerr({ type: "warn", str: "Cannot input empty string.", msg: "In Cg() function, str cannot be empty string." });
+    if (tit == null || tit == undefined) tit = "Completed";
+    else { tit = String(tit); if (!tit.trim()) tit = "Completed"; }
+    if (id == null || id == undefined) id = "";
+
+    let key = `cg|${str}|${tit}|${id}|${realstr}|${form}`;
+
+    // 样式分发。
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            // 旧窗口先淡出，让出位置给新窗口。
+            if (bfmaps[key]) {
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
+                }
+            }
+
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+
+            mele.className = "cg-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Suc.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "cg-brief-title";
+            inf.className = "brief-inf";
+
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
+
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
+
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
+
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
+
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
+            bfmaps[key] = { dom: mele };
+
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve();
+                }, { once: true });
+            };
+
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const okey = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "cg-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "cg-square";
+            icon.src = "Dainiv/images/Suc.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = `all 0.2s ${easing}`;
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = `all 0.2s ${easing}`;
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            okey.type = "button";
+            okey.className = "cg-zx";
+            okey.innerHTML = "Understood";
+            okey.style.transition = `all 0.2s ${easing}`;
+            okey.style.opacity = 0;
+            count.className = "cg-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(okey);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                okey.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+                mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const okeyH = okey.getBoundingClientRect().height;
+                const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
+            }); // 监测高度变化。
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(okey);
+            win_obj.resorb = resorb;
+
+            okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                okey.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+            };
+
+            okey.onmouseover = () => { ld(okey, "75%"); };
+            okey.onmouseleave = () => { ld(okey, "100%"); };
+            okey.onclick = () => {
+                close_win();
+                for (let r of win_obj.waitlist) r();
+            };
+        });
+    }
+}
+
+async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) { fail({ str: `Cannot input <code class="nu">${str}</code>！` }); return "In Warn() function, str cannot be null or undefined."; }
+    str = String(str);
+    if (!str.trim()) { warn({ str: "Cannot input empty string." }); return "In Warn() function, str cannot be empty string."; }
+    if (tit == null || tit == undefined) tit = "Warning";
+    else { tit = String(tit); if (!tit.trim()) tit = "Warning"; }
+    if (id == null || id == undefined) id = "";
+
+    let key = `warn|${str}|${tit}|${id}|${realstr}|${form}`;
+
+    // 样式分发。
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
+                }
+            }
+
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+
+            mele.className = "warn-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Exc.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "warn-brief-title";
+            inf.className = "brief-inf";
+
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
+
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
+
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
+
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
+
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
+            bfmaps[key] = { dom: mele };
+
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve();
+                }, { once: true });
+            };
+
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const okey = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "warn-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "warn-square";
+            icon.src = "Dainiv/images/Exc.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = `all 0.2s ${easing}`;
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = `all 0.2s ${easing}`;
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            okey.type = "button";
+            okey.className = "warn-zx";
+            okey.innerHTML = "Understood";
+            okey.style.transition = `all 0.2s ${easing}`;
+            okey.style.opacity = 0;
+            count.className = "warn-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(okey);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                okey.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const okeyH = okey.getBoundingClientRect().height;
+                const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
+            }); // 监测高度变化。
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(okey);
+            win_obj.resorb = resorb;
+
+            okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                okey.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+            };
+
+            okey.onmouseover = () => { ld(okey, "75%"); };
+            okey.onmouseleave = () => { ld(okey, "100%"); };
+            okey.onclick = () => {
+                close_win();
+                for (let r of win_obj.waitlist) r();
+            };
+        });
+    }
+}
+
+async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) { fail({ str: `Cannot input <code class="nu">${str}</code>！` }); return "In Fail() function, str cannot be null or undefined."; }
+    str = String(str);
+    if (!str.trim()) { warn({ str: "Cannot input empty string." }); return "In Fail() function, str cannot be empty string."; }
+    if (tit == null || tit == undefined) tit = "错误";
+    else { tit = String(tit); if (!tit.trim()) tit = "错误"; }
+    if (id == null || id == undefined) id = "";
+
+    let key = `fail|${str}|${tit}|${id}|${realstr}|${form}`;
+
+    // 样式分发。
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
+                }
+            }
+
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+
+            mele.className = "fail-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Err.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "fail-brief-title";
+            inf.className = "brief-inf";
+
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
+
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
+
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
+
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
+
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
+            bfmaps[key] = { dom: mele };
+
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve();
+                }, { once: true });
+            };
+
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const okey = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "fail-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "fail-square";
+            icon.src = "Dainiv/images/Err.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = `all 0.2s ${easing}`;
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = `all 0.2s ${easing}`;
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            okey.type = "button";
+            okey.className = "fail-zx";
+            okey.innerHTML = "Understood";
+            okey.style.transition = `all 0.2s ${easing}`;
+            okey.style.opacity = 0;
+            count.className = "fail-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(okey);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                okey.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const okeyH = okey.getBoundingClientRect().height;
+                const okeyMargin = parseFloat(window.getComputedStyle(okey).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + okeyH + okeyMargin}px`;
+            }); // 监测高度变化。
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(okey);
+            win_obj.resorb = resorb;
+
+            okey.addEventListener("transitionend", () => { okey.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                okey.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+            };
+
+            okey.onmouseover = () => { ld(okey, "75%"); };
+            okey.onmouseleave = () => { ld(okey, "100%"); };
+            okey.onclick = () => {
+                close_win();
+                for (let r of win_obj.waitlist) r();
+            };
+        });
+    }
+}
+
+async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    if (str == null || str == undefined) {
+        return argerr({ str: `Cannot input <code class="nu">${str}</code>！`, msg: "In Inp() function, str cannot be null or undefined." });
+    }
+    const is_array = Array.isArray(str);
+    let prompts = is_array ? str : [str];
+    if (tit == null || tit == undefined) tit = "Input";
+    else { tit = String(tit); if (!tit.trim()) tit = "Input"; }
+    if (id == null || id == undefined) id = "";
+
+    // 规范化字段。
+    const fields = prompts.map((p) => {
+        if (typeof p === "string" || typeof p === "number" || typeof p === "bigint") {
+            return { content: p, type: "textarea", options: null };
+        }
+        return {
+            content: (p && p.content != null) ? String(p.content) : "",
+            type: (p && p.type) ? String(p.type) : "textarea",
+            options: (p && p.options) ? p.options : null
+        };
+    });
+
+    // brief 只支持单字段。
+    const use_brief = (form === "brief") && fields.length === 1;
+
+    let key = `inp|${JSON.stringify(str)}|${tit}|${id}|${realstr}|${form}`;
+
+    // 样式分发。
+    if (use_brief) {
+        const field = fields[0];
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
+                }
+            }
+
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const submit = document.createElement("button");
+
+            mele.className = "inp-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Inp.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "inp-brief-title";
+            inf.className = "brief-inf";
+            submit.type = "button";
+            submit.className = "inp-brief-submit";
+            submit.textContent = "Submit";
+
+            if (realstr) { txt.textContent = tit; inf.textContent = field.content; }
+            else { txt.innerHTML = tit; inf.innerHTML = field.content; }
+
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
+
+            // 控件。
+            let box;
+            if (field.type === "select") {
+                box = document.createElement("select");
+                box.className = "inp-brief-select";
+                (field.options || []).forEach(opt => {
+                    const o = document.createElement("option");
+                    o.value = String(opt);
+                    o.textContent = String(opt);
+                    box.appendChild(o);
+                });
+            } else {
+                box = document.createElement("input");
+                box.type = "text";
+                box.className = "inp-brief-box";
+            }
+            text.appendChild(box);
+            text.appendChild(submit);
+
+            // 跟随鼠标 / 边界翻转。
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
+
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
+
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
+            bfmaps[key] = { dom: mele };
+
+            let closed = false;
+            const close = (result) => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve(result);
+                }, { once: true });
+            };
+
+            setTimeout(() => box.focus(), 0);
+
+            box.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (field.type === "select") {
+                        close(box.value);
+                    } else {
+                        const v = box.value;
+                        close(v.trim() === "" ? null : v);
+                    }
+                } else if (e.key === "Escape") {
+                    e.preventDefault();
+                    close(null);
+                }
+            });
+
+            submit.onclick = (e) => {
+                e.stopPropagation();
+                if (field.type === "select") {
+                    close(box.value);
                 } else {
-                    const index = xz_items.indexOf(array[i]);
-                    if (index > -1) xz_items.splice(index, 1);
+                    const v = box.value;
+                    close(v.trim() === "" ? null : v);
+                }
+            };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener("transitionend", () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const count = document.createElement("div");
+            const submit = document.createElement("button");
+
+            mele.className = "inp-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "inp-square";
+            icon.src = "Dainiv/images/Inp.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            count.className = "inp-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+            submit.type = "button";
+            submit.className = "inp-submit";
+            submit.textContent = "Submit";
+            submit.style.opacity = 0;
+            submit.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(submit);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            inf.innerHTML = "";
+            const boxes = [];
+
+            fields.forEach((field, idx) => {
+                // 提示文字。
+                const pdiv = document.createElement("div");
+                pdiv.className = "inp-prompt";
+                pdiv.style.marginBottom = "10px";
+                if (realstr) { pdiv.textContent = field.content; }
+                else { pdiv.innerHTML = field.content; }
+                inf.appendChild(pdiv);
+
+                // 控件。
+                let box;
+                if (field.type === "select") {
+                    box = document.createElement("select");
+                    box.className = "inp-select";
+                    (field.options || []).forEach(opt => {
+                        const o = document.createElement("option");
+                        o.value = String(opt);
+                        o.textContent = String(opt);
+                        box.appendChild(o);
+                    });
+                } else {
+                    box = document.createElement("textarea");
+                    box.className = "inp-box";
+                }
+                box.style.opacity = 0;
+                box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+                box.dataset.index = idx;
+                inf.appendChild(box);
+                boxes.push(box);
+
+                if (idx < fields.length - 1) {
+                    const line = document.createElement("div");
+                    line.className = "inp-line";
+                    line.style.margin = "8px 0";
+                    inf.appendChild(line);
+                }
+            });
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                boxes.forEach(b => b.style.opacity = 1);
+                submit.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const submitH = submit.getBoundingClientRect().height;
+                const submitMargin = parseFloat(window.getComputedStyle(submit).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + submitH + submitMargin}px`;
+            });
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(submit);
+            win_obj.resorb = resorb;
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            // 聚焦第一个 textarea。
+            for (let i = 0; i < boxes.length; i++) {
+                if (fields[i].type !== "select") {
+                    boxes[i].focus();
+                    break;
+                }
+            }
+
+            // 只有 textarea 绑定 Enter 跳转。
+            boxes.forEach((box, idx) => {
+                if (fields[idx].type === "select") return;
+                box.addEventListener("keydown", (event) => {
+                    if (event.key === "Enter" && !event.shiftKey) {
+                        event.preventDefault();
+                        // 找下一个 textarea。
+                        let next = -1;
+                        for (let i = idx + 1; i < boxes.length; i++) {
+                            if (fields[i].type !== "select") { next = i; break; }
+                        }
+                        if (next >= 0) {
+                            boxes[next].focus();
+                        } else {
+                            submit.focus();
+                        }
+                    }
+                });
+            });
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                let values = boxes.map((b, i) => {
+                    if (fields[i].type === "select") {
+                        return b.value;
+                    }
+                    return b.value;
+                });
+                if (fields.length === 1) {
+                    if (fields[0].type === "select") {
+                        values = values[0];
+                    } else {
+                        values = values[0].trim() === "" ? null : values[0];
+                    }
+                }
+
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                boxes.forEach(b => b.style.opacity = 0);
+                submit.style.opacity = 0;
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+
+                for (let r of win_obj.waitlist) r(values);
+            };
+
+            submit.onmouseover = () => { ld(submit, "75%"); };
+            submit.onmouseleave = () => { ld(submit, "100%"); };
+            submit.onclick = close_win;
+        });
+    }
+}
+
+async function xz({ str, tit, names, n, id, realstr = false, form = "dainiv basic" }) {
+    if (str == null || str == undefined) return argerr({ str: `Cannot input <code class="nu">${str}</code>！`, msg: "In Xz() function, str cannot be null or undefined." });
+    str = String(str);
+    if (!str.trim()) return argerr({ type: "warn", str: "Cannot input empty string.", msg: "In Xz() function, str cannot be empty string." });
+    if (tit == null || tit == undefined) tit = "Select";
+    else { tit = String(tit); if (!tit.trim()) tit = "Select"; }
+    if (id == null || id == undefined) id = "";
+    if (n > names.length) return argerr({ str: "Options given are not enough.", msg: "In Xz() function, options are not enough." });
+    if (typeof names === "string" || typeof names === "number" || typeof names === "boolean" || typeof names === "bigint") { names = [String(names)]; }
+
+    // 多选时强制走 Dainiv Basic。
+    const use_brief = (form === "brief") && n === 1;
+
+    let key = `xz|${str}|${tit}|${JSON.stringify(names)}:${n}|${id}|${realstr}|${form}`;
+
+    // 样式分发。
+    if (use_brief) {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
+                }
+            }
+
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const options = document.createElement("div");
+
+            mele.className = "xz-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Sel.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "xz-brief-title";
+            inf.className = "brief-inf";
+            options.className = "xz-brief-options";
+
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
+
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
+            text.appendChild(options);
+
+            let closed = false;
+            const close = (result) => {
+                if (closed) return;
+                closed = true;
+                document.removeEventListener("mousedown", outside_handler);
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve(result);
+                }, { once: true });
+            };
+
+            const outside_handler = (e) => {
+                if (!mele.contains(e.target)) close([null]);
+            };
+
+            const array = Array.from(names);
+            array.forEach((name) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "xz-brief-option";
+                btn.textContent = String(name);
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    close([String(name)]);
+                };
+                options.appendChild(btn);
+            });
+
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
+
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
+
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
+            bfmaps[key] = { dom: mele };
+
+            setTimeout(() => {
+                document.addEventListener("mousedown", outside_handler);
+            }, 0);
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const submit = document.createElement("button");
+            const giveup = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "xz-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "xz-square";
+            icon.src = "Dainiv/images/Sel.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            submit.className = "xz-submit";
+            submit.style.transition = `all 0.2s ${easing}`;
+            submit.innerHTML = `OK (0 selected, ${n} to select at most)`;
+            submit.style.opacity = 0;
+            giveup.className = "xz-giveup";
+            giveup.innerHTML = "Quit selecting";
+            giveup.style.opacity = 0;
+            giveup.style.transition = `all 0.2s ${easing}`;
+            count.className = "xz-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            const array = Array.from(names);
+            const xz_items = [];
+            const btns = [];
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(submit);
+            mele.appendChild(giveup);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            inf.innerHTML = `${realstr ? esc_str(str) : str}<div class="xz-line"></div>`;
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+
+            for (let i = 0; i < array.length; i++) {
+                const container = document.createElement("div");
+                container.style.position = "relative";
+                container.style.display = "flex";
+                container.style.marginBottom = "10px";
+                container.style.left = "0px";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "xz-checkbox";
+                checkbox.id = `checkbox${i}`;
+
+                const btn = document.createElement("button");
+                array[i] = String(array[i]);
+                btn.id = `btn${i}`;
+                btn.className = "xz-btn";
+                btn.style.marginBottom = "10px";
+                btn.innerHTML = array[i];
+                btn.style.opacity = 0;
+
+                const tohex = (r, g, b) => {
+                    const tohex_ = (value) => {
+                        const hex = value.toString(16);
+                        return hex.length === 1 ? "0" + hex : hex;
+                    };
+                    return `#${tohex_(r)}${tohex_(g)}${tohex_(b)}`;
+                };
+                const color = () => {
+                    const r = Math.floor(Math.random() * 128);
+                    const g = Math.floor(Math.random() * 64);
+                    const b = Math.floor(Math.random() * 255);
+                    return tohex(r, g, b);
+                };
+                btn.style.backgroundColor = `${color()}b0`;
+
+                container.appendChild(checkbox);
+                container.appendChild(btn);
+                inf.appendChild(container);
+                btns.push(btn);
+
+                checkbox.onchange = () => {
+                    if (checkbox.checked) {
+                        if (xz_items.length >= n) {
+                            fail({ str: `You've reached the maximum amount of selections. You can select ${n} at most.`, form: "brief" });
+                            mele.style.animation = `mfn_shake2 0.3s ${easing}`;
+                            submit.style.backgroundColor = "#ff0000b0";
+                            mele.addEventListener("animationend", () => {
+                                mele.style.animation = "";
+                                submit.style.backgroundColor = "var(--xz-submit-color)";
+                            }, { once: true });
+                            checkbox.checked = false;
+                            return;
+                        }
+                        xz_items.push(array[i]);
+                        submit.innerHTML = `OK (${xz_items.length} selected, ${n} to select at most)`;
+                    } else {
+                        const idx = xz_items.indexOf(array[i]);
+                        if (idx > -1) xz_items.splice(idx, 1);
+                        submit.innerHTML = `OK (${xz_items.length} selected, ${n} to select at most)`;
+                    }
+                };
+
+                btn.onmouseover = () => { ld(btn, "75%"); };
+                btn.onmouseleave = () => { ld(btn, "100%"); };
+                btn.onclick = () => {
+                    checkbox.checked = !checkbox.checked;
+                    checkbox.dispatchEvent(new Event("change"));
+                };
+            }
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                submit.style.opacity = 1;
+                giveup.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+                mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + submit.getBoundingClientRect().height + giveup.getBoundingClientRect().height}px + ${window.getComputedStyle(submit).marginBottom} + ${window.getComputedStyle(giveup).marginBottom})`;
+                for (let btn of btns) btn.style.opacity = 1;
+            });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const submitH = submit.getBoundingClientRect().height;
+                const submitMargin = parseFloat(window.getComputedStyle(submit).marginBottom) || 0;
+                const giveupH = giveup.getBoundingClientRect().height;
+                const giveupMargin = parseFloat(window.getComputedStyle(giveup).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + submitH + submitMargin + giveupH + giveupMargin}px`;
+            });
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(submit);
+            resorb.observe(giveup);
+            win_obj.resorb = resorb;
+
+            submit.addEventListener("transitionend", () => { submit.focus(); }, { once: true });
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = (result) => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                submit.style.opacity = 0;
+                giveup.style.opacity = 0;
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+                for (let r of win_obj.waitlist) r(result);
+            };
+
+            submit.onmouseover = () => { ld(submit, "75%"); };
+            submit.onmouseleave = () => { ld(submit, "100%"); };
+            submit.onclick = () => {
+                if (xz_items.length === 0) {
+                    warn({ str: "You haven't selected any items yet!", form: "brief" });
+                    mele.style.animation = `mfn_shake1 0.3s ${easing}`;
+                    submit.style.backgroundColor = "#ffff00b0";
+                    mele.addEventListener("animationend", () => {
+                        mele.style.animation = "";
+                        submit.style.backgroundColor = "var(--xz-submit-color)";
+                    }, { once: true });
+                    return;
+                } else {
+                    close_win(xz_items);
                 }
             };
 
-            btn.onmouseover = () => { ld(btn, "75%"); };
-            btn.onmouseleave = () => { ld(btn, "100%"); };
-            btn.onclick = () => {
-                checkbox.checked = !checkbox.checked;
-                checkbox.dispatchEvent(new Event("change"));
-            };
-        }
-
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            submit.style.opacity = 1;
-            giveup.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + submit.getBoundingClientRect().height + giveup.getBoundingClientRect().height}px + ${window.getComputedStyle(submit).marginBottom} + ${window.getComputedStyle(giveup).marginBottom})`;
-            for (let btn of btns) btn.style.opacity = 1;
+            giveup.onmouseover = () => { ld(giveup, "75%"); };
+            giveup.onmouseleave = () => { ld(giveup, "100%"); };
+            giveup.onclick = () => { close_win([null]); };
         });
-
-        submit.addEventListener("transitionend", () => { submit.focus(); }, { once: true });
-
-        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = (result) => {
-            submit.style.opacity = 0;
-            giveup.style.opacity = 0;
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
-                mele.addEventListener("animationend", () => {
-                    if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
-                }, { once: true });
-            }, { once: true });
-            for (let r of win_obj.waitlist) r(result);
-        };
-
-        submit.onmouseover = () => { ld(submit, "75%"); };
-        submit.onmouseleave = () => { ld(submit, "100%"); };
-        submit.onclick = () => {
-            if (xz_items.length === 0) {
-                warn("你还没有勾选！");
-                mele.style.animation = `mfn_shake1 0.3s ${easing}`;
-                submit.style.backgroundColor = "#ffff00b0";
-                mele.addEventListener("animationend", () => {
-                    mele.style.animation = "";
-                    submit.style.backgroundColor = "#a700ffb0";
-                }, { once: true });
-                return;
-            } else {
-                close_win(xz_items);
-            }
-        };
-
-        giveup.onmouseover = () => { ld(giveup, "75%"); };
-        giveup.onmouseleave = () => { ld(giveup, "100%"); };
-        giveup.onclick = () => { close_win(null); };
-    });
+    }
 }
 
-async function synchr(str, tit, id) {
-    if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In function Synchr(), argument str can not be null or undefined."; }
+async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    if (str == null || str == undefined) return argerr({ str: `Cannot input <code class="nu">${str}</code>！`, msg: "In Synchr() function, str cannot be null or undefined." });
     str = String(str);
-    let s_replaced = str.replace(/\s+/g, "");
-    if (s_replaced === "") { warn("Illegal input: empty string."); return "In function Synchr(), argument str can not be empty string."; }
+    if (!str.trim()) return argerr({ type: "warn", str: "Cannot input empty string.", msg: "In Synchr() function, str cannot be empty string." });
     if (tit == null || tit == undefined) tit = "Synchronization";
-    else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Synchronization"; }
+    else { tit = String(tit); if (!tit.trim()) tit = "Synchronization"; }
     if (id == null || id == undefined) id = "";
 
-    let key = `synchr|${tit}|${str}`;
+    let key = `synchr|${str}|${tit}|${id}|${realstr}|${form}`;
 
-    if (winmaps[key]) {
-        let win = winmaps[key];
+    if (dbmaps[key]) {
+        let win = dbmaps[key];
         let ele = win.cnt_ele;
 
         win.cnt++;
@@ -938,7 +1850,7 @@ async function synchr(str, tit, id) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
         }, dur);
@@ -973,7 +1885,7 @@ async function synchr(str, tit, id) {
     inf.style.transition = `all 0.2s ${easing}`;
     bar.className = "synchr-bar";
     desc.className = "mfn-timerdesc";
-    desc.innerHTML = "No tasks on progress";
+    desc.innerHTML = "No tasks";
     count.className = "synchr-count";
     count.innerText = "1";
     count.style.opacity = 0;
@@ -989,11 +1901,11 @@ async function synchr(str, tit, id) {
     square.appendChild(count);
 
     mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-    inf.innerHTML = str;
-    txt.innerHTML = tit;
+    if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+    if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
     let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [] };
-    winmaps[key] = win_obj;
+    dbmaps[key] = win_obj;
 
     mele.addEventListener("animationend", () => {
         inf.style.transform = "translateY(0)";
@@ -1001,23 +1913,43 @@ async function synchr(str, tit, id) {
         icon.style.opacity = 1;
         txt.style.opacity = 1;
         count.style.opacity = 1;
+        bar.style.opacity = 1;
+        desc.style.opacity = 1;
         mele.style.width = "30ch";
         mele.style.left = "calc(50% - 15ch)";
         mele.style.right = "calc(50% + 15ch)";
-        mele.style.height = `${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + bar.getBoundingClientRect().height + desc.getBoundingClientRect().height}px`;
     });
 
-    let square_height = gethei(txt.innerHTML, "mfn-title", "div");
+    let resorb = new ResizeObserver(() => {
+        const squareH = square.getBoundingClientRect().height;
+        const infH = inf.getBoundingClientRect().height;
+        const barH = bar.getBoundingClientRect().height;
+        const descH = desc.getBoundingClientRect().height;
+        mele.style.height = `${squareH + infH + barH + descH}px`;
+    }); // 监测高度变化。
+    resorb.observe(square);
+    resorb.observe(inf);
+    resorb.observe(bar);
+    resorb.observe(desc);
+    win_obj.resorb = resorb;
+
+    let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
     square.style.height = square_height;
     inf.style.marginTop = square_height;
 
     let dur = smarttime(str);
     let tid = setTimeout(() => {
+        if (win_obj.resorb) {
+            win_obj.resorb.disconnect();
+            win_obj.resorb = null;
+        }
         inf.style.opacity = 0;
         inf.style.transform = "translateY(-10px)";
         icon.style.opacity = 0;
         txt.style.opacity = 0;
         count.style.opacity = 0;
+        bar.style.opacity = 0;
+        desc.style.opacity = 0;
         mele.style.height = "0px";
         inf.addEventListener("transitionend", () => {
             square.style.height = "35px";
@@ -1025,333 +1957,508 @@ async function synchr(str, tit, id) {
             mclose(mele);
             mele.addEventListener("animationend", () => {
                 if (document.body.contains(mele)) document.body.removeChild(mele);
-                delete winmaps[key];
+                delete dbmaps[key];
             }, { once: true });
         }, { once: true });
     }, dur);
     win_obj.timeout_id = tid;
 }
 
-async function lj(str, url, tit, id) {
-    if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In function Lj(), argument str can not be null or undefined."; }
-    if (url == null || url == undefined) { warn("Can not jump to null or undefined。"); return "In function, argument url can not be null or undefined。"; }
+async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) return argerr({ str: `Cannot input <code class="nu">${str}</code>！`, msg: "In Lj() function, str cannot be null or undefined." });
+    if (url == null || url == undefined) return argerr({ type: "warn", str: "Cannot jump to null or undefined.", msg: "In Lj() function, url argument cannot be null or undefined." });
     str = String(str);
-    url = String(url);
-    let s_replaced = str.replace(/\s+/g, "");
-    if (s_replaced === "") { warn("Illegal input: empty string."); return "In function Lj(), argument str can not be empty string."; }
-    let u_replaced = url.replace(/\s+/g, "");
-    if (u_replaced === "") { warn("Can not jump to blank address."); return "In function Lj(), argument url can not be empty string."; }
-    if (tit == null || tit == undefined) tit = (url.startsWith("mailto:") ? "Mail" : "Link");
-    else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Link"; }
+    if (!str.trim()) return argerr({ type: "warn", str: "Cannot input empty string.", msg: "In Lj() function, str cannot be empty string." });
+
+    // url 规范化。
+    const url_array = Array.isArray(url) ? url : [url];
+    const urls = url_array.map(u => String(u)).filter(u => u.trim() !== "");
+    if (urls.length === 0) return argerr({ type: "warn", str: "Cannot jump to empty address.", msg: "In Lj() function, url argument cannot be all empty." });
+
+    if (tit == null || tit == undefined) {
+        tit = urls.every(u => u.toLowerCase().startsWith("mailto:")) ? "Mail to" : "Link";
+    } else { tit = String(tit); if (!tit.trim()) tit = "Link"; }
     if (id == null || id == undefined) id = "";
 
-    function urlcheck(u) {
-        if (typeof u !== "str") return false;
-        const decoded = decodeURIComponent(u);
-        const lower = decoded.toLowerCase();
-        const kps = [
-            /\\device\\/i, /\\condrv\\/i, /globalroot/i, /^\\.\\.*\\/, /^\\\\\.\\/,
-            /kernelconnect/i, /physicaldrive\d*/i, /\\physicaldrive\d*/i, /^\\\\\?\\/,
-            /harddiskvolume\d*/i,
-        ];
-        if (kps.some(p => p.test(lower))) return false;
-        return true;
+    let key = `lj|${str}|${tit}|${JSON.stringify(urls)}|${id}|${realstr}|${form}`;
+    
+    // 样式分发，
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
+                }
+            }
+
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const links = document.createElement("div");
+
+            mele.className = "lj-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Link.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "lj-brief-title";
+            inf.className = "brief-inf";
+            links.className = "lj-brief-links";
+
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
+
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
+            text.appendChild(links);
+
+            let closed = false;
+            const close = (result) => {
+                if (closed) return;
+                closed = true;
+                document.removeEventListener("mousedown", outside_handler);
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
+                mele.addEventListener("animationend", () => {
+                    if (document.body.contains(mele)) document.body.removeChild(mele);
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve(result);
+                }, { once: true });
+            };
+
+            urls.forEach((u) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "lj-brief-link";
+                btn.textContent = u;
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}`)) {
+                        warn({ str: "The windows that should have jumped were blocked." });
+                    }
+                    close(u);
+                };
+                links.appendChild(btn);
+            });
+
+            // 跟随鼠标。
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
+
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
+
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
+
+            bfmaps[key] = { dom: mele };
+
+            const outside_handler = (e) => {
+                if (!mele.contains(e.target)) close(null);
+            };
+            setTimeout(() => {
+                document.addEventListener("mousedown", outside_handler);
+            }, 0);
+        });
     }
-    if (!urlcheck(url)) {
-        warn("The jump of the link window has been held back due to Safety Policy.");
-        console.warn(`[Safety Policy] Blocked link window: ${url}.`);
-        return;
-    }
 
-    let key = `lj|${tit}|${str}|${url}`;
-    if (winmaps[key]) {
-        let win = winmaps[key];
-        let ele = win.cnt_ele;
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                let ele = win.cnt_ele;
 
-        win.cnt++;
-        if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
+                win.cnt++;
+                if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
 
-        if (win.anim_timer) {
-            clearTimeout(win.anim_timer);
-            win.anim_timer = null;
-        }
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
 
-        ele.style.transition = "opacity 0.1s ease";
-        ele.style.opacity = "0";
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
 
-        ele.addEventListener(("transitionend"), () => {
-            ele.innerText = win.cnt;
-            ele.style.opacity = "1";
-            win.anim_timer = null;
-        }, { once: true });
-        return;
-    }
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+                return;
+            }
 
-    const mele = document.createElement("div");
-    const square = document.createElement("div");
-    const icon = document.createElement("img");
-    const txt = document.createElement("div");
-    const inf = document.createElement("div");
-    const link = document.createElement("button");
-    const ignore = document.createElement("button");
-    const count = document.createElement("div");
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const ignore = document.createElement("button");
+            const count = document.createElement("div");
 
-    mele.className = "lj-mele";
-    mele.id = id;
-    mele.style.height = "0px";
-    mele.style.transition = `height 0.2s ${easing}`;
-    square.className = "lj-square";
-    icon.src = "Dainiv/images/Link.png";
-    icon.alt = "";
-    icon.style.opacity = 0;
-    icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-    txt.className = "mfn-title";
-    txt.style.opacity = 0;
-    txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-    inf.className = "mfn-inf";
-    inf.style.opacity = 0;
-    inf.style.textAlign = "center";
-    inf.style.minWidth = "30ch";
-    inf.style.transition = `all 0.2s ${easing}`;
-    link.className = "lj-link";
-    link.innerHTML = url;
-    link.style.opacity = 0;
-    link.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-    ignore.className = "lj-ignore";
-    ignore.innerHTML = "Ignore that";
-    ignore.style.opacity = 0;
-    ignore.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-    count.className = "lj-count";
-    count.innerText = "1";
-    count.style.opacity = 0;
+            mele.className = "lj-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "lj-square";
+            icon.src = "Dainiv/images/Link.png";
+            icon.alt = "";
+            icon.style.opacity = 0;
+            icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            txt.className = "mfn-title";
+            txt.style.opacity = 0;
+            txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            inf.className = "mfn-inf";
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            ignore.className = "lj-ignore";
+            ignore.innerHTML = "Ignore";
+            ignore.style.opacity = 0;
+            ignore.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            count.className = "lj-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
 
-    mcreate(mele);
-    document.body.appendChild(mele);
-    mele.appendChild(square);
-    square.appendChild(icon);
-    square.appendChild(txt);
-    mele.appendChild(inf);
-    mele.appendChild(link);
-    mele.appendChild(ignore);
-    square.appendChild(count);
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(ignore);
+            square.appendChild(count);
 
-    mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-    inf.innerHTML = str;
-    txt.innerHTML = tit;
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            inf.innerHTML = `${realstr ? esc_str(str) : str}<div class="lj-line"></div>`;
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
-    let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [] };
-    winmaps[key] = win_obj;
+            // 每个 url 一个按钮。
+            const link_btns = [];
+            urls.forEach((u) => {
+                const link = document.createElement("button");
+                link.type = "button";
+                link.className = "lj-link";
+                link.textContent = u;
+                link.style.opacity = 0;
+                link.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+                link.onmouseover = () => { ld(link, "75%"); };
+                link.onmouseleave = () => { ld(link, "100%"); };
+                link.onclick = () => {
+                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}`)) {
+                        warn({ str: "The windows that should have jumped were blocked." });
+                    }
+                    close_win(u);
+                };
+                inf.appendChild(link);
+                link_btns.push(link);
+            });
 
-    mele.addEventListener("animationend", () => {
-        inf.style.transform = "translateY(0)";
-        inf.style.opacity = 1;
-        icon.style.opacity = 1;
-        txt.style.opacity = 1;
-        count.style.opacity = 1;
-        link.style.opacity = 1;
-        ignore.style.opacity = 1;
-        mele.style.width = "30ch";
-        mele.style.left = "calc(50% - 15ch)";
-        mele.style.right = "calc(50% + 15ch)";
-        mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + link.getBoundingClientRect().height + ignore.getBoundingClientRect().height}px + ${window.getComputedStyle(link).marginBottom} + ${window.getComputedStyle(ignore).marginBottom})`;
-    });
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
 
-    link.addEventListener("transitionend", () => { ignore.focus(); }, { once: true });
-
-    let square_height = gethei(txt.innerHTML, "mfn-title", "div");
-    square.style.height = square_height;
-    inf.style.marginTop = square_height;
-
-    const close_win = () => {
-        link.style.opacity = 0;
-        ignore.style.opacity = 0;
-        inf.style.opacity = 0;
-        inf.style.transform = "translateY(-10px)";
-        icon.style.opacity = 0;
-        txt.style.opacity = 0;
-        count.style.opacity = 0;
-        mele.style.height = "0px";
-        inf.addEventListener("transitionend", () => {
-            square.style.height = "35px";
-            mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-            mclose(mele);
             mele.addEventListener("animationend", () => {
-                if (document.body.contains(mele)) document.body.removeChild(mele);
-                delete winmaps[key];
-            }, { once: true });
-        }, { once: true });
-    };
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                link_btns.forEach(b => b.style.opacity = 1);
+                ignore.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+            });
 
-    link.onmouseover = () => { ld(link, "75%"); };
-    link.onmouseleave = () => { ld(link, "100%"); };
-    link.onclick = () => {
-        if (!open(url, "_blank", `width=${defwid}, height=${defhei}`)) warn("The window that should have jumped was blocked.");
-        close_win();
-    };
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const ignoreH = ignore.getBoundingClientRect().height;
+                const ignoreMargin = parseFloat(window.getComputedStyle(ignore).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + ignoreH + ignoreMargin}px`;
+            });
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(ignore);
+            win_obj.resorb = resorb;
 
-    ignore.onmouseover = () => { ld(ignore, "75%"); };
-    ignore.onmouseleave = () => { ld(ignore, "100%"); };
-    ignore.onclick = () => {
-        rz("The link has been ignored.");
-        close_win();
-    };
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = (result) => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                link_btns.forEach(b => b.style.opacity = 0);
+                ignore.style.opacity = 0;
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+                for (let r of win_obj.waitlist) r(result);
+            };
+
+            ignore.onmouseover = () => { ld(ignore, "75%"); };
+            ignore.onmouseleave = () => { ld(ignore, "100%"); };
+            ignore.onclick = () => {
+                close_win(null);
+            };
+        });
+    }
 }
 
-// 主函数
-async function zd(str, tit, id) {
+async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     function errorres(error, input) {
-        const msg = error.message;
-        const name = error.name;
-    
-        // ReferenceError.
-        if (name === 'ReferenceError') {
-            if (msg.includes(' is not defined')) {
-                let varName = msg.split(' is not defined')[0].trim();
-                return `Referenced an undefined variable or function “${varName}”.`;
-            }
-            if (msg.includes('Cannot access')) {
-                let varName = msg.split("'")[1] || 'variable';
-                return `Cannot access “${varName}” before initialization.`;
-            }
-            return `Reference error: “${msg}”.`;
+        // 提取 msg 和 name。
+        const msg = String(error && error.message ? error.message : error);
+        const name = String(error && error.name ? error.name : "Error");
+        const code = (input == null) ? "" : String(input);
+
+        // 从消息里提取片段，转义。
+        function grab(pattern) {
+            const m = msg.match(pattern);
+            return m && m[1] != null ? esc_str(m[1]) : null;
         }
-    
-        // SyntaxError.
-        if (name === 'SyntaxError') {
-            if (msg.includes('Missing initializer in const declaration')) {
-                return "Missing initializer in const declaration.";
+
+        // 0. ReferenceError
+        if (name === "ReferenceError") {
+            if (msg.includes(" is not defined")) {
+                const v = grab(/(.+) is not defined/);
+                return `引用了未定义的变量或函数 “<code class="var">${v || "?"}</code>”。`;
             }
-            if (msg.includes(' has already been declared')) {
-                let varName = msg.split("Identifier '")[1]?.split("'")[0] || 'unknown';
-                return `Identifier “${varName}” has already been declared.`;
+            if (msg.includes("Cannot access")) {
+                const v = grab(/Cannot access '(.+?)'/);
+                return `无法在初始化前访问 “<code class="var">${v || "变量"}</code>”。`;
             }
-            if (msg.includes('Unexpected token')) {
-                let token = msg.split("Unexpected token '")[1]?.split("'")[0] || msg.split("Unexpected token")[1]?.trim() || 'illegal symbol';
-                if (token === 'end of input') return 'Unexpected end of input.';
-                return `Unexpected symbol “${token}”.`;
-            }
-            if (msg.includes('Unexpected identifier')) {
-                let token = msg.split("Unexpected identifier '")[1]?.split("'")[0] || '';
-                return `“${token}” is not a valid identifier.`;
-            }
-            if (msg.includes('Unexpected end of input')) {
-                return "Missing required syntax.";
-            }
-            if (msg.includes('Invalid or unexpected token')) {
-                if (input.includes('\\')) return "Invalid escape character “\\”.";
-                if (input.includes('`')) return "Possibly missing closing backtick in template string.";
-                return "Invalid identifier or unexpected symbol.";
-            }
-            if (msg.includes('Invalid left-hand side in assignment')) {
-                return "Invalid left-hand side in assignment.<br />Cannot assign to constants, literals, or read-only properties.";
-            }
-            if (msg.includes('Cannot use import statement outside a module')) {
-                return "Cannot use import statement outside a module.";
-            }
-            if (msg.includes('Illegal return statement')) {
-                return "Return statement outside function is illegal.";
-            }
-            if (msg.includes('Missing ) after argument list')) {
-                return "Missing closing parenthesis “)” in argument list.";
-            }
-            if (msg.includes('Missing } after function body')) {
-                return "Missing closing curly brace “}” in function body.";
-            }
-            if (msg.includes('Missing formal parameter')) {
-                return "Missing formal parameter in arrow function or function declaration.";
-            }
-            if (msg.includes('Unterminated string literal')) {
-                return "Unterminated string literal.";
-            }
-            else {
-                return `Syntax error: “${msg}”.`;
-            }
+            return `引用错误：“<code class="err">${esc_str(msg)}</code>”。`;
         }
-    
-        // TypeError.
-        if (name === 'TypeError') {
-            if (msg.includes('Assignment to constant variable')) {
-                return "Cannot reassign a const variable.";
+
+        // 1. SyntaxError
+        if (name === "SyntaxError") {
+            if (msg.includes("Missing initializer in const declaration")) {
+                return `<code class="key">const</code> 常量没有设置初始化值。`;
             }
-            if (msg.includes('Cannot assign to read only property')) {
-                return "Cannot assign to read-only property.";
+            if (msg.includes("has already been declared")) {
+                const v = grab(/Identifier '(.+?)'/);
+                return `标识符 “<code class="var">${v || "未知"}</code>” 已经声明过。`;
             }
-            if (msg.includes('is not a function')) {
-                let varName = msg.split(' is not a function')[0].trim();
-                return `“${varName}” is not a function.`;
+            if (msg.includes("Unexpected token")) {
+                let token = "";
+                if (msg.includes("Unexpected token '")) {
+                    token = msg.split("Unexpected token '")[1]?.split("'")[0] || "";
+                } else {
+                    token = msg.split("Unexpected token")[1]?.trim() || "";
+                }
+                if (token === "end of input") return "意外代码结束，输入不完整。";
+                return `意外符号 “<code class="token">${esc_str(token) || "?"}</code>”。`;
             }
-            if (msg.includes('is not iterable')) {
-                let varName = msg.split(' is not iterable')[0].trim();
-                return `“${varName}” is not iterable.`;
+            if (msg.includes("Unexpected identifier")) {
+                const v = grab(/Unexpected identifier '(.+?)'/);
+                return `“<code class="token">${v || "?"}</code>” 不是有效的标识符。`;
             }
-            if (msg.includes('Cannot read properties of')) {
-                let parts = msg.split("Cannot read properties of ")[1];
-                let val = parts.includes('null') ? 'null' : 'undefined';
-                let prop = parts.split("(reading '")[1]?.split("')")[0] || 'unknown property';
-                return `Cannot read property “${prop}” of ${val}.`;
+            if (msg.includes("Unexpected end of input")) {
+                return "缺少必要的符号。";
             }
-            if (msg.includes('Cannot set properties of')) {
-                let parts = msg.split("Cannot set properties of ")[1];
-                let val = parts.includes('null') ? 'null' : 'undefined';
-                return `Cannot set property of ${val}.`;
+            if (msg.includes("Invalid or unexpected token")) {
+                // 检查引号对称。
+                let dq = 0, sq = 0, bq = 0;
+                let esc = false;
+                for (let i = 0; i < code.length; i++) {
+                    const c = code[i];
+                    if (esc) { esc = false; continue; }
+                    if (c === "\\") { esc = true; continue; }
+                    if (c === '"') dq++;
+                    else if (c === "'") sq++;
+                    else if (c === "`") bq++;
+                }
+                if (bq % 2 === 1) return "模板字符串中可能缺少闭合反引号。";
+                if (dq % 2 === 1 || sq % 2 === 1) return "字符串缺少结束引号。";
+                if (code.includes("\\")) return `无效转义字符 "\\"。`;
+                return "无效标识符或意外符号。";
             }
-            if (msg.includes('cannot be used as a constructor')) {
-                let varName = msg.split(' is not a constructor')[0].trim();
-                return `“${varName}” cannot be used as a constructor.`;
+            if (msg.includes("Invalid left-hand side in assignment")) {
+                return "赋值操作中左侧表达式无效。<br />不能给常量、字面量或只读属性赋值。";
             }
-            if (msg.includes('Cannot destructure property')) {
-                let prop = msg.split("Cannot destructure property '")[1]?.split("'")[0] || '';
-                return `Cannot destructure property “${prop}” from undefined or null.`;
+            if (msg.includes("Cannot use import statement outside a module")) {
+                return `无法在此上下文中使用 <code class="key">import</code> 语句。`;
             }
-            if (msg.includes('Invalid array length')) {
-                return "Invalid array length.";
+            if (msg.includes("Illegal return statement")) {
+                return `<code class="key">return</code> 语句在函数外部无效。`;
             }
-            if (msg.includes('Cyclic object value')) {
-                return "Cyclic object value cannot be serialized.";
+            if (msg.includes("Cannot read properties of")) {
+                const parts = msg.split("Cannot read properties of ")[1] || "";
+                const val = parts.includes("null") ? "null" : "undefined";
+                const prop = grab(/\(reading '(.+?)'\)/);
+                return `无法读取 “<code class="var">${prop || "未知属性"}</code>” 的属性，其值为 “<code class="token">${val}</code>”。`;
             }
-            return `Type error: “${msg}”.`;
+            if (msg.includes("Cannot set properties of")) {
+                const parts = msg.split("Cannot set properties of ")[1] || "";
+                const val = parts.includes("null") ? "null" : "undefined";
+                return `无法设置属性，其值为 “<code class="token">${val}</code>”。`;
+            }
+            if (msg.includes("is not a function")) {
+                const v = grab(/(.+) is not a function/);
+                return `“<code class="token">${v || "?"}</code>” 不是函数。`;
+            }
+            if (msg.includes("Missing ) after argument list")) {
+                return `参数列表缺少闭合括号 “<code class="token">)</code>”。`;
+            }
+            if (msg.includes("Missing } after function body")) {
+                return `函数体缺少闭合花括号 “<code class="token">}</code>”。`;
+            }
+            if (msg.includes("Missing formal parameter")) {
+                return "箭头函数或函数声明中缺少形参。";
+            }
+            if (msg.includes("Unterminated string literal")) {
+                return "字符串缺少结束引号。";
+            }
+            return `语法错误：“<code class="err">${esc_str(msg)}</code>”。`;
         }
-    
-        // RangeError.
-        if (name === 'RangeError') {
-            if (msg.includes('Maximum call stack size exceeded')) {
-                return "Maximum call stack size exceeded (possibly infinite loop or recursion).";
+
+        // 2. TypeError
+        if (name === "TypeError") {
+            if (msg.includes("Assignment to constant variable")) {
+                return `<code class="key">const</code> 常量不可重新赋值。`;
             }
-            if (msg.includes('Invalid date')) {
-                return "Invalid date format.";
+            if (msg.includes("Cannot assign to read only property")) {
+                return "无法为只读属性赋值。";
             }
-            if (msg.includes('Precision is out of range')) {
-                return "Number precision is out of range.";
+            if (msg.includes("Cannot redefine property")) {
+                const v = grab(/Cannot redefine property: (.+)/);
+                return `无法重新定义属性 “<code class="var">${v || "?"}</code>”。`;
             }
-            return `Range error: “${msg}”.`;
+            if (msg.includes("Cannot read private member")) {
+                const v = grab(/Cannot read private member #(.+?) /);
+                return `无法读取私有字段 “<code class="var">#${v || "?"}</code>”。`;
+            }
+            if (msg.includes("Cannot read properties of")) {
+                const parts = msg.split("Cannot read properties of ")[1] || "";
+                const val = parts.includes("null") ? "null" : "undefined";
+                const prop = grab(/\(reading '(.+?)'\)/);
+                return `无法读取 “<code class="var">${prop || "未知属性"}</code>” 的属性，其值为 “<code class="${val === "undefined" || val === "null" ? "nu" : "token"}">${val}</code>”。`;
+            }
+            if (msg.includes("Cannot set properties of")) {
+                const parts = msg.split("Cannot set properties of ")[1] || "";
+                const val = parts.includes("null") ? "null" : "undefined";
+                return `无法设置属性，其值为 “<code class="${val === "undefined" || val === "null" ? "nu" : "token"}">${val}</code>”。`;
+            }
+            if (msg.includes("Cannot convert undefined or null to object")) {
+                return "无法将 undefined 或 null 转换为对象。";
+            }
+            if (msg.includes("Cannot use 'in' operator")) {
+                return `无法在非对象上使用 <code class="key">in</code> 运算符。`;
+            }
+            if (msg.includes("Cannot delete property")) {
+                const v = grab(/Cannot delete property '(.+?)'/);
+                return `无法删除属性 “<code class="var">${v || "?"}</code>”。`;
+            }
+            if (msg.includes("is not a function")) {
+                const v = grab(/(.+?) is not a function/);
+                return `“<code class="var">${v || "?"}</code>” 不是函数。`;
+            }
+            if (msg.includes("is not iterable")) {
+                const v = grab(/(.+) is not iterable/);
+                return `“<code class="var">${v || "?"}</code>” 不可迭代。`;
+            }
+            if (msg.includes("is not a constructor")) {
+                const v = grab(/(.+?) is not a constructor/);
+                return `“<code class="var">${v || "?"}</code>” 不能作为构造函数使用。`;
+            }
+            if (msg.includes("Cannot destructure property")) {
+                const prop = grab(/Cannot destructure property '(.+?)'/);
+                return `解构赋值失败，无法从 <code class="nu">undefined</code> 或 <code class="nu">null</code> 中读取 “<code class="token">${prop || "?"}</code>”。`;
+            }
+            if (msg.includes("Invalid array length")) {
+                return "数组长度无效。";
+            }
+            if (msg.includes("Cyclic object value")) {
+                return "循环引用的对象值无法序列化。";
+            }
+            return `类型错误：“<code class="err">${esc_str(msg)}</code>”。`;
         }
-    
-        // URIError.
-        if (name === 'URIError') {
-            return `URI error: “${msg}”.`;
+
+        // 3. RangeError
+        if (name === "RangeError") {
+            if (msg.includes("Maximum call stack size exceeded")) {
+                return "超出最大调用栈大小（递归过深或循环调用）。";
+            }
+            if (msg.includes("Invalid date")) {
+                return "日期格式无效。";
+            }
+            if (msg.includes("Precision is out of range")) {
+                return "数字精度超出范围。";
+            }
+            if (msg.includes("Invalid array length")) {
+                return "数组长度无效。";
+            }
+            return `范围错误：“<code class="err">${esc_str(msg)}</code>”。`;
         }
-    
-        // EvalError.
-        if (name === 'EvalError') {
-            return `Eval security error: “${msg}”.`;
+
+        // 4. URIError
+        if (name === "URIError") {
+            return `URI 格式错误：“<code class="err">${esc_str(msg)}</code>”。`;
         }
-    
-        // Fallback for any other errors.
-        return `Unexpected ${error.name} error: “${error.message}”.`;
+
+        // 5. EvalError
+        if (name === "EvalError") {
+            return `Eval 安全错误：“<code class="err">${esc_str(msg)}</code>”。`;
+        }
+
+        // 6. 其他错误。
+        return `意外 <code class="une">${esc_str(name)}</code> 错误：“<code class="err">${esc_str(msg)}</code>”。`;
+    }
+
+    if (str == null || str == undefined) {
+        await fail({ str: `Cannot input <code class="nu">${str}</code>！` });
+        throw new Error("In Zd() function, str cannot be null or undefined.");
+    }
+    str = String(str);
+    if (!str.trim()) {
+        await warn({ str: "Cannot input empty string." });
+        throw new Error("In Zd() function, str cannot be empty string.");
     }
 
     return new Promise((resolve) => {
-        if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In function Zd(), argument str can not be null or undefined."; }
-        str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") { warn("Illegal input: empty string."); return "In functiom Zd(), argument str can not be empty string."; }
         if (tit == null || tit == undefined) tit = "Terminal";
-        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Terminal"; }
+        else { tit = String(tit); if (!tit.trim()) tit = "Terminal"; }
         if (id == null || id == undefined) id = "";
 
-        let key = `zd|${tit}|${str}`;
-        if (winmaps[key]) {
-            let win = winmaps[key];
+        let key = `zd|${str}|${tit}|${id}|${realstr}|${form}`;
+        if (dbmaps[key]) {
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -1382,6 +2489,8 @@ async function zd(str, tit, id) {
         const inf = document.createElement("div");
         const box = document.createElement("textarea");
         const count = document.createElement("div");
+        const status = document.createElement("div");
+        const submit = document.createElement("button");
 
         mele.className = "zd-mele";
         mele.id = id;
@@ -1404,10 +2513,18 @@ async function zd(str, tit, id) {
         box.className = "zd-box";
         box.style.opacity = 0;
         box.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        box.style.resize = "none";
         count.className = "zd-count";
         count.innerText = "1";
         count.style.opacity = 0;
+        status.className = "zd-status";
+        status.style.opacity = 0;
+        status.style.transition = `all 0.2s ${easing}`
+        status.textContent = "Line 1, Column 1";
+        submit.className = "zd-submit";
+        submit.style.opacity = 0;
+        submit.type = "button";
+        submit.textContent = "Execute";
+        submit.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
 
         mcreate(mele);
         document.body.appendChild(mele);
@@ -1416,14 +2533,16 @@ async function zd(str, tit, id) {
         square.appendChild(txt);
         mele.appendChild(inf);
         mele.appendChild(box);
+        mele.appendChild(status);
+        mele.appendChild(submit);
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-        txt.innerHTML = tit;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+        if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         mele.addEventListener("animationend", () => {
             inf.style.transform = "translateY(0)";
@@ -1432,25 +2551,52 @@ async function zd(str, tit, id) {
             txt.style.opacity = 1;
             box.style.opacity = 1;
             count.style.opacity = 1;
+            status.style.opacity = 1;
+            status.style.transform = "translateY(0)";
+            submit.style.opacity = 1;
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + box.getBoundingClientRect().height}px + ${window.getComputedStyle(box).marginBottom})`;
         });
+
+        let resorb = new ResizeObserver(() => {
+            const squareH = square.getBoundingClientRect().height;
+            const infH = inf.getBoundingClientRect().height;
+            const boxH = box.getBoundingClientRect().height;
+            const boxMargin = parseFloat(window.getComputedStyle(box).marginBottom) || 0;
+            const statusH = status.getBoundingClientRect().height;
+            const submitH = submit.getBoundingClientRect().height;
+            const submitMarginT = parseFloat(window.getComputedStyle(submit).marginTop) || 0;
+            const submitMarginB = parseFloat(window.getComputedStyle(submit).marginBottom) || 0;
+            mele.style.height = `${squareH + infH + boxH + boxMargin + statusH + submitH + submitMarginT + submitMarginB}px`;
+        }); // 监测高度变化。
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(box);
+        resorb.observe(status);
+        resorb.observe(submit);
+        win_obj.resorb = resorb;
 
         box.addEventListener("transitionend", () => { box.focus(); }, { once: true });
 
-        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
+        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
         const close_win = (val) => {
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
+            }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
             box.style.opacity = 0;
             icon.style.opacity = 0;
             txt.style.opacity = 0;
             count.style.opacity = 0;
+            status.style.opacity = 0;
+            status.style.transform = "translateY(-10px)";
+            submit.style.opacity = 0;
             mele.style.height = "0px";
             inf.addEventListener("transitionend", () => {
                 square.style.height = "35px";
@@ -1458,74 +2604,327 @@ async function zd(str, tit, id) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
             for (let r of win_obj.waitlist) r(val);
         };
 
-        box.addEventListener("keypress", async (event) => {
-            if (event.key === "Enter" && !event.shiftKey) {
-                const value = box.value.trim();
-                if (value === "") {
-                    warn("Illegal input: empty string.");
-                    mele.style.animation = `mfn_shake1 0.3s ${easing}`;
-                    box.style.backgroundColor = "#ffff0099";
-                    mele.addEventListener("animationend", () => {
-                        mele.style.animation = "";
-                        box.style.backgroundColor = "#22222299";
-                    }, { once: true });
-                    return;
-                }
-                try {
-                    // 支持执行异步代码 (使用 await eval)
-                    let k = await eval(value);
-                    if (k !== undefined && k !== null) {
-                        rz(k);
-                        close_win(k);
-                    } else if (k === undefined) {
-                        rz("Returned undefined.");
-                        close_win();
-                    } else if (k === null) {
-                        rz("Returned null.");
-                        close_win();
-                    }
-                } catch (error) {
-                    mele.style.animation = `mfn_shake2 0.3s ${easing}`;
-                    box.style.backgroundColor = "#ff000099";
+        submit.onmouseover = () => { ld(submit, "75%"); };
+        submit.onmouseleave = () => { ld(submit, "100%"); };
+        submit.onclick = async () => { await exec(); };
 
-                    let error_msg = errorres(error, value);
-                    fail(error_msg);
+        async function exec() {
+            const value = box.value.trim();
+            if (value === "") {
+                box.style.height = getComputedStyle(box).minHeight; // 运行代码时折叠 Zd()，为后面的窗口留出位置。
+                mele.style.animation = `mfn_shake1 0.3s ${easing}`;
+                box.style.backgroundColor = "#ffff0099";
+                mele.addEventListener("animationend", () => {
+                    mele.style.animation = "";
+                    box.style.backgroundColor = "#22222299";
+                }, { once: true });
+                await warn({ str: "Cannot input empty string.", form: "brief" });
+                box.focus();
+                return;
+            }
+            try {
+                box.style.height = getComputedStyle(box).minHeight;
+                let k = await eval(value);
+                if (k !== undefined && k !== null) {
+                    rz(`<code>${k}</code>`);
+                    close_win(k);
+                } else if (k === undefined) {
+                    rz(`Returned <code class="nu">undefined</code>.`);
+                    close_win();
+                } else if (k === null) {
+                    rz(`Returned <code class="nu">null</code>.`);
                     close_win();
                 }
-            } else if (event.key === "Enter" && event.shiftKey) {
+            } catch (error) {
+                box.style.height = getComputedStyle(box).minHeight;
+                mele.style.animation = `mfn_shake2 0.3s ${easing}`;
+                box.style.backgroundColor = "#ff000099";
+                mele.addEventListener("animationend", () => {
+                    mele.style.animation = "";
+                    box.style.backgroundColor = "#22222299";
+                }, { once: true });
+
+                let error_msg = errorres(error, value);
+                await fail({ str: error_msg });
+                box.focus();
+            }
+        }
+
+        function line_upd() {
+            const val = box.value;
+            const pos = box.selectionStart;
+            // 截取光标前的所有文本，按换行符分割。
+            const before = val.substring(0, pos);
+            const lines = before.split("\n");
+            const line = lines.length; // 行号 => 分割后的段数。
+            const column = lines[lines.length - 1].length + 1;  // 列号 => 最后一段长度 + 1。
+            status.textContent = `Line ${line}, Column ${column}`;
+        }
+
+        box.addEventListener("input", line_upd);
+        box.addEventListener("click", line_upd);
+        box.addEventListener("keyup", line_upd);
+        line_upd();
+
+        box.addEventListener("keydown", async (event) => {
+            if (event.isComposing) return; // 输入法正在组字时，直接跳过避免干扰。
+
+            if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault();
-                box.value += "\n";
+
+                const start = box.selectionStart;
+                const end = box.selectionEnd;
+                const text = box.value;
+
+                // 在光标当前位置插入换行符，如果选中了文本则替换选中部分。
+                box.value = text.substring(0, start) + "\n" + text.substring(end);
+
+                // 将光标移动到插入的换行符之后。
+                box.selectionStart = box.selectionEnd = start + 1;
+
+                box.focus();
+            } else if (event.key === "Enter" && event.shiftKey) {
+                submit?.focus();
+            }
+
+            function autofill(p) {
+                event.preventDefault();
+
+                const start = box.selectionStart;
+                const end = box.selectionEnd;
+                const text = box.value;
+                let l = "";
+                let r = "";
+                switch (p) {
+                    case "(":
+                        l = "(";
+                        r = ")";
+                        break;
+                    case "[":
+                        l = "[";
+                        r = "]";
+                        break;
+                    case "{":
+                        l = "{";
+                        r = "}";
+                        break;
+                    case '"':
+                    case "'":
+                    case "`":
+                        l = p;
+                        r = p;
+                        break;
+                    default:
+                        return;
+                }
+
+                // 有选中文本 => 用括号包裹选中内容。
+                if (start !== end) {
+                    const selected = text.substring(start, end);
+                    box.value = text.substring(0, start) + l + selected + r + text.substring(end);
+                    box.selectionStart = box.selectionEnd = end + 2;
+                }
+                // 无选中文本 => 插入括号，光标置于中间。
+                else {
+                    box.value = text.substring(0, start) + l + r + text.substring(start);
+                    box.selectionStart = box.selectionEnd = start + 1;
+                }
+
+                box.focus();
+            }
+
+            function ispaired(l, r) {
+                const start = box.selectionStart;
+                return start === box.selectionEnd && box.value[start - 1] === l && box.value[start] === r;
+            }
+
+            if (event.key === "(") {
+                if (ispaired("(", ")")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("(");
+                }
+            }
+            if (event.key === "[" && !event.shiftKey) {
+                if (ispaired("[", "]")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("[");
+                }
+            }
+            if (event.key === "{") {
+                if (ispaired("{", "}")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("{");
+                }
+            }
+            if (event.key === '"') {
+                if (ispaired('"', '"')) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill('"');
+                }
+            }
+            if (event.key === "'") {
+                if (ispaired("'", "'")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("'");
+                }
+            }
+            if (event.key === "`") {
+                if (ispaired("`", "`")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    autofill("`");
+                }
+            }
+
+            // 右括号处理。
+            if (event.key === ")") {
+                if (ispaired("(", ")")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    event.preventDefault();
+                    const start = box.selectionStart;
+                    box.value = box.value.substring(0, start) + ")" + box.value.substring(start);
+                    box.selectionStart = box.selectionEnd = start + 1;
+                }
+            }
+            if (event.key === "]") {
+                if (ispaired("[", "]")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    event.preventDefault();
+                    const start = box.selectionStart;
+                    box.value = box.value.substring(0, start) + "]" + box.value.substring(start);
+                    box.selectionStart = box.selectionEnd = start + 1;
+                }
+            }
+            if (event.key === "}") {
+                if (ispaired("{", "}")) {
+                    event.preventDefault();
+                    box.selectionStart = box.selectionEnd = box.selectionStart + 1;
+                } else {
+                    event.preventDefault();
+                    const start = box.selectionStart;
+                    box.value = box.value.substring(0, start) + "}" + box.value.substring(start);
+                    box.selectionStart = box.selectionEnd = start + 1;
+                }
+            }
+
+            // 获取所选文本所在的完整行范围。
+            function linerange(text, start, end) {
+                let linestart = text.lastIndexOf("\n", start - 1) + 1;
+                let lineend = text.indexOf("\n", end);
+                if (lineend === -1) lineend = text.length;
+                return [linestart, lineend];
+            }
+            if (event.key === "Tab" && !event.shiftKey) {
+                event.preventDefault();
+                const start = box.selectionStart;
+                const end = box.selectionEnd;
+                const text = box.value;
+
+                if (start !== end) {
+                    // 选中文本 => 每行增加缩进。
+                    const [linestart, lineend] = linerange(text, start, end);
+                    const lines = text.substring(linestart, lineend).split("\n");
+                    const newlines = lines.map(line => "    " + line);
+                    box.value = text.substring(0, linestart) + newlines.join("\n") + text.substring(lineend);
+                    const newend = linestart + newlines.join("\n").length;
+                    box.selectionStart = linestart;
+                    box.selectionEnd = newend;
+                } else {
+                    // 无选中 => 插入缩进。
+                    box.value = text.substring(0, start) + "    " + text.substring(start);
+                    box.selectionStart = box.selectionEnd = start + 4;
+                }
+                box.focus();
+            }
+            else if (event.key === "Tab" && event.shiftKey) {
+                event.preventDefault();
+                const start = box.selectionStart;
+                const end = box.selectionEnd;
+                const text = box.value;
+
+                if (start !== end) {
+                    // 有选中文本 => 每行删除前面的空格。
+                    const [linestart, lineend] = linerange(text, start, end);
+                    const lines = text.substring(linestart, lineend).split("\n");
+                    const newlines = lines.map(line => line.replace(/^ {1,4}/, ""));
+                    box.value = text.substring(0, linestart) + newlines.join("\n") + text.substring(lineend);
+                    const newend = linestart + newlines.join("\n").length;
+                    box.selectionStart = linestart;
+                    box.selectionEnd = newend;
+                } else {
+                    // 无选中 => 减少当前行前导空格。
+                    const linestart = text.lastIndexOf("\n", start - 1) + 1;
+                    const lineend = text.indexOf("\n", start);
+                    const nowline = text.substring(linestart, lineend === -1 ? text.length : lineend);
+                    const newline = nowline.replace(/^ {1,4}/, "");
+                    if (newline !== nowline) {
+                        box.value = text.substring(0, linestart) + newline + text.substring(lineend);
+                        box.selectionStart = box.selectionEnd = linestart + newline.length;
+                    }
+                }
+                box.focus();
             }
         });
     });
 }
 
-async function timer(str, time, tit, id) {
+async function timer({ str, tit, time, id, realstr = false, form = "dainiv basic" }) {
+    if (str == null || str == undefined) {
+        await fail({ str: `Cannot input <code class="nu">${str}</code>！` });
+        throw new Error("In Timer() function, str argument cannot be null or undefined.");
+    }
+    if (time == null || time == undefined) {
+        await fail({ str: `<code class="nu">null</code> or <code class="nu">undefined</code> is not a valid number or number string.` });
+        throw new Error("In Timer() function, time argument cannot be null or undefined.");
+    }
+
+    str = String(str);
+    time = Number(time);
+    if (isNaN(time)) {
+        await fail({ str: "<code>time</code> argument must be an identifiable number or number string." });
+        throw new Error("In Timer() function, time must be an identifiable number or number string.");
+    }
+    if (time < 1250) {
+        await warn({ str: "The value of <code>time</code> is too small to enable timer." });
+        throw new Error("In Timer() function, time should not be less than 1250.");
+    }
+    if (time > 3.15576e10 * 1.1568) {
+        await warn({ str: "The value of <code>time</code> is too large to enable timer." });
+        throw new Error("In Timer() function, time should not be greater than 6.048e10.");
+    }
+
     return new Promise((resolve) => {
         let passed_time = 0;
         let ls_finish = false;
-        if (str == null || str == undefined) { fail("Illegal input: null or undefined"); return "In function Timer(), argument str can not be null or undefined."; }
-        if (time == null || time == undefined) { fail("Invalid number: null or undefined."); return "In function Timer(), argument time can not be null or undefined."; }
-        str = String(str);
-        time = Number(time);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") str = "";
+        if (!str.trim()) str = "";
         if (tit == null || tit == undefined) tit = "Timing";
-        else { tit = String(tit); let t_replaced = tit.replace(/\s+/g, ""); if (t_replaced === "") tit = "Timing"; }
+        else { tit = String(tit); if (!tit.trim()) tit = "Timing"; }
         if (id == null || id == undefined) id = "";
-        if (isNaN(time)) { fail("Argument time must be a recognizable number or number-only string."); return "In function Timer(), argument time must be a recognizable number or number-only string."; }
-        else if (time < 1250) { warn("The value of time is too small to enable timer."); return "In function Timer(), the value of time must be greater than or equal to 1250."; }
-        else if (time > 3.15576e10 * 1.1568) { warn("The value of time is too big to enable timer."); return "In function Timer(), the value of time must be less than or equal to 6.048e10."; }
 
-        let key = `timer|${tit}|${str}`;
-        if (winmaps[key]) {
-            let win = winmaps[key];
+        let key = `timer|${str}|${tit}|${time}|${id}|${realstr}|${form}`;
+        if (dbmaps[key]) {
+            let win = dbmaps[key];
             win.cnt++;
             let ele = win.cnt_ele;
 
@@ -1573,7 +2972,7 @@ async function timer(str, time, tit, id) {
         txt.style.opacity = 0;
         txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         inf.className = "mfn-inf";
-        inf.innerHTML = str;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
         inf.style.color = "black";
         inf.style.opacity = 0;
         inf.style.textAlign = "center";
@@ -1581,7 +2980,7 @@ async function timer(str, time, tit, id) {
         earlyend.className = "timer-earlyend";
         earlyend.style.color = "black";
         earlyend.style.opacity = 0;
-        earlyend.innerHTML = "Stop timing in advance";
+        earlyend.innerHTML = "End in advance";
         earlyend.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
         inf.style.transition = `all 0.2s ${easing}`;
         bar.className = "timer-bar";
@@ -1604,10 +3003,11 @@ async function timer(str, time, tit, id) {
         square.appendChild(count);
 
         mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
-        txt.innerHTML = tit;
+        if (realstr) { txt.textContent = tit; inf.textContent = str; }
+        else { txt.innerHTML = tit; inf.innerHTML = str; }
 
         let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
+        dbmaps[key] = win_obj;
 
         let interval_speed;
         let interval_progress;
@@ -1619,6 +3019,10 @@ async function timer(str, time, tit, id) {
             if (interval_speed) clearInterval(interval_speed);
             if (interval_progress) clearInterval(interval_progress);
             if (interval_check) clearInterval(interval_check);
+            if (win_obj.resorb) {
+                win_obj.resorb.disconnect();
+                win_obj.resorb = null;
+            }
             inf.style.opacity = 0;
             inf.style.transform = "translateY(-10px)";
             icon.style.opacity = 0;
@@ -1634,7 +3038,7 @@ async function timer(str, time, tit, id) {
                 mclose(mele);
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    delete dbmaps[key];
                 }, { once: true });
             }, { once: true });
             for (let r of win_obj.waitlist) r(true);
@@ -1644,7 +3048,7 @@ async function timer(str, time, tit, id) {
             passed_time += timer_speed * 10;
             if (timer_speed > 1) inf.style.color = "#ff0000";
             else if (timer_speed < 1 && timer_speed > 0) inf.style.color = "#0000ff";
-            else if (timer_speed === 0) inf.style.color = "#d00000";
+            else if (timer_speed === 0) inf.style.color = "#d000d0";
             else if (timer_speed > -1 && timer_speed < 0) inf.style.color = "#d0d000";
             else if (timer_speed < -1) inf.style.color = "#d0d0d0";
             else inf.style.color = "#000000";
@@ -1665,38 +3069,54 @@ async function timer(str, time, tit, id) {
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + bar.getBoundingClientRect().height + earlyend.getBoundingClientRect().height + timerdesc.getBoundingClientRect().height}px + ${getComputedStyle(timerdesc).marginBottom})`;
         });
 
-        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
+        let resorb = new ResizeObserver(() => {
+            const squareH = square.getBoundingClientRect().height;
+            const infH = inf.getBoundingClientRect().height;
+            const barH = bar.getBoundingClientRect().height;
+            const earlyendH = earlyend.getBoundingClientRect().height;
+            const timerdescH = timerdesc.getBoundingClientRect().height;
+            const timerdescMargin = parseFloat(window.getComputedStyle(timerdesc).marginBottom) || 0;
+            mele.style.height = `${squareH + infH + barH + earlyendH + timerdescH + timerdescMargin}px`;
+        }); // 监测高度变化。
+        resorb.observe(square);
+        resorb.observe(inf);
+        resorb.observe(bar);
+        resorb.observe(earlyend);
+        resorb.observe(timerdesc);
+        win_obj.resorb = resorb;
+
+        let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
         square.style.height = square_height;
         inf.style.marginTop = square_height;
 
-        earlyend.onclick = () => { finish(); };
+        earlyend.addEventListener("click", finish, { once: true });
 
-        let pro = 0;
+        let prog = 0;
         interval_progress = setInterval(() => {
             let timer_backwards = timer_speed < 0;
-            pro += timer_speed * 10 / (time / 100);
-            bar.style.width = `${pro}%`;
-            timerdesc.innerHTML = `${timer_speed === 0 ? "停滞" : String(timer_speed) + " 倍速"} | ${passed_time > 0 ? formatedtime(passed_time) : formatedtime(0)} / ${formatedtime(time)} | ${pro > 0 ? pro.toFixed(2) : 0}%`;
+            prog += timer_speed * 10 / (time / 100);
+            bar.style.width = `${prog}%`;
+            timerdesc.innerHTML = `${timer_speed === 0 ? "Stasis" : String(timer_speed) + "x speed"} | ${passed_time > 0 ? fhsj(passed_time) : fhsj(0)} / ${fhsj(time)} | ${prog > 0 ? prog.toFixed(2) : 0}%`;
             if (timer_speed > 1) {
-                bar.style.backgroundColor = "#ff000099";
+                bar.style.backgroundColor = "#ff000049";
                 timerdesc.style.color = "#ff0000";
             } else if (timer_speed < 1 && timer_speed > 0) {
-                bar.style.backgroundColor = "#0000ff99";
+                bar.style.backgroundColor = "#0000ff49";
                 timerdesc.style.color = "#0000ff";
             } else if (timer_speed === 0) {
-                bar.style.backgroundColor = "#d0000099";
-                timerdesc.style.color = "#d00000";
+                bar.style.backgroundColor = "#d000d049";
+                timerdesc.style.color = "#d000d0";
             } else if (timer_speed > -1 && timer_speed < 0) {
-                bar.style.backgroundColor = "#d0d00099";
+                bar.style.backgroundColor = "#d0d00049";
                 timerdesc.style.color = "#d0d000";
             } else if (timer_speed < -1) {
-                bar.style.backgroundColor = "#d0d0d099";
+                bar.style.backgroundColor = "#d0d0d049";
                 timerdesc.style.color = "#d0d0d0";
             } else {
-                bar.style.backgroundColor = "#00000099";
+                bar.style.backgroundColor = "#00000049";
                 timerdesc.style.color = "#000000";
             }
-            if (pro >= 100) {
+            if (prog >= 100) {
                 clearInterval(interval_progress);
                 finish();
             } else if (timer_backwards && passed_time <= 0) {
@@ -1713,194 +3133,239 @@ async function timer(str, time, tit, id) {
     });
 }
 
-async function mb(str, tit, id) {
-    return new Promise((resolve) => {
-        str = String(str);
-        if (str.length === 0 || str.includes(null) || str.includes(undefined)) {
-            fail("Illegal input: null or undefined");
-            resolve(39);
-            return;
-        }
-        if (tit == null || tit == undefined || String(tit).replace(/\s+/g, "") === "") tit = "Panel";
-        else tit = String(tit);
-        if (id == null || id == undefined) id = "";
+async function mb({ str, tit, id, realstr = false, form = "dainiv basic" }) {
+    // 参数检查。
+    if (str == null || str == undefined) return argerr({ str: `Cannot input <code class="nu">${str}</code>！`, msg: "In Mb() function, str cannot be null or undefined." });
+    str = String(str);
+    if (!str.trim()) return argerr({ type: "warn", str: "Cannot input empty string.", msg: "In Mb() function, str cannot be empty string." });
+    if (tit == null || tit == undefined) tit = "Panel";
+    else { tit = String(tit); if (!tit.trim()) tit = "Panel"; }
+    if (id == null || id == undefined) id = "";
 
-        let key = `mb|${tit}|${str}`;
-        if (winmaps[key]) {
-            let win = winmaps[key];
-            win.cnt++;
-            let ele = win.cnt_ele;
+    let key = `mb|${str}|${tit}|${id}|${realstr}|${form}`;
 
-            if (win.cnt_ele) win.cnt_ele.innerText = win.cnt;
-
-            if (win.anim_timer) {
-                clearTimeout(win.anim_timer);
-                win.anim_timer = null;
+    // 样式分发。
+    if (form === "brief") {
+        return new Promise((resolve) => {
+            if (bfmaps[key]) {
+                const old_dom = bfmaps[key].dom;
+                if (old_dom && document.body.contains(old_dom)) {
+                    old_dom.style.animation = `out_brief 0.2s forwards ${easing}`;
+                    old_dom.addEventListener("animationend", () => {
+                        if (document.body.contains(old_dom)) document.body.removeChild(old_dom);
+                    }, { once: true });
+                }
             }
 
-            ele.style.transition = "opacity 0.1s ease";
-            ele.style.opacity = "0";
+            const mele = document.createElement("div");
+            const icon = document.createElement("img");
+            const text = document.createElement("div");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
 
-            ele.addEventListener(("transitionend"), () => {
-                ele.innerText = win.cnt;
-                ele.style.opacity = "1";
-                win.anim_timer = null;
-            }, { once: true });
+            mele.className = "mb-brief-mele";
+            mele.id = id;
+            icon.className = "brief-icon";
+            icon.src = "Dainiv/images/Pad.png";
+            icon.alt = "";
+            text.className = "brief-txt";
+            txt.className = "mb-brief-title";
+            inf.className = "brief-inf";
 
-            win.waitlist.push(resolve);
-            return;
-        }
+            if (realstr) { txt.textContent = tit; inf.textContent = str; }
+            else { txt.innerHTML = tit; inf.innerHTML = str; }
 
-        const mele = document.createElement("div");
-        const square = document.createElement("div");
-        const icon = document.createElement("img");
-        const txt = document.createElement("div");
-        const inf = document.createElement("div");
-        const gb = document.createElement("button");
-        const count = document.createElement("div");
+            document.body.appendChild(mele);
+            mele.appendChild(icon);
+            mele.appendChild(text);
+            text.appendChild(txt);
+            text.appendChild(inf);
 
-        mele.className = "mb-mele";
-        mele.id = id;
-        mele.style.height = "0px";
-        mele.style.transition = `height 0.2s ${easing}`;
-        square.className = "mb-square";
-        icon.src = "Dainiv/images/Pad.png";
-        icon.alt = "";
-        icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        icon.style.opacity = 0;
-        txt.className = "mfn-title";
-        txt.innerHTML = tit;
-        txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        txt.style.opacity = 0;
-        inf.className = "mfn-inf";
-        inf.style.opacity = 0;
-        inf.style.textAlign = "center";
-        inf.style.minWidth = "30ch";
-        inf.style.transition = `all 0.2s ${easing}`;
-        gb.type = "button";
-        gb.className = "mb-gb";
-        gb.innerHTML = "Close";
-        gb.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
-        gb.style.opacity = 0;
-        count.className = "mb-count";
-        count.innerText = "1";
-        count.style.opacity = 0;
+            // 跟随鼠标。
+            const x = (typeof window.x === "number") ? window.x : window.innerWidth / 2;
+            const y = (typeof window.y === "number") ? window.y : window.innerHeight / 2;
+            mele.style.left = `${x}px`;
+            mele.style.top = `${y}px`;
 
-        mcreate(mele);
-        document.body.appendChild(mele);
-        mele.appendChild(square);
-        square.appendChild(icon);
-        square.appendChild(txt);
-        mele.appendChild(inf);
-        mele.appendChild(gb);
-        square.appendChild(count);
+            // 边界翻转。
+            requestAnimationFrame(() => {
+                const r = mele.getBoundingClientRect();
+                if (r.right > window.innerWidth) {
+                    mele.style.left = `${Math.max(8, window.innerWidth - r.width - 8)}px`;
+                }
+                if (r.bottom > window.innerHeight) {
+                    mele.style.top = `${Math.max(8, y - r.height - 12)}px`;
+                }
+            });
 
-        mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+            mele.style.animation = `in_brief 0.2s forwards ${easing}`;
 
-        if (str.startsWith("[tag] ")) {
-            str = str.slice(5);
-            if (str.toLowerCase().startsWith("li: ")) {
-                const li = document.createElement("li");
-                li.innerHTML = str.slice(4);
-                inf.appendChild(li);
-            } else if (str.toLowerCase().startsWith("h1: ")) {
-                const h1 = document.createElement("h1");
-                h1.innerHTML = str.slice(4);
-                inf.appendChild(h1);
-            } else if (str.toLowerCase().startsWith("h2: ")) {
-                const h2 = document.createElement("h2");
-                h2.innerHTML = str.slice(4);
-                inf.appendChild(h2);
-            } else if (str.toLowerCase().startsWith("h3: ")) {
-                const h3 = document.createElement("h3");
-                h3.innerHTML = str.slice(4);
-                inf.appendChild(h3);
-            } else if (str.toLowerCase().startsWith("h4: ")) {
-                const h4 = document.createElement("h4");
-                h4.innerHTML = str.slice(4);
-                inf.appendChild(h4);
-            } else if (str.toLowerCase().startsWith("h5: ")) {
-                const h5 = document.createElement("h5");
-                h5.innerHTML = str.slice(4);
-                inf.appendChild(h5);
-            } else if (str.toLowerCase().startsWith("code: ")) {
-                const code = document.createElement("code");
-                code.innerHTML = str.slice(6);
-                inf.appendChild(code);
-            } else if (str.toLowerCase().startsWith("img: ")) {
-                const img = document.createElement("img");
-                img.src = str.slice(5);
-                img.alt = "";
-                inf.appendChild(img);
-            } else if (str.toLowerCase().startsWith("a: ")) {
-                const a = document.createElement("a");
-                a.href = str.slice(3);
-                a.innerHTML = str.slice(3);
-                inf.appendChild(a);
-            } else if (str.toLowerCase().startsWith("div: ")) {
-                const div = document.createElement("div");
-                div.innerHTML = str.slice(5);
-                inf.appendChild(div);
-            }
-        } else {
-            const p = document.createElement("p");
-            p.innerHTML = str;
-            inf.appendChild(p);
-        }
+            bfmaps[key] = { dom: mele };
 
-        let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
-        winmaps[key] = win_obj;
-
-        mele.addEventListener("animationend", () => {
-            inf.style.transform = "translateY(0)";
-            inf.style.opacity = 1;
-            icon.style.opacity = 1;
-            txt.style.opacity = 1;
-            count.style.opacity = 1;
-            gb.style.opacity = 1;
-            mele.style.width = "30ch";
-            mele.style.left = "calc(50% - 15ch)";
-            mele.style.right = "calc(50% + 15ch)";
-            mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + gb.getBoundingClientRect().height}px + ${window.getComputedStyle(gb).marginBottom})`;
-        });
-
-        let square_height = gethei(txt.innerHTML, "mfn-title", "div");
-        square.style.height = square_height;
-        inf.style.marginTop = square_height;
-
-        const close_win = () => {
-            inf.style.opacity = 0;
-            inf.style.transform = "translateY(-10px)";
-            icon.style.opacity = 0;
-            txt.style.opacity = 0;
-            gb.style.opacity = 0;
-            count.style.opacity = 0;
-            mele.style.height = "0px";
-            inf.addEventListener("transitionend", () => {
-                square.style.height = "35px";
-                mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
-                mclose(mele);
+            let closed = false;
+            const close = () => {
+                if (closed) return;
+                closed = true;
+                mele.style.animation = `out_brief 0.2s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    delete winmaps[key];
+                    if (bfmaps[key] && bfmaps[key].dom === mele) {
+                        delete bfmaps[key];
+                    }
+                    resolve();
                 }, { once: true });
-            }, { once: true });
-            for (let r of win_obj.waitlist) r("Confirmed.");
-        };
+            };
 
-        gb.onmouseover = () => { ld(gb, "75%"); };
-        gb.onmouseleave = () => { ld(gb, "100%"); };
-        gb.onclick = close_win;
-    });
+            mele.onclick = () => { close(); };
+        });
+    }
+
+    else {
+        return new Promise((resolve) => {
+            if (dbmaps[key]) {
+                let win = dbmaps[key];
+                win.cnt++;
+                let ele = win.cnt_ele;
+
+                if (win.anim_timer) {
+                    clearTimeout(win.anim_timer);
+                    win.anim_timer = null;
+                }
+
+                ele.style.transition = "opacity 0.1s ease";
+                ele.style.opacity = "0";
+
+                ele.addEventListener(("transitionend"), () => {
+                    ele.innerText = win.cnt;
+                    ele.style.opacity = "1";
+                    win.anim_timer = null;
+                }, { once: true });
+
+                win.waitlist.push(resolve);
+                return;
+            }
+
+            const mele = document.createElement("div");
+            const square = document.createElement("div");
+            const icon = document.createElement("img");
+            const txt = document.createElement("div");
+            const inf = document.createElement("div");
+            const gb = document.createElement("button");
+            const count = document.createElement("div");
+
+            mele.className = "mb-mele";
+            mele.id = id;
+            mele.style.height = "0px";
+            mele.style.transition = `height 0.2s ${easing}`;
+            square.className = "mb-square";
+            icon.src = "Dainiv/images/Pad.png";
+            icon.alt = "";
+            icon.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            icon.style.opacity = 0;
+            txt.className = "mfn-title";
+            if (realstr) { txt.textContent = tit; } else { txt.innerHTML = tit; }
+            txt.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            txt.style.opacity = 0;
+            inf.className = "mfn-inf";
+            if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
+            inf.style.opacity = 0;
+            inf.style.textAlign = "center";
+            inf.style.minWidth = "30ch";
+            inf.style.transition = `all 0.2s ${easing}`;
+            gb.type = "button";
+            gb.className = "mb-gb";
+            gb.innerHTML = "Close";
+            gb.style.transition = "all 0.2s cubic-bezier(0.33, 1, 0.68, 1)";
+            gb.style.opacity = 0;
+            count.className = "mb-count";
+            count.innerText = "1";
+            count.style.opacity = 0;
+
+            mcreate(mele);
+            document.body.appendChild(mele);
+            mele.appendChild(square);
+            square.appendChild(icon);
+            square.appendChild(txt);
+            mele.appendChild(inf);
+            mele.appendChild(gb);
+            square.appendChild(count);
+
+            mele.style.animation = `in_mfn 0.3s forwards ${easing}`;
+
+            let win_obj = { dom: mele, cnt: 1, cnt_ele: count, orig_tit: tit, waitlist: [resolve], anim_timer: null };
+            dbmaps[key] = win_obj;
+
+            mele.addEventListener("animationend", () => {
+                inf.style.transform = "translateY(0)";
+                inf.style.opacity = 1;
+                icon.style.opacity = 1;
+                txt.style.opacity = 1;
+                count.style.opacity = 1;
+                gb.style.opacity = 1;
+                mele.style.width = "30ch";
+                mele.style.left = "calc(50% - 15ch)";
+                mele.style.right = "calc(50% + 15ch)";
+                mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + gb.getBoundingClientRect().height}px + ${window.getComputedStyle(gb).marginBottom})`;
+            });
+
+            gb.addEventListener("transitionend", () => { gb.focus(); }, { once: true });
+
+            let resorb = new ResizeObserver(() => {
+                const squareH = square.getBoundingClientRect().height;
+                const infH = inf.getBoundingClientRect().height;
+                const gbH = gb.getBoundingClientRect().height;
+                const gbMargin = parseFloat(window.getComputedStyle(gb).marginBottom) || 0;
+                mele.style.height = `${squareH + infH + gbH + gbMargin}px`;
+            }); // 监测高度变化。
+            resorb.observe(square);
+            resorb.observe(inf);
+            resorb.observe(gb);
+            win_obj.resorb = resorb;
+
+            let square_height = hqgd(txt.innerHTML, "mfn-title", "div");
+            square.style.height = square_height;
+            inf.style.marginTop = square_height;
+
+            const close_win = () => {
+                if (win_obj.resorb) {
+                    win_obj.resorb.disconnect();
+                    win_obj.resorb = null;
+                }
+                inf.style.opacity = 0;
+                inf.style.transform = "translateY(-10px)";
+                icon.style.opacity = 0;
+                txt.style.opacity = 0;
+                gb.style.opacity = 0;
+                count.style.opacity = 0;
+                mele.style.height = "0px";
+                inf.addEventListener("transitionend", () => {
+                    square.style.height = "35px";
+                    mele.style.animation = `out_mfn 0.3s forwards ${easing}`;
+                    mclose(mele);
+                    mele.addEventListener("animationend", () => {
+                        if (document.body.contains(mele)) document.body.removeChild(mele);
+                        delete dbmaps[key];
+                    }, { once: true });
+                }, { once: true });
+                for (let r of win_obj.waitlist) r("Confirmed.");
+            };
+
+            gb.onmouseover = () => { ld(gb, "75%"); };
+            gb.onmouseleave = () => { ld(gb, "100%"); };
+            gb.onclick = close_win;
+        });
+    }
 }
 
-async function rz(str, time) {
+async function rz(str, time, realstr = false) {
     return new Promise((resolve) => {
         if (str == null) {
-            warn("Value: null.");
+            warn({ str: `This value is <code class="nu">null</code>.` });
+            resolve();
             return;
         } else if (str == undefined) {
-            warn("Value: undefined.");
+            warn({ str: `This value is <code class="nu">undefined</code>.` });
+            resolve();
             return;
         }
         if (time == null || time == undefined) time = smarttime(str);
@@ -1911,12 +3376,12 @@ async function rz(str, time) {
         const inf = document.createElement("div");
         inf.className = "rz-inf";
         inf.style.transition = `all 0.2s ${easing}`;
-        inf.innerHTML = str;
+        if (realstr) { inf.textContent = str; } else { inf.innerHTML = str; }
         inf.style.opacity = 0;
         const bar = document.createElement("div");
         bar.className = "rz-bar";
         let timeup = false;
-        let pro = 0;
+        let prog = 0;
 
         lcreate(mele);
         document.body.appendChild(mele);
@@ -1924,46 +3389,47 @@ async function rz(str, time) {
         mele.appendChild(bar);
 
         mele.style.animation = `in_rz 0.5s forwards ${easing}`;
-
         mele.addEventListener("animationend", () => {
             inf.style.opacity = 1;
         }, { once: true });
 
-        mele.oncontextmenu = async () => {
+        let i1;
+        inf.addEventListener("transitionend", () => {
+            i1 = setInterval(() => {
+                prog += 10 / (time / 100);
+                bar.style.width = `${prog}%`;
+                if (prog >= 100) {
+                    timeup = true;
+                }
+            }, 10);
+        }, { once: true });
+
+        function damnclose() {
+            clearInterval(i1); // 清理 i1 interval。
             inf.style.opacity = 0;
             inf.addEventListener("transitionend", () => {
                 mele.style.animation = `out_rz 0.5s forwards ${easing}`;
                 mele.addEventListener("animationend", () => {
                     if (document.body.contains(mele)) document.body.removeChild(mele);
-                    mclose(mele);
+                    lclose(mele);
                     resolve();
                 }, { once: true });
             }, { once: true });
-        };
+        }
 
-        inf.addEventListener("transitionend", () => {
-            let i1 = setInterval(() => {
-                pro += 10 / (time / 100);
-                bar.style.width = `${pro}%`;
-                if (pro >= 100) {
-                    timeup = true;
-                    clearInterval(i1);
+        mele.addEventListener("contextmenu", async (e) => {
+            e.preventDefault();
+            if (timeup) return;
+            else {
+                let ls_rs = await xz({ str: "Close this window?", names: ["Yes.", "No."], n: 1, form: "brief" });
+                if (ls_rs[0] === "Yes.") {
+                    damnclose();
                 }
-            }, 10);
-        }, { once: true });
+            }
+        });
 
         setInterval(() => {
-            if (timeup) {
-                inf.style.opacity = 0;
-                inf.addEventListener("transitionend", () => {
-                    mele.style.animation = `out_rz 0.5s forwards ${easing}`;
-                    mele.addEventListener("animationend", () => {
-                        if (document.body.contains(mele)) document.body.removeChild(mele);
-                        lclose(mele);
-                        resolve();
-                    }, { once: true });
-                }, { once: true });
-            }
-        }, 25);
+            if (timeup) damnclose();
+        }, 40);
     });
 }

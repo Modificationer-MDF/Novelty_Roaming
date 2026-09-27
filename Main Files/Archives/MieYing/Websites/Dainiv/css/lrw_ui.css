@@ -14,7 +14,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     background-color: #00000099;
-    backdrop-filter: blur(14px) saturate(250%);
+    backdrop-filter: var(--basic-filter);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 10;
@@ -103,7 +103,7 @@
     width: 0;
     height: 11px;
     z-index: 999;
-    backdrop-filter: blur(14px) saturate(250%);
+    backdrop-filter: var(--basic-filter);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     margin-bottom: 20px;
 }
@@ -184,10 +184,11 @@
     }
 }
 
-.t { 
+.t {
     color: #ffffff;
     position: relative;
     top: 30px;
+    user-select: none;
     left: 20px;
     text-align: left;
     font-size: 30px;
@@ -197,6 +198,7 @@
 /* 标题。 */
 
 .tlarea, .la2t {
+    user-select: none;
     color: #ffffff;
     position: relative;
     top: 20px;
@@ -214,6 +216,7 @@
 }
 
 .ft { /* 功能区文字。*/
+    user-select: none;
     position: relative;
     color: #ffffff;
     text-align: left;
@@ -245,11 +248,12 @@
     top: 20px;
     left: -100%;
     padding: 14px 25px;
+    user-select: none;
     font-size: 25px;
     border-radius: 14px;
     cursor: pointer;
     text-align: center;
-    backdrop-filter: blur(14px) saturate(250%);
+    backdrop-filter: var(--basic-filter);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -273,10 +277,10 @@
 .phl-highlight {
     position: absolute;
     pointer-events: none;
-    z-index: 32767;
+    z-index: 9999;
     background-color: var(--phl-background-color);
     border: var(--phl-border);
-    transition: all 0.1s ease-in-out;
+    transition: all 90ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .rw1, .rw2, .rw3, .rw4, .rw5 {
@@ -327,7 +331,7 @@
     width: 100%;
     height: 0px;
     z-index: 11;
-    backdrop-filter: blur(14px) saturate(250%);
+    backdrop-filter: var(--basic-filter);
     border-radius: 11px;
     display: flex;
     flex-direction: column;
@@ -382,6 +386,7 @@
     transition: all 0.2s ease;
     background: #0c3998b9;
     border: none;
+    user-select: none;
     color: white;
     padding: 14px 25px;
     border-radius: 14px;
@@ -391,6 +396,7 @@
 
 .rw-empty {
     color: #ffffff;
+    user-select: none;
     text-align: center;
     margin-top: 60px;
     font-size: 22px;

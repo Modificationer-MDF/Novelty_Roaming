@@ -256,10 +256,11 @@
     bottom: 0px;
 }
 
-.noti-okey, .cg-okey, .warn-zx, .fail-lj, .inp-submit, .lj-ignore, .mb-gb, .xz-submit, .xz-btn, .xz-giveup, .zd-submit, .timer-earlyend {
+.noti-zx, .cg-zx, .warn-zx, .fail-zx, .inp-submit, .lj-ignore, .mb-gb, .xz-submit, .xz-btn, .xz-giveup, .zd-submit, .timer-earlyend {
     border: none;
     font-size: var(--btn-font-size);
     padding: var(--btn-padding);
+    user-select: none;
     text-align: center;
     width: 100%;
     backdrop-filter: var(--basic-filter);
@@ -290,7 +291,7 @@
     background-color: var(--noti-count-color);
 }
 
-.noti-okey {
+.noti-zx {
     background-color: var(--noti-btn-color);
 }
 
@@ -311,7 +312,7 @@
     background-color: var(--cg-count-color);
 }
 
-.cg-okey {
+.cg-zx {
     background-color: var(--cg-btn-color);
 }
 
@@ -332,7 +333,7 @@
     background-color: var(--fail-count-color);
 }
 
-.fail-lj {
+.fail-zx {
     background-color: var(--fail-btn-color);
 }
 
@@ -966,6 +967,7 @@
 }
 
 .inp-brief-submit {
+    transition: all 0.2s ease;
     border: none;
     font-size: 20px;
     padding: 14px 25px;
@@ -992,6 +994,7 @@
 
 .xz-brief-option {
     border: none;
+    transition: all 0.2s ease;
     font-size: 20px;
     padding: 14px 25px;
     color: white;
@@ -1001,9 +1004,9 @@
     text-align: left;
 }
 
-    .xz-brief-option:hover {
-        background-color: var(--xz-submit-color);
-    }
+.xz-brief-option:hover {
+    background-color: var(--xz-submit-color);
+}
 
 /* lj-brief */
 .lj-brief-links {

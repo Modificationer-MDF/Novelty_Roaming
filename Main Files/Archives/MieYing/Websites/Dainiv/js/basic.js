@@ -92,10 +92,40 @@ function totop() { // 返回顶部。
     });
 }
 
-function hqzd(s) { // 获取栈顶元素。
-    const t = s.pop();
-    s.push(t);
-    return t;
+function lastele(s) { 
+    return s[s.length - 1];
+}
+
+function mfocus() {
+    if (lastele(mid_win) === undefined) return;
+    else {
+        const mele = lastele(mid_win);
+        let el;
+        if (mele.classList.contains("noti-mele")) {
+            el = mele.querySelector(".noti-zx");
+        } else if (mele.classList.contains("cg-mele")) {
+            el = mele.querySelector(".cg-zx");
+        } else if (mele.classList.contains("fail-mele")) {
+            el = mele.querySelector(".fail-zx");
+        } else if (mele.classList.contains("warn-mele")) {
+            el = mele.querySelector(".warn-zx");
+        } else if (mele.classList.contains("inp-mele")) {
+            el = mele.querySelectorAll(".inp-box");
+            el[0]?.focus();
+            return;
+        } else if (mele.classList.contains("xz-mele")) {
+            el = mele.querySelector(".xz-submit");
+        } else if (mele.classList.contains("lj-mele")) {
+            el = mele.querySelector(".lj-ignore");
+        } else if (mele.classList.contains("zd-mele")) {
+            el = mele.querySelector(".zd-box");
+        } else if (mele.classList.contains("timer-mele")) {
+            el = mele.querySelector(".timer-earlyend");
+        } else if (mele.classList.contains("mb-mele")) {
+            el = mele.querySelector(".mb-gb");
+        }
+        el?.focus();
+    }
 }
 
 function pos(p) {
@@ -144,6 +174,7 @@ function mcreate(window) { // 创建窗口。
 
 function mclose(window) {
     mid_win = mid_win.filter(win => win !== window);
+    mfocus();
     pos(2);
 }
 
