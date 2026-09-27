@@ -858,8 +858,8 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
     if (str == null || str == undefined) { fail({ str: `Cannot input <code class="nu">${str}</code>！` }); return "In Fail() function, str cannot be null or undefined."; }
     str = String(str);
     if (!str.trim()) { warn({ str: "Cannot input empty string." }); return "In Fail() function, str cannot be empty string."; }
-    if (tit == null || tit == undefined) tit = "错误";
-    else { tit = String(tit); if (!tit.trim()) tit = "错误"; }
+    if (tit == null || tit == undefined) tit = "Failed";
+    else { tit = String(tit); if (!tit.trim()) tit = "Failed"; }
     if (id == null || id == undefined) id = "";
 
     let key = `fail|${str}|${tit}|${id}|${realstr}|${form}`;
