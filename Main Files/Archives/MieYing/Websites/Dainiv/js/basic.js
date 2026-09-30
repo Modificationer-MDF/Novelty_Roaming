@@ -13,8 +13,8 @@ function xzsj() { // 获取现在时间。
 }
 
 function fhsj(time) { // 返回带正确单位的时间。time：毫秒。
-    units = ["秒", "分钟", "小时", "天", "周", "年"];
-    fct = [1000, 6e4, 3.6e6, 8.64e7, 6.048e8, 3.15576e10];
+    let units = ["秒", "分钟", "小时", "天", "周", "年"];
+    let fct = [1000, 6e4, 3.6e6, 8.64e7, 6.048e8, 3.15576e10];
     if (time < fct[1]) {
         unit = units[0];
         factor = fct[0];

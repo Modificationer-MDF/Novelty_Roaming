@@ -74,8 +74,6 @@ async function rmenu({ e, mele }) {
 
     switch (rs[0]) {
         case "关闭此窗口。":
-        case "取消选择。":
-        case "停止计时或进度。":
             close();
             break;
         case "全选。": {
@@ -157,6 +155,7 @@ async function rmenu({ e, mele }) {
                     } else {
                         b.value = `"use strict";\n${b.value}`;
                     }
+                    b?.focus();
                 });
             }
             break;
@@ -3381,8 +3380,7 @@ async function rz(str, time, realstr = false) {
         inf.style.opacity = 0;
         const bar = document.createElement("div");
         bar.className = "rz-bar";
-        let timeup = false;
-        let prog = 0;
+        let onclose = false;
 
         lcreate(mele);
         document.body.appendChild(mele);
@@ -3394,19 +3392,11 @@ async function rz(str, time, realstr = false) {
             inf.style.opacity = 1;
         }, { once: true });
 
-        let i1;
         inf.addEventListener("transitionend", () => {
-            i1 = setInterval(() => {
-                prog += 10 / (time / 100);
-                bar.style.width = `${prog}%`;
-                if (prog >= 100) {
-                    timeup = true;
-                }
-            }, 10);
+            bar.style.animation = `rfn_prog ${smarttime(str)}ms forwards linear`;
         }, { once: true });
 
         function damnclose() {
-            clearInterval(i1); // 清理 i1 interval。
             inf.style.opacity = 0;
             inf.addEventListener("transitionend", () => {
                 mele.style.animation = `out_rz 0.5s forwards ${easing}`;
@@ -3420,7 +3410,7 @@ async function rz(str, time, realstr = false) {
 
         mele.addEventListener("contextmenu", async (e) => {
             e.preventDefault();
-            if (timeup) return;
+            if (onclose) return;
             else {
                 let ls_rs = await xz({ str: "关闭此窗口？", names: ["是。", "否。"], n: 1, form: "brief" });
                 if (ls_rs[0] === "是。") {
@@ -3429,8 +3419,11 @@ async function rz(str, time, realstr = false) {
             }
         });
 
-        setInterval(() => {
-            if (timeup) damnclose();
-        }, 40);
+        bar.addEventListener("animationend", () => {
+            if (bar.style.animationName === "rfn_prog") {
+                damnclose();
+                onclose = true;
+            }
+        }, { once: true });
     });
 }

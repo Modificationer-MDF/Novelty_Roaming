@@ -2,16 +2,14 @@
 async function inf({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
-            console.error("不能输入空值！");
             resolve();
+            throw new TypeError("不能输入空值！");
             return;
         }
         str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            console.warn("不能输入空字符串。");
+        if (!str.trim()) {
             resolve();
-            return;
+            throw new TypeError("不能输入空字符串。");
         }
         if (id == null || id == undefined) id = "";
 
@@ -58,16 +56,13 @@ async function inf({ str, id }) {
 async function suc({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
-            console.error("不能输入空值！");
             resolve();
-            return;
+            throw new TypeError("不能输入空值！");
         }
         str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            console.warn("不能输入空字符串。");
+        if (!str.trim()) {
             resolve();
-            return;
+            throw new TypeError("不能输入空字符串。");
         }
         if (id == null || id == undefined) id = "";
 
@@ -114,16 +109,13 @@ async function suc({ str, id }) {
 async function err({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
-            console.error("不能输入空值！");
             resolve();
-            return;
+            throw new TypeError("不能输入空值！");
         }
         str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            console.warn("不能输入空字符串。");
+        if (!str.trim()) {
             resolve();
-            return;
+            throw new TypeError("不能输入空字符串。");
         }
         if (id == null || id == undefined) id = "";
 
@@ -151,8 +143,6 @@ async function err({ str, id }) {
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
         inf.innerHTML = str;
 
-        mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
 
         bar.style.animation = `rfn_prog ${smarttime(str)}ms forwards linear`;
 
@@ -173,16 +163,13 @@ async function err({ str, id }) {
 async function caut({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
-            console.error("不能输入空值！");
             resolve();
-            return;
+            throw new TypeError("不能输入空值！");
         }
         str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            console.warn("不能输入空字符串。");
+        if (!str.trim()) {
             resolve();
-            return;
+            throw new TypeError("不能输入空字符串。");
         }
         if (id == null || id == undefined) id = "";
 
@@ -210,9 +197,6 @@ async function caut({ str, id }) {
         mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
         inf.innerHTML = str;
 
-        mele.style.animation = `in_rfn 0.3s forwards ${easing}`;
-        inf.innerHTML = str;
-
         bar.style.animation = `rfn_prog ${smarttime(str)}ms forwards linear`;
 
         bar.addEventListener("animationend", () => {
@@ -232,16 +216,13 @@ async function caut({ str, id }) {
 async function conf({ str, id }) {
     return new Promise((resolve) => {
         if (str == null || str == undefined) {
-            console.error("不能输入空值！");
             resolve();
-            return;
+            throw new TypeError("不能输入空值！");
         }
         str = String(str);
-        let s_replaced = str.replace(/\s+/g, "");
-        if (s_replaced === "") {
-            console.warn("不能输入空字符串。");
+        if (!str.trim()) {
             resolve();
-            return;
+            throw new TypeError("不能输入空字符串。");
         }
         if (id == null || id == undefined) id = "";
 
@@ -275,21 +256,20 @@ async function conf({ str, id }) {
         yes.innerHTML = "是。";
         no.innerHTML = "否。";
 
-        yes.onclick = () => {
-            resolve(true);
+        function confclose(k) {
+            resolve(k);
             mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
             rclose(mele);
             mele.addEventListener("animationend", () => {
                 if (document.body.contains(mele)) document.body.removeChild(mele);
             }, { once: true });
+        }
+
+        yes.onclick = () => {
+            confclose(true);
         };
         no.onclick = () => {
-            resolve(false);
-            mele.style.animation = `out_rfn 0.3s forwards ${easing}`;
-            rclose(mele);
-            mele.addEventListener("animationend", () => {
-                if (document.body.contains(mele)) document.body.removeChild(mele);
-            }, { once: true });
+            confclose(false);
         };
     });
 }

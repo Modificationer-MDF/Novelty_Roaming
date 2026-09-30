@@ -6,11 +6,13 @@ let defhei = 768;
 let timer_speed = 1;
 let isdimmed = false;
 let left_win = []; // 左函数数组。
-let mid_win= []; // 中函数数组。
+let mid_win = []; // 中函数数组。
 let right_win = []; // 右函数数组。
 let leftwins = ["rz-mele"];
 let midwins = ["noti-mele", "cg-mele", "fail-mele", "warn-mele", "inp-mele", "xz-mele", "lj-mele", "synchr-mele", "zd-mele", "timer-mele", "mb-mele"];
+let midbriefwins = ["noti-brief-mele", "cg-brief-mele", "fail-brief-mele", "warn-brief-mele", "inp-brief-mele", "xz-brief-mele", "lj-brief-mele", "mb-brief-mele"];
 let rightwins = ["inf-mele", "suc-mele", "err-mele", "caut-mele", "conf-mele"];
+let charmbar = ["lw", "rw"];
 let ofscrt = true; // 是否启用截图工具。
 
 async function set_and_do({ varia, val, func }) { // 将 val 赋值给 varia 后，执行 func。
@@ -85,5 +87,22 @@ document.addEventListener("DOMContentLoaded", function () {
         pos(2);
         tscrs.style.borderTop = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");
         tscrs.style.borderBottom = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");
+
+        let fele = Array.from(document.body.children).filter((e) => {
+            return (!midwins.some((c) => e.classList.contains(c)));
+        }); // body 子元素中 class 中不包含 mid_win 任一的所有元素。
+
+        if (mid_win.length !== 0) {
+            fele.forEach((e) => {
+                if (charmbar.some((c) => e.classList.contains(c))) ld(e, "90%");
+                else if (leftwins.some((c) => e.classList.contains(c)) || rightwins.some((c) => e.classList.contains(c))) ld(e, "70%");
+                else if (midbriefwins.some((c) => e.classList.contains(c))) ld(e, "80%");
+                else ld(e, "50%");
+            })
+        } else {
+            fele.forEach((e) => {
+                ld(e, "100%");
+            })
+        }
     }, 400);
 });

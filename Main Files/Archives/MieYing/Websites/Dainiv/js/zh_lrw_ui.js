@@ -210,6 +210,9 @@ async function screenshot() {
         let ls2 = await inp({ str: "输入该元素的 CSS 选择器字符串。", tit: "输入", id: "scr" });
 
         try {
+            if (ls2 === null) {
+                throw new Error("元素未找到。");
+            }
             let sc = document.querySelector(ls2);
 
             if (!sc) {

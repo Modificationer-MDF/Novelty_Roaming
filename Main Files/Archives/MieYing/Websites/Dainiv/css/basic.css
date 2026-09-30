@@ -6,6 +6,7 @@ body {
     font-weight: 100;
     scrollbar-width: thin;
     scrollbar-color: #ffffff #00000000;
+    transition: all 0.1s ease;
 }
 
     body::-webkit-scrollbar-thumb {
