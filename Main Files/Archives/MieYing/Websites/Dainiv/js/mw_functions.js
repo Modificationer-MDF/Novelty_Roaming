@@ -2047,7 +2047,7 @@ async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" })
                 btn.textContent = u;
                 btn.onclick = (e) => {
                     e.stopPropagation();
-                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}`)) {
+                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}, noopener, noreferrer`)) {
                         warn({ str: "弹出的窗口被阻止。" });
                     }
                     close(u);
