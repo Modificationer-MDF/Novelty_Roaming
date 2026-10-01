@@ -98,6 +98,7 @@
     --zd-count-color: #14131399;
     --zd-box-color: #22222299;
     --zd-submit-color: #060606b9;
+    --zd-submit-strictmode-color: #b90000b0;
     --zd-status-color: #1af1bc;
     --zd-status-border: 3px solid #0a6b53b9;
     --zd-border: 5px solid #000000c9;
@@ -854,7 +855,9 @@
     padding: 12px 16px;
     backdrop-filter: var(--basic-filter);
     color: white;
-    max-width: 40ch;
+    max-width: 35ch;
+    max-height: 390px;
+    overflow-y: auto;
     cursor: pointer;
     user-select: none;
     transform-origin: top left;

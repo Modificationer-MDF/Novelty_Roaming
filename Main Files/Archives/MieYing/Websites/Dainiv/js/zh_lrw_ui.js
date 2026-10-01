@@ -486,8 +486,29 @@ function init_ui() {
 
         if (ofscrt) pickele("block");
 
-        const sel = await inp({ str: cont, tit: "输入", id: "block" });
+        let sel = await inp({ str: cont, id: "block" });
+        finishpick();
         if (!sel) return;
+        if (typeof sel !== "object") sel = [sel];
+        all_flag = false;
+
+        for (let s of sel) {
+            if (s.trim().includes("*")) {
+                all_flag = true;
+            }
+        }
+
+        if (all_flag) {
+            let ls_c = await xz({ str: "确定屏蔽所有元素？", tit: "确认", n: 1, names: ["是。", "否。"] });
+            if (ls_c[0] !== "是。") {
+                sel = sel.filter(s => !s.trim().includes("*"));
+                if (sel.length !== 0) inf({ str: "仅屏蔽不为 * 的元素。" });
+                else {
+                    inf({ str: "本次未屏蔽任何元素。" });
+                    return;
+                }
+            }
+        }
 
         try {
             const newelem = document.querySelectorAll(sel);
@@ -511,7 +532,6 @@ function init_ui() {
             });
 
             if (hideelem.length === 0) {
-                finishpick();
                 return;
             }
 
@@ -530,8 +550,6 @@ function init_ui() {
         } catch (err) {
             fail({ str: `发生了错误：<code class="err">“${err}”<code>` });
         }
-
-        finishpick();
     }
 
     const block = document.createElement("btn");
