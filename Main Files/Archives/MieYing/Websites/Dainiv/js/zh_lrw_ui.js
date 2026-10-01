@@ -490,7 +490,7 @@ function init_ui() {
         finishpick();
         if (!sel) return;
         if (typeof sel !== "object") sel = [sel];
-        all_flag = false;
+        let all_flag = false;
 
         for (let s of sel) {
             if (s.trim().includes("*")) {
