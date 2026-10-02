@@ -80,6 +80,10 @@ select {
 
 }
 
+.x_ed {
+    text-decoration: line-through;
+}
+
 .img {
     width: 50px;
     height: auto;

@@ -368,7 +368,7 @@ function init_ui() {
         await noti({ str: "请在接下来的窗口中完成操作。" });
         setTimeout(() => {
             window.print();
-        }, 1);
+        }, 39);
     };
     const share = document.createElement("btn");
     share.classList.add("share");
@@ -548,7 +548,7 @@ function init_ui() {
             suc({ str: `已屏蔽 ${hideelem.length} 个元素。` });
 
         } catch (err) {
-            fail({ str: `发生了错误：<code class="err">“${err}”<code>` });
+            fail({ str: `发生了错误：<code class="err">“${err}”<code>。` });
         }
     }
 
@@ -565,7 +565,6 @@ function init_ui() {
         else if (ls_amount <= 0) {
             await fail({ str: "所输入的数字需要大于 0。", form: "brief" });
             return;
-
         } else if (ls_amount % 1 != 0) {
             await fail({ str: "所输入的数字需要为整数。", form: "brief" });
             return;

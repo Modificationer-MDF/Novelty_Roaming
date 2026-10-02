@@ -1,10 +1,29 @@
-let la1doms = [];
-let la2doms = [];
+let la1doms = []; // “功能” 元素。
+let la2doms = []; // “控制” 元素。
+let ra1doms = []; // “屏蔽管理” 元素。
 let activep = false;
 let phl = null; // 创建高亮层（半透明覆盖）。
 let nowp = null; // 当前高亮元素。
 let prevp = null; // 上一个元素。
 let pickover = false;
+let ble = []; // 屏蔽列表
+
+function clean_status() {
+    if (activep) {
+        if (phl) phl.remove();
+        if (window.picklisteners) {
+            document.removeEventListener("mousemove", window.picklisteners.move);
+            document.removeEventListener("click", window.picklisteners.click);
+            window.picklisteners = null;
+        }
+        if (prevp) {
+            prevp.classList.remove("phl");
+            prevp = null;
+        }
+        activep = false;
+        nowp = null;
+    }
+}
 
 function selector(el) {
     if (el.id) return "#" + el.id;
@@ -13,7 +32,7 @@ function selector(el) {
     while (cur && cur !== document.body) {
         let sel = cur.tagName.toLowerCase();
         if (cur.className && typeof cur.className === "string") {
-            let classes = cur.className.trim().split(/\s+/).filter(cls => cls !== 'phl');
+            let classes = cur.className.trim().split(/\s+/).filter(cls => cls !== "phl");
             if (classes.length) sel += "." + classes.join(".");
         }
         let parent = cur.parentElement;
@@ -32,78 +51,146 @@ function selector(el) {
 }
 
 function pickele(v) {
-    if (activep) return;
+    clean_status();
+
     activep = true;
     phl = document.createElement("div");
-    phl.style.position = "absolute";
-    phl.style.pointerEvents = "none";
-    phl.style.zIndex = "100";
-    phl.style.backgroundColor = "#55b15549";
-    phl.style.border = "2px solid #7db155b9";
-    phl.style.borderRadius = "4px";
-    phl.style.transition = "all 0.1s ease-in-out";
+    phl.classList.add("phl-highlight");
+    phl.style.left = "0px";
+    phl.style.top = "0px";
+    phl.style.width = "0px";
+    phl.style.height = "0px";
     document.body.appendChild(phl);
 
     const move_handler = (e) => {
         if (!activep) return;
         const el = e.target;
         if (el === phl) return;
-        nowp = el;
         const rect = el.getBoundingClientRect();
         phl.style.left = rect.left + window.scrollX + "px";
         phl.style.top = rect.top + window.scrollY + "px";
         phl.style.width = rect.width + "px";
         phl.style.height = rect.height + "px";
-        // 移除旧高亮类，添加新高亮类。
         if (prevp) prevp.classList.remove("phl");
         el.classList.add("phl");
         prevp = el;
     };
+
     const click_handler = async (e) => {
         if (!activep) return;
+        const el = e.target;
+        if (el === phl) return;
         e.preventDefault();
         e.stopPropagation();
-        let el = e.target;
-        if (el === phl) return;
-        let sele = selector(el);
-        try {
-            setTimeout(() => {
-                const box = document.getElementById(v).querySelector(".inp-box");
-                box.value = sele;
-                box.focus();
-                box.addEventListener("keypress", (event) => {
-                    if (event.key === "Enter") finishpick();
-                });
-            }, 1);
-        } catch (err) {
-            console.warn(`发生了错误：${err}。`);
+
+        const container = document.getElementById(v);
+        if (!container) {
+            if (phl) phl.remove();
+            activep = false;
+            return;
+        }
+
+        const boxes = container.querySelectorAll(".inp-box");
+        if (!boxes.length) {
+            if (phl) phl.remove();
+            activep = false;
+            return;
+        }
+
+        const sele = selector(el);
+        if (!sele || sele.trim() === "") return;
+
+        // 收集提示文字。
+        const prompts = [];
+        boxes.forEach((box) => {
+            const prev = box.previousElementSibling;
+            const idx = parseInt(box.dataset.index, 10) + 1;
+            if (prev && prev.classList.contains("inp-prompt")) {
+                prompts.push(`"${prev.textContent.trim()}"` || `Input box ${idx}`);
+            } else {
+                prompts.push(`Input box ${idx}`);
+            }
+        });
+
+        const result = await xz({
+            str: "Please select the input box you want to input.",
+            n: 1,
+            names: prompts,
+            tit: "Picking target",
+            id: "pick_target",
+            form: "brief",
+        });
+
+        if (!result || !result[0]) return;
+
+        for (const selected of result) {
+            if (!selected) continue;
+            const match = selected.match(/(\d+)/);
+            if (!match) continue;
+            const idx = parseInt(match[1], 10) - 1;
+            if (idx >= 0 && idx < boxes.length) {
+                boxes[idx].value = sele;
+                boxes[idx].focus();
+            }
+        }
+
+        // 聚焦到最后一个被填充的框或第一个。
+        let last_idx = 0;
+        if (result && result.length > 0) {
+            const last_item = result[result.length - 1];
+            if (last_item) {
+                const match = String(last_item).match(/(\d+)/);
+                if (match) {
+                    last_idx = parseInt(match[1], 10) - 1;
+                }
+            }
+        }
+
+        if (last_idx >= 0 && last_idx < boxes.length) {
+            boxes[last_idx].focus();
+            boxes[last_idx].value = sele;
         }
     };
+
+    const esc_handler = (e) => {
+        if (e.key === "Escape") {
+            if (phl) phl.remove();
+            activep = false;
+            inf({ str: "You've quit ECT." });
+        }
+    };
+
+    document.addEventListener("keydown", esc_handler, { once: true });
     document.addEventListener("mousemove", move_handler);
-    document.addEventListener("click", click_handler, { capture: true });
-    window.picklisteners = { move: move_handler, click: click_handler };
+    document.addEventListener("contextmenu", click_handler);
+
+    window.picklisteners = {
+        move: move_handler,
+        click: click_handler
+    };
 }
 
 function finishpick() {
     if (!activep) return;
     activep = false;
+
     if (phl) {
         phl.remove();
         phl = null;
     }
     if (window.picklisteners) {
         document.removeEventListener("mousemove", window.picklisteners.move);
-        document.removeEventListener("click", window.picklisteners.click, { capture: true });
+        document.removeEventListener("click", window.picklisteners.click);
         window.picklisteners = null;
     }
-
     if (prevp) {
         prevp.classList.remove("phl");
         prevp = null;
     }
+    nowp = null;
 }
 
-function screenshot() {
+async function screenshot() {
     if (typeof html2canvas === "undefined") { // 加载 html2canvas。
         const script = document.createElement("script");
         script.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
@@ -111,7 +198,7 @@ function screenshot() {
             cac();
         };
         script.onerror = () => {
-            fail("html2canvas 加载失败，请检查网络后重试。");
+            fail({ str: "Failed to load html2canvas, check your internet connection then try again." });
         };
         document.head.appendChild(script);
     } else {
@@ -120,15 +207,20 @@ function screenshot() {
 
     async function cac() {
         if (ofscrt) pickele("scr");
-        let ls2 = await inp("Enter the CSS selector of the element.", "Enter", "scr");
-        let sc = document.querySelector(ls2);
-
-        if (!sc) {
-            fail("The element was NOT found.");
-            return;
-        }
+        let ls2 = await inp({ str: "Input the CSS selector of the element.", tit: "Input", id: "scr" });
 
         try {
+            if (ls2 === null) {
+                throw new Error("Failed to found the element.");
+            }
+            let sc = document.querySelector(ls2);
+
+            if (!sc) {
+                fail({ str: "Failed to found the element." });
+                finishpick();
+                return;
+            }
+
             const oofx = sc.style.overflowX; // 原始 Overflow-X。
             const oofy = sc.style.overflowY; // 原始 Overflow-Y。
             const oof = sc.style.overflow; // 原始 Overflow。
@@ -154,36 +246,43 @@ function screenshot() {
             const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
             try {
                 await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
-                cg("The screenshot has been copied to your clipboard!");
+                cg({ str: "The screenshot has just been copied to the clipboard." });
             } catch (err) {
-                console.warn(`刚才，尝试截图时发生了错误，以下是详细信息：“${err}”。`);
+                caut({ str: `An error occured while processing screenshotting: <code style="err">"${err}"</code>.` });
                 canvas.toDataURL();
-                cg("The screenshot has been copied.");
+            } finally {
+                finishpick();
             }
         } catch (err) {
             if (err.message && err.message.includes("Failed to execute 'toBlob' on 'HTMLCanvasElement'")) {
-                fail("Canvas export failed: it may be due to Canvas pollution or browser limit. Using local HTTP server to view this page is advised.");
+                fail({ str: "Fail to access Canvas export: It may be caused by Canvas pollution (including cross-origin contents) or browser restrictions. It is recommended to open the page using a local HTTP server (e.g., http://localhost) to avoid the limitations of the file:// protocol." });
             }
             else if (err.message && err.message.includes("html2canvas") && err.message.includes("not a function")) {
-                fail("html2canvas was loaded INCORRECTLY. Try again after refreshing the page.");
-                let rq = await conf("Refresh the page?");
-                if (rq) window.location.reload();
+                fail({ str: "Failed to load html2canvas, refresh the page and try again." });
+                let rq = await conf({ str: "Reload the page?" });
+                if (rq) {
+                    window.location.reload();
+                }
             }
             else if (err.message && err.message.includes("Element is not attached to DOM")) {
-                fail("The target element has been removed from DOM. Try again after refreshing the page.");
-                let rq = await conf("Refresh the page?");
-                if (rq) window.location.reload();
+                fail({ str: "The target element has been removed from DOM, please refresh the page and try again." });
+                let rq = await conf({ str: "Reload the page?" });
+                if (rq) {
+                    window.location.reload();
+                }
             }
             else if (err.message && (err.message.includes("Maximum") || err.message.includes("size"))) {
-                fail("Screenshotting area is too large. Please try to lessen the screenshotting area or decrease the value of scale.");
+                fail({ str: "Screenshot area is too large (exceeds the maximum size the browser can handle), please try to reduce the screenshot area or lower the scale parameter." });
             }
             else if (err.message && err.message.includes("timeout")) {
-                fail("Timeout. It may be caused by complex page or network problems. Try again after simplifying the page.");
+                fail({ str: "Screenshot timed out, the page may be too complex or there may be network issues, please simplify the page and try again." });
             }
             else {
-                fail(`Error occoured while screenshotting: ${err.message || err}。`);
+                fail({ str: `An error occurred while taking the screenshot: <code class="err">${err.message || err}</code>.` });
             }
-            console.error(`Error occoured: ${err}。`);
+            console.error(`An error occurred: ${err}.`);
+        } finally {
+            finishpick();
         }
     }
 }
@@ -207,6 +306,8 @@ function init_ui() {
     lw.appendChild(lt);
     lt.appendChild(li);
 
+    // 欢迎来到 la1doms！
+
     const lf1 = document.createElement("div");
     lf1.classList.add("lf1");
     const lf1i = document.createElement("div");
@@ -217,39 +318,39 @@ function init_ui() {
 
     const scs = document.createElement("btn");
     scs.classList.add("scs");
-    scs.innerHTML = "Screenshotting elements";
+    scs.innerHTML = "Screenshot";
     scs.oncontextmenu = async (e) => {
         e.preventDefault();
         const qs = [
-            "如何查看元素的 id？",
-            "如何打开开发者工具？",
-            "如何输入？",
-            "截图失败怎么办？",
-            "CSS 选择器是什么？"
+            "How to view the element's id?",
+            "How to open developer tools?",
+            "How to input?",
+            "What to do if the screenshot fails?",
+            "What is a CSS selector?"
         ];
-        const lsxz1 = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
-        if (!lsxz1) return;
-        let lsans1 = "";
-        switch (lsxz1[0]) {
-            case "如何查看元素的 id？":
-                lsans1 = "1. 按 F12 打开开发者工具。<br />2. 点击左上角的“选择元素”图标（箭头）。<br />3. 点击页面上的目标区域。<br />4. 在 Elements 面板中看该元素有没有 id=“xxx” 属性。<br />5. 或者右键元素 → 检查 → 直接查看高亮行的 id 属性。";
+        const lsxz = await xz({ str: "Please select the problem you want to know.", n: 1, names: qs, tit: "Help Center", form: "brief" });
+        if (!lsxz) return;
+        let lsans = "";
+        switch (lsxz[0]) {
+            case "How to view the element's id?":
+                lsans = "1. Press F12 to open Developer Tools.<br />2. Click the 'Select Element' icon (arrow) in the top left corner.<br />3. Click the target area on the page.<br />4. In the Elements panel, check if the element has an id=\"xxx\" attribute.<br />5. Or right-click the element → Inspect → directly view the id attribute of the highlighted line.";
                 break;
-            case "如何打开开发者工具？":
-                lsans1 = "按 F12 键（部分笔记本需按 Fn+F12）。<br />或者右键页面空白处 → 检查。<br />或者浏览器菜单 → 更多工具 → 开发者工具。";
+            case "How to open developer tools?":
+                lsans = "Press F12 (some laptops require pressing Fn+F12).<br />Or right-click on the blank area of the page → Inspect.<br />Or browser menu → More Tools → Developer Tools.";
                 break;
-            case "如何输入？":
-                lsans1 = "输入 CSS 选择器字符串。<br />例如：.score-container  或   #main  或   div.header<br />支持.class、#id、标签名、属性选择器等。";
+            case "How to input?":
+                lsans = "Enter the CSS selector string.<br />For example: .score-container  or   #main  or   div.header<br />Supports .class, #id, tag name, attribute selectors, etc.";
                 break;
-            case "截图失败怎么办？":
-                lsans1 = "1. 尝试刷新页面后重试。<br />2. 检查是否包含跨域图片（可先将图片替换或隐藏）。<br />3. 改用浏览器自带截图（Ctrl+Shift+S 或 Windows 截图工具）。<br />4. 如果持续失败，可尝试复制页面链接到其他浏览器。";
+            case "What to do if the screenshot fails?":
+                lsans = "1. Try refreshing the page and retry.<br />2. Check if there are any cross-origin images (you can replace or hide the images first).<br />3. Use the browser's built-in screenshot tool (Ctrl+Shift+S or Windows Snipping Tool).<br />4. If it continues to fail, try copying the page link to another browser.";
                 break;
-            case "CSS 选择器是什么？":
-                lsans1 = "CSS 选择器是一种用特定语法定位页面元素的模式。<br />• .class 选择类名<br />• #id 选择 id<br />• div 选择所有 div 标签<br />• .container .item 选择后代元素<br />更多用法可搜索“CSS 选择器参考”。";
+            case "What is a CSS selector?":
+                lsans = "A CSS selector is a pattern used to select elements on a web page based on specific syntax.<br />• .class selects elements with the specified class<br />• #id selects the element with the specified id<br />• div selects all div elements<br />• .container .item selects descendant elements<br />For more usage, you can search for 'CSS Selector Reference'.";
                 break;
             default:
                 return;
         }
-        mb(lsans1, "Answering");
+        mb({ str: lsans, tit: "Answer", form: "brief" });
     };
     scs.onclick = () => {
         screenshot();
@@ -264,79 +365,261 @@ function init_ui() {
     pr.classList.add("pr");
     pr.innerHTML = "Print this page";
     pr.onclick = async () => {
-        await noti("Please continue in the following window.");
+        await noti({ str: "Please process in the following window." });
         setTimeout(() => {
             window.print();
-        }, 1);
+        }, 39);
     };
     const share = document.createElement("btn");
     share.classList.add("share");
-    share.innerHTML = "Copy the string of the website";
-    share.onclick = () => {
+    share.innerHTML = "Copy Current URL";
+    share.onclick = async () => {
         const url = window.location.href;
-        navigator.clipboard.writeText(url).then(() => {
-            suc("The string of the website has been copied to your clipboard.");
-        }).catch(() => {
-            err("Failed to copy. Please copy the string manually.");
-        });
+        try {
+            await navigator.clipboard.writeText(url);
+            suc({ str: "The URL of this page has been copied to the clipboard！" });
+        } catch {
+            err({ str: "Failed to copy. Try to copy manually." });
+        }
     };
     const reportying = document.createElement("btn");
     reportying.classList.add("reportying");
-    reportying.innerHTML = 'Report "Ying" messages';
+    reportying.innerHTML = 'Report "Ying" information';
     reportying.onclick = async () => {
-        pickele("rying");
-        let ls_1 = await inp("在此输入对应“蝇”信息的 CSS 选择器。", "输入", "rying");
+        if (ofscrt) pickele("rying");
+        let ls_1 = await inp({ str: 'Enter the CSS selector of "Ying" information here.', id: "rying" });
         try {
+            finishpick();
             let ying = document.querySelector(ls_1);
-            let con = await conf(`
-            该元素内容已显示在分隔线下方。请确认。
-            <div style="background-color: #0437c6b9; width: 100%; height: 3px; margin-top: 10px; margin-bottom: 10px;"></div>
-            ${ying.textContent}`);
+            let con = await conf({
+                str: `
+            The content of this element has been shown under the separator line. Please confirm.
+            <div class="line1"></div>
+            ${ying.textContent}`
+            });
 
             if (con) {
                 await console.log(ying.textContent);
-                cg("你的举报已反馈到“Chanf 灭蝇组织”，感谢你的配合。");
+                cg({ str: 'Your report has been feedbacked to Chanf "MieYing" Organization. Thank you for your cooperation.' });
             }
         } catch (e) {
-            fail(`报错：${e}`);
+            fail({ str: `An error occured: <code class="err">${e}</code>` });
+        } finally {
+            finishpick();
         }
     };
     reportying.oncontextmenu = async (e) => {
         e.preventDefault();
         const qs = [
-            "“蝇”是什么？",
-            "为什么要灭“蝇”？",
-            "举报结果将向谁发送？",
+            'What is "Ying"?',
+            'Why should we "MieYing"?',
+            "Who will receive the report?",
         ];
-        const lsxz1 = await xz("请选择你需要了解的问题。", 1, qs, "帮助");
-        if (!lsxz1) noti("无论您是否参与，请您记住，灭“蝇”就是守护生命！");
-        let lsans1 = "";
-        switch (lsxz1[0]) {
-            case "“蝇”是什么？":
-                lsans1 = "“蝇”是指在网络上传播的人身攻击、开盒、KY、低龄言论等不良信息。它们像苍蝇一样令人反感，故称“蝇”。";
+        const lsxz = await xz({ str: "Please select the question you want to know.", n: 1, names: qs, tit: "Help", form: "brief" });
+        if (!lsxz) noti({ str: "Whether you participate or not, please remember that MieYing is to protect life.", form: "brief" });
+        let lsans = "";
+        switch (lsxz[0]) {
+            case 'What is "Ying"?':
+                lsans = '"Ying" refers to harmful information such as personal attacks, doxxing, KY, and juvenile remarks spread on the Internet. They are as annoying as flies, hence the name "Ying".';
                 break;
-            case "为什么要灭“蝇”？":
-                lsans1 = "灭“蝇”是为了净化 HF Net。请您记住，灭“蝇”就是守护生命！";
+            case 'Why should we "MieYing"?':
+                lsans = '"MieYing" is to purify HF Net. Please remember that MieYing is to protect life.';
                 break;
-            case "举报结果将向谁发送？":
-                lsans1 = "您的举报将直接提交至“Chanf 灭蝇组织”后台，由管理员核实后将进行惩罚措施，包括但不限于删除原信息、封禁放蝇者（发送“蝇”信息的用户）若干时长等处罚。";
+            case "Who will receive the report?":
+                lsans = 'Your report will be directly submitted to the backend of the "Chanf MieYing Organization". After the administrators verify it, they will take punitive measures, including but not limited to deleting the original information and banning the users who posted the "Ying" information for a certain period of time.';
                 break;
             default:
                 return;
         }
-        mb(lsans1, "Answering");
+        mb({ str: lsans, tit: "Answer", form: "brief" });
     };
+
+    const fingerprint = document.createElement("btn");
+    fingerprint.classList.add("fingerprint");
+    fingerprint.innerHTML = "View Information Fingerprint";
+    fingerprint.onclick = async () => {
+        const content = document.body.textContent;
+        let hash = 0;
+        for (let i = 0; i < content.length; i++) {
+            const char = content.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        const fpstr = hash.toString(16).padStart(8, "0").toUpperCase();
+        noti({ str: `<code style="font-size: 25px">${fpstr}</code>`, tit: "Fingerprint" });
+    };
+
+    const trace = document.createElement("btn");
+    trace.classList.add("trace");
+    trace.innerHTML = "Trace Source";
+    trace.onclick = async () => {
+        const url = window.location.href;
+        const referrer = document.referrer || "None (Direct Access)";
+        const ua = navigator.userAgent.slice(0, 60) + "……";
+
+        mb({
+            str: `
+        <table>
+            <tr><td class="label">URL</td><td class="value"><code>${url}</code></td></tr>
+            <tr><td class="label">Local Time</td><td class="value">${xzsj()}</td></tr>
+            <tr><td class="label">Source</td><td class="value"><code>${referrer}</code></td></tr>
+            <tr><td class="label">User Agent</td><td class="value">${ua}</td></tr>
+        </table>
+    `,
+            tit: "Source Trace"
+        });
+    };
+
+    const snapshot = document.createElement("btn");
+    snapshot.classList.add("snapshot");
+    snapshot.innerHTML = "Snapshot";
+    snapshot.onclick = async () => {
+        const confirmed = await conf({ str: "Save this page to HF Net public saving node?" });
+        if (!confirmed) return;
+        const snapshotId = Date.now().toString(36).toUpperCase();
+        cg({ str: `The page has been archived, archive ID: <code>cd-${snapshotId}</code>` });
+    };
+
+    async function blocking(cont) {
+        if (activep) finishpick();
+        clean_status();
+
+        if (ofscrt) pickele("block");
+
+        let sel = await inp({ str: cont, id: "block" });
+        finishpick();
+        if (!sel) return;
+        if (typeof sel !== "object") sel = [sel];
+        let all_flag = false;
+
+        for (let s of sel) {
+            if (s.trim().includes("*")) {
+                all_flag = true;
+            }
+        }
+
+        if (all_flag) {
+            let ls_c = await xz({ str: "Are you sure to block all elements?", tit: "Confirmation", n: 1, names: ["Yes.", "No."] });
+            if (ls_c[0] !== "Yes.") {
+                sel = sel.filter(s => !s.trim().includes("*"));
+                if (sel.length !== 0) inf({ str: "Blocked elements that are not * only." });
+                else {
+                    inf({ str: "No elements were blocked this time." });
+                    return;
+                }
+            }
+        }
+
+        try {
+            const newelem = document.querySelectorAll(sel);
+            if (!newelem || newelem.length === 0) {
+                err({ str: "Element not found." });
+                return;
+            }
+
+            const blockedelem = new Set();
+            ble.forEach((existingSel) => {
+                document.querySelectorAll(existingSel).forEach(el => {
+                    blockedelem.add(el);
+                });
+            });
+
+            const hideelem = [];
+            newelem.forEach(el => {
+                if (!blockedelem.has(el)) {
+                    hideelem.push(el);
+                }
+            });
+
+            if (hideelem.length === 0) {
+                return;
+            }
+
+            hideelem.forEach(e => {
+                e.style.transition = `all 0.2s ${easing}`;
+                e.style.opacity = 0;
+                e.addEventListener("transitionend", () => {
+                    e.style.display = "none";
+                }, { once: true });
+            });
+
+            ble.push(sel);
+            render_bl();
+            suc({ str: `Blocked ${hideelem.length} element${hideelem.length > 1 ? "s" : ""}.` });
+
+        } catch (err) {
+            fail({ str: `An error occured: <code class="err">${err}<code>.` });
+        }
+    }
+
+    const block = document.createElement("btn");
+    block.classList.add("block");
+    block.innerHTML = "Block";
+    block.onclick = async () => {
+        let ls_amount = await inp({ str: "Please input the amount of elements waiting to be blocked.", form: "brief" });
+        ls_amount = Number(ls_amount)
+        if (isNaN(ls_amount)) {
+            await fail({ str: "Invalid input. Please input a valid number.", form: "brief" });
+            return;
+        }
+        else if (ls_amount <= 0) {
+            await fail({ str: "The number inputted should be greater than 0.", form: "brief" });
+            return;
+        } else if (ls_amount % 1 != 0) {
+            await fail({ str: "The number inputted should be an integer.", form: "brief" });
+            return;
+        } else if (ls_amount > 1425) {
+            await warn({ str: "The number inputted should not be greater than 1425.", form: "brief" });
+            return;
+        } else {
+            stringlist = []
+            for (let i = 1; i <= ls_amount; i++) {
+                stringlist.push(`Please input the CSS selector for element ${i}.`);
+            }
+            await blocking(stringlist);
+        }
+    };
+    block.oncontextmenu = async (e) => {
+        e.preventDefault();
+        const qs = [
+            "The effect after blocking?",
+            "Where can I recover them after blocking?",
+        ];
+        const lsxz = await xz({ str: "Please select the question you want to know.", n: 1, names: qs, tit: "Help", form: "brief" });
+        if (!lsxz) return;
+        let lsans = "";
+        switch (lsxz[0]) {
+            case "The effect after blocking?":
+                lsans = 'After the element is blocked, it will be "disappeared" from DOM. However, it does not mean that it was removed. It is just hidden';
+                break;
+            case "Where can I recover them after blocking?":
+                lsans = `Please move your mouse to the upper-right corner to access "Blocking Management". You can recover elements that you've blocked.`;
+                break;
+            default:
+                return;
+        }
+        mb({ str: lsans, tit: "Answer", form: "brief" });
+    }
+
     const ter = document.createElement("btn");
     ter.classList.add("ter");
-    ter.innerHTML = "Open terminal";
+    ter.innerHTML = "Terminal";
     ter.onclick = () => {
-        zd("Enter JavaScript code here.");
+        zd({ str: "Type JavaScript code here." });
     };
+    ter.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        noti({ str: "Press Enter to insert a newline, press Shift+Enter to execute the code.", form: "brief" });
+    });
 
     la1doms.push(scs);
     la1doms.push(pr);
     la1doms.push(share);
     la1doms.push(reportying);
+    la1doms.push(fingerprint);
+    la1doms.push(trace);
+    la1doms.push(snapshot);
+    la1doms.push(block);
     la1doms.push(ter);
 
     lw.appendChild(larea1);
@@ -344,6 +627,8 @@ function init_ui() {
     la1doms.forEach(dom => {
         larea1.appendChild(dom);
     });
+
+    // 欢迎来到 la2doms！
 
     const lf2 = document.createElement("div");
     lf2.classList.add("lf2");
@@ -363,20 +648,28 @@ function init_ui() {
     const tscrs = document.createElement("div");
     tscrs.classList.add("la2t");
     tscrs.id = "tscrs";
-    tscrs.innerHTML = "Element capturing tools (ECT)";
+    tscrs.innerHTML = "Element Capture Tool";
     const escrs = document.createElement("btn");
     escrs.classList.add("on");
     escrs.innerHTML = "Enable";
-    escrs.onclick = () => {
-        inf("ECT has been enabled.");
-        ofscrt = true;
+    escrs.onclick = async () => {
+        inf({ str: `Element Capture Tool has been <strong style="color: #00bf00; brightness(1.25)">enabled</strong>!` });
+        await set_and_do({
+            varia: "ofscrt", val: true, func: `
+        const tscrs = document.getElementById("tscrs");
+        tscrs.style.borderTop = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");
+        tscrs.style.borderBottom = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");` });
     };
     const dscrs = document.createElement("btn");
     dscrs.classList.add("off");
     dscrs.innerHTML = "Disable";
-    dscrs.onclick = () => {
-        inf("ECT has been disabled.");
-        ofscrt = false;
+    dscrs.onclick = async () => {
+        inf({ str: `Element Capture Tool has been <strong style="color: #bf0000; brightness(1.25)">disabled</strong>!` });
+        await set_and_do({
+            varia: "ofscrt", val: false, func: `
+        const tscrs = document.getElementById("tscrs");
+        tscrs.style.borderTop = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");
+        tscrs.style.borderBottom = (ofscrt ? "10px solid #008e0099" : "10px solid #8e000099");` });
     };
 
     lw.appendChild(larea2);
@@ -395,14 +688,126 @@ function init_ui() {
     }
     const rt = document.createElement("div");
     rt.classList.add("t");
-    rt.innerHTML = "Unread Messages";
+    rt.innerHTML = "Blocking Management";
     const ri = document.createElement("img");
     ri.classList.add("i");
-    ri.src = "Dainiv/images/Unread Messages.png";
+    ri.src = "Dainiv/images/Blocking Management.png";
     ri.alt = "";
 
     rw.appendChild(rt);
     rt.appendChild(ri);
+
+    const rf1 = document.createElement("div");
+    rf1.classList.add("rf1");
+    const rf1i = document.createElement("div");
+    rf1i.classList.add("rf1i");
+
+    rw.appendChild(rf1);
+    rf1.appendChild(rf1i);
+
+    const blocked = document.createElement("div");
+    blocked.className = "rw-blocked";
+
+    rw.appendChild(blocked);
+
+    function render_bl(immediate) {
+        const items = ble || [];
+        blocked.innerHTML = "";
+
+        if (items.length === 0) {
+            const emsg = document.createElement("div");
+            emsg.className = "rw-empty";
+            emsg.textContent = "No blocked content.";
+            emsg.style.opacity = 0;
+            emsg.style.transition = `opacity 0.2s ${easing}`;
+            blocked.appendChild(emsg);
+            requestAnimationFrame(() => {
+                emsg.style.opacity = 1;
+            });
+            ra1doms = [];
+            return;
+        }
+
+        items.forEach((selector, index) => {
+            blocked.innerHTML += `
+            <div class="rw-blockitem" data-index="${index}">
+                <code class="selector">${selector}</code>
+                <button class="rw-unblocker" data-index="${index}">Recover</button>
+            </div>
+        `;
+        });
+
+        ra1doms = Array.from(blocked.querySelectorAll(".rw-blockitem"));
+
+        if (immediate) {
+            ra1doms.forEach(dom => {
+                dom.style.opacity = 1;
+                dom.style.transform = "translateY(25px)";
+            });
+        } else if (rw_moved) {
+            ra1doms.forEach((dom, idx) => {
+                dom.style.opacity = 0;
+                dom.style.transform = "translateY(-20px)";
+                dom.style.transition = `all 0.2s ${easing}`;
+                setTimeout(() => {
+                    dom.style.opacity = 1;
+                    dom.style.transform = "translateY(25px)";
+                }, idx * 25);
+            });
+        } else {
+            ra1doms.forEach(dom => {
+                dom.style.opacity = 0;
+                dom.style.transform = "translateY(-20px)";
+                dom.style.transition = `all 0.2s ${easing}`;
+            });
+        }
+
+        blocked.querySelectorAll(".rw-unblocker").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const idx = parseInt(btn.dataset.index);
+                unblock(idx);
+            });
+        });
+    }
+
+    function unblock(index) {
+        const items = ble || [];
+        if (index < 0 || index >= items.length) return;
+
+        const selector = items[index];
+
+        const el = document.querySelector(selector);
+        if (!el) {
+            fail({ str: `We haven't found the element that you'd like to recover, whose selector is "<code>${selector}</code>".` });
+            items.splice(index, 1);
+            render_bl(true);
+            return;
+        }
+
+        el.style.display = "";
+        el.style.opacity = "";
+        el.style.transition = "";
+
+        const tel = ra1doms[index]; // 目标元素。
+        if (tel) {
+            tel.style.transition = `all 0.2s ${easing}`;
+            tel.style.opacity = 0;
+            tel.style.transform = "translateY(-30px)";
+            tel.style.height = 0;
+            tel.style.padding = "0 12px";
+            tel.style.marginBottom = 0;
+            tel.style.overflow = "hidden";
+            setTimeout(() => {
+                items.splice(index, 1);
+                render_bl(true);
+            }, 200);
+        } else {
+            items.splice(index, 1);
+            render_bl(true);
+        }
+    }
+    render_bl(true);
 }
 
 let lw_moved = false;
@@ -410,12 +815,8 @@ let rw_moved = false;
 
 init_ui();
 
-document.addEventListener("mousemove", function (event) {
-    const x = event.clientX;
-    const y = event.clientY;
-
+function lw_anim(stat) {
     const lw = document.querySelector(".lw");
-    const rw = document.querySelector(".rw");
     const lf1 = document.querySelector(".lf1");
     const lf1i = document.querySelector(".lf1i");
     const larea1 = document.querySelector(".larea1");
@@ -425,13 +826,13 @@ document.addEventListener("mousemove", function (event) {
     const larea2 = document.querySelector(".larea2");
     const tl2 = document.getElementById("tl2");
 
-    if (x <= 50 && y <= 50 && !lw_moved) {
-        larea1.style.transition = `all 0.6s ${easing}`;
-        larea2.style.transition = `all 0.6s ${easing}`;
-        lw.style.animation = `in_lw 0.6s forwards ${easing}`;
+    if (stat === "in") {
+        larea1.style.transition = `all 0.8s ${easing}`;
+        larea2.style.transition = `all 0.8s ${easing}`;
+        lw.style.animation = `in_lw 0.8s forwards ${easing}`;
         setTimeout(() => {
-            lf1.style.animation = `in_lf 0.6s forwards ${easing}`;
-            lf1i.style.left = "424px";
+            lf1.style.animation = `in_lf 0.8s forwards ${easing}`;
+            lf1i.style.left = `503px`;
             setTimeout(() => {
                 let la1 = tl1.getBoundingClientRect().height + Number(getComputedStyle(larea1).top.replace("px", "")) + 10;
                 la1doms.forEach(dom => {
@@ -443,12 +844,12 @@ document.addEventListener("mousemove", function (event) {
                     setTimeout(() => {
                         dom.style.opacity = 1;
                         dom.style.left = "0px";
-                    }, idx * 70);
+                    }, idx * 25);
                 });
 
                 setTimeout(() => {
-                    lf2.style.animation = `in_lf 0.6s forwards ${easing}`;
-                    lf2i.style.left = "424px";
+                    lf2.style.animation = `in_lf 0.8s forwards ${easing}`;
+                    lf2i.style.left = `503px`;
                     setTimeout(() => {
                         let la2 = tl2.getBoundingClientRect().height + Number(getComputedStyle(larea2).top.replace("px", "")) + 10;
                         la2doms.forEach(dom => {
@@ -460,53 +861,110 @@ document.addEventListener("mousemove", function (event) {
                             setTimeout(() => {
                                 dom.style.opacity = 1;
                                 dom.style.left = "0px";
-                            }, idx * 70);
+                            }, idx * 25);
                         });
-                    }, 100);
-                }, 100);
-            }, 100);
-        }, 100);
+                    }, 50);
+                }, 50);
+            }, 50);
+        }, 50);
 
         lw.addEventListener("animationend", function () {
-            lw_moved = true;   
+            lw_moved = true;
         }, { once: true });
-    } else if (x > Number(getComputedStyle(lw).width.replace("px", "")) && lw_moved) {
-        lw.style.animation = `out_lw 0.6s forwards ${fasing}`;
-        larea1.style.transition = "all 0.6s cubic-bezier(0.33, 1, 0.68, 1)";
+    } else if (stat === "out") {
+        lw.style.animation = `out_lw 0.8s forwards ${fasing}`;
+        larea1.style.transition = "all 0.8s cubic-bezier(0.33, 1, 0.68, 1)";
         setTimeout(() => {
-            lf1.style.animation = `out_lf 0.6s forwards ${easing}`;
+            lf1.style.animation = `out_lf 0.8s forwards ${easing}`;
             lf1i.style.left = "-20px";
-            lf2.style.animation = `out_lf 0.6s forwards ${easing}`;
+            lf2.style.animation = `out_lf 0.8s forwards ${easing}`;
             lf2i.style.left = "-20px";
-            setTimeout(() => {
-                la1doms.forEach(dom => {
-                    dom.style.opacity = 0;
-                    dom.style.left = "-100%";
-                });
-                larea1.style.height = 0;
 
-                la2doms.forEach(dom => {
+            la1doms.forEach((dom, idx) => {
+                setTimeout(() => {
                     dom.style.opacity = 0;
                     dom.style.left = "-100%";
-                });
-                larea2.style.height = 0;
-            }, 100);
-        }, 100);
+                }, 25 * idx);
+            });
+            larea1.style.height = 0;
+
+            la2doms.forEach((dom, idx) => {
+                setTimeout(() => {
+                    dom.style.opacity = 0;
+                    dom.style.left = "-100%";
+                }, 25 * idx);
+            });
+            larea2.style.height = 0;
+        }, 50);
+
         lw.addEventListener("animationend", function () {
             lw_moved = false;
         }, { once: true });
     }
-    
-    if (x >= window.innerWidth - 50 && y <= 50 && !rw_moved) {
-        rw.style.animation = `in_rw 0.6s forwards ${easing}`;
-        rw.addEventListener("animationend", function () {
+}
+
+function rw_anim(stat) {
+    const rw = document.querySelector(".rw");
+    const rf1 = document.querySelector(".rf1");
+
+    if (stat === "in") {
+        rw.style.animation = `in_rw 0.8s forwards ${easing}`;
+
+        setTimeout(() => {
+            rf1.style.animation = `in_rf 0.8s forwards ${easing}`;
+            setTimeout(() => {
+                if (ra1doms.length > 0) {
+                    ra1doms.forEach((dom, idx) => {
+                        dom.style.transition = `all 0.2s ${easing}`;
+                        setTimeout(() => {
+                            dom.style.opacity = 1;
+                            dom.style.transform = "translateY(20px)";
+                        }, idx * 25);
+                    });
+                }
+            }, 50);
+        }, 50);
+
+        rw.addEventListener("animationend", () => {
             rw_moved = true;
         }, { once: true });
-    }
-    else if (x < (window.innerWidth - Number(getComputedStyle(rw).width.replace("px", ""))) && rw_moved) {
-        rw.style.animation = `out_rw 0.6s forwards ${fasing}`;
+    } else if (stat === "out") {
+        rw.style.animation = `out_rw 0.8s forwards ${fasing}`;
+
+        setTimeout(() => {
+            rf1.style.animation = `out_rf 0.8s forwards ${easing}`;
+            ra1doms.forEach((dom, idx) => {
+                setTimeout(() => {
+                    dom.style.opacity = 0;
+                    dom.style.right = "-100%";
+                    dom.style.transform = "translateY(0)";
+                }, idx * 25);
+            });
+        }, 50);
+
         rw.addEventListener("animationend", function () {
             rw_moved = false;
         }, { once: true });
+    }
+}
+
+document.addEventListener("mousemove", (event) => {
+    const x = event.clientX;
+    const y = event.clientY;
+
+    const lw = document.querySelector(".lw");
+    const rw = document.querySelector(".rw");
+
+    if (x <= 50 && y <= 50 && !lw_moved) { // 移动到左上角。
+        lw_anim("in");
+    } else if (x > Number(getComputedStyle(lw).width.replace("px", "")) && lw_moved) {
+        lw_anim("out");
+    }
+
+    if (x >= window.innerWidth - 50 && y <= 50 && !rw_moved) {
+        rw_anim("in");
+    }
+    else if (x < (window.innerWidth - Number(getComputedStyle(rw).width.replace("px", ""))) && rw_moved) {
+        rw_anim("out");
     }
 });

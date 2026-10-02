@@ -1,5 +1,3 @@
-/* 为了便于管理各个函数，下列函数的代码我特意拆开了，可能违反了 DRY 原则，但我觉得这样更清晰。*/
-
 // 全局存储当前显示的窗口信息。
 let dbmaps = {}; // Dainiv Basic 样式窗口。
 let bfmaps = {}; // Brief 样式窗口。
@@ -17,13 +15,15 @@ async function rmenu({ e, mele }) {
     const inform = mele.querySelector(".mfn-inf, .brief-inf, .rz-inf");
     const box = mele.querySelectorAll("textarea, input:not([type='button']), select");
     const text = inform ? inform.textContent : (box ? box.value : "");
+    const btn = mele.querySelectorAll("button");
     const html = inform ? inform.innerHTML : (box ? box.value : "");
     const names = ["Close this window.", "Copy the content in HTML format.", "Copy the content in plain text.", "Read the content aloud.", "Stop reading aloud.", "Download the content as text file."];
     const cls = String(mele.className);
 
     if (cls.includes("inp-")) names.push("Empty all content inputed.");
     if (cls.includes("zd-")) {
-        names.push("Empty content inputed.");
+        names[0] = "Close this window with execution.";
+        names.push("Empty the content inputed.");
         names.push("Enable strict mode.");
     }
     if (cls.includes("xz-") && !(cls.includes("xz-brief")) && mele.querySelectorAll(".xz-checkbox").length > 1) {
@@ -32,9 +32,6 @@ async function rmenu({ e, mele }) {
     }
     if (cls.includes("lj-")) {
         names.push("Copy all links.", "Open all links.");
-    }
-    if (cls.includes("timer-") || cls.includes("synchr-") || cls.includes("rz-")) {
-        names.push("Stop timing or progressing.");
     }
 
     const rs = await xz({
@@ -74,7 +71,7 @@ async function rmenu({ e, mele }) {
 
     switch (rs[0]) {
         case "Close this window.":
-        case "Stop timing or progressing.":
+        case "Close this window with execution.":
             close();
             break;
         case "Select all.": {
@@ -155,7 +152,9 @@ async function rmenu({ e, mele }) {
                         caut({ str: "You have enabled strict mode." });
                     } else {
                         b.value = `"use strict";\n${b.value}`;
+                        btn[0].style.backgroundColor = "var(--zd-submit-strictmode-color)";
                     }
+                    b?.focus();
                 });
             }
             break;
@@ -278,7 +277,7 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     win.anim_timer = null;
                 }
 
-                ele.style.transition = "opacity 0.1s ease";
+                ele.style.transition = "opacity 50ms ease";
                 ele.style.opacity = "0";
 
                 ele.addEventListener("transitionend", () => {
@@ -352,7 +351,7 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.left = "calc(50% - 15ch)";
                 mele.style.right = "calc(50% + 15ch)";
                 mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
-            });
+            }, { once: true });
 
             let resorb = new ResizeObserver(() => {
                 const squareH = square.getBoundingClientRect().height;
@@ -503,7 +502,7 @@ async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     win.anim_timer = null;
                 }
 
-                ele.style.transition = "opacity 0.1s ease";
+                ele.style.transition = "opacity 50ms ease";
                 ele.style.opacity = "0";
 
                 ele.addEventListener(("transitionend"), () => {
@@ -577,7 +576,7 @@ async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.left = "calc(50% - 15ch)";
                 mele.style.right = "calc(50% + 15ch)";
                 mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + okey.getBoundingClientRect().height}px + ${window.getComputedStyle(okey).marginBottom})`;
-            });
+            }, { once: true });
 
             let resorb = new ResizeObserver(() => {
                 const squareH = square.getBoundingClientRect().height;
@@ -727,7 +726,7 @@ async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     win.anim_timer = null;
                 }
 
-                ele.style.transition = "opacity 0.1s ease";
+                ele.style.transition = "opacity 50ms ease";
                 ele.style.opacity = "0";
 
                 ele.addEventListener(("transitionend"), () => {
@@ -800,7 +799,7 @@ async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.width = "30ch";
                 mele.style.left = "calc(50% - 15ch)";
                 mele.style.right = "calc(50% + 15ch)";
-            });
+            }, { once: true });
 
             let resorb = new ResizeObserver(() => {
                 const squareH = square.getBoundingClientRect().height;
@@ -950,7 +949,7 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     win.anim_timer = null;
                 }
 
-                ele.style.transition = "opacity 0.1s ease";
+                ele.style.transition = "opacity 50ms ease";
                 ele.style.opacity = "0";
 
                 ele.addEventListener(("transitionend"), () => {
@@ -1023,7 +1022,7 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.width = "30ch";
                 mele.style.left = "calc(50% - 15ch)";
                 mele.style.right = "calc(50% + 15ch)";
-            });
+            }, { once: true });
 
             let resorb = new ResizeObserver(() => {
                 const squareH = square.getBoundingClientRect().height;
@@ -1239,7 +1238,7 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     win.anim_timer = null;
                 }
 
-                ele.style.transition = "opacity 0.1s ease";
+                ele.style.transition = "opacity 50ms ease";
                 ele.style.opacity = "0";
 
                 ele.addEventListener("transitionend", () => {
@@ -1353,7 +1352,7 @@ async function inp({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.width = "30ch";
                 mele.style.left = "calc(50% - 15ch)";
                 mele.style.right = "calc(50% + 15ch)";
-            });
+            }, { once: true });
 
             let resorb = new ResizeObserver(() => {
                 const squareH = square.getBoundingClientRect().height;
@@ -1571,7 +1570,7 @@ async function xz({ str, tit, names, n, id, realstr = false, form = "dainiv basi
                     win.anim_timer = null;
                 }
 
-                ele.style.transition = "opacity 0.1s ease";
+                ele.style.transition = "opacity 50ms ease";
                 ele.style.opacity = "0";
 
                 ele.addEventListener(("transitionend"), () => {
@@ -1726,7 +1725,7 @@ async function xz({ str, tit, names, n, id, realstr = false, form = "dainiv basi
                 mele.style.right = "calc(50% + 15ch)";
                 mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + submit.getBoundingClientRect().height + giveup.getBoundingClientRect().height}px + ${window.getComputedStyle(submit).marginBottom} + ${window.getComputedStyle(giveup).marginBottom})`;
                 for (let btn of btns) btn.style.opacity = 1;
-            });
+            }, { once: true });
 
             let resorb = new ResizeObserver(() => {
                 const squareH = square.getBoundingClientRect().height;
@@ -1823,7 +1822,7 @@ async function synchr({ str, tit, id, realstr = false, form = "dainiv basic" }) 
             win.anim_timer = null;
         }
 
-        ele.style.transition = "opacity 0.1s ease";
+        ele.style.transition = "opacity 50ms ease";
         ele.style.opacity = "0";
 
         ele.addEventListener(("transitionend"), () => {
@@ -2045,7 +2044,7 @@ async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" })
                 btn.textContent = u;
                 btn.onclick = (e) => {
                     e.stopPropagation();
-                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}`)) {
+                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}, noopener, noreferrer`)) {
                         warn({ str: "The windows that should have jumped were blocked." });
                     }
                     close(u);
@@ -2096,7 +2095,7 @@ async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" })
                     win.anim_timer = null;
                 }
 
-                ele.style.transition = "opacity 0.1s ease";
+                ele.style.transition = "opacity 50ms ease";
                 ele.style.opacity = "0";
 
                 ele.addEventListener(("transitionend"), () => {
@@ -2165,7 +2164,7 @@ async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" })
                 link.onmouseover = () => { ld(link, "75%"); };
                 link.onmouseleave = () => { ld(link, "100%"); };
                 link.onclick = () => {
-                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}`)) {
+                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}, noopener, noreferrer`)) {
                         warn({ str: "The windows that should have jumped were blocked." });
                     }
                     close_win(u);
@@ -2188,7 +2187,7 @@ async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" })
                 mele.style.width = "30ch";
                 mele.style.left = "calc(50% - 15ch)";
                 mele.style.right = "calc(50% + 15ch)";
-            });
+            }, { once: true });
 
             let resorb = new ResizeObserver(() => {
                 const squareH = square.getBoundingClientRect().height;
@@ -2257,23 +2256,23 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
         if (name === "ReferenceError") {
             if (msg.includes(" is not defined")) {
                 const v = grab(/(.+) is not defined/);
-                return `引用了未定义的变量或函数 “<code class="var">${v || "?"}</code>”。`;
+                return [`Referred undefined variable or function "<code class="var">${v || "?"}</code>".`, name];
             }
             if (msg.includes("Cannot access")) {
                 const v = grab(/Cannot access '(.+?)'/);
-                return `无法在初始化前访问 “<code class="var">${v || "变量"}</code>”。`;
+                return [`Cannot access "<code class="var">${v || "variable"}</code>" before initialization.`, name];
             }
-            return `引用错误：“<code class="err">${esc_str(msg)}</code>”。`;
+            return [`Reference error: "<code class="err">${esc_str(msg)}</code>".`, name];
         }
 
         // 1. SyntaxError
         if (name === "SyntaxError") {
             if (msg.includes("Missing initializer in const declaration")) {
-                return `<code class="key">const</code> 常量没有设置初始化值。`;
+                return [`<code class="key">const</code> constant has no initializer.`, name];
             }
             if (msg.includes("has already been declared")) {
                 const v = grab(/Identifier '(.+?)'/);
-                return `标识符 “<code class="var">${v || "未知"}</code>” 已经声明过。`;
+                return [`Identifier "<code class="var">${v || "unknown"}</code>" has already been declared.`, name];
             }
             if (msg.includes("Unexpected token")) {
                 let token = "";
@@ -2282,15 +2281,15 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 } else {
                     token = msg.split("Unexpected token")[1]?.trim() || "";
                 }
-                if (token === "end of input") return "意外代码结束，输入不完整。";
-                return `意外符号 “<code class="token">${esc_str(token) || "?"}</code>”。`;
+                if (token === "end of input") return ["Unexpected token: end of input.", name];
+                return [`Unexpected token "<code class="token">${esc_str(token) || "?"}</code>".`, name];
             }
             if (msg.includes("Unexpected identifier")) {
                 const v = grab(/Unexpected identifier '(.+?)'/);
-                return `“<code class="token">${v || "?"}</code>” 不是有效的标识符。`;
+                return [`"<code class="token">${v || "?"}</code>" is not a valid identifier.`, name];
             }
             if (msg.includes("Unexpected end of input")) {
-                return "缺少必要的符号。";
+                return ["Unexpected end of input.", name];
             }
             if (msg.includes("Invalid or unexpected token")) {
                 // 检查引号对称。
@@ -2304,141 +2303,141 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     else if (c === "'") sq++;
                     else if (c === "`") bq++;
                 }
-                if (bq % 2 === 1) return "模板字符串中可能缺少闭合反引号。";
-                if (dq % 2 === 1 || sq % 2 === 1) return "字符串缺少结束引号。";
-                if (code.includes("\\")) return `无效转义字符 "\\"。`;
-                return "无效标识符或意外符号。";
+                if (bq % 2 === 1) return ["The template string may be missing a closing backtick.", name];
+                if (dq % 2 === 1 || sq % 2 === 1) return ["The string may be missing a closing quote.", name];
+                if (code.includes("\\")) return [`Invalid escape character "\\".`, name];
+                return ["Invalid identifier or unexpected token.", name];
             }
             if (msg.includes("Invalid left-hand side in assignment")) {
-                return "赋值操作中左侧表达式无效。<br />不能给常量、字面量或只读属性赋值。";
+                return ["Invalid left-hand side in assignment.<br />Cannot assign to a constant, literal, or read-only property.", name];
             }
             if (msg.includes("Cannot use import statement outside a module")) {
-                return `无法在此上下文中使用 <code class="key">import</code> 语句。`;
+                return [`Cannot use <code class="key">import</code> statement outside a module.`, name];
             }
             if (msg.includes("Illegal return statement")) {
-                return `<code class="key">return</code> 语句在函数外部无效。`;
+                return [`<code class="key">return</code> statement is not valid outside a function.`, name];
             }
             if (msg.includes("Cannot read properties of")) {
                 const parts = msg.split("Cannot read properties of ")[1] || "";
                 const val = parts.includes("null") ? "null" : "undefined";
                 const prop = grab(/\(reading '(.+?)'\)/);
-                return `无法读取 “<code class="var">${prop || "未知属性"}</code>” 的属性，其值为 “<code class="token">${val}</code>”。`;
+                return [`Cannot read property "<code class="var">${prop || "unknown"}</code>" of "<code class="token">${val}</code>".`, name];
             }
             if (msg.includes("Cannot set properties of")) {
                 const parts = msg.split("Cannot set properties of ")[1] || "";
                 const val = parts.includes("null") ? "null" : "undefined";
-                return `无法设置属性，其值为 “<code class="token">${val}</code>”。`;
+                return [`Cannot set property of "<code class="token">${val}</code>".`, name];
             }
             if (msg.includes("is not a function")) {
                 const v = grab(/(.+) is not a function/);
-                return `“<code class="token">${v || "?"}</code>” 不是函数。`;
+                return [`"<code class="token">${v || "?"}</code>" is not a function.`, name];
             }
             if (msg.includes("Missing ) after argument list")) {
-                return `参数列表缺少闭合括号 “<code class="token">)</code>”。`;
+                return [`Missing closing parenthesis "<code class="token">)</code>" in argument list.`, name];
             }
             if (msg.includes("Missing } after function body")) {
-                return `函数体缺少闭合花括号 “<code class="token">}</code>”。`;
+                return [`Missing closing curly brace "<code class="token">}</code>" in function body.`, name];
             }
             if (msg.includes("Missing formal parameter")) {
-                return "箭头函数或函数声明中缺少形参。";
+                return ["Missing formal parameter in arrow function or function declaration.", name];
             }
             if (msg.includes("Unterminated string literal")) {
-                return "字符串缺少结束引号。";
+                return ["Unterminated string literal.", name];
             }
-            return `语法错误：“<code class="err">${esc_str(msg)}</code>”。`;
+            return [`Syntax error: "<code class="err">${esc_str(msg)}</code>"`, name];
         }
 
         // 2. TypeError
         if (name === "TypeError") {
             if (msg.includes("Assignment to constant variable")) {
-                return `<code class="key">const</code> 常量不可重新赋值。`;
+                return [`<code class="key">const</code> constant cannot be reassigned.`, name];
             }
             if (msg.includes("Cannot assign to read only property")) {
-                return "无法为只读属性赋值。";
+                return ["Cannot assign to read-only property.", name];
             }
             if (msg.includes("Cannot redefine property")) {
                 const v = grab(/Cannot redefine property: (.+)/);
-                return `无法重新定义属性 “<code class="var">${v || "?"}</code>”。`;
+                return [`Cannot redefine property "<code class="var">${v || "?"}</code>".`, name];
             }
             if (msg.includes("Cannot read private member")) {
                 const v = grab(/Cannot read private member #(.+?) /);
-                return `无法读取私有字段 “<code class="var">#${v || "?"}</code>”。`;
+                return [`Cannot read private field "<code class="var">#${v || "?"}</code>".`, name];
             }
             if (msg.includes("Cannot read properties of")) {
                 const parts = msg.split("Cannot read properties of ")[1] || "";
                 const val = parts.includes("null") ? "null" : "undefined";
                 const prop = grab(/\(reading '(.+?)'\)/);
-                return `无法读取 “<code class="var">${prop || "未知属性"}</code>” 的属性，其值为 “<code class="${val === "undefined" || val === "null" ? "nu" : "token"}">${val}</code>”。`;
+                return [`Cannot read property "<code class="var">${prop || "unknown property"}</code>" of "<code class="${val === "undefined" || val === "null" ? "nu" : "token"}">${val}</code>".`, name];
             }
             if (msg.includes("Cannot set properties of")) {
                 const parts = msg.split("Cannot set properties of ")[1] || "";
                 const val = parts.includes("null") ? "null" : "undefined";
-                return `无法设置属性，其值为 “<code class="${val === "undefined" || val === "null" ? "nu" : "token"}">${val}</code>”。`;
+                return [`Cannot set property of "<code class="${val === "undefined" || val === "null" ? "nu" : "token"}">${val}</code>".`, name];
             }
             if (msg.includes("Cannot convert undefined or null to object")) {
-                return "无法将 undefined 或 null 转换为对象。";
+                return [`Cannot convert <code class="nu">undefined</code> or <code class="nu">null</code> to object.`, name];
             }
             if (msg.includes("Cannot use 'in' operator")) {
-                return `无法在非对象上使用 <code class="key">in</code> 运算符。`;
+                return [`Cannot use <code class="key">in</code> operator on non-object.`, name];
             }
             if (msg.includes("Cannot delete property")) {
                 const v = grab(/Cannot delete property '(.+?)'/);
-                return `无法删除属性 “<code class="var">${v || "?"}</code>”。`;
+                return [`Cannot delete property "<code class="var">${v || "?"}</code>".`, name];
             }
             if (msg.includes("is not a function")) {
                 const v = grab(/(.+?) is not a function/);
-                return `“<code class="var">${v || "?"}</code>” 不是函数。`;
+                return [`"<code class="var">${v || "?"}</code>" is not a function.`, name];
             }
             if (msg.includes("is not iterable")) {
                 const v = grab(/(.+) is not iterable/);
-                return `“<code class="var">${v || "?"}</code>” 不可迭代。`;
+                return [`"<code class="var">${v || "?"}</code>" is not iterable.`, name];
             }
             if (msg.includes("is not a constructor")) {
                 const v = grab(/(.+?) is not a constructor/);
-                return `“<code class="var">${v || "?"}</code>” 不能作为构造函数使用。`;
+                return [`"<code class="var">${v || "?"}</code>" cannot be used as a constructor.`, name];
             }
             if (msg.includes("Cannot destructure property")) {
                 const prop = grab(/Cannot destructure property '(.+?)'/);
-                return `解构赋值失败，无法从 <code class="nu">undefined</code> 或 <code class="nu">null</code> 中读取 “<code class="token">${prop || "?"}</code>”。`;
+                return [`Destructuring assignment failed, cannot read "<code class="token">${prop || "?"}</code>" from <code class="nu">undefined</code> or <code class="nu">null</code>.`, name];
             }
             if (msg.includes("Invalid array length")) {
-                return "数组长度无效。";
+                return ["Invalid array length.", name];
             }
             if (msg.includes("Cyclic object value")) {
-                return "循环引用的对象值无法序列化。";
+                return ["Cyclic object value cannot be serialized.", name];
             }
-            return `类型错误：“<code class="err">${esc_str(msg)}</code>”。`;
+            return [`Type error: "<code class="err">${esc_str(msg)}</code>".`, name];
         }
 
         // 3. RangeError
         if (name === "RangeError") {
             if (msg.includes("Maximum call stack size exceeded")) {
-                return "超出最大调用栈大小（递归过深或循环调用）。";
+                return ["Maximum call stack size exceeded (recursion too deep or circular call).", name];
             }
             if (msg.includes("Invalid date")) {
-                return "日期格式无效。";
+                return ["Invalid date format.", name];
             }
             if (msg.includes("Precision is out of range")) {
-                return "数字精度超出范围。";
+                return ["Number precision is out of range.", name];
             }
             if (msg.includes("Invalid array length")) {
-                return "数组长度无效。";
+                return ["Invalid array length.", name];
             }
-            return `范围错误：“<code class="err">${esc_str(msg)}</code>”。`;
+            return [`Range error: "<code class="err">${esc_str(msg)}</code>"。`, name];
         }
 
         // 4. URIError
         if (name === "URIError") {
-            return `URI 格式错误：“<code class="err">${esc_str(msg)}</code>”。`;
+            return [`URI format error: "<code class="err">${esc_str(msg)}</code>".`, name];
         }
 
         // 5. EvalError
         if (name === "EvalError") {
-            return `Eval 安全错误：“<code class="err">${esc_str(msg)}</code>”。`;
+            return [`Eval error: "<code class="err">${esc_str(msg)}</code>".`, name];
         }
 
         // 6. 其他错误。
-        return `意外 <code class="une">${esc_str(name)}</code> 错误：“<code class="err">${esc_str(msg)}</code>”。`;
+        return [`Unexpected error: "<code class="err">${esc_str(msg)}</code>".`, name];
     }
 
     if (str == null || str == undefined) {
@@ -2469,7 +2468,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 win.anim_timer = null;
             }
 
-            ele.style.transition = "opacity 0.1s ease";
+            ele.style.transition = "opacity 50ms ease";
             ele.style.opacity = "0";
 
             ele.addEventListener(("transitionend"), () => {
@@ -2557,7 +2556,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
-        });
+        }, { once: true });
 
         let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
@@ -2628,6 +2627,11 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 box.focus();
                 return;
             }
+            if (value.startsWith("`use strict`") || value.startsWith("'use strict'") || value.startsWith('"use strict"')) {
+                submit.style.backgroundColor = "var(--zd-submit-strictmode-color)";
+            } else {
+                submit.style.backgroundColor = "var(--zd-submit-color)";
+            }
             try {
                 box.style.height = getComputedStyle(box).minHeight;
                 let k = await eval(value);
@@ -2651,7 +2655,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 }, { once: true });
 
                 let error_msg = errorres(error, value);
-                await fail({ str: error_msg });
+                await fail({ str: error_msg[0], tit: error_msg[1] });
                 box.focus();
             }
         }
@@ -2935,7 +2939,7 @@ async function timer({ str, tit, time, id, realstr = false, form = "dainiv basic
                 win.anim_timer = null;
             }
 
-            ele.style.transition = "opacity 0.1s ease";
+            ele.style.transition = "opacity 50ms ease";
             ele.style.opacity = "0";
 
             ele.addEventListener(("transitionend"), () => {
@@ -3067,7 +3071,7 @@ async function timer({ str, tit, time, id, realstr = false, form = "dainiv basic
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + bar.getBoundingClientRect().height + earlyend.getBoundingClientRect().height + timerdesc.getBoundingClientRect().height}px + ${getComputedStyle(timerdesc).marginBottom})`;
-        });
+        }, { once: true });
 
         let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
@@ -3232,7 +3236,7 @@ async function mb({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                     win.anim_timer = null;
                 }
 
-                ele.style.transition = "opacity 0.1s ease";
+                ele.style.transition = "opacity 50ms ease";
                 ele.style.opacity = "0";
 
                 ele.addEventListener(("transitionend"), () => {
@@ -3306,7 +3310,7 @@ async function mb({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 mele.style.left = "calc(50% - 15ch)";
                 mele.style.right = "calc(50% + 15ch)";
                 mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + gb.getBoundingClientRect().height}px + ${window.getComputedStyle(gb).marginBottom})`;
-            });
+            }, { once: true });
 
             gb.addEventListener("transitionend", () => { gb.focus(); }, { once: true });
 
@@ -3380,8 +3384,7 @@ async function rz(str, time, realstr = false) {
         inf.style.opacity = 0;
         const bar = document.createElement("div");
         bar.className = "rz-bar";
-        let timeup = false;
-        let prog = 0;
+        let onclose = false;
 
         lcreate(mele);
         document.body.appendChild(mele);
@@ -3393,19 +3396,11 @@ async function rz(str, time, realstr = false) {
             inf.style.opacity = 1;
         }, { once: true });
 
-        let i1;
         inf.addEventListener("transitionend", () => {
-            i1 = setInterval(() => {
-                prog += 10 / (time / 100);
-                bar.style.width = `${prog}%`;
-                if (prog >= 100) {
-                    timeup = true;
-                }
-            }, 10);
+            bar.style.animation = `rfn_prog ${smarttime(str)}ms forwards linear`;
         }, { once: true });
 
         function damnclose() {
-            clearInterval(i1); // 清理 i1 interval。
             inf.style.opacity = 0;
             inf.addEventListener("transitionend", () => {
                 mele.style.animation = `out_rz 0.5s forwards ${easing}`;
@@ -3419,7 +3414,7 @@ async function rz(str, time, realstr = false) {
 
         mele.addEventListener("contextmenu", async (e) => {
             e.preventDefault();
-            if (timeup) return;
+            if (onclose) return;
             else {
                 let ls_rs = await xz({ str: "Close this window?", names: ["Yes.", "No."], n: 1, form: "brief" });
                 if (ls_rs[0] === "Yes.") {
@@ -3428,8 +3423,11 @@ async function rz(str, time, realstr = false) {
             }
         });
 
-        setInterval(() => {
-            if (timeup) damnclose();
-        }, 40);
+        bar.addEventListener("animationend", () => {
+            if (bar.style.animationName === "rfn_prog") {
+                damnclose();
+                onclose = true;
+            }
+        }, { once: true });
     });
 }

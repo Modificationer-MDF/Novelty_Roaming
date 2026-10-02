@@ -1,5 +1,3 @@
-/* 为了便于管理各个函数，下列函数的代码我特意拆开了，可能违反了 DRY 原则，但我觉得这样更清晰。*/
-
 // 全局存储当前显示的窗口信息。
 let dbmaps = {}; // Dainiv Basic 样式窗口。
 let bfmaps = {}; // Brief 样式窗口。
@@ -24,6 +22,7 @@ async function rmenu({ e, mele }) {
 
     if (cls.includes("inp-")) names.push("清空所有输入内容。");
     if (cls.includes("zd-")) {
+        names[0] = "关闭该窗口并执行代码。";
         names.push("清空输入内容。");
         names.push("启用严格模式。");
     }
@@ -33,9 +32,6 @@ async function rmenu({ e, mele }) {
     }
     if (cls.includes("lj-")) {
         names.push("复制所有链接地址。", "打开全部链接。");
-    }
-    if (cls.includes("timer-") || cls.includes("synchr-") || cls.includes("rz-")) {
-        names.push("停止计时或进度。");
     }
 
     const rs = await xz({
@@ -75,6 +71,7 @@ async function rmenu({ e, mele }) {
 
     switch (rs[0]) {
         case "关闭此窗口。":
+        case "关闭该窗口并执行代码。":
             close();
             break;
         case "全选。": {
@@ -2167,7 +2164,7 @@ async function lj({ str, tit, url, id, realstr = false, form = "dainiv basic" })
                 link.onmouseover = () => { ld(link, "75%"); };
                 link.onmouseleave = () => { ld(link, "100%"); };
                 link.onclick = () => {
-                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}`)) {
+                    if (!window.open(u, "_blank", `width=${defwid}, height=${defhei}, noopener, noreferrer`)) {
                         warn({ str: "弹出的窗口被阻止。" });
                     }
                     close_win(u);
@@ -2336,10 +2333,10 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 return [`“<code class="token">${v || "?"}</code>” 不是函数。`, name];
             }
             if (msg.includes("Missing ) after argument list")) {
-                return [`参数列表缺少闭合括号 “<code class="token">)</code>”。`, name];
+                return [`参数列表缺少闭合小括号 “<code class="token">)</code>”。`, name];
             }
             if (msg.includes("Missing } after function body")) {
-                return [`函数体缺少闭合花括号 “<code class="token">}</code>”。`, name];
+                return [`函数体缺少闭合大括号 “<code class="token">}</code>”。`, name];
             }
             if (msg.includes("Missing formal parameter")) {
                 return ["箭头函数或函数声明中缺少形参。", name];
@@ -2378,7 +2375,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
                 return [`无法设置属性，其值为 “<code class="${val === "undefined" || val === "null" ? "nu" : "token"}">${val}</code>”。`, name];
             }
             if (msg.includes("Cannot convert undefined or null to object")) {
-                return ["无法将 undefined 或 null 转换为对象。", name];
+                return [`无法将 <code class="nu">undefined</code> 或 <code class="nu">null</code> 转换为对象。`, name];
             }
             if (msg.includes("Cannot use 'in' operator")) {
                 return [`无法在非对象上使用 <code class="key">in</code> 运算符。`, name];
@@ -2559,7 +2556,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             mele.style.width = "30ch";
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
-        });
+        }, { once: true });
 
         let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
@@ -3074,7 +3071,7 @@ async function timer({ str, tit, time, id, realstr = false, form = "dainiv basic
             mele.style.left = "calc(50% - 15ch)";
             mele.style.right = "calc(50% + 15ch)";
             mele.style.height = `calc(${square.getBoundingClientRect().height + inf.getBoundingClientRect().height + bar.getBoundingClientRect().height + earlyend.getBoundingClientRect().height + timerdesc.getBoundingClientRect().height}px + ${getComputedStyle(timerdesc).marginBottom})`;
-        });
+        }, { once: true });
 
         let resorb = new ResizeObserver(() => {
             const squareH = square.getBoundingClientRect().height;
