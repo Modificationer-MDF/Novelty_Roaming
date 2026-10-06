@@ -57,40 +57,37 @@
 > For more details about the Creative Commons License (CC license), please refer to the following website.
 > [CC BY-NC-SA 4.0 Official Page (English)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-Additionally, in order to protect both the original author and derivative authors, and to clarify the responsibility of each party, please note the following when creating derivative works based on this work.
+Additionally, in order to protect both the original author and derivative authors, and to clarify the liability of each party, please note the following when creating derivative works based on this work.
 
 > [!note]
 > 1. Please clearly mark your work as "Fanwork", "Derivative Work", "2nd Creation", "3rd Creation", or similar terms in a prominent place (e.g., title or description) to distinguish it from the original work.
 > 2. Derivative works (including higher-order creations) must be distributed under the same CC license (CC BY-NC-SA 4.0), and this must be clearly stated in the description or another prominent location.
 > 3. Derivative works must include a credit log (hereinafter referred to as the "SignDesc", abbreviation for "Signature Description") in the following format.
 
-> [!note]
-> CARF, abbreviation of "Content that the Author should be Responsible For".
-
 > ### This work is under `[License Name]`.
-> 1. Original Author: `[name]`, CARF: `[content the author is responsible for]`, Based on: `[what the original work is based on]`;
-> 2. 2nd Author: `[name]`, CARF: `[content this author is responsible for]`, Based on: `[what this work is based on]`;
-> 3. 3rd Author: `[name]`, CARF: `[content this author is responsible for]`, Based on: `[what this work is based on]`;
+> 1. Original Author: `[name]`, Responsible Content: `[content the author is responsible for]`, Based on: `[what the original work is based on]`;
+> 2. 2nd Author: `[name]`, Responsible Content: `[content this author is responsible for]`, Based on: `[what this work is based on]`;
+> 3. 3rd Author: `[name]`, Responsible Content: `[content this author is responsible for]`, Based on: `[what this work is based on]`;
 > ...
 
 > [!caution]
 > - For collaborative derivative works, all co-authors could be listed in the same SignDesc entry, separated by commas. For example: `2nd Author: @example1, @example2, @example3`.
-> - The CARF field may be summarized briefly, **but it must not be omitted**.
+> - The Responsible Content field may be summarized briefly, **but it must not be omitted**.
 > > Correct example: Made derivative works for illustrations, music compositions for TPVC. \
 > > Incorrect examples: (sorted in severity ascending)
 > > - A: `"Modified some content"`;
 > > - B: `"Made derivative works of content that I like"`;
 > > - C: *`(Leave blanks)`*;
 > > - D: *`(Any conduct which includes noting or suggesting that the derivative work is the original work "MieYing")`*.
-> - Each author is independently responsible for the content they create, **and should not shift their responsibility to other authors in the SignDesc.** If an author is involved with other authors in the process *(including but not limited to creation process, publication process, or promotion process)*, and such involvement relates to the content they are responsible for, they may still bear corresponding liability. \
-> For collaborative works, the co-authors may not refuse to bear overall responsibility to the original author or affected parties on the grounds of internal division of responsibility. Co-authors may agree on internal responsibility shares, **but such agreements may not be used as a pretext to evade overall responsibility.** \
+> - Each author is independently liable for the content they create, **and should not shift their liability to other authors in the SignDesc.** If an author is involved with other authors in the process *(including but not limited to creation process, publication process, or promotion process)*, and such involvement relates to the content they are liable for, they may still bear corresponding liability. \
+> For collaborative works, the co-authors may not refuse to bear overall liability to the original author or affected parties on the grounds of internal division of liability. Co-authors may agree on internal liability shares, **but such agreements may not be used as a pretext to evade overall liability.** \
 > The above rules apply to derivative works (including higher-order creations). For fan behavior or other third-party actions unrelated to this work, this document does not constitute the author's endorsement or recognition of such behavior. The author cannot and does not have the authority to control any third-party conduct. Relevant liability shall be borne by the initiator of such behavior (including but not limited to individuals, organizations, or groups). ***The author does not support any form of cyberbullying or any conduct that incites cyberbullying.***
-> - **The author and the CARF field are required.** The "Based on" field may be omitted if the reference is unclear. However, if the source is known, it is strongly recommended to fill in the "Based on" field for traceability. For works with multiple references, it is recommended to list them individually; alternatively, references may be clearly noted within the work itself at a prominent location.
+> - **The author and the Responsible Content field are required.** The "Based on" field may be omitted if the reference is unclear. However, if the source is known, it is strongly recommended to fill in the "Based on" field for traceability. For works with multiple references, it is recommended to list them individually; alternatively, references may be clearly noted within the work itself at a prominent location.
 > - If any provision of these rules conflicts with the platform's user agreement or applicable laws and regulations, such provision shall be deemed invalid and superseded by the platform agreement or applicable law, without affecting the validity of the remaining provisions.
 
 > [!tip]
 > Example of a SignDesc chart:
-> - Original Author: @Modificationer, CARF: Chapters 0.0 to 9 of *"MieYing"*, Based on: *Project Novelty Roaming*;
-> - 2nd Author: @exampleuser, CARF: Additional content for TPVC, Based on: original TPVC settings.
+> - Original Author: @Modificationer, Responsible Content: Chapters 0.0 to 9 of *"MieYing"*, Based on: *Project Novelty Roaming*;
+> - 2nd Author: @exampleuser, Responsible Content: Additional content for TPVC, Based on: original TPVC settings.
 
 Thank you for your cooperation! Derivative creations are welcome! I'm looking forward to seeing your wonderful works!

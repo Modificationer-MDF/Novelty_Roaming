@@ -1,6 +1,8 @@
 \/
-Novelty Roaming/f/.yp/Test/音频校准（Sound calibration）.wav
-BPM：250.140。
+"音频校准（Sound calibration）.wav"
+BPM：250.140
+
+/*
 第一部分：0s : 0cs - 3s : 83cs，音调：C5；
 第二部分：3s : 83cs - 7s : 67cs，音调：D5；
 第三部分：7s : 67cs - 11s : 51cs，音调：E5；
@@ -9,17 +11,80 @@ BPM：250.140。
 第六部分：19s : 18cs - 23s : 2cs，音调：A5；
 第七部分：23s : 2cs - 26s : 86cs，音调：B5；
 第八部分：26s : 86cs - 30s : 70cs，音调：C6。
+*/
+
+Date Created: "2024/10/27 10:42"
+Date Modified: "2025/4/16 12:33"
+Instruments: /* 我忘了。 */ ""
+
 /\
 
-**
-sounddelay = 0ms
-updatetime = yyyy:mm:dd
+sound_delay = "0ms"
+update_time = "yyyy/MM/dd hh:mm"
 !! software = "Novelty Roaming"
 !! source = "../Test/Sound calibration.wav"
-**
 
 \/
-Jichu.wav
+"Not Rejected.wav"
 BPM: 142.5
-Instruments: Grand Piano, Clap, Jazz, Bassdrum, Electric, Strat Mute.
+Instruments: "Grand Piano, Clap, Jazz, Bassdrum, Electric, Strat Mute."
+Date Modified: "2025/4/13 21:16"
+/\
+
+// Hello XD :) I'm back again. 我又回来了！
+
+\/
+"Hik Fok.wav"
+BPM: 142.5
+Instruments: "Kontakt 8, Grv Kick 13, 808 Clap, BassDrum, 808 Snare, 808 Hihat, Tube, Ogun."
+Date Modified: "2026/6/22 21:17"
+/\
+
+\/
+"Kip Jop.wav"
+BPM: 142.5
+Instruments: "Grv Kick 13,  808 Clap, hihat 3 v5 rr1, Grv Snareclap 01, 808 Clean, Kontakt 8, BassDrum."
+Date Modified: "2026/6/23 11:11"
+/\
+
+\/
+"Astron Alone.wav"
+BPM: 142.5
+Instruments (Partially): "Electric, 808 Clap (Very wet), Rhode, 808 Kick"
+Date Modified: "2026/6/25 16:52"
+/\
+
+\/
+"Flashie.wav"
+BPM: 240
+Instruments (Partially): "Kontakt 8, 808 Kick, 808 Clap, Acoustic Bass"
+Date Modified: "2026/7/19 22:10"
+/\
+
+/\
+"1.4.2.5.wav"
+BPM: 140.250
+Instruments: "BassDrum (+Drum Plate), 808 Clap, PRC Church Bell, Electric"
+Date Modified: "2025/10/19 22:27"
+/\
+
+\/
+"Intro.wav"
+BPM: None
+Type: "Speech"
+Date Modified: "2025/1/13 16:54"
+/\
+
+\/
+"Noisie.wav"
+BPM: 399.1
+Instruments: "我真忘了。"
+Date Modified: "2026/7/20 8:38"
+/\
+
+\/
+"UwwuwwuwU.wav"
+BPM: None
+Type: "SB"
+Date Modified: "2026/1/25 20:05"
 /\

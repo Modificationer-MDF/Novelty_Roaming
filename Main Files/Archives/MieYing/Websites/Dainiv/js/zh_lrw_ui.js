@@ -26,27 +26,38 @@ function clean_status() {
 }
 
 function selector(el) {
-    if (el.id) return "#" + el.id;
+    if (!el || !el.tagName) return "";
+
+    if (el.id) return "#" + CSS.escape(el.id);
+
     let path = [];
     let cur = el;
-    while (cur && cur !== document.body) {
+
+    while (cur && cur !== document.body && cur !== document.documentElement) {
         let sel = cur.tagName.toLowerCase();
+
         if (cur.className && typeof cur.className === "string") {
-            let classes = cur.className.trim().split(/\s+/).filter(cls => cls !== "phl");
+            let classes = cur.className.trim().split(/\s+/)
+                .filter(cls => cls && cls !== "phl")
+                .map(cls => CSS.escape(cls));
+
             if (classes.length) sel += "." + classes.join(".");
         }
+
         let parent = cur.parentElement;
         if (parent) {
             let siblings = Array.from(parent.children).filter(c => c.tagName === cur.tagName);
+
             if (siblings.length > 1) {
                 let idx = siblings.indexOf(cur) + 1;
-                sel += `:nth-child(${idx})`;
+                sel += `:nth-of-type(${idx})`;
             }
         }
+
         path.unshift(sel);
         cur = parent;
-        if (cur === document.body) break;
     }
+
     return path.join(" > ");
 }
 
