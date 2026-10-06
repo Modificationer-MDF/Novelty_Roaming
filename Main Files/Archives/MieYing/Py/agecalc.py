@@ -1,7 +1,7 @@
 import os
 import math
 
-ls_flag = True
+ls_flag = False
 jid = []
 city = []
 year = []
@@ -11,7 +11,7 @@ ident = []
 abbr = []
 factor = []
 
-with open("JID.md") as f:
+with open("../story_markdowns/JID.md") as f:
     jid = f.readlines()
 
 for i in range(len(jid)):
@@ -42,8 +42,18 @@ else:
             f.write(f"{abbr[n]}：{factor[n]}\n")
 
 def ls_fn():
-    today = input("今天日期？")
-    return [int(today[0:4]) * 2520, int(today[4:6]) * 42, int(today[6:8])]
+    while True:
+        today = input("今天日期？（YYYYMMDD，不要加任何分隔符）")
+        ls_y = int(today[0:4])
+        ls_m = int(today[4:6])
+        ls_d = int(today[6:8])
+        if ls_m == 0 or ls_m > 60:
+            print("一年有 60 个月！请重新输入！")
+        elif ls_d == 0 or ls_d > 42:
+            print("一个月有 42 天！请重新输入！")
+        else:
+            break
+    return [ls_y * 2520, ls_m * 42, ls_d]
 
 os.system("color 2")
 

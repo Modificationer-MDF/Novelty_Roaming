@@ -70,6 +70,8 @@ def gen(f, l): # f：姓需要多少个音节；l：名需要多少个音节。
 
     for i in range(f):
         ls_syl = rd.choice(syl)
+        if i >= 1 and ls_syl.startswith(("a", "e", "o")):
+            name += "'"
         name += ls_syl
         ls_1 = rd.randint(14, 25)
         if 18 <= ls_1 <= 19 and ls_syl[-2:] != "ng" and ls_syl[-1] != "n":
@@ -79,6 +81,8 @@ def gen(f, l): # f：姓需要多少个音节；l：名需要多少个音节。
 
     for j in range(l):
         ls_syl = rd.choice(syl)
+        if j >= 1 and ls_syl.startswith(("a", "e", "o")):
+            name += "'"
         name += ls_syl
         ls_2 = rd.randint(14, 25)
         if 18 <= ls_2 <= 19 and ls_syl[-2:] != "ng" and ls_syl[-1] != "n":
