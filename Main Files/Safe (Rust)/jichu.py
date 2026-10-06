@@ -4,7 +4,7 @@
     Hello! If you see this message.
     CONGRATULATIONS!
     YOU REALLY LIKE MODIFYING THE SOURCE CODE OF THE GAME, huh?
-    I hate this disgusting act very much.
+    I hate this disgusting behavior very much.
     I expect you to be honest and close this window, understand?
 """
 # Now! Close this window and get out. No doubt you won't regret it.
@@ -73,9 +73,9 @@ def zs(var, p, q):
             if p <= var <= q:
                 return var
             else:
-                raise ValueError(f"ÎÞÐ§ÊäÈë¡£ÇëÊäÈëÒ»¸öÔÚ {p} ºÍ {q} Ö®¼äµÄÊý×Ö")
+                raise ValueError(f"  Ð§   ë¡£      Ò»     {p}    {q} Ö®       ")
         except Exception as e:
-            var = zf(f"{e}¡£ÇëÖØÐÂÊäÈëÒ»¸öÕûÊý£º", "error")
+            var = zf(f"{e}            Ò»        ", "error")
 
 # Convert str to float.
 def fd(var, p, q):
@@ -83,13 +83,13 @@ def fd(var, p, q):
         try:
             var = float(var)
             if math.isinf(var):
-                raise ValueError("²»¿ÉÒÔÊäÈëÎÞÇî´ó¡££¨Infinity£©")
+                raise ValueError("              ó¡££ Infinity  ")
             if p <= var <= q:
                 return var
             else:
-                raise ValueError(f"ÎÞÐ§ÊäÈë¡£ÇëÊäÈëÒ»¸öÔÚ {p} ºÍ {q} Ö®¼äµÄÊý×Ö")
+                raise ValueError(f"  Ð§   ë¡£      Ò»     {p}    {q} Ö®       ")
         except Exception as e:
-            var = zf(f"{e}¡£ÇëÖØÐÂÊäÈëÒ»¸ö¸¡µãÊý£º", "error")
+            var = zf(f"{e}            Ò»          ", "error")
 
 # Random int.
 def sjzs(p, q): # p: lower bound, q: upper bound.
