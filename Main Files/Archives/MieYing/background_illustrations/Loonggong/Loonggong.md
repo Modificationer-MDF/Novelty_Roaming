@@ -2,15 +2,23 @@
 
 | 名称 | Latin Names | 行政区划 · Administrative Divisions |
 | --- | --- | --- |
-| 顾苑 | Guyuan | 大道 · Boulevard |
-| 红藻 | Hongzao | 区 · District |
-| 卉海 | Huihai | 区 · District |
+| 迎宾 | Yingbin | 区 · District |
+| 风鹏 | Fengpeng | 大道 · Boulevard |
+| 扶摇 | Fuyao | 区 · District |
+| 扶桑 | Fusang | 区 · District |
+| 百侣 | Bailü | 海域 · Sea Region |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
-- **龙宫下设八条环线。** 除了绕城的八条环线外，还有一条海环线第三部分（Sea Ring Road #3）。
-- 龙宫有两条高速公路：一条为 **“法珊高速”（Fana-Loonggong Expressway）**，由龙宫卉海区通向法纳云中区；另一条为 **“归陆高速”（Guilu Expressway）**，由龙宫顾苑大道通向南苑观珊区。
-- **龙宫的司法机构为龙宫高级人民法院（Loonggong High People's Court）**，位于卉海区。
-- 龙宫有一所大学，名为 **“龙宫综合大学”（Comprehensive University of Loonggong）**，坐落于顾苑大道 621 号。
+- **龙宫是海环线（Sea Ring Road）的起点和终点。**
+- 龙宫有一条高速公路：**“轩辕高速”（Xuanyuan Expressway）**，由龙宫扶桑区通向维卡筚路大道。
+- **龙宫的司法机构为龙宫高级人民法院（Loonggong High People's Court）**，位于扶桑区。
+- 龙宫有一所大学，名为 **“龙宫学院”（Loonggong Xueyuan）**，坐落于百侣区。
 
-# 主要安全部门 · Major Safety Departments
-- **海上救援队（Onsea Rescue Team）**，位于龙宫红枣区。
+# 主要建筑物 · Major Buildings
+- **Chanf 文化交流总部（Chanf Loong-Xie Cultural Exchange HQ）**，坐落于风鹏大道 888 号。
+- 龙宫有一座港口，名为 **“展翅港”（Zhanchi Harbor）**，位于迎宾区。
+
+---
+
+> [!note]
+> 自 3991 年 4 月 20 日后，Chanf 文化交流总部在维卡词源区和宗米云中街 1411 号设立分部，以支持 **“青文效会（TPVC，Teenages' Power for Various Cultures）”** 的文化宣传工作。
