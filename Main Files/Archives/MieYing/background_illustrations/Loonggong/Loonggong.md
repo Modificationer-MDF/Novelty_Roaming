@@ -7,7 +7,7 @@
 | 卉海 | Huihai | 区 · District |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
-- **珊瑚下设八个环线。** 除了绕城的八条环线外，还有一条海环线第三部分（Sea Ring Road #3）。
+- **珊瑚下设八条环线。** 除了绕城的八条环线外，还有一条海环线第三部分（Sea Ring Road #3）。
 - 珊瑚有两条高速公路：一条为 **“法珊高速”（Fana-Shanhu Expressway）**，由珊瑚卉海区通向法纳云中区；另一条为 **“归陆高速”（Guilu Expressway）**，由珊瑚顾苑大道通向南苑观珊区。
 - **珊瑚的司法机构为珊瑚高级人民法院（Shanhu High People's Court）**，位于卉海区。
 - 珊瑚有一所大学，名为 **“珊瑚综合大学”（Comprehensive University of Shanhu）**，坐落于顾苑大道 621 号。

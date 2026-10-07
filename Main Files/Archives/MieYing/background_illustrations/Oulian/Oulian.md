@@ -8,6 +8,6 @@
 | 桑田 | Sangtian | 农田 · Farmland |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
-- **藕莲下设三个环线。**
+- **藕莲下设三条环线。**
 - **藕莲的司法机构为藕莲高级人民法院（Oulian High People's Court）**，位于绩麻区。
 - 藕莲有一所大学，名为 **“藕南联合农业学院”（Oulian-Nanyuan Combined Agricultural University）**，分校坐落于绩麻区。

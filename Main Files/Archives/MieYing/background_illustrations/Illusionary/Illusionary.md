@@ -9,7 +9,7 @@
 | 面阳 | Zonnesxijn | 大道 · Boulevard |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
-- **夜梦下设八个环线。** 除了绕城的八条环线外，还有一条海环线第四部分（Sea Ring Road #4）。
+- **夜梦下设八条环线。** 除了绕城的八条环线外，还有一条海环线第四部分（Sea Ring Road #4）。
 - **夜梦的司法机构为夜梦高级人民法院（Illusionary High People's Court）**，位于面阳大道 810 号。
 - 夜梦有一所大学，名为 **“夜梦大学”（University of Illusionary）**，坐落于景千大道 1013 号。
 
