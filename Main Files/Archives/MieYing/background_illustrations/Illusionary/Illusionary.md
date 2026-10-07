@@ -3,14 +3,16 @@
 | 名称 | Latin Names | 行政区划 · Administrative Divisions |
 | --- | --- | --- |
 | 离尘 | Antemundane | 区 · District |
-| 红藻 | Hongzao | 区 · District |
-| 卉海 | Huihai | 区 · District |
+| 教铃 | Kristinal | 区 · District |
+| 景千 | Visuallie | 大道 · Boulevard |
+| 淡欲 | Wstrzemięźliwi | 区 · District |
+| 面阳 | Zonnesxijn | 大道 · Boulevard |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
-- **珊瑚下设八个环线。** 除了绕城的八条环线外，还有一条海环线第三部分（Sea Ring Road #3）。
-- 珊瑚有两条高速公路：一条为 **“法珊高速”（Fana-Shanhu Expressway）**，由珊瑚卉海区通向法纳云中区；另一条为 **“归陆高速”（Guilu Expressway）**，由珊瑚顾苑大道通向南苑观珊区。
-- **珊瑚的司法机构为珊瑚高级人民法院（Shanhu High People's Court）**，位于卉海区。
-- 珊瑚有一所大学，名为 **“珊瑚综合大学”（Comprehensive University of Shanhu）**，坐落于顾苑大道 621 号。
+- **夜梦下设八个环线。** 除了绕城的八条环线外，还有一条海环线第四部分（Sea Ring Road #4）。
+- **夜梦的司法机构为夜梦高级人民法院（Illusionary High People's Court）**，位于面阳大道 810 号。
+- 夜梦有一所大学，名为 **“夜梦大学”（University of Illusionary）**，坐落于景千大道 1013 号。
 
-# 主要安全部门 · Major Safety Departments
-- **海上救援队（Onsea Rescue Team）**，位于珊瑚红枣区。
+# 主要景点 · Major Places of Interest
+- **大教堂（The Grand Cathedral）**，位于教铃区。
+- **寺（Illusionary Tera）**，一共有三座；一座位于离尘区，一座位于淡欲区，一座位于面阳大道 871 号。
