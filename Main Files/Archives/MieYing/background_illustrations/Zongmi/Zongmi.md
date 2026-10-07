@@ -1,16 +1,19 @@
-# 珊瑚行政区划 · Administrative Divisions of Shanhu
+# 宗米行政区划 · Administrative Divisions of Zongmi
 
 | 名称 | Latin Names | 行政区划 · Administrative Divisions |
 | --- | --- | --- |
-| 顾苑 | Guyuan | 大道 · Boulevard |
-| 红藻 | Hongzao | 区 · District |
-| 卉海 | Huihai | 区 · District |
+| 祥云 | Xiangyun | 街 · Street |
+| 民本 | Minben | 区 · District |
+| 宗义 | Zongyi | 区 · District |
+| 临福 | Linfu | 大道 · Boulevard |
+| 帘叶 | Lianye | 区 · District |
+| 沧澜 | Canglan | 区 · District |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
-- **珊瑚下设八个环线。** 除了绕城的八条环线外，还有一条海环线第三部分（Sea Ring Road #3）。
-- 珊瑚有两条高速公路：一条为 **“法珊高速”（Fana-Shanhu Expressway）**，由珊瑚卉海区通向法纳云中区；另一条为 **“归陆高速”（Guilu Expressway）**，由珊瑚顾苑大道通向南苑观珊区。
-- **珊瑚的司法机构为珊瑚高级人民法院（Shanhu High People's Court）**，位于卉海区。
-- 珊瑚有一所大学，名为 **“珊瑚综合大学”（Comprehensive University of Shanhu）**，坐落于顾苑大道 621 号。
+- **宗米下设七个环线。**
+- 宗米有一条高速公路：**“宗南高速”（Zongmi-Nanyuan Expressway）**，由宗米帘叶区通向南苑锄归区。
+- **宗米的司法机构为宗米高级人民法院（Zongmi High People's Court）**，位于民本区。
+- 宗米有一所大学，名为 **“宗米学术大学”（Academic University of Zongmi）**，坐落于临福大道 1982 号。
 
-# 主要安全部门 · Major Safety Departments
-- **海上救援队（Onsea Rescue Team）**，位于珊瑚红枣区。
+# 主要建筑物 · Major Buildings
+- **Chanf 穹顶回廊（Chanf Qiongding Huilang）**，位于宗米祥云街 1 号。这是 Chanf 最大的演出会场和商场。
