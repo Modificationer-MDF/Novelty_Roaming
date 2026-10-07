@@ -5,6 +5,7 @@
 | 红藻 | Hongzao | 区 · District |
 | 卉海 | Huihai | 区 · District |
 | 顾苑 | Guyuan | 大道 · Boulevard |
+| 绛礁 | Jiangjiao | 街 · Street |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
 - **珊瑚下设八个环线。** 除了绕城的八条环线外，还有一条海环线第三段（Sea Ring Road #3）。
