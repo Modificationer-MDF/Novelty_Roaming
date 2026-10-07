@@ -1,16 +1,22 @@
-# 珊瑚行政区划 · Administrative Divisions of Shanhu
+# 塔灿行政区划 · Administrative Divisions of Tacan
 
 | 名称 | Latin Names | 行政区划 · Administrative Divisions |
 | --- | --- | --- |
-| 顾苑 | Guyuan | 大道 · Boulevard |
-| 红藻 | Hongzao | 区 · District |
-| 卉海 | Huihai | 区 · District |
+| 光中 | Guangzhong | 区 · District |
+| 茂英 | Maoying | 区 · District |
+| 环林 | Huanlin | 区 · District |
+| 潜森 | Qiansen | 大道 · Boulevard |
+| 望龙 | Wangloong | 区 · District |
 
-# 交通、司法与教育 · Transportation, Judiciary and Education
-- **珊瑚下设八条环线。** 除了绕城的八条环线外，还有一条海环线第三部分（Sea Ring Road #3）。
-- 珊瑚有两条高速公路：一条为 **“法珊高速”（Fana-Shanhu Expressway）**，由珊瑚卉海区通向法纳云中区；另一条为 **“归陆高速”（Guilu Expressway）**，由珊瑚顾苑大道通向南苑观珊区。
-- **珊瑚的司法机构为珊瑚高级人民法院（Shanhu High People's Court）**，位于卉海区。
-- 珊瑚有一所大学，名为 **“珊瑚综合大学”（Comprehensive University of Shanhu）**，坐落于顾苑大道 621 号。
+# 交通、司法、教育及其他机关 · Transportation, Judiciary, Education and Other Departments
+- **塔灿下设五条环线。**
+- 塔灿有一条高速公路：**“维塔高速”（Weika-Tacan Expressway）**，由维卡临惟区通向塔灿茂英区。
+- **塔灿的司法机构为塔灿高级人民法院（Tacan High People's Court）**，位于茂英区。
+- 塔灿有一所大学，名为 **“塔灿森林科技大学”（Forest Technology University of Tacan）**，坐落于光中区。
+- **塔灿监狱（Tacan Jail）**，位于塔灿环林区。
 
-# 主要安全部门 · Major Safety Departments
-- **海上救援队（Onsea Rescue Team）**，位于珊瑚红枣区。
+# 自然地域 · Natural Regions
+- **塔灿大森林（The Grand Forest of Tacan）**，长约 291.3 千米，宽约 481.8 千米。是 Chanf 最大的森林，也是最大的生态系统所在地。
+
+> [!note]
+> 3976 年 19 月 31 日，潜森大道正式修成通车。现在潜森大道直接贯穿塔灿大森林，连接塔灿环林区和望龙区。
