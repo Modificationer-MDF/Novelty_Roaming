@@ -8,7 +8,7 @@
 | 南苑大农场 | The Grand Farm of Nanyuan | 农业区 · Agricultural Zone |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
-- **南苑下设四个环线。**
-- 南苑有两条高速公路，分别为 **“法南高速（Fana-Nanyuan Expressway）”** 和 **“龙南高速（Loonggong-Nanyuan Expressway）”**。
+- **南苑下设四条环线。**
+- 南苑有两条高速公路：一条为 **“法南高速（Fana-Nanyuan Expressway）”**，由法纳政务区通向南苑福汇区；另一条为 **“龙南高速（Loonggong-Nanyuan Expressway）”**，由龙宫迎宾区通向南苑福汇区。
 - **南苑的司法机构为南苑高级人民法院（Nanyuan High People's Court）**，位于福汇区。
 - 南苑有一所大学，名为 **“藕南联合农业学院”（Oulian-Nanyuan Combined Agricultural University）**，总校坐落于锄归区。

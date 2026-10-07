@@ -2,7 +2,7 @@
 
 | 名称 | Latin Names | 行政区划 · Administrative Divisions |
 | --- | --- | --- |
-| 锄禾 | Chuhe | 区 · District |
+| 午禾 | Wuhe | 区 · District |
 | 绩麻 | Jima | 区 · District |
 | 藕熟 | Oushu | 大道 · Boulevard |
 | 桑田 | Sangtian | 农田 · Farmland |
