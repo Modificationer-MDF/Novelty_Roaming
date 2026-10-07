@@ -6,7 +6,7 @@
 | 风鹏 | Fengpeng | 大道 · Boulevard |
 | 扶摇 | Fuyao | 区 · District |
 | 扶桑 | Fusang | 区 · District |
-| 百侣 | Bailü | 海域 · Sea Region |
+| 百侣 | Bailü | 区 · District |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
 - **龙宫是海环线（Sea Ring Road）的起点和终点。**
@@ -21,4 +21,4 @@
 ---
 
 > [!note]
-> 自 3991 年 4 月 20 日后，Chanf 文化交流总部在维卡词源区和宗米云中街 1411 号设立分部，以支持 **“青文效会（TPVC，Teenages' Power for Various Cultures）”** 的文化宣传工作。
+> 自 3991 年 4 月 20 日后，Chanf 文化交流总部在维卡词源区和宗米云中街 1411 号设立分部，以支持 **“青文效会”（TPVC，Teenages' Power for Various Cultures）** 的文化宣传工作。
