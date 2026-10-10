@@ -1458,6 +1458,8 @@
 > Tom
 
 > [!tip]
+> ### **(20 / 20)**
+>
 > Dear Tom,
 >
 > Greetings.
@@ -1477,6 +1479,8 @@
 > Li Hua
 
 > [!caution]
+> ### **(0 / 20)**
+>
 > ~~Dear Tom~~ To the Marker,
 >
 > ~~Greetings.~~ No, you are not worth my greetings.
