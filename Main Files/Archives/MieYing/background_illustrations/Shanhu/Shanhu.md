@@ -15,3 +15,9 @@
 
 # 主要安全部门 · Major Safety Departments
 - **海上救援队（Onsea Rescue Team）**，位于珊瑚红藻区。
+
+---
+
+> [!note]
+> 3991 年 3 月 36 日，以 Zhuang Chuangshuangguang 为首的人员在绛礁区**海石街（Haishi Street）** 142857 号建立 **“清净地带”（Qingjing）**，以此对抗 **“灭蝇组织”（MieYing Organization）**。\
+> 当年 4 月起，珊瑚民意调查局收到了非常多来自绛礁区居民的投诉，称 **“清净地带”** 的成员在绛礁区海石街 142857 号附近进行 **“清净化”（Qingjingify）**；并且，无论在 HF Net 还是线下，清净地带成员都以低俗、恶毒的语言攻击所有与他们意见不合的人。
