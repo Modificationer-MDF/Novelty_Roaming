@@ -6,7 +6,7 @@
 | 茂英 | Maoying | 区 · District |
 | 环林 | Huanlin | 区 · District |
 | 潜森 | Qiansen | 大道 · Boulevard |
-| 望龙 | Wangloong | 区 · District |
+| 观沧 | Guancang | 区 · District |
 
 # 交通、司法、教育及其他机关 · Transportation, Judiciary, Education and Other Departments
 - **塔灿下设五条环线。**
@@ -19,4 +19,5 @@
 - **塔灿大森林（The Grand Forest of Tacan）**，长约 291.3 千米，宽约 481.8 千米。是 Chanf 最大的森林，也是最大的生态系统所在地。
 
 > [!note]
-> 3976 年 19 月 31 日，潜森大道正式修成通车。现在潜森大道直接贯穿塔灿大森林，连接塔灿环林区和望龙区。
+> - 3976 年 19 月 33 日，潜森大道正式修成通车。现在潜森大道直接贯穿塔灿大森林，连接塔灿环林区和观沧区。
+> - 3976 年 21 月 9 日，潜森大道第二段完工。现在潜森大道将直接通向龙宫迎宾区。

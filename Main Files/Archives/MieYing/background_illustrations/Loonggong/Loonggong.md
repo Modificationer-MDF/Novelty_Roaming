@@ -7,12 +7,13 @@
 | 扶摇 | Fuyao | 区 · District |
 | 扶桑 | Fusang | 区 · District |
 | 百侣 | Bailü | 区 · District |
+| 赴宫 | Fugong | 大道 · Boulevard |
 
 # 交通、司法与教育 · Transportation, Judiciary and Education
 - **龙宫是海环线（Sea Ring Road）的起点和终点。**
 - 龙宫有一条高速公路：**“轩辕高速”（Xuanyuan Expressway）**，由龙宫扶桑区通向维卡筚路大道。
 - **龙宫的司法机构为龙宫高级人民法院（Loonggong High People's Court）**，位于扶桑区。
-- 龙宫有一所大学，名为 **“龙宫学院”（Loonggong Xueyuan）**，坐落于百侣区。
+- 龙宫有一所大学，名为 **“Chanf 文化与宣传学院”（Culture and Promotion University of Chanf）**，坐落于百侣区。
 
 # 主要建筑物 · Major Buildings
 - **Chanf 文化交流总部（Chanf Loong-Xie Cultural Exchange HQ）**，坐落于风鹏大道 888 号。

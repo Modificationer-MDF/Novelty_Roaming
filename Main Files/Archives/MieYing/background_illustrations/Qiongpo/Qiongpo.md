@@ -10,4 +10,4 @@
 # 交通、司法与教育 · Transportation, Judiciary and Education
 - **琼珀下设一条环线——海环线第二段（Sea Ring Road #2）。**
 - **琼珀的司法机构为琼珀高级人民法院（Qiongpo High People's Court）**，位于矿盛区。
-- 琼珀有一所大学，名为 **“Chanf 矿业学院”（Chanf University of Mining）**，坐落于矿盛区。
+- 琼珀有一所大学，名为 **“Chanf 矿业学院”（University of Mining of Chanf）**，坐落于矿盛区。

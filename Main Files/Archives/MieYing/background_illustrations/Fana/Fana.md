@@ -1,3 +1,8 @@
+> [!important]
+> **法纳是 Chanf 的首都。**
+
+---
+
 # 法纳行政区划 · Administrative Divisions of Fana
 
 | 名称 | Latin Names | 行政区划 · Administrative Divisions |
@@ -16,8 +21,3 @@
 - ***Chanf 最高司法机构为 Chanf 最高人民法院（Chanf Supreme People's Court）***，位于首府区。
 - **法纳的司法机构为法纳高级人民法院（Fana High People's Court）**，位于政务区。
 - 法纳有一所大学，名为 **“法纳经济与政法大学”（Economics and Politics University of Fana）**，位于政务区。
-
----
-
-> [!important]
-> **法纳是 Chanf 的首都。**
