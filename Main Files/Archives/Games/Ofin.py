@@ -87,7 +87,7 @@ color = {
     "辛": "#ff00ff", # Critical
     "壬": "#ff1493", # Nightmare
     "癸": "#ff0000", # Disaster -
-    "DOWN": "#8b1a1a", # Down
+    "descending": "#8b1a1a", # Down
     "error": "#8b1a1a",
     "inp": "#ffd700",
     "xz": "#00ff7f",
@@ -159,8 +159,8 @@ def output_structure(text, cl, bl):
         cl = "壬"
     elif cl == "癸":
         cl = "癸"
-    elif cl == "DOWN":
-        cl = "DOWN"
+    elif cl == "descending":
+        cl = "descending"
     elif cl == "error":
         cl = "错误"
     elif cl == "inp":
@@ -208,7 +208,7 @@ def jdt(current, total, ch, typ, srt, unit, bw = 100):
     ]
     with Progress(*column) as progress:
         t_color = ""
-        if srt == "up":
+        if srt == "ascending":
             if current >= 0.9 * total:
                 t_color = "甲"
             elif 0.8 * total <= current < 0.9 * total:
@@ -230,8 +230,8 @@ def jdt(current, total, ch, typ, srt, unit, bw = 100):
             elif 0 <= current < 0.1 * total:
                 t_color = "癸"
             else:
-                t_color = "DOWN"
-        elif srt == "down":
+                t_color = "descending"
+        elif srt == "descending":
             if current >= 0.9 * total:
                 t_color = "癸"
             elif 0.8 * total <= current < 0.9 * total:
@@ -253,7 +253,7 @@ def jdt(current, total, ch, typ, srt, unit, bw = 100):
             elif 0 <= current < 0.1 * total:
                 t_color = "甲"
             else:
-                t_color = "DOWN"
+                t_color = "descending"
 
         column.append(TextColumn(f"[{color[t_color]}][{t_color}] {ch} {typ.upper()}： {current:.3f} {unit} / {total:.3f} {unit}。"))
         task = progress.add_task("", total=total)
@@ -276,12 +276,6 @@ def fin():
 
     attack_point = 7
 
-    per1 = player_escaped / z_amount
-    per2 = player_out / z_amount
-    per3 = monitor_out / d_amount
-    per7 = (player_missed / t_playerattack) if t_playerattack != 0 else 0
-    per8 = (player_crit / t_playerattack) if t_playerattack != 0 else 0
-
     ls_s1 = 100 / z_amount # 每一位 Z 逃脱可获得的分数。
     ls_s2 = 100 / (0.7 * z_amount) # 每一位 Z 出局应失去的分数。
     ls_s3 = 100 / (0.75 * d_amount) # 每一位 D 被击败可获得的分数。
@@ -294,15 +288,24 @@ def fin():
     qj_rank = attack_point * t_playerattack + player_escaped * ls_s1 - player_out * ls_s2 + monitor_out * ls_s3 - player_hitwall * ls_s4 - player_slipped * ls_s5 - player_getdizzy * ls_s6 - player_missed * ls_s7 + player_crit * ls_s8
     qj_trank = z_amount * ls_s1 + d_amount * ls_s3 + attack_point * t_playerattack
 
-    zf(f"逃离的角色数量：{player_escaped} / {z_amount}（{(per1 * 100):.3f}%，+{(player_escaped * ls_s1):.3f}）。", "watergreen")
-    zf(f"出局的角色数量：{player_out} / {z_amount}（{(per2 * 100):.3f}%，-{(player_out * ls_s2):.3f}）。其中被随机事件处罚的有 {random_zout} 位。", "firebrick")
-    zf(f"出局的看守者数量：{monitor_out} / {d_amount}（{(per3 * 100):.3f}%，+{(monitor_out * ls_s3):.3f}）。其中被随机事件处罚的有 {random_dout} 位。", "silver")
-    zf(f"角色累计撞墙次数：{player_hitwall}（-{(player_hitwall * ls_s4):.3f}）。", "lightblue")
-    zf(f"角色累计掉入水洼次数：{player_slipped}（-{(player_slipped * ls_s5):.3f}）。", "royalblue")
-    zf(f"角色累计眩晕次数：{player_getdizzy}（-{(player_getdizzy * ls_s6):.3f}）。", "silver")
-    zf(f"累计打出攻击 {t_playerattack} 次，落空 {player_missed} 次（弹幕躲避失败 {player_faildm} 次，落空率 {(per7 * 100):.3f}%），暴击 {player_crit} 次（弹幕躲避成功 {player_cgdm} 次，暴击率 {(per8 * 100):.3f}%）。得分 {(attack_point * t_playerattack - player_missed * ls_s7 + player_crit * ls_s8):.3f}。", "limegreen")
-    print()
-    jdt(qj_rank, qj_trank, "", "score", "up", "分", bw = qj_bw)
+    jdt(player_escaped, z_amount, "逃离的角色", "数量", "ascending", "位", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(player_out, z_amount, "出局的角色", "数量", "descending", "位", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(monitor_out, d_amount, "出局的看守者", "数量", "ascending", "位", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(player_hitwall, 1, "角色累计撞墙", "次数", "descending", "次", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(player_slipped, 1, "角色累计掉入水洼", "次数", "descending", "次", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(player_getdizzy, 1, "角色累计眩晕", "次数", "descending", "次", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(player_missed, t_playerattack, "攻击落空", "次数", "descending", "次", bw = qj_bw)
+    zf(f"其中弹幕躲避失败 {player_faildm} 次。", "text")
+    jdt(player_crit, t_playerattack, "攻击暴击", "次数", "ascending", "次", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    print("-------------------------")
+    jdt(qj_rank, qj_trank, "YOUR", "score", "ascending", "分", bw = qj_bw)
     print()
     zf("以上是你的分数和评级。", "text")
 
@@ -337,11 +340,11 @@ def gj(z_group, d_group):
     print()
     for z in z_group:
         if z_sx[z].exist:
-            jdt(z_sx[z].hp, z_sx[z].thp, z_sx[z].name, "hp", "up", "点", bw = qj_bw)
+            jdt(z_sx[z].hp, z_sx[z].thp, z_sx[z].name, "hp", "ascending", "点", bw = qj_bw)
     print("——————————————————")
     for d in d_group:
         if d_sx[d].exist:
-            jdt(d_sx[d].hp, d_sx[d].thp, d_sx[d].name, "hp", "down", "点", bw = qj_bw)
+            jdt(d_sx[d].hp, d_sx[d].thp, d_sx[d].name, "hp", "descending", "点", bw = qj_bw)
     print()
 
     os.system("pause")
@@ -411,7 +414,7 @@ def gj(z_group, d_group):
 
         zf(f"{z_sx[z].name} 对 {d_sx[d_ord].name} 造成了 {z_damage:.3f} HP 伤害。", "text")
         d_sx[d_ord].hp -= z_damage
-        jdt(d_sx[d_ord].hp, d_sx[d_ord].thp, d_sx[d_ord].name, "hp", "down", "点", bw = qj_bw)
+        jdt(d_sx[d_ord].hp, d_sx[d_ord].thp, d_sx[d_ord].name, "hp", "descending", "点", bw = qj_bw)
         input()
 
         if d_sx[d_ord].hp <= 0:
@@ -496,7 +499,7 @@ def gj(z_group, d_group):
             d_damage = max(0, d_damage)
             zf(f"{d_sx[d].name} 对 {z_sx[z_target].name} 造成了 {d_damage:.3f} HP 伤害。", "text")
             z_sx[z_target].hp -= d_damage
-            jdt(z_sx[z_target].hp, z_sx[z_target].thp, z_sx[z_target].name, "hp", "up", "点", bw = qj_bw)
+            jdt(z_sx[z_target].hp, z_sx[z_target].thp, z_sx[z_target].name, "hp", "ascending", "点", bw = qj_bw)
             input()
 
         if z_sx[z_target].hp <= 0:
@@ -511,11 +514,11 @@ def gj(z_group, d_group):
     print()
     for z in z_group:
         if z_sx[z].exist:
-            jdt(z_sx[z].hp, z_sx[z].thp, z_sx[z].name, "hp", "up", "点", bw = qj_bw)
+            jdt(z_sx[z].hp, z_sx[z].thp, z_sx[z].name, "hp", "ascending", "点", bw = qj_bw)
     print("——————————————————")
     for d in d_group:
         if d_sx[d].exist:
-            jdt(d_sx[d].hp, d_sx[d].thp, d_sx[d].name, "hp", "down", "点", bw = qj_bw)
+            jdt(d_sx[d].hp, d_sx[d].thp, d_sx[d].name, "hp", "descending", "点", bw = qj_bw)
     print()
     os.system("pause")
 
@@ -642,15 +645,15 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
             print()
         
         # 渲染 UI（倒计时、HP、KR 状态）。
-        jdt(duration - (current_time - start_time), duration, "Danmaku", "time remaining", "down", "秒")
+        jdt(duration - (current_time - start_time), duration, "Danmaku", "time remaining", "descending", "秒")
         print()
         
         # KR 状态下，显示特殊进度条和 [KR] 标记。
         if z_sx[z_ord].kr > 0:
-            jdt(z_sx[z_ord].hp, z_sx[z_ord].thp, f"[KR] {z_sx[z_ord].name}", "hp", "up", "点", bw = qj_bw)
-            jdt(z_sx[z_ord].kr, z_sx[z_ord].kr_timer_max, "KR", "time remaining", "down", "帧", bw = qj_bw)
+            jdt(z_sx[z_ord].hp, z_sx[z_ord].thp, f"[KR] {z_sx[z_ord].name}", "hp", "ascending", "点", bw = qj_bw)
+            jdt(z_sx[z_ord].kr, z_sx[z_ord].kr_timer_max, "KR", "time remaining", "descending", "帧", bw = qj_bw)
         else:
-            jdt(z_sx[z_ord].hp, z_sx[z_ord].thp, f"{z_sx[z_ord].name}", "hp", "up", "点", bw = qj_bw)
+            jdt(z_sx[z_ord].hp, z_sx[z_ord].thp, f"{z_sx[z_ord].name}", "hp", "ascending", "点", bw = qj_bw)
             
         time.sleep(0.05)
 
@@ -984,12 +987,12 @@ def random_event(sort, num):
             hp_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].thp * randint(9, 15))
             z_sx[num].hp += hp_recover
             zf(f"Z - {num} 恢复了 {hp_recover:.3f} HP。", "甲" if z_sx[num].hp > z_sx[num].thp else "乙")
-            jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "up", "点", bw = qj_bw)
+            jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "ascending", "点", bw = qj_bw)
         elif sort == "d":
             hp_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].thp * randint(9, 15))
             d_sx[num].hp += hp_recover
             zf(f"D - {num} 恢复了 {hp_recover:.3f} HP。", "癸" if d_sx[num].hp > d_sx[num].thp else "壬")
-            jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "down", "点", bw = qj_bw)
+            jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "descending", "点", bw = qj_bw)
         os.system("pause > nul")
 
     def energy_recover():
@@ -997,12 +1000,12 @@ def random_event(sort, num):
             energy_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].tenergy * randint(9, 15))
             z_sx[num].energy += energy_recover
             zf(f"Z - {num} 的精力恢复了 {energy_recover:.3f}。", "甲" if z_sx[num].energy > z_sx[num].tenergy else "乙")
-            jdt(z_sx[num].energy, z_sx[num].tenergy, f"Z - {num}", "energy", "up", "点", bw = qj_bw)
+            jdt(z_sx[num].energy, z_sx[num].tenergy, f"Z - {num}", "energy", "ascending", "点", bw = qj_bw)
         elif sort == "d":
             energy_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].tenergy * randint(9, 15))
             d_sx[num].energy += energy_recover
             zf(f"D - {num} 的精力恢复了 {energy_recover:.3f}。", "癸" if d_sx[num].energy > d_sx[num].tenergy else "壬")
-            jdt(d_sx[num].energy, d_sx[num].tenergy, f"D - {num}", "energy", "down", "点", bw = qj_bw)
+            jdt(d_sx[num].energy, d_sx[num].tenergy, f"D - {num}", "energy", "descending", "点", bw = qj_bw)
         os.system("pause > nul")
 
     global o_amount, w_amount
@@ -1239,7 +1242,7 @@ def z_move(num):
             z_sx[num].hp -= z_hitwall
             chase(num, False) # 招引看守者。
             player_hitwall += 1
-            jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "up", "点", bw = qj_bw)
+            jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "ascending", "点", bw = qj_bw)
             if z_sx[num].hp <= 0:
                 zf(f"Z - {num} 撞晕了，看来他不得不休息三回合。", "壬")
                 z_sx[num].jz = 4
@@ -1275,7 +1278,7 @@ def z_move(num):
 
         print_map("z", num)
     
-        jdt(z_sx[num].energy, z_sx[num].tenergy, f"Z - {num}", "energy", "up", "点", bw = qj_bw)
+        jdt(z_sx[num].energy, z_sx[num].tenergy, f"Z - {num}", "energy", "ascending", "点", bw = qj_bw)
         print()
         
         if z_sx[num].energy - 1 <= 0:
@@ -1522,14 +1525,14 @@ def d_move(num):
 
         print_map("d", num)
 
-        jdt(d_sx[num].energy, d_sx[num].tenergy, f"D - {num}", "energy", "down", "点", bw = qj_bw)
+        jdt(d_sx[num].energy, d_sx[num].tenergy, f"D - {num}", "energy", "descending", "点", bw = qj_bw)
         print()
         zf(f"D - {num} {inf}。", "text")
         if ls_caughtzf != "":
             zf(ls_caughtzf, "癸")
         if ls_slipped != "":
             zf(ls_slipped, "丙")
-            jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "down", "点", bw = qj_bw)
+            jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "descending", "点", bw = qj_bw)
             input()
         if ls_dizzying != "":
             zf(ls_dizzying, "乙")
@@ -1589,7 +1592,7 @@ try:
                 if z_sx[a].dizzy and z_sx[a].jz == 0 and z_sx[a].exist:
                     z_sx[a].dizzy = False # 眩晕时间结束。
                     zf(f"Z - {a} 重新开始行动。", "乙")
-                    jdt(z_sx[a].hp, z_sx[a].thp, f"Z - {a}", "hp", "up", "点", bw = qj_bw)
+                    jdt(z_sx[a].hp, z_sx[a].thp, f"Z - {a}", "hp", "ascending", "点", bw = qj_bw)
                     os.system("pause > nul")
 
             if z_sx[a].exist and len(z_sx[a].zdz) > 0:
@@ -1619,7 +1622,7 @@ try:
                 if d_sx[b].dizzy and d_sx[b].jz == 0 and d_sx[b].exist:
                     d_sx[b].dizzy = False # 眩晕时间结束。
                     zf(f"D - {b} 重新开始行动。", "壬")
-                    jdt(d_sx[b].hp, d_sx[b].thp, f"D - {b}", "hp", "down", "点", bw = qj_bw)
+                    jdt(d_sx[b].hp, d_sx[b].thp, f"D - {b}", "hp", "descending", "点", bw = qj_bw)
                     os.system("pause > nul")
 
             if d_sx[b].exist and len(d_sx[b].zdz) == 0 and d_sx[b].jz <= 0:
