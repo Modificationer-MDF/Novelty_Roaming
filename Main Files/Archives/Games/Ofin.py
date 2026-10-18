@@ -8,7 +8,8 @@ import sys
 import math
 import keyboard as kb
 import pygame as pgm
-import mstuff
+
+cs = Console()
 
 z_x = []
 z_y = []
@@ -132,6 +133,73 @@ color = {
     "royalblue": "#4169e1",
 }
 
+cs = Console()
+
+def output_structure(text, cl, bl):
+    if not isinstance(text, str):
+        text = str(text)
+
+    if cl == "甲":
+        cl = "甲"
+    elif cl == "乙":
+        cl = "乙"
+    elif cl == "丙":
+        cl = "丙"
+    elif cl == "丁":
+        cl = "丁"
+    elif cl == "戊":
+        cl = "戊"
+    elif cl == "己":
+        cl = "己"
+    elif cl == "庚":
+        cl = "庚"
+    elif cl == "辛":
+        cl = "辛"
+    elif cl == "壬":
+        cl = "壬"
+    elif cl == "癸":
+        cl = "癸"
+    elif cl == "DOWN":
+        cl = "DOWN"
+    elif cl == "error":
+        cl = "错误"
+    elif cl == "inp":
+        cl = "输入"
+    elif cl == "xz":
+        cl = "选择"
+    else:
+        cl = "文字"
+
+    return (f"[{cl}] {text}" if bl else text)
+
+def cl_print(text, cl, e):
+    text = output_structure(text, cl, False)
+    cs.print(text, style=color[cl], end=e)
+    
+def zf(text, cl):
+    text = output_structure(text, cl, True)
+
+    for i in text:
+        cs.print(i, style=color[cl], end="")
+        time.sleep(0.003)
+    if cl == "inp" or cl == "error" or cl == "xz":
+        return input()
+    else:
+        os.system("pause > nul")
+        print()
+        return
+
+def xz(text, array):
+    ls_str = ""
+    for i in range(len(array)):
+        ls_str += f"（{i+1}） {array[i]}　"
+    try:
+        return zf(fr"""{text}
+{ls_str}
+\/ """, "xz")
+    except:
+        return False
+
 def jdt(current, total, ch, typ, srt, unit, bw = 100):
     column = [
         TextColumn("{task.description}"),
@@ -199,7 +267,7 @@ def fin():
     global player_escaped
     cls()
     bf("Res.mp3", -1)
-    mstuff.zf("结束。", "text")
+    zf("结束。", "text")
 
     print()
 
@@ -226,36 +294,36 @@ def fin():
     qj_rank = attack_point * t_playerattack + player_escaped * ls_s1 - player_out * ls_s2 + monitor_out * ls_s3 - player_hitwall * ls_s4 - player_slipped * ls_s5 - player_getdizzy * ls_s6 - player_missed * ls_s7 + player_crit * ls_s8
     qj_trank = z_amount * ls_s1 + d_amount * ls_s3 + attack_point * t_playerattack
 
-    mstuff.zf(f"逃离的角色数量：{player_escaped} / {z_amount}（{(per1 * 100):.3f}%，+{(player_escaped * ls_s1):.3f}）。", "watergreen")
-    mstuff.zf(f"出局的角色数量：{player_out} / {z_amount}（{(per2 * 100):.3f}%，-{(player_out * ls_s2):.3f}）。其中被随机事件处罚的有 {random_zout} 位。", "firebrick")
-    mstuff.zf(f"出局的看守者数量：{monitor_out} / {d_amount}（{(per3 * 100):.3f}%，+{(monitor_out * ls_s3):.3f}）。其中被随机事件处罚的有 {random_dout} 位。", "silver")
-    mstuff.zf(f"角色累计撞墙次数：{player_hitwall}（-{(player_hitwall * ls_s4):.3f}）。", "lightblue")
-    mstuff.zf(f"角色累计掉入水洼次数：{player_slipped}（-{(player_slipped * ls_s5):.3f}）。", "royalblue")
-    mstuff.zf(f"角色累计眩晕次数：{player_getdizzy}（-{(player_getdizzy * ls_s6):.3f}）。", "silver")
-    mstuff.zf(f"累计打出攻击 {t_playerattack} 次，落空 {player_missed} 次（弹幕躲避失败 {player_faildm} 次，落空率 {(per7 * 100):.3f}%），暴击 {player_crit} 次（弹幕躲避成功 {player_cgdm} 次，暴击率 {(per8 * 100):.3f}%）。得分 {(attack_point * t_playerattack - player_missed * ls_s7 + player_crit * ls_s8):.3f}。", "limegreen")
+    zf(f"逃离的角色数量：{player_escaped} / {z_amount}（{(per1 * 100):.3f}%，+{(player_escaped * ls_s1):.3f}）。", "watergreen")
+    zf(f"出局的角色数量：{player_out} / {z_amount}（{(per2 * 100):.3f}%，-{(player_out * ls_s2):.3f}）。其中被随机事件处罚的有 {random_zout} 位。", "firebrick")
+    zf(f"出局的看守者数量：{monitor_out} / {d_amount}（{(per3 * 100):.3f}%，+{(monitor_out * ls_s3):.3f}）。其中被随机事件处罚的有 {random_dout} 位。", "silver")
+    zf(f"角色累计撞墙次数：{player_hitwall}（-{(player_hitwall * ls_s4):.3f}）。", "lightblue")
+    zf(f"角色累计掉入水洼次数：{player_slipped}（-{(player_slipped * ls_s5):.3f}）。", "royalblue")
+    zf(f"角色累计眩晕次数：{player_getdizzy}（-{(player_getdizzy * ls_s6):.3f}）。", "silver")
+    zf(f"累计打出攻击 {t_playerattack} 次，落空 {player_missed} 次（弹幕躲避失败 {player_faildm} 次，落空率 {(per7 * 100):.3f}%），暴击 {player_crit} 次（弹幕躲避成功 {player_cgdm} 次，暴击率 {(per8 * 100):.3f}%）。得分 {(attack_point * t_playerattack - player_missed * ls_s7 + player_crit * ls_s8):.3f}。", "limegreen")
     print()
     jdt(qj_rank, qj_trank, "", "score", "up", "分", bw = qj_bw)
     print()
-    mstuff.zf("以上是你的分数和评级。", "text")
+    zf("以上是你的分数和评级。", "text")
 
     if qj_rank / qj_trank >= 1:
         print()
         bf("Victory.wav", 1)
-        mstuff.zf("666 这个入是桂。", "甲")
+        zf("666 这个入是桂。", "甲")
         if z_amount <= 2 or d_amount <= 2: # 判断角色数量。
-            mstuff.zf("下次尝试多加几个角色以证明你的能力。", "cyan")
+            zf("下次尝试多加几个角色以证明你的能力。", "cyan")
         else:
-            mstuff.zf("大佬牛逼！", "甲")
+            zf("大佬牛逼！", "甲")
 
         if sf_zhp == "2" or sf_dhp == "2": # 判断 HP 来源。
-            mstuff.zf("下次请让系统随机生成 HP 以证明你的能力。", "cyan")
+            zf("下次请让系统随机生成 HP 以证明你的能力。", "cyan")
 
         if sf_zenergy == "2" or sf_denergy == "2": # 判断 ENERGY 来源。
-            mstuff.zf("下次请让系统随机生成 HP。", "cyan")
+            zf("下次请让系统随机生成 HP。", "cyan")
     elif qj_rank <= 0:
         bf("Twisted Victory.wav", 1)
-        mstuff.zf("如果实在不会玩，可以修改源代码。建议修改 dm() 和 gj() 处计算逻辑。", "cyan")
-        mstuff.zf("打开 Visual Studio（或者 VS Code）或记事本，按下 Ctrl+F（或者 Ctrl+H，慎用替换） 打开查找与替换，键入 “def dm(” 或 “def gj(” 后修改关键变量。（例如 duration、hitcost）", "cyan")
+        zf("如果实在不会玩，可以修改源代码。建议修改 dm() 和 gj() 处计算逻辑。", "cyan")
+        zf("打开 Visual Studio（或者 VS Code）或记事本，按下 Ctrl+F（或者 Ctrl+H，慎用替换） 打开查找与替换，键入 “def dm(” 或 “def gj(” 后修改关键变量。（例如 duration、hitcost）", "cyan")
 
 def gj(z_group, d_group):
     global player_missed, player_crit, player_faildm, player_cgdm
@@ -287,7 +355,7 @@ def gj(z_group, d_group):
             continue
         print(f"轮到 {z_sx[z].name} 攻击。")
         available = "、".join([f"D - {d}" for d in d_group if d_sx[d].exist])
-        z_input = mstuff.zf(f"选择目标 ({available})：", "inp")
+        z_input = zf(f"输入目标编号（{available}）：", "inp")
         if z_input.strip() == "":
             # 空输入，从存活的敌人里随机选一个。
             alive_dlist = [d for d in d_group if d_sx[d].exist]
@@ -299,12 +367,12 @@ def gj(z_group, d_group):
                 if target_id in d_group and d_sx[target_id].exist:
                     z_targets[z] = target_id
                 else:
-                    mstuff.zf("目标不存在或已阵亡。", "error")
+                    zf("目标不存在或已阵亡。", "error")
                     alive_dlist = [d for d in d_group if d_sx[d].exist]
                     if alive_dlist:
                         z_targets[z] = choice(alive_dlist)
             except:
-                mstuff.zf("输入无效，将随机选择。", "error")
+                zf("输入无效，将随机选择。", "error")
                 alive_dlist = [d for d in d_group if d_sx[d].exist]
                 if alive_dlist:
                     z_targets[z] = choice(alive_dlist)
@@ -322,16 +390,16 @@ def gj(z_group, d_group):
         z_damage = randint(6, 9) + z_sx[z].atk
         print()
         if fz_lsstring[z_acc] == "*":
-            mstuff.zf(f"{z_sx[z].name} 打出了暴击！", "乙")
+            zf(f"{z_sx[z].name} 打出了暴击！", "乙")
             player_crit += 1
             z_damage *= (1 + (z_sx[z].crit - abs(5 - z_acc) / 50) / 10)
         elif fz_lsstring[z_acc] == "^":
-            mstuff.zf(f"{z_sx[z].name} 打出了精准的一招。", "丙")
+            zf(f"{z_sx[z].name} 打出了精准的一招。", "丙")
         elif fz_lsstring[z_acc] == ".":
-            mstuff.zf(f"{z_sx[z].name} 未能精准命中。", "壬")
+            zf(f"{z_sx[z].name} 未能精准命中。", "壬")
             z_damage *= (1 - abs(5 - z_acc) / 30)
         elif fz_lsstring[z_acc] == "×" or not z_acc:
-            mstuff.zf(f"{z_sx[z].name} 落空了。", "癸")
+            zf(f"{z_sx[z].name} 落空了。", "癸")
             player_missed += 1
             z_damage = 0
 
@@ -341,13 +409,13 @@ def gj(z_group, d_group):
         z_damage *= (d_check / 10) * uniform(0.95, 1.05)
         z_damage = max(0, z_damage)
 
-        mstuff.zf(f"{z_sx[z].name} 对 {d_sx[d_ord].name} 造成了 {z_damage:.3f} HP 伤害。", "text")
+        zf(f"{z_sx[z].name} 对 {d_sx[d_ord].name} 造成了 {z_damage:.3f} HP 伤害。", "text")
         d_sx[d_ord].hp -= z_damage
         jdt(d_sx[d_ord].hp, d_sx[d_ord].thp, d_sx[d_ord].name, "hp", "down", "点", bw = qj_bw)
         input()
 
         if d_sx[d_ord].hp <= 0:
-            mstuff.zf(f"{d_sx[d_ord].name} 败下阵来。", "甲")
+            zf(f"{d_sx[d_ord].name} 败下阵来。", "甲")
             d_sx[d_ord].exist = False
             monitor_out += 1
             monitor_existing -= 1
@@ -360,7 +428,7 @@ def gj(z_group, d_group):
             continue
         print(f"轮到 {d_sx[d].name} 反击。")
         available = "、".join([f"Z - {z}" for z in z_group if z_sx[z].exist])
-        d_input = mstuff.zf(f"选择目标 ({available})：", "inp")
+        d_input = zf(f"输入目标编号（{available}）：", "inp")
         if d_input.strip() == "":
             # 空输入，从存活的 Z 里随机选一个
             alive_zlist = [z for z in z_group if z_sx[z].exist]
@@ -372,12 +440,12 @@ def gj(z_group, d_group):
                 if target_id in z_group and z_sx[target_id].exist:
                     d_targets[d] = target_id
                 else:
-                    mstuff.zf("目标不存在或已阵亡，将随机选择。", "error")
+                    zf("目标不存在或已阵亡，将随机选择。", "error")
                     alive_zlist = [z for z in z_group if z_sx[z].exist]
                     if alive_zlist:
                         d_targets[d] = choice(alive_zlist)
             except:
-                mstuff.zf("输入无效，将随机选择。", "error")
+                zf("输入无效，将随机选择。", "error")
                 alive_zlist = [z for z in z_group if z_sx[z].exist]
                 if alive_zlist:
                     d_targets[d] = choice(alive_zlist)
@@ -395,27 +463,27 @@ def gj(z_group, d_group):
         dm_enabled = False
         print()
         if fz_lsstring[d_acc] == "*":
-            mstuff.zf(f"{d_sx[d].name} 打出了暴击！", "壬")
+            zf(f"{d_sx[d].name} 打出了暴击！", "壬")
             player_crit += 1
             d_damage *= (1 + (d_sx[d].atk - abs(5 - d_acc) / 50) / 10)
         elif fz_lsstring[d_acc] == "^":
-            mstuff.zf(f"{d_sx[d].name} 打出了精准的一招。", "辛")
+            zf(f"{d_sx[d].name} 打出了精准的一招。", "辛")
         elif fz_lsstring[d_acc] == ".":
-            mstuff.zf(f"{d_sx[d].name} 未能精准命中。", "乙")
+            zf(f"{d_sx[d].name} 未能精准命中。", "乙")
             d_damage *= (1 - abs(5 - d_acc) / 30)
         elif fz_lsstring[d_acc] == "×" or d_acc == 0:
-            mstuff.zf(f"{d_sx[d].name} 落空了。发射弹幕。", "red")
+            zf(f"{d_sx[d].name} 落空了。发射弹幕。", "red")
             dm_enabled = True
             hitdmg_single = randint(6, 9) + d_sx[d].atk
             hitdmg_single *= (1 - abs(5 - d_acc) / 30)
             hitcount = dm(z_target, hitdmg_single)
             if hitcount > 0:
-                mstuff.zf(f"{z_sx[z_target].name} 被 {hitcount} 发弹幕击中。", "癸")
+                zf(f"{z_sx[z_target].name} 被 {hitcount} 发弹幕击中。", "癸")
                 player_missed += 1
                 player_faildm += 1
                 d_damage = hitdmg_single * hitcount
             else:
-                mstuff.zf(f"{z_sx[z_target].name} 躲避了所有弹幕。", "甲")
+                zf(f"{z_sx[z_target].name} 躲避了所有弹幕。", "甲")
                 player_crit += 1
                 player_cgdm += 1
                 d_damage = 0
@@ -426,13 +494,13 @@ def gj(z_group, d_group):
                 d_damage = 0
             d_damage *= (z_check / 10) * uniform(0.95, 1.05)
             d_damage = max(0, d_damage)
-            mstuff.zf(f"{d_sx[d].name} 对 {z_sx[z_target].name} 造成了 {d_damage:.3f} HP 伤害。", "text")
+            zf(f"{d_sx[d].name} 对 {z_sx[z_target].name} 造成了 {d_damage:.3f} HP 伤害。", "text")
             z_sx[z_target].hp -= d_damage
             jdt(z_sx[z_target].hp, z_sx[z_target].thp, z_sx[z_target].name, "hp", "up", "点", bw = qj_bw)
             input()
 
         if z_sx[z_target].hp <= 0:
-            mstuff.zf(f"{z_sx[z_target].name} 败下阵来。", "癸")
+            zf(f"{z_sx[z_target].name} 败下阵来。", "癸")
             z_sx[z_target].exist = False
             player_out += 1
             player_existing -= 1
@@ -477,7 +545,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
     while time.time() - start_time < duration:
         current_time = time.time()
         
-        # KR 伤害判定（每帧扣 1 HP，并刷新 UI）。
+        # KR 伤害判定（每帧扣 0.007*，并刷新 UI）。
         if z_sx[z_ord].kr > 0:
             z_sx[z_ord].hp -= z_sx[z_ord].thp * 0.007
             z_sx[z_ord].kr -= 1
@@ -562,9 +630,9 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
                     for b in bullets:
                         if b[0] == x and b[1] == y:
                             if b[4] == "magenta":
-                                mstuff.cl_print("* ", "magenta", "")
+                                cl_print("* ", "magenta", "")
                             elif b[4] == "red":
-                                mstuff.cl_print("* ", "red", "")
+                                cl_print("* ", "red", "")
                             else:
                                 print("* ", end="")
                             is_hit = True
@@ -598,7 +666,7 @@ def zs(var, p, q):
             else:
                 raise ValueError(f"无效输入。请输入一个在 {p} 和 {q} 之间的数字")
         except Exception as e:
-            var = mstuff.zf("请重新输入一个整数：", "error")
+            var = zf("请重新输入一个整数：", "error")
 
 def fd(var, p, q):
     while True:
@@ -611,7 +679,7 @@ def fd(var, p, q):
             else:
                 raise ValueError(f"无效输入。请输入一个在 {p} 和 {q} 之间的数字")
         except Exception as e:
-            var = mstuff.zf("请重新输入一个浮点数：", "error")
+            var = zf("请重新输入一个浮点数：", "error")
 
 def bf(track, l): 
     global current_track
@@ -634,7 +702,7 @@ def mz(me, enemy):
     t_playerattack += 1
     cls()
     print(fr"""      攻方                                防方""")
-    mstuff.cl_print(f"""      {me}                               {enemy}""", "yellow", "")
+    cl_print(f"""      {me}                               {enemy}""", "yellow", "")
     print(r"""
     -----                                   -----            
   --      --                              --      --
@@ -701,9 +769,9 @@ if __name__ == "__main__":
     cls()
     pgm.mixer.init()
 
-    mstuff.zf("…………", "aqua")
-    maze_size = zs(mstuff.zf("矩阵规模？（k × k 的正方形）", "inp"), 5, 20)
-    qj_bw = mstuff.zf("进度条宽度（默认 60）？", "inp")
+    zf("…………", "aqua")
+    maze_size = zs(zf("矩阵规模？（k × k 的正方形）", "inp"), 5, 20)
+    qj_bw = zf("进度条宽度（默认 60）？", "inp")
     try:
         if qj_bw == "" or 25 <= int(qj_bw) <= 125:
             qj_bw = 60
@@ -712,15 +780,15 @@ if __name__ == "__main__":
 
     while True:
         print()
-        mstuff.zf("…………", "aqua")
-        z_amount = zs(mstuff.zf("我方数量？", "inp"), 1, float("inf"))
+        zf("…………", "aqua")
+        z_amount = zs(zf("我方数量？", "inp"), 1, float("inf"))
 
         print()
-        mstuff.zf("…………", "aqua")
-        d_amount = zs(mstuff.zf("看守者数量？", "inp"), 1, float("inf"))
+        zf("…………", "aqua")
+        d_amount = zs(zf("看守者数量？", "inp"), 1, float("inf"))
 
         if z_amount + d_amount >= maze_size * maze_size:
-            mstuff.zf("人数过多！重新输入！", "error")
+            zf("人数过多！重新输入！", "error")
         else:
             break       
 
@@ -735,11 +803,11 @@ if __name__ == "__main__":
     ]
 
     print()
-    mstuff.zf("…………", "aqua")
+    zf("…………", "aqua")
 
-    sf_zwz = mstuff.xz("是否使用随机生成的起始位置？", ["是。", "否。"])
-    sf_zhp = mstuff.xz("是否使用随机生成的 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
-    sf_zenergy = mstuff.xz("是否使用随机生成的精力？（范围在 5 到 59 之间）", ["是。", "否。"])
+    sf_zwz = xz("是否使用随机生成的起始位置？", ["是。", "否。"])
+    sf_zhp = xz("是否使用随机生成的 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
+    sf_zenergy = xz("是否使用随机生成的精力？（范围在 5 到 59 之间）", ["是。", "否。"])
     
     for i in range(z_amount):
         if sf_zhp == "1": # 随机 HP。
@@ -747,9 +815,9 @@ if __name__ == "__main__":
         else: # 自行输入 HP。
             if z_amount == 1: # 一位玩家。
                 while True:
-                    ls_zhp1 = zs(mstuff.zf("角色起始 HP？", "inp"), 1, float("inf"))
+                    ls_zhp1 = zs(zf("角色起始 HP？", "inp"), 1, float("inf"))
                     if ls_zhp1 < 30 or ls_zhp1 > 999:
-                        ls_rsp1 = mstuff.zf("建议将 HP 设置在 30 到 999 之间。如无需更改，请按下 1。", "inp")
+                        ls_rsp1 = zf("建议将 HP 设置在 30 到 999 之间。如无需更改，请按下 1。", "inp")
                         if ls_rsp1 == "1":
                             z_sx[i].thp = ls_zhp1
                             break
@@ -757,13 +825,13 @@ if __name__ == "__main__":
                         z_sx[i].thp = ls_zhp1
                         break
                 if sf_zwz != "1": # 不使用随机生成的起始位置。
-                    z_x.append(zs(mstuff.zf("角色起始纵坐标？（X 从 0 开始）", "inp"), 0, maze_size - 1))
-                    z_y.append(zs(mstuff.zf("角色起始横坐标？（Y 从 0 开始）", "inp"), 0, maze_size - 1))
+                    z_x.append(zs(zf("角色起始纵坐标？（X 从 0 开始）", "inp"), 0, maze_size - 1))
+                    z_y.append(zs(zf("角色起始横坐标？（Y 从 0 开始）", "inp"), 0, maze_size - 1))
             else: # 多位玩家。
                 while True:
-                    ls_zhp2 = zs(mstuff.zf(f"第 {i + 1} 位角色的起始 HP？", "inp"), 1, float("inf"))
+                    ls_zhp2 = zs(zf(f"第 {i + 1} 位角色的起始 HP？", "inp"), 1, float("inf"))
                     if ls_zhp2 < 30 or ls_zhp2 > 999:
-                        ls_rsp2 = mstuff.zf("建议将 HP 设置在 30 到 999 之间。如无需更改，请按下 1。", "inp")
+                        ls_rsp2 = zf("建议将 HP 设置在 30 到 999 之间。如无需更改，请按下 1。", "inp")
                         if ls_rsp2 == "1":
                             z_sx[i].thp = ls_zhp2
                             break
@@ -771,8 +839,8 @@ if __name__ == "__main__":
                         z_sx[i].thp = ls_zhp2
                         break
                 if sf_zwz != "1": # 不使用随机生成的起始位置。
-                    z_x.append(zs(mstuff.zf(f"第 {i + 1} 位角色的起始纵坐标？（X 从 0 开始）", "inp"), 0, maze_size - 1))
-                    z_y.append(zs(mstuff.zf(f"第 {i + 1} 位角色的起始横坐标？（Y 从 0 开始）", "inp"), 0, maze_size - 1))
+                    z_x.append(zs(zf(f"第 {i + 1} 位角色的起始纵坐标？（X 从 0 开始）", "inp"), 0, maze_size - 1))
+                    z_y.append(zs(zf(f"第 {i + 1} 位角色的起始横坐标？（Y 从 0 开始）", "inp"), 0, maze_size - 1))
         
         z_sx[i].hp = z_sx[i].thp        
 
@@ -782,12 +850,12 @@ if __name__ == "__main__":
         else:
             while True:
                 if z_amount == 1: # 一位玩家。
-                    ls_zenergy = zs(mstuff.zf("角色起始精力？", "inp"), 1, float("inf"))
+                    ls_zenergy = zs(zf("角色起始精力？", "inp"), 1, float("inf"))
                 else: # 多位玩家。
-                    ls_zenergy = zs(mstuff.zf(f"第 {j + 1} 位角色的起始精力？", "inp"), 1, float("inf"))
+                    ls_zenergy = zs(zf(f"第 {j + 1} 位角色的起始精力？", "inp"), 1, float("inf"))
                 
                 if ls_zenergy < 5 or ls_zenergy > 59:
-                    ls_rsp3 = mstuff.zf("建议将精力设置在 5 到 59 之间。如无需更改，请按下 1。", "inp")
+                    ls_rsp3 = zf("建议将精力设置在 5 到 59 之间。如无需更改，请按下 1。", "inp")
                     if ls_rsp3 == "1":
                         z_sx[j].tenergy = ls_zenergy
                         break
@@ -798,18 +866,18 @@ if __name__ == "__main__":
         z_sx[j].energy = z_sx[j].tenergy
 
     print()
-    mstuff.zf("…………", "aqua")
-    sf_dhp = mstuff.xz("是否使用随机生成的看守者 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
-    sf_denergy = mstuff.xz("是否使用随机生成的看守者精力？（范围在 5 到 59 之间）", ["是。", "否。"])
+    zf("…………", "aqua")
+    sf_dhp = xz("是否使用随机生成的看守者 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
+    sf_denergy = xz("是否使用随机生成的看守者精力？（范围在 5 到 59 之间）", ["是。", "否。"])
     
     for j in range(d_amount):
         if sf_dhp == "1":
             d_sx[j].thp = randint(30, 999)
         else:
             if d_amount == 1:
-                d_sx[j].thp = zs(mstuff.zf("看守者起始 HP？", "inp"), 1, float("inf"))
+                d_sx[j].thp = zs(zf("看守者起始 HP？", "inp"), 1, float("inf"))
             else:
-                d_sx[j].thp = zs(mstuff.zf(f"第 {j + 1} 位看守者的起始 HP？", "inp"), 1, float("inf"))
+                d_sx[j].thp = zs(zf(f"第 {j + 1} 位看守者的起始 HP？", "inp"), 1, float("inf"))
         d_sx[j].hp = d_sx[j].thp
 
     for k in range(d_amount):
@@ -817,9 +885,9 @@ if __name__ == "__main__":
             d_sx[k].tenergy = randint(5, 59)
         else:
             if d_amount == 1:
-                d_sx[k].tenergy = zs(mstuff.zf("看守者起始精力？", "inp"), 1, float("inf"))
+                d_sx[k].tenergy = zs(zf("看守者起始精力？", "inp"), 1, float("inf"))
             else:
-                d_sx[k].tenergy = zs(mstuff.zf(f"第 {k + 1} 位看守者的起始精力？", "inp"), 1, float("inf"))
+                d_sx[k].tenergy = zs(zf(f"第 {k + 1} 位看守者的起始精力？", "inp"), 1, float("inf"))
         d_sx[k].energy = d_sx[k].tenergy
     cls()
 
@@ -915,12 +983,12 @@ def random_event(sort, num):
         if sort == "z":
             hp_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].thp * randint(9, 15))
             z_sx[num].hp += hp_recover
-            mstuff.zf(f"Z - {num} 恢复了 {hp_recover:.3f} HP。", "甲" if z_sx[num].hp > z_sx[num].thp else "乙")
+            zf(f"Z - {num} 恢复了 {hp_recover:.3f} HP。", "甲" if z_sx[num].hp > z_sx[num].thp else "乙")
             jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "up", "点", bw = qj_bw)
         elif sort == "d":
             hp_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].thp * randint(9, 15))
             d_sx[num].hp += hp_recover
-            mstuff.zf(f"D - {num} 恢复了 {hp_recover:.3f} HP。", "癸" if d_sx[num].hp > d_sx[num].thp else "壬")
+            zf(f"D - {num} 恢复了 {hp_recover:.3f} HP。", "癸" if d_sx[num].hp > d_sx[num].thp else "壬")
             jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "down", "点", bw = qj_bw)
         os.system("pause > nul")
 
@@ -928,12 +996,12 @@ def random_event(sort, num):
         if sort == "z":
             energy_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].tenergy * randint(9, 15))
             z_sx[num].energy += energy_recover
-            mstuff.zf(f"Z - {num} 的精力恢复了 {energy_recover:.3f}。", "甲" if z_sx[num].energy > z_sx[num].tenergy else "乙")
+            zf(f"Z - {num} 的精力恢复了 {energy_recover:.3f}。", "甲" if z_sx[num].energy > z_sx[num].tenergy else "乙")
             jdt(z_sx[num].energy, z_sx[num].tenergy, f"Z - {num}", "energy", "up", "点", bw = qj_bw)
         elif sort == "d":
             energy_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].tenergy * randint(9, 15))
             d_sx[num].energy += energy_recover
-            mstuff.zf(f"D - {num} 的精力恢复了 {energy_recover:.3f}。", "癸" if d_sx[num].energy > d_sx[num].tenergy else "壬")
+            zf(f"D - {num} 的精力恢复了 {energy_recover:.3f}。", "癸" if d_sx[num].energy > d_sx[num].tenergy else "壬")
             jdt(d_sx[num].energy, d_sx[num].tenergy, f"D - {num}", "energy", "down", "点", bw = qj_bw)
         os.system("pause > nul")
 
@@ -945,20 +1013,20 @@ def random_event(sort, num):
         case 2: # 增加攻击力。
             if sort == "z":
                 atk_increase = randint(1, 5)
-                mstuff.zf(f"Z - {num} 增加了 {atk_increase} 点攻击力。", "丙")
+                zf(f"Z - {num} 增加了 {atk_increase} 点攻击力。", "丙")
                 z_sx[num].atk += atk_increase
             elif sort == "d":
                 atk_increase = randint(1, 5)
-                mstuff.zf(f"D - {num} 增加了 {atk_increase} 点攻击力。", "辛")
+                zf(f"D - {num} 增加了 {atk_increase} 点攻击力。", "辛")
                 d_sx[num].atk += atk_increase
         case 3: # 增加防御力。
             if sort == "z":
                 fy_increase = randint(1, 5)
-                mstuff.zf(f"Z - {num} 增加了 {fy_increase} 点防御力。", "丙")
+                zf(f"Z - {num} 增加了 {fy_increase} 点防御力。", "丙")
                 z_sx[num].fy += fy_increase
             elif sort == "d":
                 fy_increase = randint(1, 5)
-                mstuff.zf(f"D - {num} 增加了 {fy_increase} 点防御力。", "辛")
+                zf(f"D - {num} 增加了 {fy_increase} 点防御力。", "辛")
                 d_sx[num].fy += fy_increase
         case 4: # 淘汰一名敌人或角色。
             if randint(1, 9) <= 3:
@@ -967,14 +1035,14 @@ def random_event(sort, num):
                     while True:
                         ls_dord = randint(0, d_amount - 1)
                         if monitor_out == d_amount:
-                            mstuff.zf("……", "text")
-                            mstuff.zf("无事发生。", "text")
+                            zf("……", "text")
+                            zf("无事发生。", "text")
                             break
                         if d_sx[ls_dord].exist:
                             d_sx[ls_dord].exist = False
                             d_sx[ls_dord].zdz = []
                             maze[d_x[ls_dord]][d_y[ls_dord]] = f"| . |"
-                            mstuff.zf(f"D - {ls_dord} 突然消失了！", "甲")
+                            zf(f"D - {ls_dord} 突然消失了！", "甲")
                             monitor_out += 1
                             random_dout += 1
                             break
@@ -982,32 +1050,32 @@ def random_event(sort, num):
                     while True:
                         ls_zord = randint(0, z_amount - 1)
                         if player_out == z_amount:
-                            mstuff.zf("……", "text")
-                            mstuff.zf("无事发生。", "text")
+                            zf("……", "text")
+                            zf("无事发生。", "text")
                             break
                         if z_sx[ls_zord].exist:
                             z_sx[ls_zord].exist = False
                             z_sx[ls_zord].zdz = []
                             maze[z_x[ls_zord]][z_y[ls_zord]] = f"| . |"
-                            mstuff.zf(f"Z - {ls_zord} 突然消失了！", "癸")
+                            zf(f"Z - {ls_zord} 突然消失了！", "癸")
                             player_out += 1
                             random_zout += 1
                             break
             else:
-                mstuff.zf("无事发生。", "text")
+                zf("无事发生。", "text")
 
         case 5: # 障碍物消失或恢复部分 HP / 精力。
             if o_amount == 0:
                 ls_diso = randint(1, o_amount)
                 o_amount = max(0, o_amount - ls_diso)
-                mstuff.zf(f"放眼望去，地图上消失了 {ls_diso} 个障碍物！", "丁")
+                zf(f"放眼望去，地图上消失了 {ls_diso} 个障碍物！", "丁")
             else:
                 hp_recover() if randint(1, 2) == 1 else energy_recover()
         case 6: # 水洼消失或恢复部分 HP / 精力。
             if w_amount == 0:
                 ls_disw = randint(1, w_amount)
                 w_amount = max(0, w_amount - ls_disw)
-                mstuff.zf(f"放眼望去，地图上消失了 {ls_disw} 个水洼！", "丙")
+                zf(f"放眼望去，地图上消失了 {ls_disw} 个水洼！", "丙")
             else:
                 hp_recover() if randint(1, 2) == 1 else energy_recover()
         case 7: # 恢复精力。
@@ -1042,23 +1110,23 @@ def print_map(sort, num):
     for i in range(maze_size):
         for j in range(maze_size):
             if sort == "z" and i == z_x[num] and j == z_y[num]:
-                mstuff.cl_print(maze[i][j], "gold", " ")
+                cl_print(maze[i][j], "gold", " ")
             elif sort == "d" and i == d_x[num] and j == d_y[num]:
-                mstuff.cl_print(maze[i][j], "hotpink", " ")
+                cl_print(maze[i][j], "hotpink", " ")
             elif "Z" in maze[i][j] and "D" not in maze[i][j]:
-                mstuff.cl_print(maze[i][j], "green", " ")
+                cl_print(maze[i][j], "green", " ")
             elif "D" in maze[i][j] and "Z" not in maze[i][j]:
-                mstuff.cl_print(maze[i][j], "blue", " ")
+                cl_print(maze[i][j], "blue", " ")
             elif "Z" in maze[i][j] and "D" in maze[i][j]:
-                mstuff.cl_print(maze[i][j], "red", " ")
+                cl_print(maze[i][j], "red", " ")
             elif maze[i][j] == "| ; |":
-                mstuff.cl_print(maze[i][j], "magenta", " ")
+                cl_print(maze[i][j], "magenta", " ")
             elif maze[i][j] == "| _ |":
-                mstuff.cl_print(maze[i][j], "darkred", " ")
+                cl_print(maze[i][j], "darkred", " ")
             elif maze[i][j] == "| ^ |":
-                mstuff.cl_print(maze[i][j], "orange", " ")
+                cl_print(maze[i][j], "orange", " ")
             elif maze[i][j] == "| → |":
-                mstuff.cl_print(maze[i][j], "tea", " ")
+                cl_print(maze[i][j], "tea", " ")
             else:
                 print(maze[i][j], end=" ")
         print()
@@ -1078,14 +1146,14 @@ def z_move(num):
         # 水洼处理。
         if maze[destination_x][destination_y] == "| _ |":
             z_slip = uniform(0.19, 0.3) * math.sqrt(z_sx[num].thp * randint(9, 15))
-            mstuff.zf(f"Z - {num} 不小心踩进了水洼！他摔倒了，丧失了 {z_slip:.3f} HP。他停止活动一回合！", "辛")
+            zf(f"Z - {num} 不小心踩进了水洼！他摔倒了，丧失了 {z_slip:.3f} HP。他停止活动一回合！", "辛")
             z_sx[num].hp -= z_slip
             z_sx[num].jz = 2
             chase(num, False) # 招引看守者。
             player_slipped += 1
             print()
             if z_sx[num].hp <= 0:
-                mstuff.zf(f"Z - {num} 摔倒了，看来他不得不休息三回合！", "壬")
+                zf(f"Z - {num} 摔倒了，看来他不得不休息三回合！", "壬")
                 player_getdizzy += 1
                 z_sx[num].dizzy = True
                 z_sx[num].jz = 4
@@ -1094,7 +1162,7 @@ def z_move(num):
         elif maze[destination_x][destination_y] == "| ^ |":
             random_event("z", num)
         elif maze[destination_x][destination_y] == "| → |":
-            mstuff.zf(f"Z - {num} 进入了出口，逃离了 “厅内” 迷宫！", "甲")
+            zf(f"Z - {num} 进入了出口，逃离了 “厅内” 迷宫！", "甲")
             z_sx[num].exist = False
             player_existing -= 1
             player_escaped += 1
@@ -1162,18 +1230,18 @@ def z_move(num):
     def hitwall(i, fx): # fx：方向。
         global player_hitwall, player_getdizzy
         if i < 3:
-            mstuff.cl_print(f"向{fx}走不通。", "error", "\n")
+            cl_print(f"向{fx}走不通。", "error", "\n")
         else:
             if i == 3:
-                mstuff.zf(f"如果，你非要向{fx}走的话……", "red")
+                zf(f"如果，你非要向{fx}走的话……", "red")
             z_hitwall = uniform(0.25, 0.49) * math.sqrt(z_sx[num].thp * randint(14, 22) + i ** i)
-            mstuff.zf(f"Z - {num} 撞向了{fx}方的墙壁！丧失了 {z_hitwall:.3f} HP。", "辛")
+            zf(f"Z - {num} 撞向了{fx}方的墙壁！丧失了 {z_hitwall:.3f} HP。", "辛")
             z_sx[num].hp -= z_hitwall
             chase(num, False) # 招引看守者。
             player_hitwall += 1
             jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "up", "点", bw = qj_bw)
             if z_sx[num].hp <= 0:
-                mstuff.zf(f"Z - {num} 撞晕了，看来他不得不休息三回合。", "壬")
+                zf(f"Z - {num} 撞晕了，看来他不得不休息三回合。", "壬")
                 z_sx[num].jz = 4
                 z_sx[num].hp = 0.001
                 z_sx[num].dizzy = True
@@ -1195,15 +1263,15 @@ def z_move(num):
 
 使用方向键控制角色，按 ESC 暂停，按 F1 跳过本次移动，按 F3 跳过本回合。
         """)
-            mstuff.cl_print("一回合可以移动两次。", "watergreen", "\n\n")
+            cl_print("一回合可以移动两次。", "watergreen", "\n\n")
             qj_intro = True
 
         if player_existing > 1 and ls_crit == False:
             print(f"已走 {player_step} 步。还有 {player_existing} 名角色在场，共 {z_amount} 名；还有 {monitor_existing} 名看守者在场，共 {d_amount} 名。")
         else:
             if ls_crit:
-                mstuff.cl_print(f"收债。", "watergreen", "\n")
-            mstuff.cl_print(f"已走 {player_step} 步！还有 {player_existing} 名角色在场，共 {z_amount} 名；还有 {monitor_existing} 名看守者在场，共 {d_amount} 名！", "red", "\n")
+                cl_print(f"收债。", "watergreen", "\n")
+            cl_print(f"已走 {player_step} 步！还有 {player_existing} 名角色在场，共 {z_amount} 名；还有 {monitor_existing} 名看守者在场，共 {d_amount} 名！", "red", "\n")
 
         print_map("z", num)
     
@@ -1211,7 +1279,7 @@ def z_move(num):
         print()
         
         if z_sx[num].energy - 1 <= 0:
-            mstuff.zf(f"Z - {num} 的精力不足以继续移动了！他必须休息一回合。", "text")
+            zf(f"Z - {num} 的精力不足以继续移动了！他必须休息一回合。", "text")
             z_sx[num].energy += uniform(0.4, 0.8)
             os.system("pause > nul")
             return
@@ -1259,11 +1327,11 @@ def z_move(num):
                         if et == -1:
                             return
                 elif kb.is_pressed("esc"):
-                    ls_res = mstuff.xz("是否退出？", ["是。", "否。"])
+                    ls_res = xz("是否退出？", ["是。", "否。"])
                     if ls_res == "1":
                         sys.exit(0)
                     else:
-                        mstuff.zf("继续游戏，本次跳过，角色精力将恢复一部分。", "text")
+                        zf("继续游戏，本次跳过，角色精力将恢复一部分。", "text")
                         z_sx[num].energy += uniform(0.4, 0.8)
                         break
                 elif kb.is_pressed("f1"):
@@ -1294,7 +1362,7 @@ def d_move(num):
         
         # 追了 3 回合，丢失目标。
         if d_turns[num] >= 3:
-            mstuff.zf(f"D - {num} 放弃了追击 Z - {target_z}。", "text")
+            zf(f"D - {num} 放弃了追击 Z - {target_z}。", "text")
             d_target[num] = -1
             d_speed[num] = 0
             d_turns[num] = 0
@@ -1456,15 +1524,15 @@ def d_move(num):
 
         jdt(d_sx[num].energy, d_sx[num].tenergy, f"D - {num}", "energy", "down", "点", bw = qj_bw)
         print()
-        mstuff.zf(f"D - {num} {inf}。", "text")
+        zf(f"D - {num} {inf}。", "text")
         if ls_caughtzf != "":
-            mstuff.zf(ls_caughtzf, "癸")
+            zf(ls_caughtzf, "癸")
         if ls_slipped != "":
-            mstuff.zf(ls_slipped, "丙")
+            zf(ls_slipped, "丙")
             jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "down", "点", bw = qj_bw)
             input()
         if ls_dizzying != "":
-            mstuff.zf(ls_dizzying, "乙")
+            zf(ls_dizzying, "乙")
         break
 
 player_existing = z_amount
@@ -1520,7 +1588,7 @@ try:
                 z_sx[a].hp = min(z_sx[a].hp + uniform(0.7, 1.4) * math.sqrt(z_sx[a].thp * randint(10, 17)), z_sx[a].thp)
                 if z_sx[a].dizzy and z_sx[a].jz == 0 and z_sx[a].exist:
                     z_sx[a].dizzy = False # 眩晕时间结束。
-                    mstuff.zf(f"Z - {a} 重新开始行动。", "乙")
+                    zf(f"Z - {a} 重新开始行动。", "乙")
                     jdt(z_sx[a].hp, z_sx[a].thp, f"Z - {a}", "hp", "up", "点", bw = qj_bw)
                     os.system("pause > nul")
 
@@ -1550,7 +1618,7 @@ try:
                 d_sx[b].hp = min(d_sx[b].hp + uniform(0.7, 1.4) * math.sqrt(d_sx[b].thp * randint(10, 17)), d_sx[b].thp)
                 if d_sx[b].dizzy and d_sx[b].jz == 0 and d_sx[b].exist:
                     d_sx[b].dizzy = False # 眩晕时间结束。
-                    mstuff.zf(f"D - {b} 重新开始行动。", "壬")
+                    zf(f"D - {b} 重新开始行动。", "壬")
                     jdt(d_sx[b].hp, d_sx[b].thp, f"D - {b}", "hp", "down", "点", bw = qj_bw)
                     os.system("pause > nul")
 
