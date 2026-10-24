@@ -792,7 +792,7 @@ first_run = True"""
     del ls_r
 
     for l in ini_save:
-        if l.startswith("first_run"):
+        if l.startswith("first_run ="):
             if l.split("=")[1].strip().lower() == "true":
                 isfirst = True
             else:
@@ -804,7 +804,7 @@ first_run = True"""
         os.system("cls")
         
         for l in ini_save:
-            if l.startswith("first_run"):
+            if l.startswith("first_run ="):
                 ini_save.remove(l)
                 ini_save.append("first_run = False")
                 break
