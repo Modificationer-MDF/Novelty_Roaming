@@ -1,0 +1,3 @@
+rich
+keyboard
+pygame

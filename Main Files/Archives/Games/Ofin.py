@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from random import *
-from rich.progress import *
+import rich.progress as rp
 from rich.console import Console
 import os
 import time
@@ -202,11 +202,11 @@ def xz(text, array):
 
 def jdt(current, total, ch, typ, srt, unit, bw = 100):
     column = [
-        TextColumn("{task.description}"),
-        BarColumn(bar_width=bw),
-        TaskProgressColumn(text_format="{task.percentage:.3f}%"),
+        rp.TextColumn("{task.description}"),
+        rp.BarColumn(bar_width=bw),
+        rp.TaskProgressColumn(text_format="{task.percentage:.3f}%"),
     ]
-    with Progress(*column) as progress:
+    with rp.Progress(*column) as progress:
         t_color = ""
         if srt == "ascending":
             if current >= 0.9 * total:
@@ -255,17 +255,14 @@ def jdt(current, total, ch, typ, srt, unit, bw = 100):
             else:
                 t_color = "descending"
 
-        column.append(TextColumn(f"[{color[t_color]}][{t_color}] {ch} {typ.upper()}： {current:.3f} {unit} / {total:.3f} {unit}。"))
+        column.append(rp.TextColumn(f"[{color[t_color]}][{t_color}] {ch} {typ.upper()}： {current:.3f} {unit} / {total:.3f} {unit}。"))
         task = progress.add_task("", total=total)
         progress.update(task, completed=current)
         progress.console.print(f"[{color[t_color]}][{t_color}] {ch} {typ.upper()}： {current:.3f} {unit} / {total:.3f} {unit}。")
 
-def cls():
-    os.system("cls")
-
 def fin():
     global player_escaped
-    cls()
+    os.system("cls")
     bf("Res.mp3", -1)
     zf("结束。", "text")
 
@@ -335,7 +332,7 @@ def gj(z_group, d_group):
     if not z_group or not d_group:
         return
 
-    cls()
+    os.system("cls")
     print("战斗开始！")
     print()
     for z in z_group:
@@ -351,7 +348,7 @@ def gj(z_group, d_group):
 
     # 我方攻击阶段（按编号顺序）。
     # 记录每个 Z 选中的目标 D。
-    cls()
+    os.system("cls")
     z_targets = {}
     for z in z_group[:]:  # 使用副本，因为可能死亡删除。
         if not z_sx[z].exist:
@@ -424,7 +421,7 @@ def gj(z_group, d_group):
             monitor_existing -= 1
 
     # 敌方反击阶段。
-    cls()
+    os.system("cls")
     d_targets = {}
     for d in d_group[:]:
         if not d_sx[d].exist:
@@ -509,7 +506,7 @@ def gj(z_group, d_group):
             player_existing -= 1
 
     # 结束状态显示。
-    cls()
+    os.system("cls")
     print("结束状态。")
     print()
     for z in z_group:
@@ -529,7 +526,7 @@ def gj(z_group, d_group):
         for d in d_group:
             if d_sx[d].exist: d_sx[d].zdz = []
     # 如果未全灭，则战斗未结束，zdz 保持，下一轮主循环会再次触发 gj。
-    cls()
+    os.system("cls")
 
 def dm(z_ord, hitdmg_single): # 躲避弹幕。
     bw = (20 if not ls_crit else 15) # 宽度。
@@ -553,7 +550,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
             z_sx[z_ord].hp -= z_sx[z_ord].thp * 0.007
             z_sx[z_ord].kr -= 1
             if z_sx[z_ord].hp <= 0:
-                cls()
+                os.system("cls")
                 return hitcount
 
         if current_time >= next_spawn_time and len(bullets) < 20:
@@ -610,7 +607,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
                     hitcost = max(0, hitdmg_single * (uniform(0.5, 0.7) if not ls_crit else uniform(1.1, 1.9)))
                     z_sx[z_ord].hp -= hitcost
                     if z_sx[z_ord].hp <= 0:
-                        cls()
+                        os.system("cls")
                         return hitcount
                     continue 
 
@@ -620,7 +617,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
         
         bullets = surviving_bullets
 
-        cls()
+        os.system("cls")
         print("按方向键躲避弹幕。")
         print()
         for y in range(bh):
@@ -657,7 +654,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
             
         time.sleep(0.05)
 
-    cls()
+    os.system("cls")
     return hitcount
 
 def zs(var, p, q):
@@ -703,7 +700,7 @@ def mz(me, enemy):
     global fz_lsstring, ls_range, t_playerattack
 
     t_playerattack += 1
-    cls()
+    os.system("cls")
     print(fr"""      攻方                                防方""")
     cl_print(f"""      {me}                               {enemy}""", "yellow", "")
     print(r"""
@@ -768,8 +765,56 @@ def mz(me, enemy):
 
     return l
 
+def first_run():
+    save_p = os.path.join(os.getcwd(), "Datasave")
+    ini_p = os.path.join(save_p, "configs.ini")
+    isfirst = False
+    ini_init = """[Fundamental]
+first_run = True"""
+    ini_save = []
+
+    os.makedirs(save_p, exist_ok = True)
+
+    if not os.path.exists(ini_p):
+        isfirst = True
+        with open(ini_p, "w", encoding = "utf-8") as f:
+            f.write(ini_init)
+
+    with open(ini_p, "r", encoding = "utf-8") as f:
+        ls_r = f.readlines()
+
+    for i in ls_r:
+        if not i.strip():
+            continue
+        else:
+            ini_save.append(i.strip())
+
+    del ls_r
+
+    for l in ini_save:
+        if l.startswith("first_run"):
+            if l.split("=")[1].strip().lower() == "true":
+                isfirst = True
+            else:
+                isfirst = False
+
+    if isfirst:
+        os.system("start notepad.exe requirements.txt")
+        zf("请先务必阅读 requirements.txt 以确保你已安装了所有依赖库。", "text")
+        os.system("cls")
+        
+        for l in ini_save:
+            if l.startswith("first_run"):
+                ini_save.remove(l)
+                ini_save.append("first_run = False")
+                break
+
+        with open(ini_p, "w", encoding = "utf-8") as f:
+            f.write("\n".join(ini_save))
+
 if __name__ == "__main__":
-    cls()
+    first_run()
+    os.system("cls")
     pgm.mixer.init()
 
     zf("…………", "aqua")
@@ -892,7 +937,7 @@ if __name__ == "__main__":
             else:
                 d_sx[k].tenergy = zs(zf(f"第 {k + 1} 位看守者的起始精力？", "inp"), 1, float("inf"))
         d_sx[k].energy = d_sx[k].tenergy
-    cls()
+    os.system("cls")
 
     if sf_zwz == "1":
         for ls in range(z_amount): # 随机分配角色的位置。
@@ -1257,7 +1302,7 @@ def z_move(num):
     for i in range(2):
         turn_index += 1
 
-        cls()
+        os.system("cls")
 
         if qj_intro == False:
             print("""| Z | 表示你的位置，| D | 表示看守者的位置，| . | 表示空格子，| Z , D | 表示你和看守者在同一格子内；| ; | 表示障碍物，不可通行；
@@ -1347,7 +1392,7 @@ def z_move(num):
             continue
 
 def d_move(num):
-    cls()
+    os.system("cls")
     x_change = True
     ls_caughtzf = ""
     ls_slipped = ""
@@ -1653,7 +1698,7 @@ except KeyboardInterrupt:
     fin()
     sys.exit(1)
 
-cls()
+os.system("cls")
 if ls_crit:
     bf("Dodged.wav", 1)
 
