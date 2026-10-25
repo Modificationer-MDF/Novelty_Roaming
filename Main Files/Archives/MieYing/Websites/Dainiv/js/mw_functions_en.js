@@ -2256,7 +2256,7 @@ async function zd({ str, tit, id, realstr = false, form = "dainiv basic" }) {
         if (name === "ReferenceError") {
             if (msg.includes(" is not defined")) {
                 const v = grab(/(.+) is not defined/);
-                return [`Referred undefined variable or function "<code class="var">${v || "?"}</code>".`, name];
+                return [`Referenced undefined variable or function "<code class="var">${v || "?"}</code>".`, name];
             }
             if (msg.includes("Cannot access")) {
                 const v = grab(/Cannot access '(.+?)'/);
