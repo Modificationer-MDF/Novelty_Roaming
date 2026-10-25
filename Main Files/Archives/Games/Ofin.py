@@ -1,8 +1,114 @@
 # -*- coding: utf-8 -*-
+import os
+
+save_p = os.path.join(os.getcwd(), "Datasave")
+ini_p = os.path.join(save_p, "configs.ini")
+
+def ini_add(p, add): # p：路径；add：要添加的字符串。
+    if not os.path.exists(p):
+        with open(p, "w", encoding = "utf-8") as f:
+            f.write(add)
+        return
+    else:
+        with open(p, "r", encoding = "utf-8") as f:
+            ls_r = f.readlines()
+        ls_save = []
+        for i in ls_r:
+            ls_save.append(i.strip())
+        del ls_r
+        ls_save.append(add)
+        with open(p, "w", encoding = "utf-8") as f:
+            f.write("\n".join(ls_save))
+
+def ini_rep(p, var, value): # p：路径；var：要查找的变量；value：要替换的值。
+    if not os.path.exists(p):
+        raise FileNotFoundError(f"文件 {p} 不存在。")
+    else:
+        with open(p, "r", encoding = "utf-8") as f:
+            ls_r = f.readlines()
+        ls_save = []
+        for i in ls_r:
+            if not i.strip():
+                continue
+            else:
+                ls_save.append(i.strip())
+        del ls_r
+        for l in range(len(ls_save)):
+            if ls_save[l].startswith(var):
+                ls_save[l] = f"{var} = {value}"
+                break
+        with open(p, "w", encoding = "utf-8") as f:
+            f.write("\n".join(ls_save))
+
+def ini_getvalue(p, var): # p：路径；var：要查找的变量。
+    if not os.path.exists(p):
+        raise FileNotFoundError(f"文件 {p} 不存在。")
+    else:
+        with open(p, "r", encoding = "utf-8") as f:
+            ls_r = f.readlines()
+        ls_save = []
+        for i in ls_r:
+            if not i.strip():
+                continue
+            else:
+                ls_save.append(i.strip())
+        del ls_r
+        for l in ls_save:
+            if l.startswith(var):
+                return l.split("=")[1].strip()
+        return "不存在。"
+
+def ini_secexist(p, sec): # p：路径；sec：要寻找的节。
+    if not os.path.exists(p):
+        raise FileNotFoundError(f"文件 {p} 不存在。")
+    else:
+        with open(p, "r", encoding = "utf-8") as f:
+            ls_r = f.readlines()
+        ls_save = []
+        for i in ls_r:
+            if not i.strip():
+                continue
+            else:
+                ls_save.append(i.strip())
+        del ls_r
+        for l in ls_save:
+            if l.startswith(sec):
+                return True
+        return False
+
+def firstrun():
+    isfirst = False
+    ini_init = """[Fundamental]
+first_run = True
+\n
+[Rating]
+"""
+
+    os.makedirs(save_p, exist_ok = True)
+
+    if not os.path.exists(ini_p):
+        isfirst = True
+        ini_add(ini_p, ini_init)
+
+    if ini_getvalue(ini_p, "first_run").lower() == "true":
+        isfirst = True
+    else:
+        isfirst = False
+
+    if isfirst:
+        os.system("cls")
+        if os.path.exists("requirements.txt"):
+            os.system("start notepad.exe requirements.txt")
+            print("请先务必阅读 requirements.txt 以确保你已安装了所有依赖库。")
+            os.system("pause > nul")
+            os.system("cls")
+            ini_rep(ini_p, "first_run", False)
+
+firstrun()
+
 from random import *
 import rich.progress as rp
 from rich.console import Console
-import os
 import time
 import sys
 import math
@@ -304,6 +410,22 @@ def fin():
     print("-------------------------")
     jdt(qj_rank, qj_trank, "YOUR", "score", "ascending", "分", bw = qj_bw)
     print()
+
+    if ini_secexist(ini_p, "[Rating]") == False:
+        ini_add(ini_p, "[Rating]")    
+    else:
+        highscr = ini_getvalue(ini_p, "best_score")
+        lowscr = ini_getvalue(ini_p, "worst_score")
+        if highscr == "不存在。":
+            ini_add(ini_p, f"best_score = {qj_rank}")
+        else:
+            ini_rep(ini_p, "best_score", max(float(highscr), qj_rank))
+
+        if lowscr == "不存在。":
+            ini_add(ini_p, f"worst_score = {qj_rank}")
+        else:
+            ini_rep(ini_p, "worst_score", min(float(lowscr), qj_rank))
+    
     zf("以上是你的分数和评级。", "text")
 
     if qj_rank / qj_trank >= 1:
@@ -765,55 +887,7 @@ def mz(me, enemy):
 
     return l
 
-def first_run():
-    save_p = os.path.join(os.getcwd(), "Datasave")
-    ini_p = os.path.join(save_p, "configs.ini")
-    isfirst = False
-    ini_init = """[Fundamental]
-first_run = True"""
-    ini_save = []
-
-    os.makedirs(save_p, exist_ok = True)
-
-    if not os.path.exists(ini_p):
-        isfirst = True
-        with open(ini_p, "w", encoding = "utf-8") as f:
-            f.write(ini_init)
-
-    with open(ini_p, "r", encoding = "utf-8") as f:
-        ls_r = f.readlines()
-
-    for i in ls_r:
-        if not i.strip():
-            continue
-        else:
-            ini_save.append(i.strip())
-
-    del ls_r
-
-    for l in ini_save:
-        if l.startswith("first_run ="):
-            if l.split("=")[1].strip().lower() == "true":
-                isfirst = True
-            else:
-                isfirst = False
-
-    if isfirst:
-        os.system("start notepad.exe requirements.txt")
-        zf("请先务必阅读 requirements.txt 以确保你已安装了所有依赖库。", "text")
-        os.system("cls")
-        
-        for l in ini_save:
-            if l.startswith("first_run ="):
-                ini_save.remove(l)
-                ini_save.append("first_run = False")
-                break
-
-        with open(ini_p, "w", encoding = "utf-8") as f:
-            f.write("\n".join(ini_save))
-
 if __name__ == "__main__":
-    first_run()
     os.system("cls")
     pgm.mixer.init()
 
@@ -1375,9 +1449,10 @@ def z_move(num):
                         if et == -1:
                             return
                 elif kb.is_pressed("esc"):
+                    print()
                     ls_res = xz("是否退出？", ["是。", "否。"])
                     if ls_res == "1":
-                        sys.exit(0)
+                        fin()
                     else:
                         zf("继续游戏，本次跳过，角色精力将恢复一部分。", "text")
                         z_sx[num].energy += uniform(0.4, 0.8)
