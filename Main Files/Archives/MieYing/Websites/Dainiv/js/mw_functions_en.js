@@ -317,7 +317,7 @@ async function noti({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             inf.style.transition = `all 0.2s ${easing}`;
             okey.type = "button";
             okey.className = "noti-zx";
-            okey.innerHTML = "Understood";
+            okey.innerHTML = "Acknowledged";
             okey.style.transition = `all 0.2s ${easing}`;
             okey.style.opacity = 0;
             count.className = "noti-count";
@@ -542,7 +542,7 @@ async function cg({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             inf.style.transition = `all 0.2s ${easing}`;
             okey.type = "button";
             okey.className = "cg-zx";
-            okey.innerHTML = "Understood";
+            okey.innerHTML = "Acknowledged";
             okey.style.transition = `all 0.2s ${easing}`;
             okey.style.opacity = 0;
             count.className = "cg-count";
@@ -766,7 +766,7 @@ async function warn({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             inf.style.transition = `all 0.2s ${easing}`;
             okey.type = "button";
             okey.className = "warn-zx";
-            okey.innerHTML = "Understood";
+            okey.innerHTML = "Acknowledged";
             okey.style.transition = `all 0.2s ${easing}`;
             okey.style.opacity = 0;
             count.className = "warn-count";
@@ -989,7 +989,7 @@ async function fail({ str, tit, id, realstr = false, form = "dainiv basic" }) {
             inf.style.transition = `all 0.2s ${easing}`;
             okey.type = "button";
             okey.className = "fail-zx";
-            okey.innerHTML = "Understood";
+            okey.innerHTML = "Acknowledged";
             okey.style.transition = `all 0.2s ${easing}`;
             okey.style.opacity = 0;
             count.className = "fail-count";
