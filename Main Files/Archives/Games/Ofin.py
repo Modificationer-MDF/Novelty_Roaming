@@ -415,16 +415,26 @@ def fin():
         ini_add(ini_p, "[Rating]")    
     else:
         highscr = ini_getvalue(ini_p, "best_score")
+        highper = ini_getvalue(ini_p, "best_percentage")
         lowscr = ini_getvalue(ini_p, "worst_score")
+        lowper = ini_getvalue(ini_p, "worst_percentage")
         if highscr == "不存在。":
-            ini_add(ini_p, f"best_score = {qj_rank}")
+            ini_add(ini_p, f"best_score = {qj_rank:.3f}")
         else:
-            ini_rep(ini_p, "best_score", max(float(highscr), qj_rank))
+            ini_rep(ini_p, "best_score", round(max(float(highscr), qj_rank), 3))
+        if highper == "不存在。":
+            ini_add(ini_p, f"best_percentage = {(qj_rank / qj_trank * 100):.3f}%")
+        else:
+            ini_rep(ini_p, "best_percentage", round(max(float(highper.strip("%")), qj_rank / qj_trank * 100), 3))
 
         if lowscr == "不存在。":
-            ini_add(ini_p, f"worst_score = {qj_rank}")
+            ini_add(ini_p, f"worst_score = {qj_rank:.3f}")
         else:
-            ini_rep(ini_p, "worst_score", min(float(lowscr), qj_rank))
+            ini_rep(ini_p, "worst_score", round(min(float(lowscr), qj_rank), 3))
+        if lowper == "不存在。":
+            ini_add(ini_p, f"worst_percentage = {(qj_rank / qj_trank * 100):.3f}%")
+        else:
+            ini_rep(ini_p, "worst_percentage", round(min(float(lowper.strip("%")), qj_rank / qj_trank * 100), 3))
     
     zf("以上是你的分数和评级。", "text")
 
@@ -718,6 +728,7 @@ def dm(z_ord, hitdmg_single): # 躲避弹幕。
             # 碰撞检测。
             if b[0] == px and b[1] == py:
                 if b[4] == "red":
+                    hitcount += 1
                     # KR 子弹：应用 Sans 式扣血，并记录最大时长。
                     if z_sx[z_ord].kr == 0:
                         z_sx[z_ord].kr = b[5]
@@ -1735,6 +1746,7 @@ try:
                 processed_thisround.update(battle_z)
             elif z_sx[a].exist and len(z_sx[a].zdz) == 0 and z_sx[a].jz <= 0:
                     z_move(a)
+            z_sx[a].jz -= 1
 
         for b in range(d_amount):
             if d_sx[b].dizzy and d_sx[b].exist:
