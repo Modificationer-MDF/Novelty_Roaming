@@ -97,6 +97,7 @@ first_run = True
 
     if isfirst:
         os.system("cls")
+        print("首次启动可能会耗费些许时间……")
         if os.path.exists("requirements.txt"):
             os.system("start notepad.exe requirements.txt")
             print("请先务必阅读 requirements.txt 以确保你已安装了所有依赖库。")
