@@ -193,7 +193,7 @@ color = {
     "辛": "#ff00ff", # Critical
     "壬": "#ff1493", # Nightmare
     "癸": "#ff0000", # Disaster -
-    "descending": "#8b1a1a", # Down
+    "OUT": "#8b1a1a", # Down
     "error": "#8b1a1a",
     "inp": "#ffd700",
     "xz": "#00ff7f",
@@ -336,7 +336,7 @@ def jdt(current, total, ch, typ, srt, unit, bw = 100):
             elif 0 <= current < 0.1 * total:
                 t_color = "癸"
             else:
-                t_color = "descending"
+                t_color = "OUT"
         elif srt == "descending":
             if current >= 0.9 * total:
                 t_color = "癸"
@@ -359,7 +359,7 @@ def jdt(current, total, ch, typ, srt, unit, bw = 100):
             elif 0 <= current < 0.1 * total:
                 t_color = "甲"
             else:
-                t_color = "descending"
+                t_color = "OUT"
 
         column.append(rp.TextColumn(f"[{color[t_color]}][{t_color}] {ch} {typ.upper()}： {current:.3f} {unit} / {total:.3f} {unit}。"))
         task = progress.add_task("", total=total)
@@ -425,7 +425,7 @@ def fin():
         if highper == "不存在。":
             ini_add(ini_p, f"best_percentage = {(qj_rank / qj_trank * 100):.3f}%")
         else:
-            ini_rep(ini_p, "best_percentage", round(max(float(highper.strip("%")), qj_rank / qj_trank * 100), 3))
+            ini_rep(ini_p, "best_percentage", f"{round(max(float(highper.strip("%")), qj_rank / qj_trank * 100), 3)}%")
 
         if lowscr == "不存在。":
             ini_add(ini_p, f"worst_score = {qj_rank:.3f}")
@@ -434,7 +434,7 @@ def fin():
         if lowper == "不存在。":
             ini_add(ini_p, f"worst_percentage = {(qj_rank / qj_trank * 100):.3f}%")
         else:
-            ini_rep(ini_p, "worst_percentage", round(min(float(lowper.strip("%")), qj_rank / qj_trank * 100), 3))
+            ini_rep(ini_p, "worst_percentage", f"{round(min(float(lowper.strip("%")), qj_rank / qj_trank * 100), 3)}%")
     
     zf("以上是你的分数和评级。", "text")
 
@@ -1359,7 +1359,7 @@ def z_move(num):
         else:
             if i == 3:
                 zf(f"如果，你非要向{fx}走的话……", "red")
-            z_hitwall = uniform(0.25, 0.49) * math.sqrt(z_sx[num].thp * randint(14, 22) + i ** i)
+            z_hitwall = uniform(0.11, 0.19) * math.sqrt(z_sx[num].thp * randint(14, 22) + i ** i)
             zf(f"Z - {num} 撞向了{fx}方的墙壁！丧失了 {z_hitwall:.3f} HP。", "辛")
             z_sx[num].hp -= z_hitwall
             chase(num, False) # 招引看守者。
