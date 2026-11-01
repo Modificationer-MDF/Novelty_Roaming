@@ -452,7 +452,7 @@ def fin():
             zf("下次请让系统随机生成 HP 以证明你的能力。", "cyan")
 
         if sf_zenergy == "2" or sf_denergy == "2": # 判断 ENERGY 来源。
-            zf("下次请让系统随机生成 HP。", "cyan")
+            zf("下次请让系统随机生成 ENERGY。", "cyan")
     elif qj_rank <= 0:
         bf("Twisted Victory.wav", 1)
         zf("如果实在不会玩，可以修改源代码。建议修改 dm() 和 gj() 处计算逻辑。", "cyan")
@@ -824,7 +824,7 @@ def bf(track, l):
         pgm.mixer.music.stop()
         pgm.mixer.music.unload()
         pgm.mixer.music.load(track)
-        pgm.mixer.music.play(loops=l)
+        pgm.mixer.music.play(loops = l)
         
         current_track = track
     except pgm.error:
