@@ -938,7 +938,6 @@ if __name__ == "__main__":
     print()
     zf("…………", "aqua")
 
-    sf_zwz = xz("是否使用随机生成的起始位置？", ["是。", "否。"])
     sf_zhp = xz("是否使用随机生成的 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
     sf_zenergy = xz("是否使用随机生成的精力？（范围在 5 到 59 之间）", ["是。", "否。"])
     
@@ -957,9 +956,6 @@ if __name__ == "__main__":
                     else:
                         z_sx[i].thp = ls_zhp1
                         break
-                if sf_zwz != "1": # 不使用随机生成的起始位置。
-                    z_x.append(zs(zf("角色起始纵坐标？（X 从 0 开始）", "inp"), 0, maze_size - 1))
-                    z_y.append(zs(zf("角色起始横坐标？（Y 从 0 开始）", "inp"), 0, maze_size - 1))
             else: # 多位玩家。
                 while True:
                     ls_zhp2 = zs(zf(f"第 {i + 1} 位角色的起始 HP？", "inp"), 1, float("inf"))
@@ -971,10 +967,7 @@ if __name__ == "__main__":
                     else:
                         z_sx[i].thp = ls_zhp2
                         break
-                if sf_zwz != "1": # 不使用随机生成的起始位置。
-                    z_x.append(zs(zf(f"第 {i + 1} 位角色的起始纵坐标？（X 从 0 开始）", "inp"), 0, maze_size - 1))
-                    z_y.append(zs(zf(f"第 {i + 1} 位角色的起始横坐标？（Y 从 0 开始）", "inp"), 0, maze_size - 1))
-        
+                    
         z_sx[i].hp = z_sx[i].thp        
 
     for j in range(z_amount):
@@ -1024,12 +1017,11 @@ if __name__ == "__main__":
         d_sx[k].energy = d_sx[k].tenergy
     os.system("cls")
 
-    if sf_zwz == "1":
-        for ls in range(z_amount): # 随机分配角色的位置。
-            ls_zx = randint(0, maze_size - 1)
-            ls_zy = randint(0, maze_size - 1)
-            z_x.append(ls_zx)
-            z_y.append(ls_zy)
+    for ls in range(z_amount): # 随机分配角色的位置。
+        ls_zx = randint(0, maze_size - 1)
+        ls_zy = randint(0, maze_size - 1)
+        z_x.append(ls_zx)
+        z_y.append(ls_zy)
 
     for ls in range(d_amount): # 随机分配监视者的位置。
         ls_dx = randint(0, maze_size - 1)
