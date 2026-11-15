@@ -1508,8 +1508,8 @@ def tutorial():
         d_amount = d_count
 
         # 1. 重置实体属性。
-        z_sx = [Z(250, 100, 50, 50, f"Z - {i}", 5, 0.5, 5, 10, True, [], 0, False, 0, 0) for i in range(z_count)]
-        d_sx = [D(250, 100, 50, 50, f"D - {i}", 5, 0.5, 5, 10, True, [], 0, False) for i in range(d_count)]
+        z_sx = [Z(250, 250, 50, 50, f"Z - {i}", 5, 0.5, 5, 10, True, [], 0, False, 0, 0) for i in range(z_count)]
+        d_sx = [D(250, 250, 50, 50, f"D - {i}", 5, 0.5, 5, 10, True, [], 0, False) for i in range(d_count)]
         
         z_x, z_y = [p[0] for p in z_pos], [p[1] for p in z_pos]
         d_x, d_y = [p[0] for p in d_pos], [p[1] for p in d_pos]
