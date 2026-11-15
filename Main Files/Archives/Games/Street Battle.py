@@ -8,6 +8,7 @@ import time
 import sys
 import math
 import keyboard as kb
+import webbrowser as wb
 cs = Console()
 
 f_hp = [60, 66, 71, 77, 83, 90, 96, 102, 108, 114, 120, 124, 130, 135, 141, 150]
@@ -129,12 +130,12 @@ era_atk = [23]
 era_crit = [0.33]
 era_jc = [10]
 
-ert_hp = [99]
-ert_energy = [68]
-ert_fy = [10]
-ert_atk = [11]
-ert_crit = [0.49]
-ert_jc = [12]
+lielu_hp = [99]
+lielu_energy = [68]
+lielu_fy = [10]
+lielu_atk = [11]
+lielu_crit = [0.49]
+lielu_jc = [12]
 
 he_hp = [94]
 he_energy = [56]
@@ -204,8 +205,8 @@ all_names = [
     "Cls",
     "Ir",
     "Lx",
-    "MdfSt",
-    "Xszy",
+    "Modif Shatel",
+    "Xusu Ziye",
     "Cf",
     "Ch",
     "Cy",
@@ -213,13 +214,13 @@ all_names = [
     "Qsh",
     "Ql",
     "Cbmd",
-    "Era",
-    "Ert",
+    "Era Epoch",
+    "Lie Lu",
     "He",
     "Icr",
     "Lh",
-    "NoWi",
-    "Oj",
+    "Notification Withdrawer",
+    "Opportunity Joyousness",
     "K",
 ]
 
@@ -441,14 +442,12 @@ try:
                 var = zf("请重新输入一个浮点数：", "error")
 
     def pronoun(char):
-        if char == "Wzkx" or char == "Ir" or char == "Ch" or char == "Qs" or char == "Ert" or char == "He" or char == "Lh" or char == "K":
+        if char == "Wzkx" or char == "Ir" or char == "Ch" or char == "Qs" or char == "Lie Lu" or char == "Era Epoch" or char == "Lh" or char == "K":
             return "他"
-        elif char == "Fn" or char == "Tcny" or char == "Zw" or char == "Cls" or char == "Lx" or char == "Xszy" or char == "Cf" or char == "Cy" or char == "Qsh" or char == "Ql" or char == "Cbmd" or char == "Icr" or char == "Oj":
+        elif char == "Fn" or char == "Tcny" or char == "Zw" or char == "Cls" or char == "Lx" or  char == "He" or char == "Xusu Ziye" or char == "Cf" or char == "Cy" or char == "Qsh" or char == "Ql" or char == "Cbmd" or char == "Icr" or char == "Opportunity Joyousness":
             return "她"
-        elif char == "MdfSt":
+        elif char == "Modif Shatel":
             return "他们"
-        elif char == "Era" or char == "NoWi":
-            return "祂"
         else:
             return "其"
 
@@ -597,7 +596,7 @@ try:
                 print()
                 for k in range(z_amount):
                     z_damage.append(randint(6, 9) + zj_atk[k])
-                    if z_name[k] == "MdfSt" or z_name[k] == "Xszy":
+                    if z_name[k] == "Modif Shatel" or z_name[k] == "Xusu Ziye":
                         z_acc.append(5)
                         zf(f"{k} - {z_name[k]} 打出了精准的一招，这对{pronoun(z_name[k])}来说并不是什么难事。", "甲")
                         z_damage[k] *= (1 + zj_crit[k] / 10)
@@ -614,7 +613,7 @@ try:
                 print()
                 for l in range(d_amount):
                     d_damage.append(randint(6, 9) + d_atk[l])
-                    if d_name[l] == "MdfSt" or d_name[l] == "Xszy":
+                    if d_name[l] == "Modif Shatel" or d_name[l] == "Xusu Ziye":
                         d_acc.append(5)
                         zf(f"{l} - {d_name[l]} 打出了精准的一招，这对{pronoun(d_name[l])}来说并不是什么难事。", "癸")
                         d_damage[l] *= (1 + d_crit[l] / 10)
@@ -910,8 +909,8 @@ try:
         5 - Cls；
         6 - Ir；
         7 - Lx；
-        8 - MdfSt；
-        9 - Xszy；
+        8 - Modif Shatel；
+        9 - Xusu Ziye；
         10 - Cf；
         11 - Ch；
         12 - Cy；
@@ -924,8 +923,8 @@ try:
         19 - He；
         20 - Icr；
         21 - Lh；
-        22 - NoWi；
-        23 - Oj；
+        22 - Notification Withdrawer；
+        23 - Opportunity Joyousness；
         24 - K。
     """, "text")
 
@@ -1097,14 +1096,14 @@ try:
                         d_crit.append(era_crit[ls_dml])
                         d_jc.append(era_jc[ls_dml])
                     case 18:
-                        ds_hp.append(ert_hp[ls_dml])
+                        ds_hp.append(lielu_hp[ls_dml])
                         dt_hp.append(ds_hp[i])
-                        ds_energy.append(ert_energy[ls_dml])
+                        ds_energy.append(lielu_energy[ls_dml])
                         dt_energy.append(ds_energy[i])
-                        d_atk.append(ert_atk[ls_dml])
-                        d_fy.append(ert_fy[ls_dml])
-                        d_crit.append(ert_crit[ls_dml])
-                        d_jc.append(ert_jc[ls_dml])
+                        d_atk.append(lielu_atk[ls_dml])
+                        d_fy.append(lielu_fy[ls_dml])
+                        d_crit.append(lielu_crit[ls_dml])
+                        d_jc.append(lielu_jc[ls_dml])
                     case 19:
                         ds_hp.append(he_hp[ls_dml])
                         dt_hp.append(ds_hp[i])
@@ -1211,8 +1210,8 @@ try:
         5 - Cls；
         6 - Ir；
         7 - Lx；
-        8 - MdfSt；
-        9 - Xszy；
+        8 - Modif Shatel；
+        9 - Xusu Ziye；
         10 - Cf；
         11 - Ch；
         12 - Cy；
@@ -1225,8 +1224,8 @@ try:
         19 - He；
         20 - Icr；
         21 - Lh；
-        22 - NoWi；
-        23 - Oj；
+        22 - Notification Withdrawer；
+        23 - Opportunity Joyousness；
         24 - K。
     """, "text")
 
@@ -1398,14 +1397,14 @@ try:
                         zj_fy.append(era_fy[ls_zml])
                         zj_jc.append(era_jc[ls_zml])
                     case 18:
-                        zs_hp.append(ert_hp[ls_zml])
-                        zt_hp.append(ert_hp[ls_zml])
-                        zs_energy.append(ert_energy[ls_zml])
-                        zt_energy.append(ert_energy[ls_zml])
-                        zj_atk.append(ert_atk[ls_zml])
-                        zj_crit.append(ert_crit[ls_zml])
-                        zj_fy.append(ert_fy[ls_zml])
-                        zj_jc.append(ert_jc[ls_zml])
+                        zs_hp.append(lielu_hp[ls_zml])
+                        zt_hp.append(lielu_hp[ls_zml])
+                        zs_energy.append(lielu_energy[ls_zml])
+                        zt_energy.append(lielu_energy[ls_zml])
+                        zj_atk.append(lielu_atk[ls_zml])
+                        zj_crit.append(lielu_crit[ls_zml])
+                        zj_fy.append(lielu_fy[ls_zml])
+                        zj_jc.append(lielu_jc[ls_zml])
                     case 19:
                         zs_hp.append(he_hp[ls_zml])
                         zt_hp.append(he_hp[ls_zml])
@@ -1518,7 +1517,7 @@ try:
                 hushenfu_ord = zf(f"请为{pronoun(z_name[i])}选择合适的护身符：", "inp")
                 hushenfu_ord = zs(hushenfu_ord, 0, 20)
                 if (ls_zord == 36):
-                    if z_name[i] == "MdfSt" or z_name[i] == "Xszy":
+                    if z_name[i] == "Modif Shatel" or z_name[i] == "Xusu Ziye":
                         ls_wuqi = randint(21, 127)
                     else:
                         ls_wuqi = randint(1, 20)
@@ -1528,7 +1527,7 @@ try:
                     zf(f"这会使{pronoun(z_name[i])}的 JC 增加 5。", "text")
                     z_jc[i] += 5
                 elif (hushenfu_ord == 20):
-                    if z_name[i] == "MdfSt" or z_name[i] == "Xszy":
+                    if z_name[i] == "Modif Shatel" or z_name[i] == "Xusu Ziye":
                         ls_hushenfu = randint(21, 127)
                     else:
                         ls_hushenfu = randint(1, 20)
@@ -1546,7 +1545,7 @@ try:
                 hushenfu_ord = zf(f"请为{pronoun(d_name[j])}选择合适的护身符：", "inp")
                 hushenfu_ord = zs(hushenfu_ord, 0, 20)
                 if (ls_dord == 36):
-                    if d_name[j] == "MdfSt" or d_name[j] == "Xszy":
+                    if d_name[j] == "Modif Shatel" or d_name[j] == "Xusu Ziye":
                         ls_wuqi = randint(21, 127)
                     else:
                         ls_wuqi = randint(1, 20)
@@ -1556,7 +1555,7 @@ try:
                     zf(f"这会使{pronoun(d_name[j])}的 JC 增加 5。", "text")
                     d_jc[j] += 5
                 elif (hushenfu_ord == 20):
-                    if d_name[j] == "MdfSt" or d_name[j] == "Xszy":
+                    if d_name[j] == "Modif Shatel" or d_name[j] == "Xusu Ziye":
                         ls_hushenfu = randint(21, 127)
                     else:
                         ls_hushenfu = randint(1, 20)
@@ -1622,38 +1621,38 @@ try:
     while jd != 3 :
         if (turns >= 7 and police_join == True):
             os.system("cls")
-            zf("“你们不要再打了，最好束手就擒！” Oj 带领着警方团队出现，拉起了警戒线，驱散观众离开。", "癸")
+            zf("“你们不要再打了，最好束手就擒！” Opportunity Joyousness 带领着警方团队出现，拉起了警戒线，驱散观众离开。", "癸")
             for b in range(z_amount):
-                if z_name[b] == "MdfSt":
-                    zf("MdfSt 瞬间消失。", "text")
+                if z_name[b] == "Modif Shatel":
+                    zf("Modif Shatel 瞬间消失。", "text")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
-                elif z_name[b] == "Xszy":
-                    zf("Xszy 见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。Oj 点了点头，放她走了。", "text")
+                elif z_name[b] == "Xusu Ziye":
+                    zf("Xusu Ziye 见状，慌忙从衣褂里拿出 Harmony Fashion 开发证明。Opportunity Joyousness 点了点头，放她走了。", "text")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
-                elif z_name[b] == "Oj":
-                    zf("你看了看四周，发现 Oj 不站在身边，而是站在警察前面。", "癸")
+                elif z_name[b] == "Opportunity Joyousness":
+                    zf("你看了看四周，发现 Opportunity Joyousness 不站在身边，而是站在警察前面。", "癸")
                     for lst in [z_name, zs_hp, zt_hp, zs_energy, zt_energy, zj_atk, zj_crit, zj_fy, zj_jc]:
                         lst.pop(b)
                         z_amount -= 1
                 else:
                     police_caught.append(z_name[b])
             for c in range(d_amount):
-                if d_name[c] == "MdfSt":
-                    zf("MdfSt 瞬间消失。", "癸")
+                if d_name[c] == "Modif Shatel":
+                    zf("Modif Shatel 瞬间消失。", "癸")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
-                elif d_name[c] == "Xszy":
-                    zf("Xszy 见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。Oj 点了点头，放她走了。", "癸")
+                elif d_name[c] == "Xusu Ziye":
+                    zf("Xusu Ziye 见状，慌忙从衣褂里拿出 Figure_Out OS 开发证明。Opportunity Joyousness 点了点头，放她走了。", "癸")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
-                elif d_name[c] == "Oj":
-                    zf("你看了看四周，发现 Oj 不站在对面，而是站在警察前面。", "癸")
+                elif d_name[c] == "Opportunity Joyousness":
+                    zf("你看了看四周，发现 Opportunity Joyousness 不站在对面，而是站在警察前面。", "癸")
                     for lst in [d_name, ds_hp, dt_hp, ds_energy, dt_energy, d_atk, d_crit, d_fy, d_jc]:
                         lst.pop(c)
                         d_amount -= 1
@@ -1661,7 +1660,7 @@ try:
                     police_caught.append(d_name[c])
             
             pc_string = "、".join(police_caught)
-            zf(f"“{pc_string}，你们被逮捕了！” Oj 严肃地通知你们。", "癸")
+            zf(f"“{pc_string}，你们被逮捕了！” Opportunity Joyousness 严肃地通知你们。", "癸")
 
             print()
             zf("模拟结束。", "text")
