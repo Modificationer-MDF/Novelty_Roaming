@@ -1507,8 +1507,8 @@ def tutorial():
         d_amount = d_count
 
         # 1. 重置实体属性。
-        z_sx = [Z(100, 100, 10, 10, f"Z - {i}", 5, 0.5, 5, 10, True, [], 0, False, 0, 0) for i in range(z_count)]
-        d_sx = [D(100, 100, 10, 10, f"D - {i}", 5, 0.5, 5, 10, True, [], 0, False) for i in range(d_count)]
+        z_sx = [Z(250, 100, 50, 50, f"Z - {i}", 5, 0.5, 5, 10, True, [], 0, False, 0, 0) for i in range(z_count)]
+        d_sx = [D(250, 100, 50, 50, f"D - {i}", 5, 0.5, 5, 10, True, [], 0, False) for i in range(d_count)]
         
         z_x, z_y = [p[0] for p in z_pos], [p[1] for p in z_pos]
         d_x, d_y = [p[0] for p in d_pos], [p[1] for p in d_pos]
@@ -1624,14 +1624,16 @@ def tutorial():
     zf("有时候 D 可能会“暴走”。", "aqua")
     zf("当场上只剩 1 个 Z，或任何一个 Z 靠近出口时，所有 D 会暴走追击。", "text")
     zf("Z 就在出口 (9,9) 旁边。请向出口移动一步，观察 D 的反应。", "text")
-    zf("如果被 D 抓到，将跳过战斗直接结束。", "text")
+    zf("如果被 D 抓到，将跳过战斗回合。", "text")
 
     setup_maze(1, 5, [(8,8)], [(randint(0, 8), randint(0, 8)), (randint(0, 8), randint(0, 8)), (randint(0, 8), randint(0, 8)), (randint(0, 8), randint(0, 8)), (randint(0, 8), randint(0, 8))], exits=[(9,9)])
     
     os.system("cls")
-    for i in range(5):
-        z_move(0, [{"current": i, "total": 5, "ch": "", "typ": "进度", "srt": "ascending", "unit": "回合"}])
-        
+    for i in range(3):
+        z_move(0, [{"current": i, "total": 3, "ch": "", "typ": "进度", "srt": "ascending", "unit": "回合"}])
+        for j in range(5):
+            d_move(j)
+
     if len(z_sx[0].zdz) > 0:
         z_sx[0].zdz = []
         for d in d_sx: d.zdz = []
@@ -1944,7 +1946,7 @@ try:
                 d_move(b)
             d_sx[b].jz -= 1
 
-        if (player_existing == 1) and (z_amount >= 3):
+        if player_existing == 1:
             ls_crit = True
 
             lone_z = -1
