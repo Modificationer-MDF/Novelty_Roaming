@@ -77,6 +77,7 @@ def ini_secexist(p, sec): # p：路径；sec：要寻找的节。
         return False
 
 def firstrun():
+    global isfirst
     isfirst = False
     ini_init = """[Fundamental]
 first_run = True
@@ -194,7 +195,7 @@ color = {
     "辛": "#ff00ff", # Critical
     "壬": "#ff1493", # Nightmare
     "癸": "#ff0000", # Disaster -
-    "OUT": "#8b1a1a", # Down
+    "DOWN": "#8b1a1a", # Down
     "error": "#8b1a1a",
     "inp": "#ffd700",
     "xz": "#00ff7f",
@@ -267,7 +268,7 @@ def output_structure(text, cl, bl):
     elif cl == "癸":
         cl = "癸"
     elif cl == "descending":
-        cl = "descending"
+        cl = "DOWN"
     elif cl == "error":
         cl = "错误"
     elif cl == "inp":
@@ -307,10 +308,10 @@ def xz(text, array):
     except:
         return False
 
-def jdt(current, total, ch, typ, srt, unit, bw = 100):
+def jdt(current, total, ch, typ, srt, unit, bw = 80):
     column = [
         rp.TextColumn("{task.description}"),
-        rp.BarColumn(bar_width=bw),
+        rp.BarColumn(bar_width = bw),
         rp.TaskProgressColumn(text_format="{task.percentage:.3f}%"),
     ]
     with rp.Progress(*column) as progress:
@@ -337,7 +338,7 @@ def jdt(current, total, ch, typ, srt, unit, bw = 100):
             elif 0 <= current < 0.1 * total:
                 t_color = "癸"
             else:
-                t_color = "OUT"
+                t_color = "DOWN"
         elif srt == "descending":
             if current >= 0.9 * total:
                 t_color = "癸"
@@ -360,7 +361,7 @@ def jdt(current, total, ch, typ, srt, unit, bw = 100):
             elif 0 <= current < 0.1 * total:
                 t_color = "甲"
             else:
-                t_color = "OUT"
+                t_color = "DOWN"
 
         column.append(rp.TextColumn(f"[{color[t_color]}][{t_color}] {ch} {typ.upper()}： {current:.3f} {unit} / {total:.3f} {unit}。"))
         task = progress.add_task("", total=total)
@@ -899,339 +900,7 @@ def mz(me, enemy):
 
     return l
 
-if __name__ == "__main__":
-    os.system("cls")
-    pgm.mixer.init()
-
-    zf("…………", "aqua")
-    maze_size = zs(zf("矩阵规模？（k × k 的正方形）", "inp"), 5, 20)
-    qj_bw = zf("进度条宽度（默认 60）？", "inp")
-    try:
-        if qj_bw == "" or 25 <= int(qj_bw) <= 125:
-            qj_bw = 60
-    except:
-        qj_bw = 60
-
-    while True:
-        print()
-        zf("…………", "aqua")
-        z_amount = zs(zf("我方数量？", "inp"), 1, float("inf"))
-
-        print()
-        zf("…………", "aqua")
-        d_amount = zs(zf("看守者数量？", "inp"), 1, float("inf"))
-
-        if z_amount + d_amount >= maze_size * maze_size:
-            zf("人数过多！重新输入！", "error")
-        else:
-            break       
-
-    z_sx = [
-        Z(0, 0, 0, 0, f"Z - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, None, 0, False, 0, 0)
-        for i in range(z_amount)
-    ]
-
-    d_sx = [
-        D(0, 0, 0, 0, f"D - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, None, 0, False)
-        for i in range(d_amount)
-    ]
-
-    print()
-    zf("…………", "aqua")
-
-    sf_zhp = xz("是否使用随机生成的 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
-    sf_zenergy = xz("是否使用随机生成的精力？（范围在 5 到 59 之间）", ["是。", "否。"])
-    
-    for i in range(z_amount):
-        if sf_zhp == "1": # 随机 HP。
-            z_sx[i].thp = randint(30, 999)
-        else: # 自行输入 HP。
-            if z_amount == 1: # 一位玩家。
-                while True:
-                    ls_zhp1 = zs(zf("角色起始 HP？", "inp"), 1, float("inf"))
-                    if ls_zhp1 < 30 or ls_zhp1 > 999:
-                        ls_rsp1 = zf("建议将 HP 设置在 30 到 999 之间。如无需更改，请按下 1。", "inp")
-                        if ls_rsp1 == "1":
-                            z_sx[i].thp = ls_zhp1
-                            break
-                    else:
-                        z_sx[i].thp = ls_zhp1
-                        break
-            else: # 多位玩家。
-                while True:
-                    ls_zhp2 = zs(zf(f"第 {i + 1} 位角色的起始 HP？", "inp"), 1, float("inf"))
-                    if ls_zhp2 < 30 or ls_zhp2 > 999:
-                        ls_rsp2 = zf("建议将 HP 设置在 30 到 999 之间。如无需更改，请按下 1。", "inp")
-                        if ls_rsp2 == "1":
-                            z_sx[i].thp = ls_zhp2
-                            break
-                    else:
-                        z_sx[i].thp = ls_zhp2
-                        break
-                    
-        z_sx[i].hp = z_sx[i].thp        
-
-    for j in range(z_amount):
-        if sf_zenergy == "1": # 随机精力。
-            z_sx[j].tenergy = randint(5, 59)
-        else:
-            while True:
-                if z_amount == 1: # 一位玩家。
-                    ls_zenergy = zs(zf("角色起始精力？", "inp"), 1, float("inf"))
-                else: # 多位玩家。
-                    ls_zenergy = zs(zf(f"第 {j + 1} 位角色的起始精力？", "inp"), 1, float("inf"))
-                
-                if ls_zenergy < 5 or ls_zenergy > 59:
-                    ls_rsp3 = zf("建议将精力设置在 5 到 59 之间。如无需更改，请按下 1。", "inp")
-                    if ls_rsp3 == "1":
-                        z_sx[j].tenergy = ls_zenergy
-                        break
-                else:
-                    z_sx[j].tenergy = ls_zenergy
-                    break        
-
-        z_sx[j].energy = z_sx[j].tenergy
-
-    print()
-    zf("…………", "aqua")
-    sf_dhp = xz("是否使用随机生成的看守者 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
-    sf_denergy = xz("是否使用随机生成的看守者精力？（范围在 5 到 59 之间）", ["是。", "否。"])
-    
-    for j in range(d_amount):
-        if sf_dhp == "1":
-            d_sx[j].thp = randint(30, 999)
-        else:
-            if d_amount == 1:
-                d_sx[j].thp = zs(zf("看守者起始 HP？", "inp"), 1, float("inf"))
-            else:
-                d_sx[j].thp = zs(zf(f"第 {j + 1} 位看守者的起始 HP？", "inp"), 1, float("inf"))
-        d_sx[j].hp = d_sx[j].thp
-
-    for k in range(d_amount):
-        if sf_denergy == "1":
-            d_sx[k].tenergy = randint(5, 59)
-        else:
-            if d_amount == 1:
-                d_sx[k].tenergy = zs(zf("看守者起始精力？", "inp"), 1, float("inf"))
-            else:
-                d_sx[k].tenergy = zs(zf(f"第 {k + 1} 位看守者的起始精力？", "inp"), 1, float("inf"))
-        d_sx[k].energy = d_sx[k].tenergy
-    os.system("cls")
-
-    for ls in range(z_amount): # 随机分配角色的位置。
-        ls_zx = randint(0, maze_size - 1)
-        ls_zy = randint(0, maze_size - 1)
-        z_x.append(ls_zx)
-        z_y.append(ls_zy)
-
-    for ls in range(d_amount): # 随机分配监视者的位置。
-        ls_dx = randint(0, maze_size - 1)
-        ls_dy = randint(0, maze_size - 1)
-        d_x.append(ls_dx)
-        d_y.append(ls_dy)
-        
-    player_step = 0
-    maze = [["| . |" for i in range(maze_size)] for j in range(maze_size)]
-
-    for h in range(z_amount):
-        for i in range(maze_size):
-            for j in range(maze_size):
-                if i == z_x[h] and j == z_y[h] and z_sx[h].exist:
-                    if "Z" in maze[i][j] or "D" in maze[i][j]:
-                        maze[i][j] = maze[i][j][:-2] + f", Z - {h} |"
-                    elif maze[i][j] == "| . |":
-                        maze[i][j] = f"| Z - {h} |"
-
-    for l in range(d_amount):
-        for m in range(maze_size):
-            for n in range(maze_size):
-                if m == d_x[l] and n == d_y[l] and d_sx[l].exist:
-                    if "D" in maze[m][n] or "Z" in maze[m][n]:
-                        maze[m][n] = maze[m][n][:-2] + f", D - {l} |"
-                    elif maze[m][n] == "| . |":
-                        maze[m][n] = f"| D - {l} |"
-
-    o_amount = randint(0, math.floor(math.sqrt(abs(maze_size ** 1.5 - z_amount - d_amount)))) # 障碍物总量。
-    o_x = [] # 障碍物 X 坐标列表。
-    o_y = [] # 障碍物 Y 坐标列表。
-
-    w_amount = randint(0, math.floor(math.sqrt(abs(maze_size ** 1.5 - z_amount + d_amount)))) # 水洼总量。
-    w_x = [] # 水洼 X 坐标列表。
-    w_y = [] # 水洼 Y 坐标列表。
-
-    r_amount = randint(0, math.floor((o_amount + w_amount) * uniform(0.3, 0.6))) # 随机事件格数量。
-    r_x = [] # 随机事件格 X 坐标列表。
-    r_y = [] # 随机事件格 Y 坐标列表。
-
-    e_amount = round(max(math.sqrt(maze_size ** 2 / 21), 1))
-    e_x = []
-    e_y = []
-
-    for i in range(o_amount):
-        while True:
-            ls_ox = randint(0, maze_size - 1)
-            ls_oy = randint(0, maze_size - 1)
-            if maze[ls_ox][ls_oy] == "| . |":
-                o_x.append(ls_ox)
-                o_y.append(ls_oy)
-                break
-
-    for i in range(w_amount):
-        while True:
-            ls_wx = randint(0, maze_size - 1)
-            ls_wy = randint(0, maze_size - 1)
-            if maze[ls_wx][ls_wy] == "| . |":
-                w_x.append(ls_wx)
-                w_y.append(ls_wy)
-                break
-
-    for i in range(r_amount):
-        while True:
-            ls_rx = randint(0, maze_size - 1)
-            ls_ry = randint(0, maze_size - 1)
-            if maze[ls_rx][ls_ry] == "| . |":
-                r_x.append(ls_rx)
-                r_y.append(ls_ry)
-                break
-
-    for i in range(e_amount):
-        while True:
-            ls_ex = randint(0, maze_size - 1)
-            ls_ey = randint(0, maze_size - 1)
-            if maze[ls_ex][ls_ey] == "| . |":
-                e_x.append(ls_ex)
-                e_y.append(ls_ey)
-                break
-
-def random_event(sort, num):
-    global monitor_out, random_dout, player_out, random_zout
-    def hp_recover():
-        if sort == "z":
-            hp_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].thp * randint(9, 15))
-            z_sx[num].hp += hp_recover
-            zf(f"Z - {num} 恢复了 {hp_recover:.3f} HP。", "甲" if z_sx[num].hp > z_sx[num].thp else "乙")
-            jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "ascending", "点", bw = qj_bw)
-        elif sort == "d":
-            hp_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].thp * randint(9, 15))
-            d_sx[num].hp += hp_recover
-            zf(f"D - {num} 恢复了 {hp_recover:.3f} HP。", "癸" if d_sx[num].hp > d_sx[num].thp else "壬")
-            jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "descending", "点", bw = qj_bw)
-        os.system("pause > nul")
-
-    def energy_recover():
-        if sort == "z":
-            energy_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].tenergy * randint(9, 15))
-            z_sx[num].energy += energy_recover
-            zf(f"Z - {num} 的精力恢复了 {energy_recover:.3f}。", "甲" if z_sx[num].energy > z_sx[num].tenergy else "乙")
-            jdt(z_sx[num].energy, z_sx[num].tenergy, f"Z - {num}", "energy", "ascending", "点", bw = qj_bw)
-        elif sort == "d":
-            energy_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].tenergy * randint(9, 15))
-            d_sx[num].energy += energy_recover
-            zf(f"D - {num} 的精力恢复了 {energy_recover:.3f}。", "癸" if d_sx[num].energy > d_sx[num].tenergy else "壬")
-            jdt(d_sx[num].energy, d_sx[num].tenergy, f"D - {num}", "energy", "descending", "点", bw = qj_bw)
-        os.system("pause > nul")
-
-    global o_amount, w_amount
-    event_type = randint(1, 7)
-    match event_type:
-        case 1: # 恢复 HP。
-            hp_recover()
-        case 2: # 增加攻击力。
-            if sort == "z":
-                atk_increase = randint(1, 5)
-                zf(f"Z - {num} 增加了 {atk_increase} 点攻击力。", "丙")
-                z_sx[num].atk += atk_increase
-            elif sort == "d":
-                atk_increase = randint(1, 5)
-                zf(f"D - {num} 增加了 {atk_increase} 点攻击力。", "辛")
-                d_sx[num].atk += atk_increase
-        case 3: # 增加防御力。
-            if sort == "z":
-                fy_increase = randint(1, 5)
-                zf(f"Z - {num} 增加了 {fy_increase} 点防御力。", "丙")
-                z_sx[num].fy += fy_increase
-            elif sort == "d":
-                fy_increase = randint(1, 5)
-                zf(f"D - {num} 增加了 {fy_increase} 点防御力。", "辛")
-                d_sx[num].fy += fy_increase
-        case 4: # 淘汰一名敌人或角色。
-            if randint(1, 9) <= 3:
-                ls_opt = [randint(0, 1), randint(0, 1)] # 0：淘汰一名敌人；1：淘汰一名角色。
-                if (ls_opt[0] == 1) or (ls_opt[1] == 0 and sort == "z"):
-                    while True:
-                        ls_dord = randint(0, d_amount - 1)
-                        if monitor_out == d_amount:
-                            zf("……", "text")
-                            zf("无事发生。", "text")
-                            break
-                        if d_sx[ls_dord].exist:
-                            d_sx[ls_dord].exist = False
-                            d_sx[ls_dord].zdz = []
-                            maze[d_x[ls_dord]][d_y[ls_dord]] = f"| . |"
-                            zf(f"D - {ls_dord} 突然消失了！", "甲")
-                            monitor_out += 1
-                            random_dout += 1
-                            break
-                elif (ls_opt[0] == 0) or (ls_opt[1] == 1 and sort == "d"):
-                    while True:
-                        ls_zord = randint(0, z_amount - 1)
-                        if player_out == z_amount:
-                            zf("……", "text")
-                            zf("无事发生。", "text")
-                            break
-                        if z_sx[ls_zord].exist:
-                            z_sx[ls_zord].exist = False
-                            z_sx[ls_zord].zdz = []
-                            maze[z_x[ls_zord]][z_y[ls_zord]] = f"| . |"
-                            zf(f"Z - {ls_zord} 突然消失了！", "癸")
-                            player_out += 1
-                            random_zout += 1
-                            break
-            else:
-                zf("无事发生。", "text")
-
-        case 5: # 障碍物消失或恢复部分 HP / 精力。
-            if o_amount == 0:
-                ls_diso = randint(1, o_amount)
-                o_amount = max(0, o_amount - ls_diso)
-                zf(f"放眼望去，地图上消失了 {ls_diso} 个障碍物！", "丁")
-            else:
-                hp_recover() if randint(1, 2) == 1 else energy_recover()
-        case 6: # 水洼消失或恢复部分 HP / 精力。
-            if w_amount == 0:
-                ls_disw = randint(1, w_amount)
-                w_amount = max(0, w_amount - ls_disw)
-                zf(f"放眼望去，地图上消失了 {ls_disw} 个水洼！", "丙")
-            else:
-                hp_recover() if randint(1, 2) == 1 else energy_recover()
-        case 7: # 恢复精力。
-            energy_recover()
-
-def chase(z_idx, emer = False): # 紧急状态：出口附近。
-    global ls_crit
-    ls_crit = True
-    if emer:
-        for i in range(d_amount):
-            if d_sx[i].exist:
-                d_target[i] = z_idx
-                d_turns[i] = 0 # 重置追踪回合。
-                d_speed[i] = 1
-    else:
-        # 招引（撞墙/摔倒）
-        min_dist = 9999
-        nearest_d = -1
-        for i in range(d_amount):
-            if d_sx[i].exist:
-                dist = abs(d_x[i] - z_x[z_idx]) + abs(d_y[i] - z_y[z_idx])
-                if dist < min_dist:
-                    min_dist = dist
-                    nearest_d = i
-        if nearest_d != -1:
-            d_target[nearest_d] = z_idx
-            d_turns[nearest_d] = 0   # 重置追踪回合。
-            d_speed[nearest_d] = 0
-
-def print_map(sort, num):
+def print_map(sort, num, ex_jdt_list = None):
     print()
     for i in range(maze_size):
         for j in range(maze_size):
@@ -1258,7 +927,12 @@ def print_map(sort, num):
         print()
     print()
 
-def z_move(num):
+    if ex_jdt_list:
+        for p in ex_jdt_list:
+            jdt(p["current"], p["total"], p["ch"], p["typ"], p["srt"], p["unit"])
+            print()
+
+def z_move(num, ex_jdt_list = None):
     global player_step, qj_intro
 
     turn_index = 0
@@ -1399,7 +1073,7 @@ def z_move(num):
                 cl_print(f"收债。", "watergreen", "\n")
             cl_print(f"已走 {player_step} 步！还有 {player_existing} 名角色在场，共 {z_amount} 名；还有 {monitor_existing} 名看守者在场，共 {d_amount} 名！", "red", "\n")
 
-        print_map("z", num)
+        print_map("z", num, ex_jdt_list)
     
         jdt(z_sx[num].energy, z_sx[num].tenergy, f"Z - {num}", "energy", "ascending", "点", bw = qj_bw)
         print()
@@ -1470,7 +1144,7 @@ def z_move(num):
         else:
             continue
 
-def d_move(num):
+def d_move(num, ex_jdt_list = None):
     os.system("cls")
     x_change = True
     ls_caughtzf = ""
@@ -1647,7 +1321,7 @@ def d_move(num):
 
         print("看守者移动。")
 
-        print_map("d", num)
+        print_map("d", num, ex_jdt_list)
 
         jdt(d_sx[num].energy, d_sx[num].tenergy, f"D - {num}", "energy", "descending", "点", bw = qj_bw)
         print()
@@ -1661,6 +1335,522 @@ def d_move(num):
         if ls_dizzying != "":
             zf(ls_dizzying, "乙")
         break
+
+def random_event(sort, num):
+    global monitor_out, random_dout, player_out, random_zout
+    def hp_recover():
+        if sort == "z":
+            hp_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].thp * randint(9, 15))
+            z_sx[num].hp += hp_recover
+            zf(f"Z - {num} 恢复了 {hp_recover:.3f} HP。", "甲" if z_sx[num].hp > z_sx[num].thp else "乙")
+            jdt(z_sx[num].hp, z_sx[num].thp, f"Z - {num}", "hp", "ascending", "点", bw = qj_bw)
+        elif sort == "d":
+            hp_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].thp * randint(9, 15))
+            d_sx[num].hp += hp_recover
+            zf(f"D - {num} 恢复了 {hp_recover:.3f} HP。", "癸" if d_sx[num].hp > d_sx[num].thp else "壬")
+            jdt(d_sx[num].hp, d_sx[num].thp, f"D - {num}", "hp", "descending", "点", bw = qj_bw)
+        os.system("pause > nul")
+
+    def energy_recover():
+        if sort == "z":
+            energy_recover = uniform(0.1, 0.3) * math.sqrt(z_sx[num].tenergy * randint(9, 15))
+            z_sx[num].energy += energy_recover
+            zf(f"Z - {num} 的精力恢复了 {energy_recover:.3f}。", "甲" if z_sx[num].energy > z_sx[num].tenergy else "乙")
+            jdt(z_sx[num].energy, z_sx[num].tenergy, f"Z - {num}", "energy", "ascending", "点", bw = qj_bw)
+        elif sort == "d":
+            energy_recover = uniform(0.1, 0.3) * math.sqrt(d_sx[num].tenergy * randint(9, 15))
+            d_sx[num].energy += energy_recover
+            zf(f"D - {num} 的精力恢复了 {energy_recover:.3f}。", "癸" if d_sx[num].energy > d_sx[num].tenergy else "壬")
+            jdt(d_sx[num].energy, d_sx[num].tenergy, f"D - {num}", "energy", "descending", "点", bw = qj_bw)
+        os.system("pause > nul")
+
+    global o_amount, w_amount
+    event_type = randint(1, 7)
+    match event_type:
+        case 1: # 恢复 HP。
+            hp_recover()
+        case 2: # 增加攻击力。
+            if sort == "z":
+                atk_increase = randint(1, 5)
+                zf(f"Z - {num} 增加了 {atk_increase} 点攻击力。", "丙")
+                z_sx[num].atk += atk_increase
+            elif sort == "d":
+                atk_increase = randint(1, 5)
+                zf(f"D - {num} 增加了 {atk_increase} 点攻击力。", "辛")
+                d_sx[num].atk += atk_increase
+        case 3: # 增加防御力。
+            if sort == "z":
+                fy_increase = randint(1, 5)
+                zf(f"Z - {num} 增加了 {fy_increase} 点防御力。", "丙")
+                z_sx[num].fy += fy_increase
+            elif sort == "d":
+                fy_increase = randint(1, 5)
+                zf(f"D - {num} 增加了 {fy_increase} 点防御力。", "辛")
+                d_sx[num].fy += fy_increase
+        case 4: # 淘汰一名敌人或角色。
+            if randint(1, 9) <= 3:
+                ls_opt = [randint(0, 1), randint(0, 1)] # 0：淘汰一名敌人；1：淘汰一名角色。
+                if (ls_opt[0] == 1) or (ls_opt[1] == 0 and sort == "z"):
+                    while True:
+                        ls_dord = randint(0, d_amount - 1)
+                        if monitor_out == d_amount:
+                            zf("……", "text")
+                            zf("无事发生。", "text")
+                            break
+                        if d_sx[ls_dord].exist:
+                            d_sx[ls_dord].exist = False
+                            d_sx[ls_dord].zdz = []
+                            maze[d_x[ls_dord]][d_y[ls_dord]] = f"| . |"
+                            zf(f"D - {ls_dord} 突然消失了！", "甲")
+                            monitor_out += 1
+                            random_dout += 1
+                            break
+                elif (ls_opt[0] == 0) or (ls_opt[1] == 1 and sort == "d"):
+                    while True:
+                        ls_zord = randint(0, z_amount - 1)
+                        if player_out == z_amount:
+                            zf("……", "text")
+                            zf("无事发生。", "text")
+                            break
+                        if z_sx[ls_zord].exist:
+                            z_sx[ls_zord].exist = False
+                            z_sx[ls_zord].zdz = []
+                            maze[z_x[ls_zord]][z_y[ls_zord]] = f"| . |"
+                            zf(f"Z - {ls_zord} 突然消失了！", "癸")
+                            player_out += 1
+                            random_zout += 1
+                            break
+            else:
+                zf("无事发生。", "text")
+
+        case 5: # 障碍物消失或恢复部分 HP / 精力。
+            if o_amount == 0:
+                ls_diso = randint(1, o_amount)
+                o_amount = max(0, o_amount - ls_diso)
+                zf(f"放眼望去，地图上消失了 {ls_diso} 个障碍物！", "丁")
+            else:
+                hp_recover() if randint(1, 2) == 1 else energy_recover()
+        case 6: # 水洼消失或恢复部分 HP / 精力。
+            if w_amount == 0:
+                ls_disw = randint(1, w_amount)
+                w_amount = max(0, w_amount - ls_disw)
+                zf(f"放眼望去，地图上消失了 {ls_disw} 个水洼！", "丙")
+            else:
+                hp_recover() if randint(1, 2) == 1 else energy_recover()
+        case 7: # 恢复精力。
+            energy_recover()
+
+def chase(z_idx, emer = False): # 紧急状态：出口附近。
+    global ls_crit
+    ls_crit = True
+    if emer:
+        for i in range(d_amount):
+            if d_sx[i].exist:
+                d_target[i] = z_idx
+                d_turns[i] = 0 # 重置追踪回合。
+                d_speed[i] = 1
+    else:
+        # 招引（撞墙/摔倒）
+        min_dist = 9999
+        nearest_d = -1
+        for i in range(d_amount):
+            if d_sx[i].exist:
+                dist = abs(d_x[i] - z_x[z_idx]) + abs(d_y[i] - z_y[z_idx])
+                if dist < min_dist:
+                    min_dist = dist
+                    nearest_d = i
+        if nearest_d != -1:
+            d_target[nearest_d] = z_idx
+            d_turns[nearest_d] = 0   # 重置追踪回合。
+            d_speed[nearest_d] = 0
+
+def tutorial():
+    # 补全所有核心逻辑和统计相关的全局变量
+    global qj_intro, maze, z_sx, d_sx, z_x, z_y, d_x, d_y, maze_size
+    global player_step, player_existing, monitor_existing, ls_crit
+    global o_amount, w_amount, r_amount, e_amount
+    global o_x, o_y, w_x, w_y, r_x, r_y, e_x, e_y
+    global d_target, d_speed, d_turns
+    global player_out, monitor_out, player_escaped
+    global z_amount, d_amount, qj_bw
+    global player_hitwall, player_slipped, player_getdizzy
+    global player_missed, player_crit, player_faildm, player_cgdm, t_playerattack
+    
+    qj_bw = 80
+    qj_intro = True
+    maze_size = 10
+    player_step = 0
+    ls_crit = False
+    
+    player_out = 0
+    monitor_out = 0
+    player_escaped = 0
+    player_hitwall = 0
+    player_slipped = 0
+    player_getdizzy = 0
+    player_missed = 0
+    player_crit = 0
+    player_faildm = 0
+    player_cgdm = 0
+    t_playerattack = 0
+
+    # 辅助函数：快速重置迷宫和实体状态
+    def setup_maze(z_count, d_count, z_pos, d_pos, obs=[], water=[], events=[], exits=[]):
+        global z_sx, d_sx, z_x, z_y, d_x, d_y, maze
+        global o_amount, w_amount, r_amount, e_amount
+        global o_x, o_y, w_x, w_y, r_x, r_y, e_x, e_y
+        global d_target, d_speed, d_turns
+        global player_existing, monitor_existing
+        global z_amount, d_amount
+
+        z_amount = z_count
+        d_amount = d_count
+
+        # 1. 重置实体属性。
+        z_sx = [Z(100, 100, 10, 10, f"Z - {i}", 5, 0.5, 5, 10, True, [], 0, False, 0, 0) for i in range(z_count)]
+        d_sx = [D(100, 100, 10, 10, f"D - {i}", 5, 0.5, 5, 10, True, [], 0, False) for i in range(d_count)]
+        
+        z_x, z_y = [p[0] for p in z_pos], [p[1] for p in z_pos]
+        d_x, d_y = [p[0] for p in d_pos], [p[1] for p in d_pos]
+        
+        if not z_x:
+            z_x = [0]
+            z_y = [0]
+            
+        d_target = [-1] * 99
+        d_speed = [0] * 99
+        d_turns = [0] * 99
+
+        # 2. 构建基础迷宫。
+        maze = [["| . |" for _ in range(maze_size)] for _ in range(maze_size)]
+        for p in obs: maze[p[0]][p[1]] = "| ; |"
+        for p in water: maze[p[0]][p[1]] = "| _ |"
+        for p in events: maze[p[0]][p[1]] = "| ^ |"
+        for p in exits: maze[p[0]][p[1]] = "| → |"
+
+        # 3. 放置实体。
+        for h in range(z_count):
+            x, y = z_x[h], z_y[h]
+            if "Z" in maze[x][y] or "D" in maze[x][y]:
+                maze[x][y] = maze[x][y][:-2] + f", Z - {h} |"
+            elif maze[x][y] == "| . |":
+                maze[x][y] = f"| Z - {h} |"
+                
+        for l in range(d_count):
+            x, y = d_x[l], d_y[l]
+            if "D" in maze[x][y] or "Z" in maze[x][y]:
+                maze[x][y] = maze[x][y][:-2] + f", D - {l} |"
+            elif maze[x][y] == "| . |":
+                maze[x][y] = f"| D - {l} |"
+
+        o_amount, w_amount, r_amount, e_amount = len(obs), len(water), len(events), len(exits)
+        o_x, o_y = [p[0] for p in obs], [p[1] for p in obs]
+        w_x, w_y = [p[0] for p in water], [p[1] for p in water]
+        r_x, r_y = [p[0] for p in events], [p[1] for p in events]
+        e_x, e_y = [p[0] for p in exits], [p[1] for p in exits]
+        
+        player_existing = z_count
+        monitor_existing = d_count
+
+    os.system("cls")
+    zf("欢迎。", "text")
+    zf("接下来，我们来熟悉一下玩法。每一步都需要你亲自操作或观察。", "aqua")
+
+    os.system("cls")
+    zf("首先，我们来熟悉一下移动操作。", "aqua")
+    zf("我为你部署了一个 10*10 的空旷迷宫。你有两个角色：Z - 0 和 Z - 1。", "text")
+    zf("使用方向键移动，每步消耗 1 精力。一回合可动两次。", "text")
+    zf("请控制 Z - 0 和 Z - 1 总共移动 4 个回合。", "text")
+
+    setup_maze(2, 0, [(1,1), (1,2)], [])
+    
+    ls_turns = 0
+    while ls_turns < 4:
+        os.system("cls")
+        
+        z_move(0, [{"current": ls_turns, "total": 4, "ch": "", "typ": "进度", "srt": "ascending", "unit": "回合"}])
+        ls_turns += 1
+        
+        z_move(1, [{"current": ls_turns, "total": 4, "ch": "", "typ": "进度", "srt": "ascending", "unit": "回合"}])
+        ls_turns += 1
+
+    os.system("cls")
+    zf("接下来，我们来熟悉一下敌人的行动。", "aqua")
+    zf("迷宫里出现了 5 个 D。它们会随机移动，消耗精力。", "text")
+    zf("观察它们在 1 回合内如何行动。", "text")
+
+    setup_maze(0, 5, [], [(0,0), (0,9), (9,0), (9,9), (4,4)])
+    for i in range(5):
+        d_move(i)
+
+    os.system("cls")
+    zf("接下来，我们来熟悉一下战斗机制。", "aqua")
+    zf("在迷宫内行动时，如果 Z 与 D 同格，那么他们会开始战斗。", "text")
+    zf("按 Shift 进行 QTE 攻击。如果落空，会触发弹幕躲避。", "text")
+    zf("接下来，我们来尝试一下 2v2 的战斗。", "text")
+
+    setup_maze(2, 2, [(5,5), (5,6)], [(5,5), (5,6)])
+    gj([0, 1], [0, 1])
+    
+    os.system("cls")
+    zf("然后，我们来熟悉一下特殊的格子。", "aqua")
+    print()
+    zf("| ; | 表示障碍物，不可通行；", "magenta")
+    zf("| _ | 表示水洼：摔倒并扣除 HP；", "darkred")
+    zf("| ^ | 表示随机事件，进入后会触发随机效果。", "orange")
+    print()
+    zf("请自由移动，体验踩到格子的效果。", "text")
+
+    obs = [(i, j) for i in range(10) for j in range(10) if (i+j)%7 == 0 and (i,j) not in [(1,1)]]
+    water = [(i, j) for i in range(10) for j in range(10) if (i+j)%6 == 0 and (i,j) not in [(1,1)]]
+    events = [(2,2), (3,3), (4,4)]
+    setup_maze(1, 0, [(1,1)], [], obs=obs, water=water, events=events)
+    
+    for i in range(5):
+        z_move(0, [{"current": i, "total": 5, "ch": "", "typ": "进度", "srt": "ascending", "unit": "回合"}])
+
+    os.system("cls")
+    zf("当你在迷宫里漫游时，要注意躲避墙壁和障碍物，不要撞上去！", "aqua")
+    zf("向墙壁移动会消耗精力并收到警告。", "red")
+    zf("前三次只是警告，第四次会真的撞上去，扣除 HP 并招引看守者。", "red")
+    zf("接下来，请控制 Z - 0 向左侧或上侧墙壁连续移动。", "text")
+
+    setup_maze(1, 0, [(0,0)], [])
+    
+    os.system("cls")
+    z_move(0)
+
+    os.system("cls")
+    zf("有时候 D 可能会“暴走”。", "aqua")
+    zf("当场上只剩 1 个 Z，或任何一个 Z 靠近出口时，所有 D 会暴走追击。", "text")
+    zf("Z 就在出口 (9,9) 旁边。请向出口移动一步，观察 D 的反应。", "text")
+    zf("如果被 D 抓到，将跳过战斗直接结束。", "text")
+
+    setup_maze(1, 5, [(8,8)], [(randint(0, 8), randint(0, 8)), (randint(0, 8), randint(0, 8)), (randint(0, 8), randint(0, 8)), (randint(0, 8), randint(0, 8)), (randint(0, 8), randint(0, 8))], exits=[(9,9)])
+    
+    os.system("cls")
+    for i in range(5):
+        z_move(0, [{"current": i, "total": 5, "ch": "", "typ": "进度", "srt": "ascending", "unit": "回合"}])
+        
+    if len(z_sx[0].zdz) > 0:
+        z_sx[0].zdz = []
+        for d in d_sx: d.zdz = []
+        
+    os.system("cls")
+    zf("最后，就是游戏的评分了。", "aqua")
+    zf("游戏结束后，系统会根据以下要素计算天干评级（甲到癸）：", "text")
+    cl_print("  + 逃脱角色数量、击败看守者数量、暴击次数", "甲", "\n")
+    cl_print("  - 出局角色数量、撞墙次数、掉入水洼次数、落空次数", "癸", "\n")
+    zf("满分不是终点，零分乃至负分也不是失败。", "cyan")
+
+    qj_intro = False
+    os.system("cls")
+    zf("教程到此为止。", "aqua")
+    zf("接下来，配置你的正式迷宫。", "text")
+    os.system("cls")
+
+if __name__ == "__main__":
+    os.system("cls")
+    pgm.mixer.init()
+
+    if isfirst:
+        tutorial()
+
+    maze_size = zs(zf("矩阵规模？（k × k 的正方形）", "inp"), 5, 20)
+    qj_bw = zf("进度条宽度（默认 80）？", "inp")
+    try:
+        if qj_bw == "" or 25 <= int(qj_bw) <= 125:
+            qj_bw = 80
+    except:
+        qj_bw = 80
+
+    while True:
+        print()
+        z_amount = zs(zf("我方数量？", "inp"), 1, float("inf"))
+
+        print()
+        d_amount = zs(zf("看守者数量？", "inp"), 1, float("inf"))
+
+        if z_amount + d_amount >= maze_size * maze_size:
+            zf("人数过多！重新输入！", "error")
+        else:
+            break       
+
+    z_sx = [
+        Z(0, 0, 0, 0, f"Z - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, None, 0, False, 0, 0)
+        for i in range(z_amount)
+    ]
+
+    d_sx = [
+        D(0, 0, 0, 0, f"D - {i}", randint(1, 14), uniform(0.1, 0.9), randint(1, 14), randint(9, 17), True, None, 0, False)
+        for i in range(d_amount)
+    ]
+
+    print()
+
+    sf_zhp = xz("是否使用随机生成的 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
+    sf_zenergy = xz("是否使用随机生成的精力？（范围在 5 到 59 之间）", ["是。", "否。"])
+    
+    for i in range(z_amount):
+        if sf_zhp == "1": # 随机 HP。
+            z_sx[i].thp = randint(30, 999)
+        else: # 自行输入 HP。
+            if z_amount == 1: # 一位玩家。
+                while True:
+                    ls_zhp1 = zs(zf("角色起始 HP？", "inp"), 1, float("inf"))
+                    if ls_zhp1 < 30 or ls_zhp1 > 999:
+                        ls_rsp1 = zf("建议将 HP 设置在 30 到 999 之间。如无需更改，请按下 1。", "inp")
+                        if ls_rsp1 == "1":
+                            z_sx[i].thp = ls_zhp1
+                            break
+                    else:
+                        z_sx[i].thp = ls_zhp1
+                        break
+            else: # 多位玩家。
+                while True:
+                    ls_zhp2 = zs(zf(f"第 {i + 1} 位角色的起始 HP？", "inp"), 1, float("inf"))
+                    if ls_zhp2 < 30 or ls_zhp2 > 999:
+                        ls_rsp2 = zf("建议将 HP 设置在 30 到 999 之间。如无需更改，请按下 1。", "inp")
+                        if ls_rsp2 == "1":
+                            z_sx[i].thp = ls_zhp2
+                            break
+                    else:
+                        z_sx[i].thp = ls_zhp2
+                        break
+                    
+        z_sx[i].hp = z_sx[i].thp        
+
+    for j in range(z_amount):
+        if sf_zenergy == "1": # 随机精力。
+            z_sx[j].tenergy = randint(5, 59)
+        else:
+            while True:
+                if z_amount == 1: # 一位玩家。
+                    ls_zenergy = zs(zf("角色起始精力？", "inp"), 1, float("inf"))
+                else: # 多位玩家。
+                    ls_zenergy = zs(zf(f"第 {j + 1} 位角色的起始精力？", "inp"), 1, float("inf"))
+                
+                if ls_zenergy < 5 or ls_zenergy > 59:
+                    ls_rsp3 = zf("建议将精力设置在 5 到 59 之间。如无需更改，请按下 1。", "inp")
+                    if ls_rsp3 == "1":
+                        z_sx[j].tenergy = ls_zenergy
+                        break
+                else:
+                    z_sx[j].tenergy = ls_zenergy
+                    break        
+
+        z_sx[j].energy = z_sx[j].tenergy
+
+    print()
+    zf("…………", "aqua")
+    sf_dhp = xz("是否使用随机生成的看守者 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
+    sf_denergy = xz("是否使用随机生成的看守者精力？（范围在 5 到 59 之间）", ["是。", "否。"])
+    
+    for j in range(d_amount):
+        if sf_dhp == "1":
+            d_sx[j].thp = randint(30, 999)
+        else:
+            if d_amount == 1:
+                d_sx[j].thp = zs(zf("看守者起始 HP？", "inp"), 1, float("inf"))
+            else:
+                d_sx[j].thp = zs(zf(f"第 {j + 1} 位看守者的起始 HP？", "inp"), 1, float("inf"))
+        d_sx[j].hp = d_sx[j].thp
+
+    for k in range(d_amount):
+        if sf_denergy == "1":
+            d_sx[k].tenergy = randint(5, 59)
+        else:
+            if d_amount == 1:
+                d_sx[k].tenergy = zs(zf("看守者起始精力？", "inp"), 1, float("inf"))
+            else:
+                d_sx[k].tenergy = zs(zf(f"第 {k + 1} 位看守者的起始精力？", "inp"), 1, float("inf"))
+        d_sx[k].energy = d_sx[k].tenergy
+    os.system("cls")
+
+    for ls in range(z_amount): # 随机分配角色的位置。
+        ls_zx = randint(0, maze_size - 1)
+        ls_zy = randint(0, maze_size - 1)
+        z_x.append(ls_zx)
+        z_y.append(ls_zy)
+
+    for ls in range(d_amount): # 随机分配监视者的位置。
+        ls_dx = randint(0, maze_size - 1)
+        ls_dy = randint(0, maze_size - 1)
+        d_x.append(ls_dx)
+        d_y.append(ls_dy)
+        
+    player_step = 0
+    maze = [["| . |" for i in range(maze_size)] for j in range(maze_size)]
+
+    for h in range(z_amount):
+        for i in range(maze_size):
+            for j in range(maze_size):
+                if i == z_x[h] and j == z_y[h] and z_sx[h].exist:
+                    if "Z" in maze[i][j] or "D" in maze[i][j]:
+                        maze[i][j] = maze[i][j][:-2] + f", Z - {h} |"
+                    elif maze[i][j] == "| . |":
+                        maze[i][j] = f"| Z - {h} |"
+
+    for l in range(d_amount):
+        for m in range(maze_size):
+            for n in range(maze_size):
+                if m == d_x[l] and n == d_y[l] and d_sx[l].exist:
+                    if "D" in maze[m][n] or "Z" in maze[m][n]:
+                        maze[m][n] = maze[m][n][:-2] + f", D - {l} |"
+                    elif maze[m][n] == "| . |":
+                        maze[m][n] = f"| D - {l} |"
+
+    o_amount = randint(0, math.floor(math.sqrt(abs(maze_size ** 1.5 - z_amount - d_amount)))) # 障碍物总量。
+    o_x = [] # 障碍物 X 坐标列表。
+    o_y = [] # 障碍物 Y 坐标列表。
+
+    w_amount = randint(0, math.floor(math.sqrt(abs(maze_size ** 1.5 - z_amount + d_amount)))) # 水洼总量。
+    w_x = [] # 水洼 X 坐标列表。
+    w_y = [] # 水洼 Y 坐标列表。
+
+    r_amount = randint(0, math.floor((o_amount + w_amount) * uniform(0.3, 0.6))) # 随机事件格数量。
+    r_x = [] # 随机事件格 X 坐标列表。
+    r_y = [] # 随机事件格 Y 坐标列表。
+
+    e_amount = round(max(math.sqrt(maze_size ** 2 / 21), 1))
+    e_x = []
+    e_y = []
+
+    for i in range(o_amount):
+        while True:
+            ls_ox = randint(0, maze_size - 1)
+            ls_oy = randint(0, maze_size - 1)
+            if maze[ls_ox][ls_oy] == "| . |":
+                o_x.append(ls_ox)
+                o_y.append(ls_oy)
+                break
+
+    for i in range(w_amount):
+        while True:
+            ls_wx = randint(0, maze_size - 1)
+            ls_wy = randint(0, maze_size - 1)
+            if maze[ls_wx][ls_wy] == "| . |":
+                w_x.append(ls_wx)
+                w_y.append(ls_wy)
+                break
+
+    for i in range(r_amount):
+        while True:
+            ls_rx = randint(0, maze_size - 1)
+            ls_ry = randint(0, maze_size - 1)
+            if maze[ls_rx][ls_ry] == "| . |":
+                r_x.append(ls_rx)
+                r_y.append(ls_ry)
+                break
+
+    for i in range(e_amount):
+        while True:
+            ls_ex = randint(0, maze_size - 1)
+            ls_ey = randint(0, maze_size - 1)
+            if maze[ls_ex][ls_ey] == "| . |":
+                e_x.append(ls_ex)
+                e_y.append(ls_ey)
+                break
 
 player_existing = z_amount
 monitor_existing = d_amount
