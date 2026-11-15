@@ -1064,6 +1064,7 @@ def z_move(num, ex_jdt_list = None):
 使用方向键控制角色，按 ESC 暂停，按 F1 跳过本次移动，按 F3 跳过本回合。
         """)
             cl_print("一回合可以移动两次。", "watergreen", "\n\n")
+            print()
             qj_intro = True
 
         if player_existing > 1 and ls_crit == False:
