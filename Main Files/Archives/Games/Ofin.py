@@ -1559,7 +1559,7 @@ def tutorial():
 
     os.system("cls")
     zf("首先，我们来熟悉一下移动操作。", "aqua")
-    zf("我为你部署了一个 10*10 的空旷迷宫。你有两个角色：Z - 0 和 Z - 1。", "text")
+    zf("我为你部署了一个 10 * 10 的空旷迷宫。你有两个角色：Z - 0 和 Z - 1。", "text")
     zf("使用方向键移动，每步消耗 1 精力。一回合可动两次。", "text")
     zf("请控制 Z - 0 和 Z - 1 总共移动 4 个回合。", "text")
 
@@ -1658,6 +1658,12 @@ if __name__ == "__main__":
 
     if isfirst:
         tutorial()
+    else:
+        ls_xz = xz("你是否想再次体验教程？", ["是。", "否。"])
+        if ls_xz == "1":
+            tutorial()
+        else:
+            os.system("cls")
 
     maze_size = zs(zf("矩阵规模？（k × k 的正方形）", "inp"), 5, 20)
     qj_bw = zf("进度条宽度（默认 80）？", "inp")
