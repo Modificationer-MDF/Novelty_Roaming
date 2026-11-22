@@ -456,6 +456,10 @@ def fin():
             zf("下次请让系统随机生成 ENERGY。", "cyan")
     elif qj_rank <= 0:
         bf("Twisted Victory.wav", 1)
+        zf("呃……这有点出乎意料了。", "cyan")
+        zf("……", "cyan")
+        zf("……", "cyan")
+        zf("……", "cyan")
         zf("如果实在不会玩，可以修改源代码。建议修改 dm() 和 gj() 处计算逻辑。", "cyan")
         zf("打开 Visual Studio（或者 VS Code）或记事本，按下 Ctrl+F（或者 Ctrl+H，慎用替换） 打开查找与替换，键入 “def dm(” 或 “def gj(” 后修改关键变量。（例如 duration、hitcost）", "cyan")
 
@@ -1751,7 +1755,6 @@ if __name__ == "__main__":
         z_sx[j].energy = z_sx[j].tenergy
 
     print()
-    zf("…………", "aqua")
     sf_dhp = xz("是否使用随机生成的看守者 HP？（范围在 30 到 999 之间）", ["是。", "否。"])
     sf_denergy = xz("是否使用随机生成的看守者精力？（范围在 5 到 59 之间）", ["是。", "否。"])
     
