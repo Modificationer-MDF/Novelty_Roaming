@@ -381,18 +381,25 @@ def fin():
 
     attack_point = 7
 
-    ls_s1 = 100 / z_amount # 每一位 Z 逃脱可获得的分数。
-    ls_s2 = 100 / (0.7 * z_amount) # 每一位 Z 出局应失去的分数。
-    ls_s3 = 100 / (0.75 * d_amount) # 每一位 D 被击败可获得的分数。
-    ls_s4 = 100 / (3.9 * z_amount) # 每一次 Z 撞墙应失去的分数。
-    ls_s5 = 100 / (3.1 * z_amount) # 每一次 Z 掉入水洼应失去的分数。
-    ls_s6 = 100 / (1.4 * z_amount) # 每一次 Z 眩晕应失去的分数。
+    ls_s1 = max((100 / z_amount), 25) # 每一位 Z 逃脱可获得的分数。
+    ls_s2 = max((100 / (0.7 * z_amount)), 44) # 每一位 Z 出局应失去的分数。
+    ls_s3 = max((100 / (0.75 * d_amount)), 20) # 每一位 D 被击败可获得的分数。
+    ls_s4 = max(100 / (3.9 * z_amount), 17) # 每一次 Z 撞墙应失去的分数。
+    ls_s5 = max(100 / (3.1 * z_amount), 11) # 每一次 Z 掉入水洼应失去的分数。
+    ls_s6 = max(100 / (1.4 * z_amount), 19) # 每一次 Z 眩晕应失去的分数。
     ls_s7 = attack_point * 3.5 # 每一次攻击落空应失去的分数（* -2.5）。
     ls_s8 = attack_point * 1.1 # 每一次暴击可获得的分数（* 2.1）。
 
-    qj_rank = attack_point * t_playerattack + player_escaped * ls_s1 - player_out * ls_s2 + monitor_out * ls_s3 - player_hitwall * ls_s4 - player_slipped * ls_s5 - player_getdizzy * ls_s6 - player_missed * ls_s7 + player_crit * ls_s8
+    chr_score = player_escaped * ls_s1 - player_out * ls_s2
+    mnt_score = monitor_out * ls_s3
+    atk_score = attack_point * t_playerattack - player_missed * ls_s7 + player_crit * ls_s8
+    act_score = player_hitwall * ls_s4 + player_slipped * ls_s5 + player_getdizzy * ls_s6
+    qj_rank = atk_score + chr_score + mnt_score - act_score
     qj_trank = z_amount * ls_s1 + d_amount * ls_s3 + attack_point * t_playerattack
 
+    print("————————————————————————————", end = "\n")
+    zf("基本情况", "aqua")
+    print()
     jdt(player_escaped, z_amount, "逃离的角色", "数量", "ascending", "位", bw = qj_bw)
     os.system("timeout /t 1 > nul")
     jdt(player_out, z_amount, "出局的角色", "数量", "descending", "位", bw = qj_bw)
@@ -405,12 +412,23 @@ def fin():
     os.system("timeout /t 1 > nul")
     jdt(player_getdizzy, 1, "角色累计眩晕", "次数", "descending", "次", bw = qj_bw)
     os.system("timeout /t 1 > nul")
-    jdt(player_missed, t_playerattack, "攻击落空", "次数", "descending", "次", bw = qj_bw)
-    zf(f"其中弹幕躲避失败 {player_faildm} 次。", "text")
     jdt(player_crit, t_playerattack, "攻击暴击", "次数", "ascending", "次", bw = qj_bw)
     os.system("timeout /t 1 > nul")
-    print("-------------------------")
-    jdt(qj_rank, qj_trank, "YOUR", "score", "ascending", "分", bw = qj_bw)
+    jdt(player_missed, t_playerattack, "攻击落空", "次数", "descending", "次", bw = qj_bw)
+    zf(f"其中弹幕躲避失败 {player_faildm} 次。", "text")
+    print()
+    print("————————————————————————————", end = "\n")
+    zf("得分状况", "aqua")
+    print()
+    jdt(chr_score, z_amount * ls_s1, "逃离角色得分", "分数", "ascending", "分", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(mnt_score, d_amount * ls_s2, "击败看守者得分", "分数", "ascending", "分", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(atk_score, attack_point * t_playerattack, "攻击得分", "分数", "ascending", "分", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(act_score, 0, "行动扣分", "分数", "descending", "分", bw = qj_bw)
+    os.system("timeout /t 1 > nul")
+    jdt(qj_rank, qj_trank, "综合得分", "分数", "ascending", "分", bw = qj_bw)
     print()
 
     if ini_secexist(ini_p, "[Rating]") == False:
@@ -438,6 +456,8 @@ def fin():
         else:
             ini_rep(ini_p, "worst_percentage", f"{round(min(float(lowper.strip("%")), qj_rank / qj_trank * 100), 3)}%")
     
+    print("————————————————————————————")
+    print()
     zf("以上是你的分数和评级。", "text")
 
     if qj_rank / qj_trank >= 1:
